@@ -48,11 +48,11 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'erosion_admin';
-$db['default']['password'] = 'erosion';
+$db['default']['hostname'] = 'aurora';
+$db['default']['username'] = 'erosion_user';
+$db['default']['password'] = 'quemeerosiono';
 $db['default']['database'] = 'erosion';
-$db['default']['port'] = 5432;
+$db['default']['port'] = 5434;
 
 $db['default']['dbdriver'] = 'postgre';
 $db['default']['dbprefix'] = '';
