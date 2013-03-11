@@ -8,7 +8,6 @@ class Welcome extends MY_Controller
 		$this->load->model("test_model");
 		$data["test"] = $this->test_model->test();
 		$this->load->view("template",$data);
-	}
-	
+	}	
 }
 
