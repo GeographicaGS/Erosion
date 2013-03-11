@@ -1,0 +1,198 @@
+@CHARSET "UTF-8";
+html {
+	height:100%;
+}
+
+body {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 12px;	
+	background-color:#ccc;
+	color:#333;
+}
+
+a{
+	color:#333;
+	text-decoration:none;
+}
+.panel{
+	height:100%;
+	float:left;	
+}
+
+.sep{
+	width: 2px;
+	background-color: #CCC;
+	position: absolute;
+	top: 74px;	
+	z-index: 2;
+	height: 452px;
+}
+
+#panel_left, #panel_right{
+	height:100%;
+	position:relative;
+}
+#map_left, #map_right{
+	height:100%;
+}
+
+
+header{
+	height:72px;
+	background-color:#176fb1;
+	border-bottom:1px solid #013e88;	
+	margin-bottom:2px;
+}
+
+header nav a{
+	float: left;
+	background: url("../img/MED_separador_cab2.png") no-repeat top right;
+	line-height: 72px;
+	height: 72px;
+	color: #B4D1E6;Right
+	font-size: 12px;
+	text-decoration: none;
+	padding-left: 10px;
+	padding-right: 12px;
+	text-shadow: #013e88 0px -1px 0px;
+}
+
+header .left{
+	background:#0363aa url("../img/MED_separador_cab1.png") repeat-y right top;
+	float:left;
+	width:560px;
+	height:72px;
+	
+}
+.fleft{	float:left;}
+.fright{ float:right;}
+header #logo{
+	margin-top: 10px;
+	margin-left: 22px;	
+}
+
+header #search{
+	background: white url("../img/MED_icon_buscar.png") no-repeat 353 6;
+	padding-right: 22px;
+	color: #333333;
+	font-size: 17px;
+	margin-left: 30px;
+	margin-top: 19px;
+	border: 1px solid #013E88;
+	width: 380px;
+	padding-left: 5px;
+	height: 33px;
+}
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.split_ctrl{
+	
+	
+	
+}
+img.toggle{
+	position:absolute;
+	top:26px;
+	z-index:4;
+	cursor:pointer;
+}
+
+img.sync{
+	position:absolute;
+	top:0;
+	z-index:4;	
+	cursor:pointer;
+}
+
+#panel_left .split_ctrl img.toggle{
+	right:1px;	
+}
+#panel_left .split_ctrl img.sync{
+	right:0px;	
+}
+#panel_right .split_ctrl img.sync{
+	left:0px;	
+}
+#panel_right .split_ctrl img.toggle{
+	left:1px;	
+}
+
+
+p.credits{
+	margin-top:10px;
+	margin-right:20px;
+	text-align:right;
+	color:#84aed2;
+	text-shadow: #013e88 0px -1px 0px;
+}
+
+.layer_ctrl{
+	background:#f0f0f0 url("../img/MED_icon_capas.png") no-repeat right 9;
+	position:absolute;
+	bottom: 10px;
+	right:30px;
+	z-index:4;
+	height: 24px;
+	line-height:24px;
+	padding-left: 10px;
+	padding-right: 25px;
+	color:#333333 !important;
+	font-weight:bold;
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+	border: 1px solid #888;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	text-shadow: #fff 0px -1px 0px;
+	z-index:1002;
+	
+}
+.layer_ctrl.open{
+	background-image: url("../img/MED_icon_cerrar_capas.png");
+}
+	
+.layer_panel{
+	position: absolute;	
+	background: url("../img/MED_fondo_capas.png") repeat-x left top;
+	bottom: 0;
+	left: 0;
+	width: 100%;	
+	z-index:1001;
+	padding-bottom:40px;
+	padding-top:70px;
+}
+
+.layer_panel.close{
+	height: 60px;
+	overflow: hidden;	
+	z-index:1;
+	padding-bottom:0;
+	padding-top:0;
+	
+}
+ul.layer_panel li{
+	height:35px;
+	clear:both;
+	border-top: 1px solid #423c36;
+	color:#cccccc;
+	padding-left:48px;
+	padding-right:25px;	
+}
+
+ul.layer_panel li span{
+	float:left;	
+	margin-top:2px;
+	
+}
+ul.layer_panel li a{
+	float:right;
+	margin-left:10px;
+	margin-top:5px;
+}
