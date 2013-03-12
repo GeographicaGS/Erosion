@@ -9,31 +9,38 @@ function GroupLayer(opts){
 	this.__active = true;
 	
 	this.layers = new Array();
-
+	// set the closure variable
+	var layers = this.layers;
+	
+	this.iniLayerClosure = function(l){
+		// get json of the layer
+		$.ajax({
+			url: base_url + "erosion/points/"+l.id,
+			dataType: "json",
+			success:function(json){		
+				// store the layer in the closure GroupLayer.layers
+				layers.push({						
+					json: 	json,
+					visible:l.visible,
+					priority:l.priority,
+					title:l.title
+				}); 
+			}
+		});
+	};
+	// let's initialize all layers
 	for(x in opts.layers){
 		var l =  opts.layers[x];
-		var tmp = {
-			tile: new L.tileLayer.wms(l.server, {		
-			    layers: l.layers,
-			    format: 'image/png',
-			    transparent: true,
-			    zIndex: l.priority
-			}),
-			visible:l.visible,
-			priority:l.priority,
-			title:l.title
-		};
+		this.iniLayerClosure(l)
 		
 		
-		if (tmp.visible){
-			this.map.addLayer(tmp.tile);
-		}
-		this.layers.push(tmp);
 	}
 	
 	/****************************************/
 	/********** METHODS  ********************/
 	/****************************************/
+	
+	
 	this.getMap = function(){
 		return this.map;
 	};
@@ -50,15 +57,12 @@ function GroupLayer(opts){
 		var html = "";
 		for(x in this.layers){
 			var l =  this.layers[x];
-			var limg = l.visible ? "MED_icon_mapa_0.png" : "MED_icon_mapa.png";  
-			var lhistimg = this.__layerHistogram==l ? "MED_icon_histograma_0.png" : "MED_icon_histograma.png";
+			var limg = l.visible ? getImg("MED_icon_mapa_0.png") : getImg("MED_icon_mapa.png"); 
+			
 			html += "<li>" +
-					"<span>"+l.title+"</span>"+
-					"<a href='javascript:Split.setHistogram("+x+","+this.father+")'>"+
-					"	<img src='img/"+lhistimg+"' />"+
-					"</a>"+
+					"<span>"+l.title+"</span>"+					
 					"<a href='javascript:Split.toggleLayer("+x+","+this.father+")'>"+
-					"	<img class='act_histogram' src='img/"+limg+"' /></a>"+			
+					"	<img class='act_histogram' src='"+limg+"' /></a>"+			
 					"</li>";
 		}
 		return html;		

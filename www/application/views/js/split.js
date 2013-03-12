@@ -34,7 +34,16 @@ Split = {
 				layers: layers,
 				father:this.LEFT
 		}		
-		this.__mapLeft = new GroupLayer(opts);		
+		this.__mapLeft = new GroupLayer(opts);	
+		
+	
+		
+		mapLeft.addLayer(new L.tileLayer.wms("http://www.idee.es/wms/PNOA/PNOA", {
+		    layers: 'PNOA',
+		    format: 'image/png',
+		    transparent: true,
+		    attribution: "Weather data © 2012 IEM Nexrad"
+		}));
 		
 		zoomControl = new L.Control.Zoom({
 				position : 'bottomleft'
@@ -49,6 +58,13 @@ Split = {
 			  attributionControl: false
 		});
 		
+		
+		mapRight.addLayer(new L.tileLayer.wms("http://www.idee.es/wms/PNOA/PNOA", {
+		    layers: 'PNOA',
+		    format: 'image/png',
+		    transparent: true,
+		    attribution: "Weather data © 2012 IEM Nexrad"
+		}));
 				
 		zoomControl.addTo(mapRight);		
 		
