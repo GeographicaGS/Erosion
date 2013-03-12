@@ -203,17 +203,16 @@ ul.layer_panel li{
 	color:#cccccc;
 	padding-left:48px;
 	padding-right:25px;	
+	line-height: 35px;
 }
 
 ul.layer_panel li span{
 	float:left;	
-	margin-top:2px;
-	
 }
 ul.layer_panel li a{
-	float:right;
-	margin-left:10px;
-	margin-top:5px;
+	float: left;
+	margin-right: 8px;
+	margin-top: 5px;
 }
 
 .geo{

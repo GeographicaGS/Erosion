@@ -108,13 +108,13 @@
 		<div id="histogram_left" style="display:none"></div>
 		
 		<div class="split_ctrl">			
-			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_left.png")?>" width=15px height=16px title="Desynchronized maps" />						
+			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_left.png")?>" width=15px height=16px title="Desincronizar mapas" />						
 			<a href="javascript:Split.togglePanel(Split.LEFT)">
-				<img class="toggle" src="<?= get_img("MED_icon_split_left.png")?>" width=28px height=29px title="Hide left map"/>
+				<img class="toggle" src="<?= get_img("MED_icon_split_left.png")?>" width=28px height=29px title="Ocultar mapa de la izquierda"/>
 			</a>
 		</div>
 	
-		<a href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Layers</a>
+		<a href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Capas</a>
 		
 		<ul class="layer_panel close"></ul>
 	
@@ -129,13 +129,13 @@
 		<div id="histogram_right" style="display:none"></div>
 	
 		<div class="split_ctrl">			
-			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right")?>" width=15px height=16px title="Desynchronized maps"/>			
+			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right")?>" width=15px height=16px title="Desincronizar mapas"/>			
 			<a href="javascript:Split.togglePanel(Split.RIGHT)">
-				<img class="toggle" src="<?= get_img("MED_icon_split_right.png")?>" width=28px height=29px title="Hide right map"/>
+				<img class="toggle" src="<?= get_img("MED_icon_split_right.png")?>" width=28px height=29px title="Ocultar mapa de la derecha"/>
 			</a>
 		</div>
 	
-		<a href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Layers</a>
+		<a href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
 		
 		<ul class="layer_panel close"></ul>
 	
@@ -150,7 +150,9 @@
 
 <footer>
 	<div class="uni">
-		<img src="<?= get_img("ERO_logo_uni_sevilla.png")?>" />
+		<a href="http://www.us.es" target="_blank">
+			<img src="<?= get_img("ERO_logo_uni_sevilla.png")?>" />
+		</a>
 		<p>
 			Departamento de Geografía Física y Análisis Geográfico Regional
 		</p>
@@ -168,8 +170,10 @@
 			Ref. del Proyecto:<br/>
 			CS02010-15807
 		</p>
-		<div class="fleft mt20">						
-			<img class="fleft" src="<?= get_img("ERO_logo_EU.png")?>" />
+		<div class="fleft mt20">	
+			<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" >
+				<img src="<?= get_img("ERO_logo_EU.png")?>" />
+			</a>
 			<a href="http://www.mineco.gob.es/" target="_blank" class="fleft" >
 				<img src="<?= get_img("ERO_logo_MEC.png")?>" />
 			</a>

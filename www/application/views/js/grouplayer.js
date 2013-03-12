@@ -54,15 +54,18 @@ function GroupLayer(opts){
 	}
 	
 	this.getHTMLLayersPanel = function(){
-		var html = "";
+		var html = "<li>Erosión en deltas mediterráneos</li>";
+		
 		for(x in this.layers){
 			var l =  this.layers[x];
 			var limg = l.visible ? getImg("MED_icon_mapa_0.png") : getImg("MED_icon_mapa.png"); 
 			
 			html += "<li>" +
-					"<span>"+l.title+"</span>"+					
+										
 					"<a href='javascript:Split.toggleLayer("+x+","+this.father+")'>"+
-					"	<img class='act_histogram' src='"+limg+"' /></a>"+			
+					"	<img class='act_histogram' src='"+limg+"' />" +
+					"</a>"+
+					"<span>"+l.title+"</span>"+
 					"</li>";
 		}
 		return html;		
