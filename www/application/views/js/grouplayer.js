@@ -13,28 +13,33 @@ function GroupLayer(opts){
 	var layers = this.layers;
 	
 	this.iniLayerClosure = function(l){
+		
 		// get json of the layer
 		$.ajax({
 			url: base_url + "erosion/points/"+l.id,
 			dataType: "json",
 			success:function(json){		
-				// store the layer in the closure GroupLayer.layers
-				layers.push({						
+				var l2 = {						
 					json: 	json,
 					visible:l.visible,
 					priority:l.priority,
-					title:l.title
-				}); 
+					title:l.title,
+					points: null
+				};
+				
+				// store the layer in the closure GroupLayer.layers
+				layers.push(l2);
+				// GroupLayer.drawLayer(l2);
 			}
 		});
 	};
+	
 	// let's initialize all layers
 	for(x in opts.layers){
 		var l =  opts.layers[x];
-		this.iniLayerClosure(l)
-		
-		
+		this.iniLayerClosure(l);
 	}
+	
 	
 	/****************************************/
 	/********** METHODS  ********************/
@@ -66,7 +71,7 @@ function GroupLayer(opts){
 					"	<img class='act_histogram' src='"+limg+"' />" +
 					"</a>"+
 					"<span>"+l.title+"</span>"+
-					"</li>";
+					"</li>";			
 		}
 		return html;		
 	};
@@ -74,18 +79,39 @@ function GroupLayer(opts){
 	this.toogleLayer = function(id_layer){
 		var l =  this.layers[id_layer];
 		l.visible = !l.visible;
-		if (l.visible){
-			this.map.addLayer(l.tile);
-		}
-		else{
-			this.map.removeLayer(l.tile);
-		}
+		this.drawLayer(l);
 	};
 		
 	this.setHistogram = function(id_layer){
 		this.__layerHistogram = this.layers[id_layer];
+	};
+	
+	this.drawLayer = function (l){		
+		
+		if (!l.points){
+			
+			
+		}
+		
+		if (l.visible){
+			var markers = [];
+			for (var i=0;i<l.json.length;i++){
+				var p = l.json[i];				
+				markers.push(new L.marker([p.point.lat, p.point.lng]));
+			}
+			l.points = new L.layerGroup(markers);
+			l.points.addTo(this.map); 
+		}
+		else{
+			l.points.clearLayers();
+		}
+	};
+	
+	
+	this.redraw = function(){
+		for(var i=0;i<this.layers.length;i++){
+			this.drawLayer(this.layers[i]);
+		}
 	}
-	
-	
 	
 }

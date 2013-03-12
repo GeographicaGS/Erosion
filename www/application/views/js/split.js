@@ -45,6 +45,11 @@ Split = {
 		    attribution: "Weather data © 2012 IEM Nexrad"
 		}));
 		
+		mapLeft.on('click', function(e) {
+		    console.log(e.latlng);
+		});
+		
+		
 		zoomControl = new L.Control.Zoom({
 				position : 'bottomleft'
 		});
