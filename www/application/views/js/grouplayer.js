@@ -24,6 +24,7 @@ function GroupLayer(opts){
 					visible:l.visible,
 					priority:l.priority,
 					title:l.title,
+					color: l.color,
 					points: null
 				};
 				
@@ -34,6 +35,22 @@ function GroupLayer(opts){
 		});
 	};
 	
+	//initialize context layers
+	this.ctxLayers = [];	
+	for(x in opts.ctxLayers){
+		var ctx = opts.ctxLayers[x];
+		this.ctxLayers[0] = new L.tileLayer.wms(ctx.server, {
+		    layers: ctx.layers,
+		    format: 'image/png',
+		    transparent: true	    
+		});
+	}
+	
+	// create a layer group with all the context layers
+	this.ctxLayerGroup = new L.layerGroup(this.ctxLayers);
+	// add the layer group to map
+	this.map.addLayer(this.ctxLayerGroup);	
+	
 	// let's initialize all layers
 	for(x in opts.layers){
 		var l =  opts.layers[x];
@@ -41,11 +58,10 @@ function GroupLayer(opts){
 	}
 	
 	
+			
 	/****************************************/
 	/********** METHODS  ********************/
-	/****************************************/
-	
-	
+	/****************************************/	
 	this.getMap = function(){
 		return this.map;
 	};
@@ -88,19 +104,22 @@ function GroupLayer(opts){
 	
 	this.drawLayer = function (l){		
 		
-		if (!l.points){
-			
-			
-		}
-		
 		if (l.visible){
 			var markers = [];
 			for (var i=0;i<l.json.length;i++){
-				var p = l.json[i];				
-				markers.push(new L.marker([p.point.lat, p.point.lng]));
+				var p = l.json[i];		
+				var size = p.value;
+				
+				var myIcon = L.divIcon({		
+					className: 'symbol-marker',
+					iconSize: new L.Point(size, size),
+					html: '<div style="height:'+size+';width:'+size+';background-color:'+l.color+'"></div>'
+				});
+				markers.push(new L.marker([p.point.lat, p.point.lng],{icon: myIcon}));
 			}
 			l.points = new L.layerGroup(markers);
-			l.points.addTo(this.map); 
+			l.points.addTo(this.map);
+			
 		}
 		else{
 			l.points.clearLayers();

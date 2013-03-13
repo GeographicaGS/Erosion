@@ -5,6 +5,14 @@ class Erosion extends MY_Controller
 	public function points($id_layer)
 	{
 		
+		$points = $this->simulate_points($id_layer);
+		
+		header('Content-type: application/json');
+		echo json_encode($points);		
+	}
+	
+	private function simulate_points($id_layer)
+	{
 		$p["point"] = (object) array("lat"=>37.16846466064453,"lng"=>-6.9632720947265625);
 		$p["value"] = ceil(rand(10,100));
 		$points[0] = (object) $p ;
@@ -17,8 +25,7 @@ class Erosion extends MY_Controller
 		$p["value"] = ceil(rand(10,100));
 		$points[2] = (object) $p ;
 		
-		header('Content-type: application/json');
-		echo json_encode($points);		
+		return $points;
 	}
 	
 }

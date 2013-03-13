@@ -250,3 +250,9 @@ ul.layer_panel li a{
 	margin-left: 15px;
 	
 }
+
+.symbol-marker,.symbol-marker>*{
+	border-radius:50%;
+}
+
+
