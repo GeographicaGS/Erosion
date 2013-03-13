@@ -2,6 +2,7 @@
 
 class Welcome extends MY_Controller 
 {
+	
 	public function index()
 	{		
 		header("Content-Type: text/html; charset=".$this->config->item("encoding"));

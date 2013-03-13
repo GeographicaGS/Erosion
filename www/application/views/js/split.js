@@ -12,12 +12,10 @@ Split = {
 	syncEnable : true,
 	initialize: function(){
 		
-		var startingCenter = new L.LatLng(this.iniLat, this.iniLng);
+		// center the map
+		var startingCenter = new L.LatLng(this.iniLat, this.iniLng);		
 		
-		var zoomControl = new L.Control.Zoom({
-			position : 'bottomleft'
-		});
-		
+		//create the left map's leaflet instance
 		var mapLeft = new L.Map('map_left', {
 			  center: startingCenter,
 			  zoom: this.iniZoom,
@@ -27,19 +25,27 @@ Split = {
 			  attributionControl: false
 		});
 		
+		// add zoom control to map left
+		var zoomControl = new L.Control.Zoom({
+			position : 'bottomleft'
+		});		
 		zoomControl.addTo(mapLeft);
 		
+		//let's create the GroupLayer object with the instance of mapLeft		
 		var opts = {
 				map: mapLeft,
 				layers: layers,
-				father:this.LEFT
+				father:this.LEFT,
+				ctxLayers: ctxLayers
 		}		
-		this.__mapLeft = new GroupLayer(opts);		
+		this.__mapLeft = new GroupLayer(opts);	
 		
-		zoomControl = new L.Control.Zoom({
-				position : 'bottomleft'
-		});
-		 
+		/* Only for debug purpose
+		mapLeft.on('click', function(e) {
+		    console.log(e.latlng);
+		});*/
+		
+		// create the right map's leaflet instance
 		var mapRight = new L.Map('map_right', {
 			  center: startingCenter,
 			  zoom: this.iniZoom,			  
@@ -48,17 +54,22 @@ Split = {
 			  zoomControl: false,
 			  attributionControl: false
 		});
-		
-				
+		// add zoom control to left map
+		zoomControl = new L.Control.Zoom({
+			position : 'bottomleft'
+		});
 		zoomControl.addTo(mapRight);		
 		
+		//let's create the GroupLayer object with the instance of mapRightt
 		opts = {
 				map: mapRight,
 				layers: layers,
-				father:this.RIGHT
+				father:this.RIGHT,
+				ctxLayers: ctxLayers
 		}
 		this.__mapRight = new GroupLayer(opts);
 		
+		/* Splits event controls */
 		this.__mapLeft.getMap().on("drag", function() {			
 			Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
 		});
@@ -77,6 +88,7 @@ Split = {
 		
 		this.__currentMasterMap = this.__mapLeft;
 	},
+	/* Split handler*/
 	mapMover: function(a,b) {		  
 		var bActive;
 		if (Split.__mapLeft.getMap() == a){
@@ -104,6 +116,7 @@ Split = {
 	
 		Split.__mapIsMoving = false;
 	},
+	/* Toogle an Split panel*/
 	togglePanel:function (el){
 		var totalWidth = Math.floor(($(window).width()-2) /2);
 		if (el==this.LEFT){
@@ -152,6 +165,7 @@ Split = {
 			Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
 		}
 	},
+	/* Syncronized and desyncronized maps*/
 	sync: function(){
 		Split.syncEnable = !Split.syncEnable;
 		var lurl = Split.syncEnable ? "MED_icon_enlazar_OK_left.png" : "MED_icon_enlazar_KO_left.png";
@@ -172,8 +186,8 @@ Split = {
 			$("img.sync").attr("title","Synchronize maps");
 		}
 	},
-	toggleLayersInterface: function(el){
-		
+	/* show/hide layer interface*/
+	toggleLayersInterface: function(el){		
 		if (el==this.LEFT){
 			var $panel = $("#panel_left .layer_panel");
 			if ($panel.hasClass("close")){
@@ -211,6 +225,7 @@ Split = {
 			$panel.html( this.__mapRight.getHTMLLayersPanel());
 		}
 	},
+	/* Toogle a layer of one map */
 	toggleLayer: function(id_layer,el){
 		if (el==this.LEFT){
 			this.__mapLeft.toogleLayer(id_layer);			

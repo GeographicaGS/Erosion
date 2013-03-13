@@ -10,6 +10,9 @@ body {
 	color:#333;
 }
 
+.grey {color:#becbdc }
+.grey2 { color:#949ead}
+
 a{
 	color:#333;
 	text-decoration:none;
@@ -25,7 +28,7 @@ a{
 	position: absolute;
 	top: 74px;	
 	z-index: 2;
-	height: 452px;
+	/*height: 452px;*/
 }
 
 #panel_left, #panel_right{
@@ -39,8 +42,8 @@ a{
 
 header{
 	height:72px;
-	background-color:#176fb1;
-	border-bottom:1px solid #013e88;	
+	background-color:#2d384f;
+	border-bottom:1px solid #cccccc;	
 	margin-bottom:2px;
 }
 
@@ -49,8 +52,8 @@ header nav a{
 	background: url("../img/MED_separador_cab2.png") no-repeat top right;
 	line-height: 72px;
 	height: 72px;
-	color: #B4D1E6;Right
-	font-size: 12px;
+	color: #becbdc;
+	font-size: 11px;
 	text-decoration: none;
 	padding-left: 10px;
 	padding-right: 12px;
@@ -58,7 +61,7 @@ header nav a{
 }
 
 header .left{
-	background:#0363aa url("../img/MED_separador_cab1.png") repeat-y right top;
+	background:#222d46 url("../img/MED_separador_cab1.png") repeat-y right top;
 	float:left;
 	width:560px;
 	height:72px;
@@ -74,14 +77,30 @@ header #logo{
 header #search{
 	background: white url("../img/MED_icon_buscar.png") no-repeat 353 6;
 	padding-right: 22px;
-	color: #333333;
-	font-size: 17px;
+	color: #013e88;
+	font-size: 14px;
 	margin-left: 30px;
 	margin-top: 19px;
-	border: 1px solid #013E88;
+	border: 1px solid #000;
 	width: 380px;
-	padding-left: 5px;
+	padding-left: 10px;
 	height: 33px;
+	
+}
+
+footer{
+	height:90px;
+	background-color:#333d55;
+	border-top:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+}
+
+footer p.fund{
+	color: #949ead;
+	font-size:10px;
+	margin-top:20px;
+	margin-right:10px;
+	text-align:right
 }
 
 .clear {
@@ -127,10 +146,10 @@ img.sync{
 
 
 p.credits{
-	margin-top:10px;
+	margin-top:15px;
 	margin-right:20px;
 	text-align:right;
-	color:#84aed2;
+	color:#becbdc;
 	text-shadow: #013e88 0px -1px 0px;
 }
 
@@ -184,15 +203,56 @@ ul.layer_panel li{
 	color:#cccccc;
 	padding-left:48px;
 	padding-right:25px;	
+	line-height: 35px;
 }
 
 ul.layer_panel li span{
 	float:left;	
-	margin-top:2px;
-	
 }
 ul.layer_panel li a{
-	float:right;
-	margin-left:10px;
-	margin-top:5px;
+	float: left;
+	margin-right: 8px;
+	margin-top: 5px;
 }
+
+.geo{
+	height:100%;
+	border-left: 1px solid #424e65;
+	float:left;	
+}
+.geo > a {
+	display:block;
+	margin-top:15px;
+	margin-left: 20px;
+}
+.geo > a > * {
+	float:left;
+}
+
+.uni{
+	background-color:#485166;
+	border-right:1px solid #1f2c47;
+	height:100%;
+	float:left;
+}
+.uni > * {
+	float:left;	
+	margin-top:15px;
+}
+.uni > img {
+	display:block;
+	margin-left: 20px;
+}
+.uni > p {
+	width: 118px;
+	color: #becbdc;
+	margin-right: 20px;
+	margin-left: 15px;
+	
+}
+
+.symbol-marker,.symbol-marker>*{
+	border-radius:50%;
+}
+
+

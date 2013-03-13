@@ -29,6 +29,7 @@
 <script type="text/javascript" src="<?= get_js("grouplayer.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("split.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("layers.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("global.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("lib/fancybox/jquery.fancybox.pack.js?v=2.1.3")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5")?>"></script>
@@ -37,24 +38,6 @@
 
 <script type="text/javascript">	
 
-	function resize(){
-		$("#container").height($(window).height() - $("header").outerHeight(true));
-		var mw = Math.floor($(window).width() /2);
-		$("#sep").css("left",mw-1);
-		$("#panel_left").width(mw);
-		$("#panel_right").width(mw);
-		
-	}
-	
-	function showInfoFancybox(text) {
-		var html =  "<div>"+text+"</div>";
-		$("#info_fancy_box_data").html(html);
-		$("#info_fancybox").fancybox().trigger('click');
-	}
-	
-	function showDevMsg(){
-		showInfoFancybox("<br/><br/>Functionality under development");
-	}
 	$(window).ready(function(){
 		$("a#info_fancybox").fancybox({
 			"hideOnContentClick" : true,
@@ -67,10 +50,17 @@
 		    	showDevMsg();
 		    }
 		});
+
+		$("#search").focus(function(){
+			if ($(this).val()=="buscar..."){
+				$(this).val("");
+			}
+		});
 		
 		resize();
 		$("img.sync").click(Split.sync);
 		Split.initialize();
+		
 		
     });
 	
@@ -79,6 +69,7 @@
 		Split.__mapLeft.getMap().invalidateSize();		
 		Split.__mapRight.getMap().invalidateSize();		
 	})
+	var base_url = "<?= base_url()?>";
 </script>
 </head>
 
@@ -87,26 +78,22 @@
 
 <header>
 	<div class="fleft left">
-		<img class="fleft" id="logo" src="<?= get_img("MED_logo_cab.png")?>" width=112px height=51px/>
-		<input class="fleft" type="text" id="search" />
+		
+		<input class="fleft" type="text" id="search" value="buscar..."/>
 		<div class="clear"></div>
 	</div>	
 	<nav class="fleft">
-		<a href="http://www.medinaproject.eu/" target="_blank">
-			The project
+		<a href="" target="_blank">
+			EL PROYECTO
 		</a>
 		<a href="javascript:showDevMsg()">
-			SDI Overview
-		</a>
-		<a href="javascript:showDevMsg()">
-			Catalog
+			CATÁLOGO
 		</a>
 	</nav>
-	<p class="fright size9 credits">
-		<span class="bold">Medina</span><br/>
-		Marine Ecosystem Dynamics and<br/>
-		Indicators for North Africa<br/>
-		[ENV.2011.4.1.4-2], Grant agreement no: 282977<br/>
+	<p class="fright size10 credits">
+		<span class="bold">Proyecto de I+D+i</span><br/>
+		Espacialización y difusión web de variables demográficas, turísticas y ambientales para<br/>
+		la evaluación de la vulnerabilidad asociada a la erosión de playas en la costa andaluza
 	</p>
 	
 	<div class="clear"></div>
@@ -121,13 +108,13 @@
 		<div id="histogram_left" style="display:none"></div>
 		
 		<div class="split_ctrl">			
-			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_left.png")?>" width=15px height=16px title="Desynchronized maps" />						
+			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_left.png")?>" width=15px height=16px title="Desincronizar mapas" />						
 			<a href="javascript:Split.togglePanel(Split.LEFT)">
-				<img class="toggle" src="<?= get_img("MED_icon_split_left.png")?>" width=28px height=29px title="Hide left map"/>
+				<img class="toggle" src="<?= get_img("MED_icon_split_left.png")?>" width=28px height=29px title="Ocultar mapa de la izquierda"/>
 			</a>
 		</div>
 	
-		<a href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Layers</a>
+		<a href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Capas</a>
 		
 		<ul class="layer_panel close"></ul>
 	
@@ -142,13 +129,13 @@
 		<div id="histogram_right" style="display:none"></div>
 	
 		<div class="split_ctrl">			
-			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right")?>" width=15px height=16px title="Desynchronized maps"/>			
+			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right")?>" width=15px height=16px title="Desincronizar mapas"/>			
 			<a href="javascript:Split.togglePanel(Split.RIGHT)">
-				<img class="toggle" src="<?= get_img("MED_icon_split_right.png")?>" width=28px height=29px title="Hide right map"/>
+				<img class="toggle" src="<?= get_img("MED_icon_split_right.png")?>" width=28px height=29px title="Ocultar mapa de la derecha"/>
 			</a>
 		</div>
 	
-		<a href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Layers</a>
+		<a href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
 		
 		<ul class="layer_panel close"></ul>
 	
@@ -161,6 +148,42 @@
 	<div id="info_fancy_box_data"></div>
 </div>
 
-
+<footer>
+	<div class="uni">
+		<a href="http://www.us.es" target="_blank">
+			<img src="<?= get_img("ERO_logo_uni_sevilla.png")?>" />
+		</a>
+		<p>
+			Departamento de Geografía Física y Análisis Geográfico Regional
+		</p>
+	</div>
+	<div class="geo" >		
+		<a href="http://www.geographica.gs" target="_blank">
+			<img src="<?= get_img("GEO_W12_icon_bygeographica.png")?>" />
+			<span class="italic ml5 grey2 size10 mr3">D+D by</span>
+			<span class="bold size10 grey"> Geographica</span>
+		</a>		
+	</div>
+	<div class="fright">
+		<p class="fleft fund">
+			<span class="bold">Proyecto cofinanciado<br/> por los Fondos FEDER</span><br/>
+			Ref. del Proyecto:<br/>
+			CS02010-15807
+		</p>
+		<div class="fleft mt20">	
+			<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" >
+				<img src="<?= get_img("ERO_logo_EU.png")?>" />
+			</a>
+			<a href="http://www.mineco.gob.es/" target="_blank" class="fleft" >
+				<img src="<?= get_img("ERO_logo_MEC.png")?>" />
+			</a>
+			<a href="http://www.idi.mineco.gob.es/" target="_blank" class="fleft mr20" >
+				<img src="<?= get_img("ERO_logo_MCI.png")?>" />
+			</a>
+		</div>
+		
+	</div>
+	
+</footer>
 </body>
 </html>

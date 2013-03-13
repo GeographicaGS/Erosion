@@ -27,17 +27,6 @@ class MY_Controller extends CI_Controller
 			$this->load->driver('cache', array('adapter' => 'apc','backup' => 'file'));
 		}
 
-		if ($this->input->is_ajax_request())
-		{
-				
-			if (!is_logged())
-			{
-				$this->output->set_status_header('401');
-				$this->session->sess_destroy();
-			}
-				
-		}
-
 	}
 
 
