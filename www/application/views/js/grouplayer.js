@@ -9,20 +9,31 @@ function GroupLayer(opts){
 	this.__active = true;	
 	
 	//initialize context layers
-	this.ctxLayers = [];	
+	this.ctxLayers = [];
+	var controlCtxLayers = {};
 	for(x in opts.ctxLayers){
 		var ctx = opts.ctxLayers[x];
-		this.ctxLayers[0] = new L.tileLayer.wms(ctx.server, {
+		this.ctxLayers[x] = new L.tileLayer.wms(ctx.server, {
 		    layers: ctx.layers,
 		    format: 'image/png',
 		    transparent: true	    
 		});
+		controlCtxLayers[ctx.title] = this.ctxLayers[x];
+		
+		// add the layer group to map
+		if (ctx.visible){
+			//this.map.addLayer(this.ctxLayers[x]);	
+			this.ctxLayers[x].addTo(this.map);
+		}			
 	}
 	
 	// create a layer group with all the context layers
 	this.ctxLayerGroup = new L.layerGroup(this.ctxLayers);
-	// add the layer group to map
-	this.map.addLayer(this.ctxLayerGroup);	
+	
+	var position = this.father == Split.LEFT ?  'topleft' : 'topright';
+		
+	L.control.layers(null,controlCtxLayers,{position:position}).addTo(this.map);
+	
 	
 	//initializate layers
 	this.layers = new Array();

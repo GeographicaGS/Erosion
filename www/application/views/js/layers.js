@@ -42,6 +42,15 @@ var ctxLayers = [
     	title: 'PNOA', 
     	server: 'http://www.idee.es/wms/PNOA/PNOA',
     	layers: 'PNOA',
+    	visible: true,
     	priority: 1
+    },
+    {
+    	id: 2,
+    	title: 'MTN', 
+    	server: 'http://www.idee.es/wms/MTN-Raster/MTN-Raster?',
+    	layers: 'mtn_rasterizado',
+    	visible: false,
+    	priority: 2
     }
 ];
