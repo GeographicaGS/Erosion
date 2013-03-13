@@ -1,3 +1,4 @@
+/* Configure symbol layers here */
 var layers = [
 	{
 		id: 1,
@@ -36,6 +37,7 @@ var layers = [
 	}
 ];
 
+/* Configure context layers here, it should be a WMS service */
 var ctxLayers = [
     {
     	id: 1,

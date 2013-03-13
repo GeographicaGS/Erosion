@@ -32,7 +32,7 @@ function GroupLayer(opts){
 	
 	var position = this.father == Split.LEFT ?  'topleft' : 'topright';
 		
-	L.control.layers(null,controlCtxLayers,{position:position}).addTo(this.map);
+	L.control.layers(controlCtxLayers,null,{position:position}).addTo(this.map);
 	
 	
 	//initializate layers
