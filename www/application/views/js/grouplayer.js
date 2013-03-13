@@ -6,8 +6,7 @@ function GroupLayer(opts){
 	this.father = opts.father;
 	this.layers = null;
 	this.__layerHistogram = null;
-	this.__active = true;
-	this.__nlayers = opts.layers.length;
+	this.__active = true;	
 	
 	//initialize context layers
 	this.ctxLayers = [];	
@@ -30,7 +29,7 @@ function GroupLayer(opts){
 	// set the closure variable
 	var layers = this.layers;
 	// we need a closure function in order to save layer properties (like priority, visibility...) inside the object layers array
-	this.iniLayerClosure = function(l){		
+	this.iniLayerClosure = function(caller,l){		
 		// get json of the layer
 		$.ajax({
 			url: base_url + "erosion/points/"+l.id,
@@ -47,13 +46,15 @@ function GroupLayer(opts){
 				
 				// store the layer in the closure GroupLayer.layers
 				layers.push(l2);
+				// draw the layer
+				caller.drawLayer(l2);
 			}
 		});
 	};
 	// let's initialize all layers
 	for(x in opts.layers){
 		var l =  opts.layers[x];
-		this.iniLayerClosure(l);
+		this.iniLayerClosure(this,l);
 	}
 			
 	/****************************************/
@@ -127,9 +128,12 @@ function GroupLayer(opts){
 			// draw the group layers
 			l.points.addTo(this.map);			
 		}
-		else{
-			// layer not visible, let's remove it from the map
-			l.points.clearLayers();
+		else {
+			if (l.points){
+				// layer not visible, let's remove it from the map
+				l.points.clearLayers();
+			}
+			
 		}
 	};
 		

@@ -3,7 +3,7 @@ var layers = [
 		id: 1,
 		title: 'Tasas de erosión 1956 - 2009',	
 		priority: 1,
-		visible: false,	
+		visible: true,	
 		color: '#ff0000'
 	},
 	{
