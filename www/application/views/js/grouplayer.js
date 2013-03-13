@@ -7,33 +7,7 @@ function GroupLayer(opts){
 	this.layers = null;
 	this.__layerHistogram = null;
 	this.__active = true;
-	
-	this.layers = new Array();
-	// set the closure variable
-	var layers = this.layers;
-	
-	this.iniLayerClosure = function(l){
-		
-		// get json of the layer
-		$.ajax({
-			url: base_url + "erosion/points/"+l.id,
-			dataType: "json",
-			success:function(json){		
-				var l2 = {						
-					json: 	json,
-					visible:l.visible,
-					priority:l.priority,
-					title:l.title,
-					color: l.color,
-					points: null
-				};
-				
-				// store the layer in the closure GroupLayer.layers
-				layers.push(l2);
-				// GroupLayer.drawLayer(l2);
-			}
-		});
-	};
+	this.__nlayers = opts.layers.length;
 	
 	//initialize context layers
 	this.ctxLayers = [];	
@@ -51,13 +25,36 @@ function GroupLayer(opts){
 	// add the layer group to map
 	this.map.addLayer(this.ctxLayerGroup);	
 	
+	//initializate layers
+	this.layers = new Array();
+	// set the closure variable
+	var layers = this.layers;
+	// we need a closure function in order to save layer properties (like priority, visibility...) inside the object layers array
+	this.iniLayerClosure = function(l){		
+		// get json of the layer
+		$.ajax({
+			url: base_url + "erosion/points/"+l.id,
+			dataType: "json",
+			success:function(json){		
+				var l2 = {						
+					json: 	json,
+					visible:l.visible,
+					priority:l.priority,
+					title:l.title,
+					color: l.color,
+					points: null
+				};
+				
+				// store the layer in the closure GroupLayer.layers
+				layers.push(l2);
+			}
+		});
+	};
 	// let's initialize all layers
 	for(x in opts.layers){
 		var l =  opts.layers[x];
 		this.iniLayerClosure(l);
 	}
-	
-	
 			
 	/****************************************/
 	/********** METHODS  ********************/
@@ -91,10 +88,12 @@ function GroupLayer(opts){
 		}
 		return html;		
 	};
-	
+	/* Toogle a given layer*/
 	this.toogleLayer = function(id_layer){
+		// get the layer
 		var l =  this.layers[id_layer];
 		l.visible = !l.visible;
+		// draw this layer
 		this.drawLayer(l);
 	};
 		
@@ -102,14 +101,20 @@ function GroupLayer(opts){
 		this.__layerHistogram = this.layers[id_layer];
 	};
 	
+	/* Draw a given layer */
 	this.drawLayer = function (l){		
 		
 		if (l.visible){
+			// the layer is visible so let's draw it
 			var markers = [];
+			// create the proportional symbol for each point
 			for (var i=0;i<l.json.length;i++){
-				var p = l.json[i];		
-				var size = p.value;
-				
+				// get the info of the point to draw
+				var p = l.json[i];
+				var multFactor = 1;
+				// calculate the size based on the value of the point and the mulFactor
+				var size = p.value * multFactor;
+				// create the point on leaflet
 				var myIcon = L.divIcon({		
 					className: 'symbol-marker',
 					iconSize: new L.Point(size, size),
@@ -117,16 +122,17 @@ function GroupLayer(opts){
 				});
 				markers.push(new L.marker([p.point.lat, p.point.lng],{icon: myIcon}));
 			}
+			/// assign all the point to a group layers to make easy the plugin and plugout.
 			l.points = new L.layerGroup(markers);
-			l.points.addTo(this.map);
-			
+			// draw the group layers
+			l.points.addTo(this.map);			
 		}
 		else{
+			// layer not visible, let's remove it from the map
 			l.points.clearLayers();
 		}
 	};
-	
-	
+		
 	this.redraw = function(){
 		for(var i=0;i<this.layers.length;i++){
 			this.drawLayer(this.layers[i]);
