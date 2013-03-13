@@ -91,7 +91,7 @@
 		</a>
 	</nav>
 	<p class="fright size10 credits">
-		<span class="bold">Proyecto de I+D+I</span><br/>
+		<span class="bold">Proyecto de I+D+i</span><br/>
 		Espacialización y difusión web de variables demográficas, turísticas y ambientales para<br/>
 		la evaluación de la vulnerabilidad asociada a la erosión de playas en la costa andaluza
 	</p>
