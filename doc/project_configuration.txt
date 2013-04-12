@@ -1,0 +1,34 @@
+Development Environment
+---
+
+Pivotal: None
+GIT: erosion
+
+
+Test Environment
+---
+
+URL: None yet
+
+
+System Users
+---
+
+User name: no login
+Description: no login
+
+
+Data Base
+---
+
+System: PostgreSQL / PostGIS
+Host: aurora
+Port: 5434
+Name: erosion
+
+User name: erosion_admin
+Description: Administrador
+
+User name: erosion_user
+Description: Usuario
+
