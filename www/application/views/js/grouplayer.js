@@ -95,6 +95,9 @@ function GroupLayer(opts){
 	};
 	
 	this.__refreshLayer = function(l){
+		// refresh BBOX
+		this.__refreshBBOX();
+		
 		if (l.visible){
 			this.__refreshLayerClosure(this,l);
 		}
@@ -106,6 +109,10 @@ function GroupLayer(opts){
 		}	
 	};
 	
+	this.__refreshBBOX = function(){
+		this.bbox = this.map.getBounds().getSouthWest().lng + "|" + this.map.getBounds().getSouthWest().lat + "|"
+					+ this.map.getBounds().getNorthEast().lng + "|" + this.map.getBounds().getNorthEast().lat;
+	};
 	/****************************************/
 	/********** MEMBERS  ********************/
 	/****************************************/
@@ -148,9 +155,6 @@ function GroupLayer(opts){
 	for(x in opts.layers){
 	
 		var l =  opts.layers[x];
-		
-		this.bbox = this.map.getBounds().getSouthWest().lng + "|" + this.map.getBounds().getSouthWest().lat + "|"
-					+ this.map.getBounds().getNorthEast().lng + "|" + this.map.getBounds().getNorthEast().lat;
 		
 		this.layers.push({
 			id: l.id,
