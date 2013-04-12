@@ -40,6 +40,11 @@ Split = {
 		}		
 		this.__mapLeft = new GroupLayer(opts);	
 		
+		mapLeft.on('moveend', function(e) {
+		    Split.__mapLeft.refreshLayers();
+		});
+		
+		
 		/* Only for debug purpose
 		mapLeft.on('click', function(e) {
 		    console.log(e.latlng);
@@ -68,6 +73,10 @@ Split = {
 				ctxLayers: ctxLayers
 		}
 		this.__mapRight = new GroupLayer(opts);
+		
+		mapRight.on('moveend', function(e) {
+		    Split.__mapRight.refreshLayers();
+		});
 		
 		/* Splits event controls */
 		this.__mapLeft.getMap().on("drag", function() {			

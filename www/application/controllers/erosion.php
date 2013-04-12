@@ -2,7 +2,7 @@
 class Erosion extends MY_Controller 
 {
 	
-	public function points($id_layer)
+	public function points($id_layer,$bbox)
 	{
 		
 		$points = $this->simulate_points($id_layer);
