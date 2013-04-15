@@ -1,8 +1,8 @@
 Split = {
 	layers: null,	
-	iniLat: 34,
-	iniLng: 14,	
-	iniZoom: 4,
+	iniLat: 37.36455,
+	iniLng: -4.57645,	
+	iniZoom: 7,
 	__mapLeft:null,
 	__mapRight: null,
 	__currentMasterMap: null,
@@ -40,6 +40,11 @@ Split = {
 		}		
 		this.__mapLeft = new GroupLayer(opts);	
 		
+		mapLeft.on('moveend', function(e) {
+		    Split.__mapLeft.refreshLayers();
+		});
+		
+		
 		/* Only for debug purpose
 		mapLeft.on('click', function(e) {
 		    console.log(e.latlng);
@@ -68,6 +73,10 @@ Split = {
 				ctxLayers: ctxLayers
 		}
 		this.__mapRight = new GroupLayer(opts);
+		
+		mapRight.on('moveend', function(e) {
+		    Split.__mapRight.refreshLayers();
+		});
 		
 		/* Splits event controls */
 		this.__mapLeft.getMap().on("drag", function() {			
