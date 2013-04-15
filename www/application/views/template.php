@@ -114,7 +114,7 @@
 			</a>
 		</div>
 	
-		<a href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Capas</a>
+		<a id="capaLeft" href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Capas</a>
 		
 		<ul class="layer_panel close"></ul>
 	
@@ -135,7 +135,7 @@
 			</a>
 		</div>
 	
-		<a href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
+		<a id="capaRight" href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
 		
 		<ul class="layer_panel close"></ul>
 	

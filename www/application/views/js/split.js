@@ -187,15 +187,26 @@ Split = {
 		}
 	},
 	/* show/hide layer interface*/
-	toggleLayersInterface: function(el){		
+	toggleLayersInterface: function(el){
 		if (el==this.LEFT){
+			var $panel = $("#panel_right .layer_panel");
 			var $panel = $("#panel_left .layer_panel");
 			if ($panel.hasClass("close")){
+				
+				$("#capaLeft").css("width","210px");
+				$("#capaLeft").css("border-top-left-radius","0px");
+				$("#capaLeft").css("border-top","2px solid #888");
+				
 				$panel.removeClass("close");
 				$panel.html( this.__mapLeft.getHTMLLayersPanel());
 				$("#panel_left .layer_ctrl").addClass("open");
 			}
 			else{
+				
+				$("#capaLeft").css("width","Auto");
+				$("#capaLeft").css("border-top-left-radius","5px");
+				$("#capaLeft").css("border-top","1px solid #888");
+				
 				$panel.addClass("close");
 				$panel.html("");
 				$("#panel_left .layer_ctrl").removeClass("open");
@@ -203,27 +214,52 @@ Split = {
 		}
 		else if (el==this.RIGHT){
 			var $panel = $("#panel_right .layer_panel");
+			
 			if ($panel.hasClass("close")){
+				
+				$("#capaRight").css("width","210px");
+				$("#capaRight").css("border-top-left-radius","0px");
+				$("#capaRight").css("border-top","2px solid #888");
+				
 				$panel.removeClass("close");
 				$panel.html( this.__mapRight.getHTMLLayersPanel());
 				$("#panel_right .layer_ctrl").addClass("open");
 			}
 			else{
+				
+				$("#capaRight").css("width","Auto");
+				$("#capaRight").css("border-top-left-radius","5px");
+				$("#capaRight").css("border-top","1px solid #888");
+				
 				$panel.addClass("close");
 				$panel.html("");
 				$("#panel_right .layer_ctrl").removeClass("open");
 			}
 		}
+		
+		
+		
+		$(".toogleLayer").click(function(){
+			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"));
+		});
+		
+		
 	},
 	__drawLayerInterface: function(el){		
 		if (el==this.LEFT){
 			var $panel = $("#panel_left .layer_panel");
-			$panel.html( this.__mapLeft.getHTMLLayersPanel());
+			$panel.html( this.__mapLeft.getHTMLLayersPanel());			
 		}
 		else if (el==this.RIGHT){
 			var $panel = $("#panel_right .layer_panel");
 			$panel.html( this.__mapRight.getHTMLLayersPanel());
 		}
+		
+		$(".toogleLayer").click(function(){
+			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"));
+
+		})
+		
 	},
 	/* Toogle a layer of one map */
 	toggleLayer: function(id_layer,el){

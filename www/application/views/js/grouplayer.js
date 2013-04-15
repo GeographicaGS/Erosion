@@ -88,15 +88,17 @@ function GroupLayer(opts){
 		
 		for(x in this.layers){
 			var l =  this.layers[x];
-			var limg = l.visible ? getImg("MED_icon_mapa_0.png") : getImg("MED_icon_mapa.png"); 
+			var lattr = l.visible ? "checked" : ""; 
+			var lstyle = l.visible ? "color:black" : "";
+					
+			html += "<li>" +	
 			
-			html += "<li>" +
-										
-					"<a href='javascript:Split.toggleLayer("+x+","+this.father+")'>"+
-					"	<img class='act_histogram' src='"+limg+"' />" +
-					"</a>"+
-					"<span>"+l.title+"</span>"+
-					"</li>";			
+				"	<input type='checkbox' class='toogleLayer' " +
+				"			id_layer="+x+" father="+this.father+ " " + lattr +">" +
+			
+				"<span style='"+lstyle +"'>"+l.title+"</span>"+
+				"</li>";
+			
 		}
 		return html;		
 	};

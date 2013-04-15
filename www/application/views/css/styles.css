@@ -154,10 +154,10 @@ p.credits{
 }
 
 .layer_ctrl{
-	background:#f0f0f0 url("../img/MED_icon_capas.png") no-repeat right 9;
+	background:#f0f0f0 url("../img/MED_icon_capas.png") no-repeat left 9;
 	position:absolute;
-	bottom: 10px;
-	right:30px;
+	bottom: 0px;
+	right:0px;
 	z-index:4;
 	height: 24px;
 	line-height:24px;
@@ -166,49 +166,82 @@ p.credits{
 	color:#333333 !important;
 	font-weight:bold;
 	box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
-	border: 1px solid #888;
-	-webkit-border-radius: 5px;
-	border-radius: 5px;
+	border-top: 1px solid #888;
+	border-left: 1px solid #888;
+/* 	-webkit-border-radius: 5px; */
+/* 	border-radius: 5px; */
+	border-top-left-radius: 5px;
 	text-shadow: #fff 0px -1px 0px;
 	z-index:1002;
+	background-position: 55px;
 	
 }
 .layer_ctrl.open{
-	background-image: url("../img/MED_icon_cerrar_capas.png");
+	background-image: url("../img/MED_icon_cerrar_capas.png");	
 }
-	
+
 .layer_panel{
 	position: absolute;	
-	background: url("../img/MED_fondo_capas.png") repeat-x left top;
+/* 	background: url("../img/MED_fondo_capas.png") repeat-x left top;	 */
+	background-color: white;
 	bottom: 0;
-	left: 0;
-	width: 100%;	
+/* 	left: 0; */
+	right:0;
+	width: 40%;	
+	height: 70%;
 	z-index:1001;
 	padding-bottom:40px;
 	padding-top:70px;
+	border-top: 2px solid #ccc;
+	border-left: 2px solid #ccc;
+	border-right: 2px solid #ccc;
+	border-radius: 4px 0px 0px 0px;
+
 }
 
 .layer_panel.close{
+	background: url("../img/MED_fondo_capas.png") repeat-x left top;
 	height: 60px;
 	overflow: hidden;	
 	z-index:1;
 	padding-bottom:0;
 	padding-top:0;
+	width: 100%;	
+	border-top: 0px solid;
+	border-left: 0px solid;
+	border-right: 0px solid #ccc;
 	
 }
 ul.layer_panel li{
 	height:35px;
 	clear:both;
-	border-top: 1px solid #423c36;
+	border-bottom: 1px solid #E5E5E5;
 	color:#cccccc;
-	padding-left:48px;
+	padding-left:10px;
 	padding-right:25px;	
 	line-height: 35px;
+	position: relative;
+	bottom: 70px;
+	background: url("../img/border_img.gif") repeat-y 8px white;
 }
 
-ul.layer_panel li span{
-	float:left;	
+ul.layer_panel li:FIRST-CHILD{
+	padding-left: 43px;
+	color:black;
+	border-radius: 2px;
 }
+
+/* ul.layer_panel li span{ */
+/* 	float:left;	 */
+/* } */
+
+ul.layer_panel li input[type="checkbox"]{
+	position: relative;
+	top: 3px;
+	margin-left: 0px;
+	margin-right: 20px;
+}
+
 ul.layer_panel li a{
 	float: left;
 	margin-right: 8px;
