@@ -54,16 +54,30 @@ function GroupLayer(opts){
 		for (var i=0;i<l.json.length;i++){
 			// get the info of the point to draw
 			var p = l.json[i];
-			var multFactor = 1;
 			// calculate the size based on the value of the point and the mulFactor
-			var size = p.value * multFactor;
+			var size = Math.abs(p.value) * l.valueFactor;
 			// create the point on leaflet
+			if(l.type==0) color = l.color1;
+			if(l.type==1)
+			{
+				if(p.value>=0)
+				{
+					var color = l.color1;
+				}
+				else
+				{
+					var color = l.color2;
+				}
+			}
+
 			var myIcon = L.divIcon({		
 				className: 'symbol-marker',
 				iconSize: new L.Point(size, size),
-				html: '<div style="height:'+size+';width:'+size+';background-color:'+l.color+'"></div>'
+				html: '<div style="height:'+size+';width:'+size+';background-color:'+color+'"></div>'
 			});
+
 			markers.push(new L.marker([p.point.lat, p.point.lng],{icon: myIcon}));
+
 		}
 		if (l.points){
 			// layer not visible, let's remove it from the map
@@ -77,7 +91,7 @@ function GroupLayer(opts){
 		
 	this.__refreshLayerClosure = function (caller,l,bbox){
 		$.ajax({
-			url: base_url + "erosion/points/"+l.id+"/"+caller.bbox,
+			url: base_url + "erosion/points/"+l.source+"/"+caller.bbox+"/"+l.baseRetriever,
 			dataType: "json",
 			success:function(json){
 				// store the layer in the closure GroupLayer.layers
@@ -110,8 +124,8 @@ function GroupLayer(opts){
 	};
 	
 	this.__refreshBBOX = function(){
-		this.bbox = this.map.getBounds().getSouthWest().lng + "|" + this.map.getBounds().getSouthWest().lat + "|"
-					+ this.map.getBounds().getNorthEast().lng + "|" + this.map.getBounds().getNorthEast().lat;
+		this.bbox = this.map.getBounds().getSouthWest().lng + "/" + this.map.getBounds().getSouthWest().lat + "/"
+					+ this.map.getBounds().getNorthEast().lng + "/" + this.map.getBounds().getNorthEast().lat;
 	};
 	/****************************************/
 	/********** MEMBERS  ********************/
@@ -159,10 +173,15 @@ function GroupLayer(opts){
 		this.layers.push({
 			id: l.id,
 			json: 	null,
-			visible:l.visible,
-			priority:l.priority,
-			title:l.title,
-			color: l.color,
+			visible: l.visible,
+			priority: l.priority,
+			type: l.type,
+			baseRetriever: l.baseRetriever,
+			valueFactor: l.valueFactor,
+			title: l.title,
+			source: l.source,
+			color1: l.color1,
+			color2: l.color2,
 			points: null
 		});
 	}
