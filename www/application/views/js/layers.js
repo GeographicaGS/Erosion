@@ -104,7 +104,7 @@ var layers = [
 
 /* Configure context layers here, it should be a WMS service */
 var ctxLayers = [
-    {
+  /*  {
     	id: 1,
     	title: 'PNOA', 
     	server: 'http://www.idee.es/wms/PNOA/PNOA',
@@ -127,5 +127,5 @@ var ctxLayers = [
     	layers: 'osm_auto:all',
     	visible: false,
     	priority: 3
-    }
+    }*/
 ];

@@ -20,10 +20,13 @@ Split = {
 			  center: startingCenter,
 			  zoom: this.iniZoom,
 			  fadeAnimation: false,
-			  crs: L.CRS.EPSG4326,
+			//  crs: L.CRS.EPSG4326,
 			  zoomControl: false,
 			  attributionControl: false
 		});
+		
+		
+		
 		
 		// add zoom control to map left
 		var zoomControl = new L.Control.Zoom({
@@ -55,10 +58,12 @@ Split = {
 			  center: startingCenter,
 			  zoom: this.iniZoom,			  
 			  fadeAnimation: false,
-			  crs: L.CRS.EPSG4326,
+			  //crs: L.CRS.EPSG4326,
 			  zoomControl: false,
 			  attributionControl: false
 		});
+		
+		
 		// add zoom control to left map
 		zoomControl = new L.Control.Zoom({
 			position : 'bottomleft'

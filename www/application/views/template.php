@@ -16,12 +16,14 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5")?>"/>
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7")?>"/>
 		
-		
+<script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
+
 <link rel="stylesheet" type="text/css" href="<?= get_css("layout.css")?>" />
 <link rel="stylesheet" type="text/css" href="<?= get_css("styles.css")?>" />
 
 <script type="text/javascript" src="<?= get_js("lib/jquery-1.8.2.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-0.5/leaflet.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/Google.js")?>"></script>
 <!--[if lt IE 9]>
 <script src="<?= get_js("lib/html5shiv.js")?>"></script>
 <![endif]-->
@@ -60,7 +62,9 @@
 		resize();
 		$("img.sync").click(Split.sync);
 		Split.initialize();
-		
+		setTimeout(function(){
+			resize();
+		},300);
 		
     });
 	
@@ -69,7 +73,7 @@
 		Split.__mapLeft.getMap().invalidateSize();		
 		Split.__mapRight.getMap().invalidateSize();		
 	})
-	var base_url = "<?= base_url()?>";
+	var base_url = "<?= base_url("/")?>";
 </script>
 </head>
 

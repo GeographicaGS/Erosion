@@ -139,30 +139,44 @@ function GroupLayer(opts){
 	this.__active = true;	
 	
 	//initialize context layers
-	this.ctxLayers = [];
-	var controlCtxLayers = {};
-	for(x in opts.ctxLayers){
-		var ctx = opts.ctxLayers[x];
-		this.ctxLayers[x] = new L.tileLayer.wms(ctx.server, {
-		    layers: ctx.layers,
-		    format: 'image/png',
-		    transparent: true	    
-		});
-		controlCtxLayers[ctx.title] = this.ctxLayers[x];
-		
-		// add the layer group to map
-		if (ctx.visible){
-			//this.map.addLayer(this.ctxLayers[x]);	
-			this.ctxLayers[x].addTo(this.map);
-		}			
-	}
+	//this.ctxLayers = [];
+	//var controlCtxLayers = {};
+	//for(x in opts.ctxLayers){
+	//	var ctx = opts.ctxLayers[x];
+	//	this.ctxLayers[x] = new L.tileLayer.wms(ctx.server, {
+	//	    layers: ctx.layers,
+	//	    format: 'image/png',
+	//	    transparent: true	    
+	//	});
+	//	controlCtxLayers[ctx.title] = this.ctxLayers[x];
+	//	
+	//	// add the layer group to map
+	//	if (ctx.visible){
+	//		//this.map.addLayer(this.ctxLayers[x]);	
+	//		this.ctxLayers[x].addTo(this.map);
+	//	}			
+	//}
+	//
+	//// create a layer group with all the context layers
+	//this.ctxLayerGroup = new L.layerGroup(this.ctxLayers);
+	//
 	
-	// create a layer group with all the context layers
-	this.ctxLayerGroup = new L.layerGroup(this.ctxLayers);
+	
+	var gSatellite = new L.Google('SATELLITE'),
+		gTerrain = new L.Google('TERRAIN')
+		gRoad = new L.Google('ROADMAP');
+	this.map.addLayer(gSatellite);
 	
 	var position = this.father == Split.LEFT ?  'topleft' : 'topright';
-		
-	L.control.layers(controlCtxLayers,null,{position:position}).addTo(this.map);
+	//	
+	L.control.layers(
+					 {'Google satélite':gSatellite,
+					 'Google relieve': gTerrain,
+					 'Google callejero' : gRoad
+					 }
+					 ,null,{position:position}).addTo(this.map);
+	
+	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));
 	
 	//initializate layers
 	this.layers = new Array();
@@ -189,8 +203,6 @@ function GroupLayer(opts){
 	}
 	
 	this.refreshLayers();
-	
-	
 	
 	
 }
