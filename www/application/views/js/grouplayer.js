@@ -167,12 +167,15 @@ function GroupLayer(opts){
 		gRoad = new L.Google('ROADMAP');
 	this.map.addLayer(gSatellite);
 	
+	var orto56 = L.tileLayer('http://www.erosion.geographica.gs/tileado/00-orto56-result/{z}/{x}/{y}.png',{tms: true});
 	var position = this.father == Split.LEFT ?  'topleft' : 'topright';
 	//	
 	L.control.layers(
 					 {'Google satélite':gSatellite,
 					 'Google relieve': gTerrain,
-					 'Google callejero' : gRoad
+					 'Google callejero' : gRoad,
+					 'Orto 56': orto56
+					 
 					 }
 					 ,null,{position:position}).addTo(this.map);
 	
