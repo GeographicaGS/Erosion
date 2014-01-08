@@ -169,7 +169,25 @@ function GroupLayer(opts){
 	
 	var orto56 = L.tileLayer('http://www.erosion.geographica.gs/tileado/00-orto56-result/{z}/{x}/{y}.png',{tms: true});
 	var position = this.father == Split.LEFT ?  'topleft' : 'topright';
-	//	
+	
+	var din_linea09 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
+		layers: 'linea_09',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	var din_linea77 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
+		layers: 'linea_77',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	var din_linea56 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
+		layers: 'linea_77',
+		format: 'image/png',
+		transparent: true,
+	});
+	
 	L.control.layers(
 					 {'Google satélite':gSatellite,
 					 'Google relieve': gTerrain,
@@ -177,7 +195,12 @@ function GroupLayer(opts){
 					 'Orto 56': orto56
 					 
 					 }
-					 ,null,{position:position}).addTo(this.map);
+					 ,{
+						"Línea de costa en 2009": din_linea09,
+						"Línea de costa en 1977": din_linea77,
+						"Línea de costa en 1956": din_linea56
+						
+					 },{position:position}).addTo(this.map);
 	
 	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));
 	
