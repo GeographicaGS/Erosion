@@ -188,6 +188,74 @@ function GroupLayer(opts){
 		transparent: true,
 	});
 	
+	var din_tasa56_77 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
+		layers: 'Tasas_1956_1977',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	var din_tasa77_09 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
+		layers: 'Tasas_1977_2009',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	var din_tasa56_09 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
+		layers: 'Tasas_1956_2009',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	var cvi1 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
+		layers: 'CVI_CoastalVulnerabilityIndex',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	var cvi2 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
+		layers: 'CVI_geomorfologia',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	
+	var cvi3 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
+		layers: 'CVI_topografia',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	var cvi4 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
+		layers: 'CVI_nivel_mar',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	var cvi5 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
+		layers: 'CVI_oleaje_significante',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	var cvi6 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
+		layers: 'CVI_rango_mareal',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	var cvi7 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
+		layers: 'CVI_erosion',
+		format: 'image/png',
+		transparent: true,
+	});
+	
+	
+	var ufis = L.tileLayer.wms("http://193.147.172.37/cgi-bin/unidades_fisiograficas", {
+		layers: 'unidades_fisiograficas_nv5',
+		format: 'image/png',
+		transparent: true,
+	});
+	
 	L.control.layers(
 					 {'Google satélite':gSatellite,
 					 'Google relieve': gTerrain,
@@ -198,8 +266,18 @@ function GroupLayer(opts){
 					 ,{
 						"Línea de costa en 2009": din_linea09,
 						"Línea de costa en 1977": din_linea77,
-						"Línea de costa en 1956": din_linea56
-						
+						"Línea de costa en 1956": din_linea56,
+							"Tasa 56 - 77": din_tasa56_77,
+						"Tasa 77 - 09": din_tasa77_09,
+						"Tasa 56 - 09": din_tasa56_09,
+						"CVI":cvi1,
+						"Geomorfología":cvi2,
+						"Topografía":cvi3,
+						"Erosión":cvi7,
+						"Nivel del mal":cvi4,
+						"Oleaje":cvi5,
+						"Marea":cvi6,
+						"Unidades fisiográficas": ufis
 					 },{position:position}).addTo(this.map);
 	
 	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));
