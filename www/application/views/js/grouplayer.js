@@ -183,7 +183,7 @@ function GroupLayer(opts){
 	});
 	
 	var din_linea56 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
-		layers: 'linea_77',
+		layers: 'linea_56',
 		format: 'image/png',
 		transparent: true,
 	});
