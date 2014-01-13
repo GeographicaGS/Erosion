@@ -256,6 +256,12 @@ function GroupLayer(opts){
 		transparent: true,
 	});
 	
+	var ufis2 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/unidades_fisiograficas", {
+		layers: 'unidades_fisiograficas_nv5',
+		format: 'image/png',
+		transparent: true,
+		opacity : 0.5
+	});
 	L.control.layers(
 					 {'Google satélite':gSatellite,
 					 'Google relieve': gTerrain,
@@ -277,7 +283,8 @@ function GroupLayer(opts){
 						"Nivel del mal":cvi4,
 						"Oleaje":cvi5,
 						"Marea":cvi6,
-						"Unidades fisiográficas": ufis
+						"Unidades fisiográficas": ufis,
+						"Unidades fisiográficas (Transparencia 50%)": ufis2
 					 },{position:position}).addTo(this.map);
 	
 	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));
