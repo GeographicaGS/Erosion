@@ -19,7 +19,7 @@
 <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
 
 <link rel="stylesheet" type="text/css" href="<?= get_css("layout.css")?>" />
-<link rel="stylesheet" type="text/css" href="<?= get_css("styles.css")?>" />
+<link rel="stylesheet" type="text/css" href="<?= get_css("styles.css")?>?v1.0" />
 
 <script type="text/javascript" src="<?= get_js("lib/jquery-1.8.2.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-0.5/leaflet.js")?>"></script>
@@ -108,8 +108,9 @@
 	</nav>
 	<p class="fright size10 credits">
 		<span class="bold">Proyecto de I+D+i</span><br/>
-		Espacialización y difusión web de variables demográficas, turísticas y ambientales para<br/>
-		la evaluación de la vulnerabilidad asociada a la erosión de playas en la costa andaluza
+		Espacialización y difusión web de variables demográficas, <br/>
+		turísticas y ambientales para la evaluación de la vulnerabilidad<br/>
+		asociada a la erosión de playas en la costa andaluza.
 	</p>
 	
 	<div class="clear"></div>
