@@ -262,11 +262,94 @@ function GroupLayer(opts){
 		transparent: true,
 		opacity : 0.5
 	});
+	
+	var matrixIds3857= new Array(22);
+    for (var i= 0; i<22; i++) {
+        matrixIds3857[i]= {
+            identifier    : "" + i,
+            topLeftCorner : new L.LatLng(20037508,-20037508)
+        };
+    }
+
+
+	//var wmts = new L.TileLayer.WMTS("http://wxs.ign.fr/6081235680374936929/geoportail/wmts",           {
+	//	layer: 'GEOGRAPHICALGRIDSYSTEMS.MAPS',
+	//	style: 'normal',
+	//	tilematrixSet: "PM",
+	//	matrixIds: matrixIds3857,
+	//	format: 'image/jpeg'
+	//});
+	
+	var matrixIds = new Array(26);
+    for (var i=0; i<26; ++i) {
+        //matrixIds[i] = "EPSG:900913:" + i;
+		matrixIds[i]= {
+            identifier    : "EPSG:900913:" + i,
+            topLeftCorner : new L.LatLng(20037508,-20037508)
+        };
+		
+    }
+
+//    var MTNbase = new OpenLayers.Layer.WMTS({
+//        name: "Mapa base de Espa&#241a",
+//        url: "http://www.ign.es/wmts/ign-base",
+//		layer: "IGNBaseTodo",
+//        matrixSet: "EPSG:900913",
+//        matrixIds: matrixIds,
+//        style: "default",	
+//        format: "image/png",
+//        opacity: 1,
+//        isBaseLayer: true,
+//		visibility: false
+//    });
+	
+	var wmts = new L.TileLayer.WMTS("http://www.ign.es/wmts/ign-base",           {
+		layer: 'IGNBaseTodo',
+		style: 'default',
+		tilematrixSet: "EPSG:900913",
+		matrixIds: matrixIds,
+		format: 'image/png'
+	});
+	
+	var wmts2 = new L.TileLayer.WMTS("http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",           {
+		layer: 'litoral:CVI_wmts',
+		style: 'default',
+		tilematrixSet: "EPSG:900913",
+		matrixIds: matrixIds,
+		format: 'image/png'
+	});
+	
+	
+	
+//	   var wmts = new OpenLayers.Layer.WMTS({
+//        name: "Medford Buildings",
+//        url: "http://v2.suite.opengeo.org/geoserver/gwc/service/wmts/",
+//        layer: "medford:buildings",
+//        matrixSet: "EPSG:900913",
+//        matrixIds: matrixIds,
+//        format: "image/png",
+//        style: "_null",
+//        opacity: 0.7,
+//        isBaseLayer: false
+//    });
+
+//var ign = new L.TileLayer.WMTS(gGEOPORTALRIGHTSMANAGEMENT[gGEOPORTALRIGHTSMANAGEMENT.apiKey].resources['GEOGRAPHICALGRIDSYSTEMS.MAPS:WMTS'].url,
+//                {
+//                    layer: 'GEOGRAPHICALGRIDSYSTEMS.MAPS',
+//                    style: 'normal',
+//                    tilematrixSet: "PM",
+//                    matrixIds: matrixIds3857,
+//                    format: 'image/jpeg',
+//                    attribution: "&copy; <a href='http://www.ign.fr'>IGN</a>"
+//                }
+//    );
 	L.control.layers(
 					 {'Google satélite':gSatellite,
 					 'Google relieve': gTerrain,
 					 'Google callejero' : gRoad,
-					 'Orto 56': orto56
+					 'Orto 56': orto56,
+					 'WMTS IGN': wmts,
+					 
 					 
 					 }
 					 ,{
@@ -284,7 +367,9 @@ function GroupLayer(opts){
 						"Oleaje":cvi5,
 						"Marea":cvi6,
 						"Unidades fisiográficas": ufis,
-						"Unidades fisiográficas (Transparencia 50%)": ufis2
+						"Unidades fisiográficas (Transparencia 50%)": ufis2,
+						'WMTS IGN': wmts,
+						'CVI WMTS' : wmts2
 					 },{position:position}).addTo(this.map);
 	
 	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));

@@ -24,6 +24,7 @@
 <script type="text/javascript" src="<?= get_js("lib/jquery-1.8.2.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-0.5/leaflet.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/Google.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/leaflet-wmts.js")?>"></script>
 <!--[if lt IE 9]>
 <script src="<?= get_js("lib/html5shiv.js")?>"></script>
 <![endif]-->
@@ -41,6 +42,8 @@
 <script type="text/javascript">	
 
 	$(window).ready(function(){
+		
+		
 		$("a#info_fancybox").fancybox({
 			"hideOnContentClick" : true,
 			"overlayColor" : "#150e09",
