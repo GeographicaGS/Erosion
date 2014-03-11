@@ -102,9 +102,9 @@ Split = {
 		
 		this.__currentMasterMap = this.__mapLeft;
 		
-		this.__mapLeft.getMap().locate({setView: true, maxZoom: 16});
+		this.__mapLeft.getMap().locate({setView: false, maxZoom: 7});
 		this.__mapLeft.getMap().on('locationfound', onLocationFound);
-		this.__mapRight.getMap().locate({setView: true, maxZoom: 16});
+		this.__mapRight.getMap().locate({setView: false, maxZoom: 7});
 		this.__mapRight.getMap().on('locationfound', onLocationFound);
 		
 	},
