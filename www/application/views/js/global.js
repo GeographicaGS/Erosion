@@ -21,3 +21,7 @@ function showInfoFancybox(text) {
 function showDevMsg(){
 	showInfoFancybox("<br/><br/>Funcionalidad en desarrollo");
 }
+
+function onLocationFound(e) {
+    L.marker(e.latlng).addTo(this).bindPopup("Esta es tu posición:</br>Latitud: " +  e.latlng.lat + "<br>Longitud: " + e.latlng.lng).openPopup();
+}

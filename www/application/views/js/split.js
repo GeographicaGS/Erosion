@@ -101,6 +101,12 @@ Split = {
 		});
 		
 		this.__currentMasterMap = this.__mapLeft;
+		
+		this.__mapLeft.getMap().locate({setView: true, maxZoom: 16});
+		this.__mapLeft.getMap().on('locationfound', onLocationFound);
+		this.__mapRight.getMap().locate({setView: true, maxZoom: 16});
+		this.__mapRight.getMap().on('locationfound', onLocationFound);
+		
 	},
 	/* Split handler*/
 	mapMover: function(a,b) {		  
