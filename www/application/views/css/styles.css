@@ -221,6 +221,7 @@ ul.layer_panel li{
 	position: relative;
 	bottom: 70px;
 	background: url("../img/border_img.gif") repeat-y 8px white;
+	cursor:move;
 }
 
 ul.layer_panel li:FIRST-CHILD{
