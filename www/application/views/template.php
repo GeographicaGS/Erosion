@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/jquery.fancybox.css?v=2.1.3")?>"/>
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5")?>"/>
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7")?>"/>
+<link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/ui-lightness/jquery-ui-1.10.3.custom.min.css")?>"/>
 		
 <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
 
@@ -25,6 +26,8 @@
 <script type="text/javascript" src="<?= get_js("lib/leaflet-0.5/leaflet.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/Google.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-wmts.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/jquery-ui-1.10.3.custom.min.js")?>"></script>
+
 <!--[if lt IE 9]>
 <script src="<?= get_js("lib/html5shiv.js")?>"></script>
 <![endif]-->
@@ -32,6 +35,10 @@
 <script type="text/javascript" src="<?= get_js("grouplayer.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("split.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("layers.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("GSLayerWMS.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("GSLayerWMTS.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("GSLayerTMS.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("categories.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("global.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("lib/fancybox/jquery.fancybox.pack.js?v=2.1.3")?>"></script>
@@ -102,10 +109,10 @@
 		<div class="clear"></div>
 	</div>	
 	<nav class="fleft">
-		<a href="" target="_blank">
+		<a href="javascript:navigate()" target="_blank">
 			EL PROYECTO
 		</a>
-		<a href="javascript:showDevMsg()">
+		<a href="javascript:navigate()">
 			CATÁLOGO
 		</a>
 	</nav>
@@ -119,46 +126,62 @@
 	<div class="clear"></div>
 </header>
 
-<div id="container" >
-	
-	<div id="panel_left" class="panel">
-	
-		<div id="map_left"></div>
-	
-		<div id="histogram_left" style="display:none"></div>
+<div id="container" style="overflow: auto;">
+	<div id="proyecto">
+		<div id="panel_left" class="panel">
 		
-		<div class="split_ctrl">			
-			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_left.png")?>" width=15px height=16px title="Desincronizar mapas" />						
-			<a href="javascript:Split.togglePanel(Split.LEFT)">
-				<img class="toggle" src="<?= get_img("MED_icon_split_left.png")?>" width=28px height=29px title="Ocultar mapa de la izquierda"/>
-			</a>
+			<div id="map_left"></div>
+		
+			<div id="histogram_left" style="display:none"></div>
+			
+			<div class="split_ctrl">			
+				<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_left.png")?>" width=15px height=16px title="Desincronizar mapas" />						
+				<a href="javascript:Split.togglePanel(Split.LEFT)">
+					<img class="toggle" src="<?= get_img("MED_icon_split_left.png")?>" width=28px height=29px title="Ocultar mapa de la izquierda"/>
+				</a>
+			</div>
+		
+			<a id="capaLeft" href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Capas</a>
+			
+			<ul class="layer_panel close"></ul>
+		
 		</div>
-	
-		<a id="capaLeft" href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Capas</a>
 		
-		<ul class="layer_panel close"></ul>
-	
+		<div id="sep" class="sep" ></div>
+		
+		<div id="panel_right" class="panel">
+		
+			<div id="map_right"></div>
+		
+			<div id="histogram_right" style="display:none"></div>
+		
+			<div class="split_ctrl">			
+				<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right")?>" width=15px height=16px title="Desincronizar mapas"/>			
+				<a href="javascript:Split.togglePanel(Split.RIGHT)">
+					<img class="toggle" src="<?= get_img("MED_icon_split_right.png")?>" width=28px height=29px title="Ocultar mapa de la derecha"/>
+				</a>
+			</div>
+		
+			<a id="capaRight" href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
+			
+			<ul class="layer_panel close"></ul>
+		
+		</div>
 	</div>
-	
-	<div id="sep" class="sep" ></div>
-	
-	<div id="panel_right" class="panel">
-	
-		<div id="map_right"></div>
-	
-		<div id="histogram_right" style="display:none"></div>
-	
-		<div class="split_ctrl">			
-			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right")?>" width=15px height=16px title="Desincronizar mapas"/>			
-			<a href="javascript:Split.togglePanel(Split.RIGHT)">
-				<img class="toggle" src="<?= get_img("MED_icon_split_right.png")?>" width=28px height=29px title="Ocultar mapa de la derecha"/>
-			</a>
+	<div id="catalogo" style="display: none;">
+		<div class="fleft mr20">
+			<div class="catalogo size18">Catálogo</div>
+			<p class="mt">Lorem ipsum dolor sit amet, 
+				consectetur adipiscing elit. 
+				Nam faucibus velit iaculis 
+				faucibus placerat. Morbi et 
+				porttitor lorem, id rutrum est. 
+				Morbi sed dolor ac nunc 
+				euismod tempus.
+			</p>
+			<div class="mt20"><a class="catalogo size13"  style="text-decoration: underline;" href="javascript:navigate()">Volver al mapa</a></div>
 		</div>
-	
-		<a id="capaRight" href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
-		
-		<ul class="layer_panel close"></ul>
-	
+		<div id="categories"></div>
 	</div>
 	<div class="clear"></div>
 </div>
