@@ -17,23 +17,129 @@ function GroupLayer(opts){
 	}
 	
 	this.getHTMLLayersPanel = function(){
-		var html = "<li>Erosión en deltas mediterráneos</li>";
+//		var html = "<li>Erosión en deltas mediterráneos</li>";
+		var html = "";
 		
 		for(x in this.layers){
 			var l =  this.layers[x];
 			var lattr = l.visible ? "checked" : ""; 
 			var lstyle = l.visible ? "color:black" : "";
 					
-			html += "<li>" +	
+			html += "<li title='" + l.title + "'>" +	
 			
 				"	<input type='checkbox' class='toogleLayer' " +
 				"			id_layer="+x+" father="+this.father+ " " + lattr +">" +
-			
-				"<span style='"+lstyle +"'>"+l.title+"</span>"+
+				
+//					"<img class='remove' src='application/views/img/MED_icon_papelera_panel.png' title='Opacity 100 %' id_layer='" + x + "'>"+
+					"<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>"+
+					"<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Opacity 100 %' id_layer='" + x + "'>"+
+					"<span>"+l.title+"</span>"+
+					"<div class='opacity_panel' style='display: none;'>" +
+						"<span class='opacity_label'>Opacity 100 %</span>" +
+						"<div class='slider'></div>"
+					"</div>"
 				"</li>";
 			
 		}
 		return html;		
+	};
+	
+	this.refreshLayerPanel = function($panel){
+		$panel.html(this.getHTMLLayersPanel());
+		var self = this;
+		
+		$panel.find(".slider").slider({
+			max: 100,
+			min: 0,
+			value: 100,
+			stop: function( event, ui ){
+				$(ui.handle).closest(".opacity_panel").find(".opacity_label").html("Opacity "+ ui.value + " %");
+				var id_layer = $(ui.handle).closest(".opacity_panel").siblings("input").attr("id_layer");
+				$(ui.handle).closest(".opacity_panel").siblings("img").attr("title","Opacity " + ui.value +" %");
+				var l = self.layers[id_layer];
+				l.layer.setOpacity(ui.value/100);
+			}
+		});
+		
+		$panel.sortable({
+//			out: function(event, ui) {
+//				var leftGap = 70;					
+//				if ((ui.position.left + leftGap) < 0 ){
+//					var id_layer = $(ui.item).find("input").attr("id_layer");
+//					obj.removeLayer(id_layer);
+//				}
+//			},
+			start: function( event, ui ) {
+				$(ui.item).css("background-color","#f2f7fb");
+			},
+			stop: function( event, ui ) {
+				$(ui.item).css("background-color","#fff");
+				var id_layer = $(ui.item).find("input").attr("id_layer");
+//				var idx = obj.findLayerIdxById(id_layer);
+				var l = self.layers[id_layer];
+				self.layers.splice(id_layer,1);
+				var new_idx = $(ui.item).index();
+				self.layers.splice(new_idx,0,l);
+				
+				//change priority of all layer with bigger priority
+				for(var i=0;i<self.layers.length;i++){
+					self.layers[i].layer.setZIndex(self.layers.length-i);
+				}
+				var checks = $(ui.item).parent().find("input[type='checkbox']");
+				for(var i=0; i<checks.length; i++){
+					$(checks[i]).attr("id_layer",i);
+				}
+			}
+		});
+		
+		$panel.find("li > img.opacity").click(function(){
+			var $opacity_panel = $(this).siblings(".opacity_panel");
+			var $li = $(this).parent(); 
+			if ($opacity_panel.is(":visible")){
+				$li.height($li.height() - $opacity_panel.outerHeight());
+				$opacity_panel.hide();
+				$li.css("border-bottom","1px solid #ccc");
+			}
+			else{
+				$li.height($li.height() + $opacity_panel.outerHeight());
+				$opacity_panel.show();
+				$li.css("border-bottom","none");
+			}
+			
+		});
+		
+		$panel.find("li > img.legend").click(function(){
+			var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
+			var $container = $(self.map.getContainer()).parent();
+			var $el = self.__getLegendContainer();
+			
+			var legendUrl = self.layers[id_layer].url + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+			+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
+
+
+			$el.find(".co_legend").html("<img src='" + legendUrl +"'/>");
+			
+			self.__addLegendDOM($container,$el);
+		});
+		
+//		$panel.find("li > img.remove").click(function(){
+//			var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
+//			self.layers[id_layer].setVisibility(false, self.map, null);
+//			self.layers.splice(id_layer,1);
+//			
+//			for(var i=0;i<self.layers.length;i++){
+//				self.layers[i].layer.setZIndex(self.layers.length-i);
+//			}
+//			
+//			var checks = $(this).parent().parent();
+//			$(this).parent().remove();
+//			var checks = checks.find("input[type='checkbox']");
+//			for(var i=0; i<checks.length; i++){
+//				$(checks[i]).attr("id_layer",i);
+//			}
+//			
+//		});
+		
 	};
 	
 	/* Toogle a given layer*/
@@ -41,7 +147,7 @@ function GroupLayer(opts){
 		// get the layer
 		var l =  this.layers[id_layer];
 		l.visible = !l.visible;
-		this.__refreshLayer(l);		
+		this.__refreshLayer(l);
 	};
 		
 	this.setHistogram = function(id_layer){
@@ -114,15 +220,20 @@ function GroupLayer(opts){
 		// refresh BBOX
 		this.__refreshBBOX();
 		
+//		if (l.visible){
+//			this.__refreshLayerClosure(this,l);
+//		}
+//		else{
+//			if (l.points){
+//				// layer not visible, let's remove it from the map
+//				l.points.clearLayers();
+//			}
+//		}	
 		if (l.visible){
-			this.__refreshLayerClosure(this,l);
+			l.setVisibility(true, this.map);
+		}else{
+			l.setVisibility(false, this.map);
 		}
-		else{
-			if (l.points){
-				// layer not visible, let's remove it from the map
-				l.points.clearLayers();
-			}
-		}	
 	};
 	
 	this.__refreshBBOX = function(){
@@ -400,5 +511,47 @@ function GroupLayer(opts){
 	
 	this.refreshLayers();
 	
+	
+	this.addLayer = function(gsLayer){
+		this.layers.unshift(gsLayer);
+		gsLayer.setVisibility(true, this.map, this.layers.length);
+	};
+	
+	this.removeLayer = function(title, tipo){
+		for(var i=0; i<this.layers.length; i++){
+			if(this.layers[i].title == title && this.layers[i].tipo == tipo){
+				this.layers[i].setVisibility(false, this.map, null);
+				this.layers.splice(i,1);
+				break;
+			}
+		}
+	};
+	
+	this.__getLegendContainer = function(){
+		return $("<div class='flotable_legend ui-widget ui-widget-content' >"
+							+	"<h4>" 
+							+		"<img src='application/views/img/MED_icon_leyenda.png' />"
+							+		"<p class='title'></p>"
+							+		"<img class='close' src='application/views/img/MED_icon_delete.png' />"
+							+	"</h4>"
+							+	"<div class='co_legend'>"							
+							+	"</div>"			
+							+	"</div>");
+					
+					
+	};
+	
+	this.__addLegendDOM= function($container,$el){
+		$container.prepend($el);
+	
+		$el.css("left",($container.width() / 2 ) - $el.width());
+		$el.css("top",($container.height() / 2 ) - ($el.height() / 2));
+					
+		$el.find(".close").click(function(){
+			$el.remove();
+		});
+		
+		$el.draggable();
+	};
 	
 }

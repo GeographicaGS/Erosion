@@ -101,6 +101,14 @@ Split = {
 		});
 		
 		this.__currentMasterMap = this.__mapLeft;
+		
+		this.__mapLeft.getMap().locate({setView: false, maxZoom: 7});
+		this.__mapLeft.getMap().on('locationfound', onLocationFound);
+		this.__mapRight.getMap().locate({setView: false, maxZoom: 7});
+		this.__mapRight.getMap().on('locationfound', onLocationFound);
+		
+		drawCategories();
+		
 	},
 	/* Split handler*/
 	mapMover: function(a,b) {		  
@@ -207,12 +215,12 @@ Split = {
 			var $panel = $("#panel_left .layer_panel");
 			if ($panel.hasClass("close")){
 				
-				$("#capaLeft").css("width","210px");
+				$("#capaLeft").css("width","319px");
 				$("#capaLeft").css("border-top-left-radius","0px");
 				$("#capaLeft").css("border-top","2px solid #888");
 				
 				$panel.removeClass("close");
-				$panel.html( this.__mapLeft.getHTMLLayersPanel());
+				this.__mapLeft.refreshLayerPanel($panel);
 				$("#panel_left .layer_ctrl").addClass("open");
 			}
 			else{
@@ -231,12 +239,12 @@ Split = {
 			
 			if ($panel.hasClass("close")){
 				
-				$("#capaRight").css("width","210px");
+				$("#capaRight").css("width","319px");
 				$("#capaRight").css("border-top-left-radius","0px");
 				$("#capaRight").css("border-top","2px solid #888");
 				
 				$panel.removeClass("close");
-				$panel.html( this.__mapRight.getHTMLLayersPanel());
+				this.__mapRight.refreshLayerPanel($panel);
 				$("#panel_right .layer_ctrl").addClass("open");
 			}
 			else{
@@ -253,23 +261,24 @@ Split = {
 		
 		
 		
-		$(".toogleLayer").click(function(){
+		$panel.find(".toogleLayer").click(function(){
 			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"));
 		});
-		
 		
 	},
 	__drawLayerInterface: function(el){		
 		if (el==this.LEFT){
 			var $panel = $("#panel_left .layer_panel");
-			$panel.html( this.__mapLeft.getHTMLLayersPanel());			
+//			$panel.html( this.__mapLeft.getHTMLLayersPanel());
+			this.__mapLeft.refreshLayerPanel($panel);
 		}
 		else if (el==this.RIGHT){
 			var $panel = $("#panel_right .layer_panel");
-			$panel.html( this.__mapRight.getHTMLLayersPanel());
+//			$panel.html( this.__mapRight.getHTMLLayersPanel());
+			this.__mapRight.refreshLayerPanel($panel);
 		}
 		
-		$(".toogleLayer").click(function(){
+		$panel.find(".toogleLayer").click(function(){
 			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"));
 
 		})
@@ -283,7 +292,7 @@ Split = {
 		else if (el==this.RIGHT){
 			this.__mapRight.toogleLayer(id_layer);			
 		}
-		this.__drawLayerInterface(el);
+//		this.__drawLayerInterface(el);
 	},
 	setHistogram: function(id_layer,el){
 		if (el==this.LEFT){
@@ -293,6 +302,47 @@ Split = {
 			this.__mapRight.setHistogram(id_layer);
 		}
 		this.__drawLayerInterface(el);
+	},
+	
+	
+	
+	addLayer: function(capa, tipo) {
+		var gsLayerLeft;
+		var gsLayerRight;
+		
+		if(tipo == "wms"){
+			gsLayerLeft = new GSLayerWMS(capa.title, capa[tipo].server, capa[tipo].name);
+			gsLayerRight = new GSLayerWMS(capa.title, capa[tipo].server, capa[tipo].name);
+			
+		}else if(tipo == "wmts"){
+			gsLayerLeft = new GSLayerWMTS(capa.title, capa[tipo].server, capa[tipo].name);
+			gsLayerRight = new GSLayerWMTS(capa.title, capa[tipo].server, capa[tipo].name);
+		
+		}else{
+			gsLayerLeft = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name);
+			gsLayerRight = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name);
+		}
+		this.__mapLeft.addLayer(gsLayerLeft);
+		this.__mapRight.addLayer(gsLayerRight);
+		
+		if(!$("#panel_right .layer_panel").hasClass("close")){
+			this.toggleLayersInterface(this.RIGHT);
+		}
+		if(!$("#panel_left .layer_panel").hasClass("close")){
+			this.toggleLayersInterface(this.LEFT);
+		}
+	},
+	
+	removeLayer: function(title, tipo) {
+		this.__mapLeft.removeLayer(title,tipo);
+		this.__mapRight.removeLayer(title,tipo);
+		
+		if(!$("#panel_right .layer_panel").hasClass("close")){
+			this.toggleLayersInterface(this.RIGHT);
+		}
+		if(!$("#panel_left .layer_panel").hasClass("close")){
+			this.toggleLayersInterface(this.LEFT);
+		}
 	}
 	
 	
