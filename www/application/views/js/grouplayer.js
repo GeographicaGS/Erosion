@@ -30,7 +30,7 @@ function GroupLayer(opts){
 				"	<input type='checkbox' class='toogleLayer' " +
 				"			id_layer="+x+" father="+this.father+ " " + lattr +">" +
 				
-//					"<img class='remove' src='application/views/img/MED_icon_papelera_panel.png' title='Opacity 100 %' id_layer='" + x + "'>"+
+					"<img class='remove' src='application/views/img/MED_icon_papelera_panel.png' title='Opacity 100 %' id_layer='" + x + "'>"+
 					"<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>"+
 					"<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Opacity 100 %' id_layer='" + x + "'>"+
 					"<span>"+l.title+"</span>"+
@@ -122,23 +122,23 @@ function GroupLayer(opts){
 			self.__addLegendDOM($container,$el);
 		});
 		
-//		$panel.find("li > img.remove").click(function(){
-//			var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
-//			self.layers[id_layer].setVisibility(false, self.map, null);
-//			self.layers.splice(id_layer,1);
-//			
-//			for(var i=0;i<self.layers.length;i++){
-//				self.layers[i].layer.setZIndex(self.layers.length-i);
-//			}
-//			
-//			var checks = $(this).parent().parent();
-//			$(this).parent().remove();
-//			var checks = checks.find("input[type='checkbox']");
-//			for(var i=0; i<checks.length; i++){
-//				$(checks[i]).attr("id_layer",i);
-//			}
-//			
-//		});
+		$panel.find("li > img.remove").click(function(){
+			var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
+			self.layers[id_layer].setVisibility(false, self.map, null);
+			self.layers.splice(id_layer,1);
+			
+			for(var i=0;i<self.layers.length;i++){
+				self.layers[i].layer.setZIndex(self.layers.length-i);
+			}
+			
+			var checks = $(this).parent().parent();
+			$(this).parent().remove();
+			var checks = checks.find("input[type='checkbox']");
+			for(var i=0; i<checks.length; i++){
+				$(checks[i]).attr("id_layer",i);
+			}
+			
+		});
 		
 	};
 	

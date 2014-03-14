@@ -555,12 +555,12 @@ function drawCategories() {
 		tipo = $(this).parent().attr("tipo");
 		
 		if(capa[tipo].visible){
-			desColoreaEtiquetas(this);
+//			desColoreaEtiquetas(this);
 			capa[tipo].visible = false;
 			Split.removeLayer(capa.title, tipo);
 		
 		}else{
-			coloreaEtiquetas(this);
+//			coloreaEtiquetas(this);
 			capa[tipo].visible = true;
 			Split.addLayer(capa,tipo);			
 		}

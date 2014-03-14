@@ -286,13 +286,13 @@ ul.layer_panel > li:hover > img.remove {
 	display: inline;
 }
 
-/* ul.layer_panel > li:hover > img.opacity { */
-/* 	margin-right: 0px; */
-/* } */
+ul.layer_panel > li:hover > img.opacity {
+	margin-right: 0px;
+}
 
-/* ul.layer_panel > li > img.opacity { */
-/* 	margin-right: 31px; */
-/* } */
+ul.layer_panel > li > img.opacity {
+	margin-right: 31px;
+}
 
 .opacity_panel {
 	height: 25px;
