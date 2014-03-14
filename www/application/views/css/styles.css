@@ -294,6 +294,13 @@ ul.layer_panel > li > img.opacity {
 	margin-right: 31px;
 }
 
+.layer_panel .add_layer {
+	color: #007eb6;
+	font-size: 11px;
+	margin: 0 0 0 5px;
+	line-height: 23px;
+}
+
 .opacity_panel {
 	height: 25px;
 	background: #f1f1f1 url("../img/MED_back_opacity.png") repeat-x top left;

@@ -41,6 +41,7 @@ function GroupLayer(opts){
 				"</li>";
 			
 		}
+		html += "<li style='background: none;'><a class='add_layer' href='javascript:catalog()'>+ Add layers from <strong>Medina Catalogue</strong></a></li>"; 
 		return html;		
 	};
 	
