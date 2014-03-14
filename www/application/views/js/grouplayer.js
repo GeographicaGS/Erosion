@@ -455,32 +455,36 @@ function GroupLayer(opts){
 //                }
 //    );
 	L.control.layers(
-					 {'Google satélite':gSatellite,
-					 'Google relieve': gTerrain,
-					 'Google callejero' : gRoad,
-					 'Orto 56': orto56,
-					 'WMTS IGN': wmts,
+					 {
+//					 'Google satélite':gSatellite,
+//					 'Google relieve': gTerrain,
+//					 'Google callejero' : gRoad,
+//					 'Orto 56': orto56,
+//					 'WMTS IGN': wmts,
 					 
 					 
 					 }
 					 ,{
-						"Línea de costa en 2009": din_linea09,
-						"Línea de costa en 1977": din_linea77,
-						"Línea de costa en 1956": din_linea56,
-							"Tasa 56 - 77": din_tasa56_77,
-						"Tasa 77 - 09": din_tasa77_09,
-						"Tasa 56 - 09": din_tasa56_09,
-						"CVI":cvi1,
-						"Geomorfología":cvi2,
-						"Topografía":cvi3,
-						"Erosión":cvi7,
-						"Nivel del mal":cvi4,
-						"Oleaje":cvi5,
-						"Marea":cvi6,
-						"Unidades fisiográficas": ufis,
-						"Unidades fisiográficas (Transparencia 50%)": ufis2,
-						'WMTS IGN': wmts,
-						'CVI WMTS' : wmts2
+						 'Google satélite':gSatellite,
+						 'Google relieve': gTerrain,
+						 'Google callejero' : gRoad,
+//						"Línea de costa en 2009": din_linea09,
+//						"Línea de costa en 1977": din_linea77,
+//						"Línea de costa en 1956": din_linea56,
+//							"Tasa 56 - 77": din_tasa56_77,
+//						"Tasa 77 - 09": din_tasa77_09,
+//						"Tasa 56 - 09": din_tasa56_09,
+//						"CVI":cvi1,
+//						"Geomorfología":cvi2,
+//						"Topografía":cvi3,
+//						"Erosión":cvi7,
+//						"Nivel del mal":cvi4,
+//						"Oleaje":cvi5,
+//						"Marea":cvi6,
+//						"Unidades fisiográficas": ufis,
+//						"Unidades fisiográficas (Transparencia 50%)": ufis2,
+//						'WMTS IGN': wmts,
+//						'CVI WMTS' : wmts2
 					 },{position:position}).addTo(this.map);
 	
 	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));

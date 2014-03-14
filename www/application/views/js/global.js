@@ -23,23 +23,16 @@ function showDevMsg(){
 }
 
 function onLocationFound(e) {
-    L.marker(e.latlng).addTo(this).bindPopup("Esta es tu posición:</br>Latitud: " +  e.latlng.lat + "<br>Longitud: " + e.latlng.lng).openPopup();
+    L.marker(e.latlng).addTo(this).bindPopup("Esta es tu posición:</br>Latitud: " +  e.latlng.lat + "<br>Longitud: " + e.latlng.lng).closePopup();
 }
 
 function navigate() {
     if ($("#catalogo").is(":visible")) {
-        $("#proyecto").show();
-        $("#catalogo").hide();
-    	
-        
-//        $("#proyecto").css({"opacity":"1"});
-//    	$("#catalogo").css({"opacity":"0"});
+    	$("#catalogo").slideToggle(500);
+        $("#proyecto").slideToggle(600);
     }
     else{
-        $("#proyecto").hide();
-        $("#catalogo").show();   
-        
-//        $("#proyecto").animate({opacity: "0"}, 300)
-//        $("#catalogo").animate({opacity: "1"}, 500)
+        $("#proyecto").slideToggle(500);
+        $("#catalogo").slideToggle(600);   
     }    
 }
