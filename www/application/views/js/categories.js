@@ -554,16 +554,16 @@ function drawCategories() {
 		capa = buscarCapa($(this).parent().attr("idCapa"));
 		tipo = $(this).parent().attr("tipo");
 		
-		if(capa[tipo].visible){
+//		if(capa[tipo].visible){
 //			desColoreaEtiquetas(this);
-			capa[tipo].visible = false;
-			Split.removeLayer(capa.title, tipo);
+//			capa[tipo].visible = false;
+//			Split.removeLayer(capa.title, tipo);
 		
-		}else{
+//		}else{
 //			coloreaEtiquetas(this);
-			capa[tipo].visible = true;
+//			capa[tipo].visible = true;
 			Split.addLayer(capa,tipo);			
-		}
+//		}
 		
 //		$("#proyecto").show();
 //        $("#catalogo").hide();

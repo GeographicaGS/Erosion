@@ -518,8 +518,17 @@ function GroupLayer(opts){
 	
 	
 	this.addLayer = function(gsLayer){
-		this.layers.unshift(gsLayer);
-		gsLayer.setVisibility(true, this.map, this.layers.length);
+		var add = true;
+		
+		for(var i=0; i<this.layers.length; i++){
+			if(this.layers[i].title == gsLayer.title){
+				add = false;
+			}
+		}
+		if(add){
+			this.layers.unshift(gsLayer);
+			gsLayer.setVisibility(true, this.map, this.layers.length);
+		}
 	};
 	
 	this.removeLayer = function(title, tipo){
