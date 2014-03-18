@@ -215,17 +215,21 @@ Split = {
 			var $panel = $("#panel_left .layer_panel");
 			if ($panel.hasClass("close")){
 				
-				$("#capaLeft").css("width","319px");
+				$("#capaLeft").animate({"width":'319px'});
+//				$("#capaLeft").css("width","319px");
 				$("#capaLeft").css("border-top-left-radius","0px");
 				$("#capaLeft").css("border-top","2px solid #888");
 				
+				$panel.hide();
+				$panel.slideDown(400);
 				$panel.removeClass("close");
 				this.__mapLeft.refreshLayerPanel($panel);
 				$("#panel_left .layer_ctrl").addClass("open");
 			}
 			else{
 				
-				$("#capaLeft").css("width","Auto");
+				$("#capaLeft").animate({"width":'40px'});
+//				$("#capaLeft").css("width","Auto");
 				$("#capaLeft").css("border-top-left-radius","5px");
 				$("#capaLeft").css("border-top","1px solid #888");
 				
@@ -239,16 +243,20 @@ Split = {
 			
 			if ($panel.hasClass("close")){
 				
-				$("#capaRight").css("width","319px");
+				$("#capaRight").animate({"width":'319px'});
+//				$("#capaRight").css("width","319px");
 				$("#capaRight").css("border-top-left-radius","0px");
 				$("#capaRight").css("border-top","2px solid #888");
 				
+				$panel.hide();
+				$panel.slideDown(400);
 				$panel.removeClass("close");
 				this.__mapRight.refreshLayerPanel($panel);
 				$("#panel_right .layer_ctrl").addClass("open");
 			}
 			else{
 				
+				$("#capaRight").animate({"width":'40px'});
 				$("#capaRight").css("width","Auto");
 				$("#capaRight").css("border-top-left-radius","5px");
 				$("#capaRight").css("border-top","1px solid #888");
@@ -306,21 +314,21 @@ Split = {
 	
 	
 	
-	addLayer: function(capa, tipo) {
+	addLayer: function(capa, tipo, leyenda) {
 		var gsLayerLeft;
 		var gsLayerRight;
 		
 		if(tipo == "wms"){
-			gsLayerLeft = new GSLayerWMS(capa.title, capa[tipo].server, capa[tipo].name);
-			gsLayerRight = new GSLayerWMS(capa.title, capa[tipo].server, capa[tipo].name);
+			gsLayerLeft = new GSLayerWMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerRight = new GSLayerWMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 			
 		}else if(tipo == "wmts"){
-			gsLayerLeft = new GSLayerWMTS(capa.title, capa[tipo].server, capa[tipo].name);
-			gsLayerRight = new GSLayerWMTS(capa.title, capa[tipo].server, capa[tipo].name);
+			gsLayerLeft = new GSLayerWMTS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerRight = new GSLayerWMTS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 		
 		}else{
-			gsLayerLeft = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name);
-			gsLayerRight = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name);
+			gsLayerLeft = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerRight = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 		}
 		this.__mapLeft.addLayer(gsLayerLeft);
 		this.__mapRight.addLayer(gsLayerRight);

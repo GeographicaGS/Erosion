@@ -209,6 +209,11 @@ p.credits{
 	border-left: 0px solid;
 	border-right: 0px solid #ccc;
 	
+	transition: display .5s ease;
+  -webkit-transition: display .5s ease;
+  -moz-transition: display .5s ease;
+  -o-transition: display .5s ease;
+	
 }
 ul.layer_panel li{
 	height:25px;
@@ -297,7 +302,7 @@ ul.layer_panel > li > img.opacity {
 .layer_panel .add_layer {
 	color: #007eb6;
 	font-size: 11px;
-	margin: 0 0 0 5px;
+	margin: 0 0 0 2px;
 	line-height: 23px;
 }
 
@@ -553,4 +558,98 @@ img.tiposCapas{
 	height: 250px;
 	width: 100%;
 	border-top: 1px solid #d1d1d1;
+}
+
+.serviceFancy h1{
+	font-size: 18px;
+	color: #013e88;
+	float:left;
+	margin-left: 10px;
+}
+
+.serviceFancy h2{
+	font-size: 13px;
+	float:right;
+	color: #013e88;
+	text-decoration: underline;
+	margin-right: 10px;
+	cursor:pointer;
+}
+
+.serviceFancy select{
+	margin-top: 18px;
+	background-color: white;
+	border: 1px solid #001232;
+	width: 150px;
+	height: 35px;
+	-webkit-appearance: none;
+	padding-left: 10px;
+	color: #013e88;
+	background: url(../img/ERO_icon_flecha_select.png) no-repeat 125px;
+	float:left;
+	margin-left: 10px;
+	border-radius: 0;
+	font-size: 14px;
+}
+
+.serviceFancy input[type='text']{
+	height: 35px;
+	width: 480px;
+	border: 1px solid #001232;
+	background: url(../img/ERO_icon_link_gris.png) no-repeat 450px #ecedef;
+	color:#666666;
+	font-size: 14px;
+	margin-top: 18px;
+	margin-left: 10px;
+	padding-right: 40px;
+	padding-left: 10px;
+}
+
+.serviceFancy input[type='button']{
+	margin-left: 10px;
+	margin-top: 10px;
+	width: 640px;
+	height: 35px;
+	background-color: #013e88;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	border-radius: 2px;
+	border: none;
+	cursor: pointer;
+}
+
+.cargadoServicio{
+	background-image: url(../img/MED_spinner.gif);
+	background-repeat: no-repeat;
+	background-position: 245 5;
+}
+
+.fancybox-skin {
+    border-radius: 0;
+}
+
+.input_fancy{
+	margin-left: 170px !important;
+	margin-top: 10px !important;
+	background: #ecedef !important;	
+}
+
+.info_fancy_service{
+	color: #999999;
+	font-size: 11px;
+	text-align: center;
+	border-top: 1px solid #cccccc;
+	margin: 10px;
+	padding-top: 25px;
+}
+
+.tabla_fancy_service{
+	margin-top: -14px;
+	display: block;
+	overflow: auto;
+	max-height: 500px;
+	display: none;
+	margin-top: 10px;
 }

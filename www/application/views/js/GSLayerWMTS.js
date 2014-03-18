@@ -14,6 +14,7 @@ function GSLayerWMTS(title, url, name){
 	this.visible = true;
 	this.layer = null;
 	this.tipo = "wmts";
+	this.leyenda = leyenda;
 	
 	this.setVisibility = function(visibility, map, z_index){
 		

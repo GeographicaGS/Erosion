@@ -191,6 +191,29 @@
 	<div id="info_fancy_box_data"></div>
 </div>
 
+<div style="display: none" id="service_fancy_box_data">
+	<div class="serviceFancy">
+		<h1>Añadir servicio externo</h1>
+		<h2>Cerrar</h2>
+		<div class="clear"></div>
+		<select>
+			<option>WMS</option>
+			<option>TMS</option>
+		</select>
+		<input type="text" value="url"/>
+		<input class="input_fancy" style="display: none;" type="text" value="Título de la capa" />
+		<div class="clear"></div>
+		<input type="button" value="Explorar servicio" />
+		<div class="clear"></div>
+		
+		<div class="info_fancy_service">Seleccione un tipo de servicio y especifique la url de descarga</div>
+		
+		<div class="ml mr tabla_fancy_service"></div>
+		<div class="urlServicioWms" style="display: none"></div>
+		
+	</div>
+</div>
+
 <footer>
 	<div class="uni">
 		<a href="http://www.us.es" target="_blank">

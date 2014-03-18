@@ -22,8 +22,10 @@ function GroupLayer(opts){
 		
 		for(x in this.layers){
 			var l =  this.layers[x];
-			var lattr = l.visible ? "checked" : ""; 
-			var lstyle = l.visible ? "color:black" : "";
+//			var lattr = l.visible ? "checked" : ""; 
+//			var lstyle = l.visible ? "color:black" : "";
+			var lattr = "checked"; 
+			var lstyle = "color:black";
 					
 			html += "<li title='" + l.title + "'>" +	
 			
@@ -31,9 +33,11 @@ function GroupLayer(opts){
 				"			id_layer="+x+" father="+this.father+ " " + lattr +">" +
 				
 					"<img class='remove' src='application/views/img/MED_icon_papelera_panel.png' title='Opacity 100 %' id_layer='" + x + "'>"+
-					"<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>"+
-					"<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Opacity 100 %' id_layer='" + x + "'>"+
-					"<span>"+l.title+"</span>"+
+					"<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>";
+					if(l.leyenda){
+						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Opacity 100 %' id_layer='" + x + "'>";
+					}
+					html += "<span>"+l.title+"</span>"+
 					"<div class='opacity_panel' style='display: none;'>" +
 						"<span class='opacity_label'>Opacity 100 %</span>" +
 						"<div class='slider'></div>"
@@ -41,7 +45,7 @@ function GroupLayer(opts){
 				"</li>";
 			
 		}
-		html += "<li style='background: none;'><a class='add_layer' href='javascript:catalog()'>+ Add layers from <strong>Medina Catalogue</strong></a></li>"; 
+		html += "<li style='background: none; cursor: initial;' class='disableSortable' ><a class='add_layer' href='#'>+ Añadir capas de <strong>Erosión</strong></a></li>"; 
 		return html;		
 	};
 	
@@ -93,17 +97,22 @@ function GroupLayer(opts){
 			}
 		});
 		
+		$panel.disableSelection();
+		$panel.sortable({ cancel: '.disableSortable' });
+		
 		$panel.find("li > img.opacity").click(function(){
 			var $opacity_panel = $(this).siblings(".opacity_panel");
 			var $li = $(this).parent(); 
 			if ($opacity_panel.is(":visible")){
-				$li.height($li.height() - $opacity_panel.outerHeight());
-				$opacity_panel.hide();
+//				$li.height($li.height() - $opacity_panel.outerHeight());
+				$li.animate({"height": $li.height() - $opacity_panel.outerHeight()});
+				$opacity_panel.slideUp();
 				$li.css("border-bottom","1px solid #ccc");
 			}
 			else{
-				$li.height($li.height() + $opacity_panel.outerHeight());
-				$opacity_panel.show();
+//				$li.height($li.height() + $opacity_panel.outerHeight());
+				$li.animate({"height": $li.height() + $opacity_panel.outerHeight()});
+				$opacity_panel.slideDown();
 				$li.css("border-bottom","none");
 			}
 			
@@ -113,14 +122,33 @@ function GroupLayer(opts){
 			var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
 			var $container = $(self.map.getContainer()).parent();
 			var $el = self.__getLegendContainer();
+			$el.hide(); //Para que aparezca de forma animada
+			var dibjuarLeyenda = true;
 			
-			var legendUrl = self.layers[id_layer].url + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+			$el.find("h4").find("p").text($(this).parent().attr("title"))
+			
+			var legendUrl = self.layers[id_layer].leyenda.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
 			+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
-
-
+			
 			$el.find(".co_legend").html("<img src='" + legendUrl +"'/>");
 			
-			self.__addLegendDOM($container,$el);
+			//Si esta leyenda ya se esta mostrando la elimino
+			var leyendas = $container.find(".flotable_legend");
+			for(var i=0; i<leyendas.length; i++){
+				if($(leyendas[i]).find("h4").find("p").text() == $el.find("h4").find("p").text()){
+					
+					$(leyendas[i]).fadeOut(function () {
+						$(this).remove();
+					});
+					dibjuarLeyenda = false;
+					break;
+				}	
+			}
+			if(dibjuarLeyenda){
+				self.__addLegendDOM($container,$el);
+				$el.fadeIn(); //Para que aparezca de forma animada
+			}
+			
 		});
 		
 		$panel.find("li > img.remove").click(function(){
@@ -132,13 +160,169 @@ function GroupLayer(opts){
 				self.layers[i].layer.setZIndex(self.layers.length-i);
 			}
 			
-			var checks = $(this).parent().parent();
-			$(this).parent().remove();
-			var checks = checks.find("input[type='checkbox']");
-			for(var i=0; i<checks.length; i++){
-				$(checks[i]).attr("id_layer",i);
-			}
+//			$(this).parent().remove();
+			$(this).parent().animate({"width":'0px'}, function(){
+				var checks = $(this).parent();
+				$(this).remove();
+				var checks = checks.find("input[type='checkbox']");
+				for(var i=0; i<checks.length; i++){
+					$(checks[i]).attr("id_layer",i);
+				}
+			});
 			
+			
+		});
+		
+		$panel.find(".add_layer").click(function(){
+			$.fancybox($("#service_fancy_box_data").html(), {
+				'width':'660',
+				"height": "auto",
+			    'autoDimensions':false,
+			    'autoSize':false,
+			    "visibility":"hidden",
+			    'closeBtn' : false,
+			    "openEffect" : "elastic",		   
+//			    'openSpeed' : 500,
+//			    'closeEffect' : "elastic",
+//			    'closeSpeed' : 500,
+			    'scrolling'   : 'no',
+			    helpers : {
+			        overlay : {
+			            	css : {
+			            		'background' : 'none',
+			            		'border-radius' : '0',
+			            	}
+			        }
+			    },
+			    afterShow: function () {
+			    	$("select").on("change",function(){
+			    		if($(this).val() == "WMS"){
+			    			if($(this).parent().find(".tabla_fancy_service").children().length > 0){
+			    				$(this).parent().find(".info_fancy_service").slideUp();
+			    				$(this).parent().find(".tabla_fancy_service").slideDown();
+			    			}else{
+//			    				$(this).parent().find(".info_fancy_service").show();
+			    				$(this).parent().find(".info_fancy_service").slideDown()
+			    			}
+			    			
+			    			$(this).parent().find(".input_fancy").hide();
+			    			$(this).parent().find("input[type='button']").val("Explorar servicio");
+			    		}else{
+			    			$(this).parent().find(".info_fancy_service").slideDown()
+			    			$(this).parent().find(".input_fancy").fadeIn(700);
+			    			$(this).parent().find(".tabla_fancy_service").slideUp();
+			    			$(this).parent().find("input[type='button']").val("Añadir directamente al panel de capas");
+			    		}
+			    	});
+			    	$("h2").on("click",function(){
+			    		$.fancybox.close();
+			    	});
+			    	$("input[type='button']").on("click",function(){
+			    		var select = $(this).parent().find("select").val()
+			    		var server = $($(this).parent().find("input[type='text']")[0]).val();
+			    		var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS";
+			    		var name = $($(this).parent().find("input[type='text']")[1]).val();
+			    		var selfBoton = this;
+			    		
+			    		$(".urlServicioWms").val(serverWms);
+			    		
+			    		if(select == "WMS" && server != "" && server != "url"){
+			    			$(this).val("Cargando...");
+				    		$(this).addClass("cargadoServicio");
+			    			url = serverWms
+			    			$.ajax({
+			    				url : "application/views/proxy.php",
+			    				data: { "url": url},
+			    				dataType: 'xml',
+			    				type: "POST",			
+			    		        success: function(xml) {
+			    		        	var sistemasErroneos = false;
+			    		        	if(xml){
+				    		        	var html = '<ul class="families" style="padding-top:0px;">' +
+							    						'<li class="close" style="background-color: rgb(236, 237, 239);">';
+							    		
+							    		$(xml).find("Layer").slice(1).each(function(){
+							    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0){
+							    				html +='<ul class="family_content" style="display: block;">' +
+				    							'<li style="border-top: 1px dotted #ccc;">' +
+				    								'<img style="margin-left: 0px" src="application/views/img/MED_icon_layer.png">' +
+				    								'<span>' + $(this).find("Title").text() + '</span>' +
+				    								'<p style="font-size:11px">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</p>' +
+				    								'<img style="margin-top:0px;" src="application/views/img/MED_icon_add_layer.png">' +
+				    								'<p class="fleft" style="font-size:11px; clear: none; margin-left: 0px;">AÑADIR A CAPAS:</p>' +
+				    								'<div nombreCapa="' + $(this).find("Name").text() + '" class="fleft ml">' +
+				    									'<span class="tiposCapas">WMS</span>' +
+				    								'</div>' +
+				    								'<div nombreCapa="' + $(this).find("Name").text() + '">' +
+				    									'<img class="tiposCapas" src="application/views/img/ERO_icon_link_naranja.png">' +
+				    								'</div>' +
+				    								'<div class="clear"></div>' +
+				    							'</li>' +
+		    								'</ul>';
+							    				
+							    			}else{
+							    				sistemasErroneos = true;
+							    			}
+				    		        	});
+							    		html +=	'</li></ul>';
+							    		$(selfBoton).parent().find(".tabla_fancy_service").html(html);
+							    		$(selfBoton).parent().find(".info_fancy_service").hide();						    		
+					    				$(selfBoton).parent().find(".tabla_fancy_service").slideDown(function(){
+					    				$.fancybox.update();
+					    				if(sistemasErroneos){
+					    					$(selfBoton).val("El servicio contiene capas con un sistema de referencia no soportado");
+					    				}else{
+					    					$(selfBoton).val("Explorar servicio");
+					    				}
+					    				});
+					    				
+					    				
+					    				$(selfBoton).parent().find(".tiposCapas").on("click",function(){
+					    					var title = $($(this).parent().parent().find("span")[0]).text();
+					    					var url = $(".urlServicioWms").val().replace("?VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS", "");
+					    					var layer = $(this).parent().attr("nombreCapa");
+					    					var leyenda = url.replace("/gwc/service", "");
+					    					self.addLayer(new GSLayerWMS(title, url, layer, leyenda));
+					    					
+					    					$.fancybox.close();
+						    				if(!$("#panel_right .layer_panel").hasClass("close")){
+						    					Split.toggleLayersInterface(Split.RIGHT);
+						    				}
+						    				if(!$("#panel_left .layer_panel").hasClass("close")){
+						    					Split.toggleLayersInterface(Split.LEFT);
+						    				}
+					    				});
+			    		        	}else{
+			    		        		$(selfBoton).val("Servicio no encontrado");
+			    		        	}
+			    		        	$(selfBoton).removeClass("cargadoServicio");
+			    		        },
+			    		        error: function(){	        	
+			    		        	obj.featureInfo(e,requestIdx+1);
+			    		        }
+			    		    });
+			    			
+			    		}else{
+			    			if(server != "" && server != "url" && name != "" && name != "Título de la capa"){
+			    				self.addLayer(new GSLayerTMS(name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
+			    				$.fancybox.close();
+			    				if(!$("#panel_right .layer_panel").hasClass("close")){
+			    					Split.toggleLayersInterface(Split.RIGHT);
+			    				}
+			    				if(!$("#panel_left .layer_panel").hasClass("close")){
+			    					Split.toggleLayersInterface(Split.LEFT);
+			    				}
+			    			}
+			    		}
+			    	});
+			    	
+			    	$("input[type='text']").on("click",function(){
+//			    		if($(this).val() == "url" || $(this).val() == "Título de la capa"){
+			    			$(this).val("");
+//			    		}
+			    	});
+			    }
+			});
 		});
 		
 	};
@@ -560,9 +744,12 @@ function GroupLayer(opts){
 	
 		$el.css("left",($container.width() / 2 ) - $el.width());
 		$el.css("top",($container.height() / 2 ) - ($el.height() / 2));
+//		$el.css("top",$container.height() - $el.height() - 10 - (($(".flotable_legend").length - 1)  * $el.height() + 10));
 					
 		$el.find(".close").click(function(){
-			$el.remove();
+			$el.fadeOut(function () {
+				$(this).remove();
+			});
 		});
 		
 		$el.draggable();

@@ -1,10 +1,11 @@
-function GSLayerTMS(title, url, name){
+function GSLayerTMS(title, url, name, leyenda){
 	this.title = title;
 	this.server = url;
 	this.name = name;
 	this.visible = true;
 	this.layer = null;
 	this.tipo = "tms";
+	this.leyenda = leyenda;
 	
 	this.setVisibility = function(visibility, map, z_index){
 		

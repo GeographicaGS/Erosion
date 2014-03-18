@@ -1,10 +1,11 @@
-function GSLayerWMS(title, url, name){
+function GSLayerWMS(title, url, name, leyenda){
 	this.title = title;
 	this.url = url;
 	this.name = name;
 	this.visible = true;
 	this.layer = null;
 	this.tipo = "wms";
+	this.leyenda = leyenda;
 	
 	this.setVisibility = function(visibility, map, z_index){
 		

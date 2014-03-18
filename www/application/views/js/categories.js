@@ -8,18 +8,18 @@ var categories = [
             	        	   title: "CVI_wmts",
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   wms: {
-            	        		   		visible:false,	
+            	        		   			
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:CVI_wmts",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-            	        		   		visible:false,
+            	        		   		
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:CVI_wmts"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -37,18 +37,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-          	        		   			visible:false,
+          	        		   			
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:unidades_fisiograficas_nv1Q",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:unidades_fisiograficas_nv1Q"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -59,18 +59,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:unidades_fisiograficas_nv5Q",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:unidades_fisiograficas_nv5Q"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -89,18 +89,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:linea_56",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:linea_56"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -111,18 +111,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:linea_77",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:linea_77"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -133,18 +133,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:linea_07",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:linea_07"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -155,18 +155,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:linea_09",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:linea_09"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -177,18 +177,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:lineam_09",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:lineam_09"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -199,18 +199,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:lineam_11",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:lineam_11"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -223,15 +223,15 @@ var categories = [
             	        	   wms: {
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:unidades_fisiograficas_alteracionesQ",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:unidades_fisiograficas_alteracionesQ"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -249,18 +249,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_urbano:poblacion_250",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_urbano:poblacion_250"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -271,18 +271,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_urbano:Poblacion_total_p",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_urbano:Poblacion_total_p"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -293,17 +293,17 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_urbano:poblacion_250_p1",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_urbano:poblacion_250_p1"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -314,17 +314,17 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_urbano:poblacion_250_p2",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_urbano:poblacion_250_p2"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -335,18 +335,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_urbano:poblacion_250_p3",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_urbano:poblacion_250_p3"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -357,18 +357,18 @@ var categories = [
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_urbano:Pob_manzana",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_urbano:Pob_manzana"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -386,18 +386,18 @@ var categories = [
             	        	   title: "Dunas 25/01/2014",
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:dunas_250114",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:dunas_250114"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -407,18 +407,18 @@ var categories = [
             	        	   title: "Dunas Miguel",
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wms",
             	        		   		name: "litoral_geo:duna_miguel",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
        	        		   				name: "litoral_geo:duna_miguel"
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "",
             	        		   name: ""
             	        	   }
@@ -433,42 +433,42 @@ var categories = [
             	           {
             	        	   
             	        	   id:19,
-            	        	   title: "Ortofoto 56",
+            	        	   title: "Ortofoto 79",
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "",
             	        		   		name: "",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "",
        	        		   				name: ""
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "http://olivia.geographica.gs/",
             	        		   name: "05-result-79-level17"
             	        	   }
             	           },
             	           {
             	        	   id:20,
-            	        	   title: "Ortofoto 79",
+            	        	   title: "Ortofoto 56",
             	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
             	        	   wms: {
-     	        		   				visible:false,
+     	        		   				
             	        		   		server: "",
             	        		   		name: "",
-            	        		   		layer: null
+            	        		   		
             	        	   },
             	        	   wmts: {
-     	        		   				visible:false,
+     	        		   				
        	        		   				server: "",
        	        		   				name: ""
             	        	   },
             	        	   tms: {
-            	        		   visible:false,
+            	        		   
             	        		   server: "http://www.erosion.geographica.gs/tileado/",
             	        		   name: "00-orto56-result"
             	        	   }
@@ -553,6 +553,7 @@ function drawCategories() {
 	$(".tiposCapas").click(function(){
 		capa = buscarCapa($(this).parent().attr("idCapa"));
 		tipo = $(this).parent().attr("tipo");
+		leyenda = capa.wms.server;
 		
 //		if(capa[tipo].visible){
 //			desColoreaEtiquetas(this);
@@ -562,7 +563,7 @@ function drawCategories() {
 //		}else{
 //			coloreaEtiquetas(this);
 //			capa[tipo].visible = true;
-			Split.addLayer(capa,tipo);			
+			Split.addLayer(capa,tipo, leyenda);			
 //		}
 		
 //		$("#proyecto").show();
