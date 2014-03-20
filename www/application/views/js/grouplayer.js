@@ -242,8 +242,9 @@ function GroupLayer(opts){
 				    		        	var html = '<ul class="families" style="padding-top:0px;">' +
 							    						'<li class="close" style="background-color: rgb(236, 237, 239);">';
 							    		
+				    		        	var layerPadre = $(xml).find("Layer")[0];
 							    		$(xml).find("Layer").slice(1).each(function(){
-							    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0){
+							    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
 							    				html +='<ul class="family_content" style="display: block;">' +
 				    							'<li style="border-top: 1px dotted #ccc;">' +
 				    								'<img style="margin-left: 0px" src="application/views/img/MED_icon_layer.png">' +
