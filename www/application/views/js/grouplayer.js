@@ -45,7 +45,8 @@ function GroupLayer(opts){
 				"</li>";
 			
 		}
-		html += "<li style='background: none; cursor: initial;' class='disableSortable' ><a class='add_layer' href='#'>+ Añadir capas de <strong>Erosión</strong></a></li>"; 
+		html += "<li style='background: none; cursor: initial;' class='disableSortable' onclick='navigate()'><a class='addCatalog' href='#'>+ Añadir capas del <strong>Catálogo</strong></a></li>";
+		html += "<li style='background: none; cursor: initial;' class='disableSortable' ><a class='add_layer' href='#'>+ Añadir capas de un servicio externo</a></li>"; 
 		return html;		
 	};
 	

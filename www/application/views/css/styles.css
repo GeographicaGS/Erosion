@@ -249,7 +249,7 @@ ul.layer_panel li input[type="checkbox"]{
 ul.layer_panel li a{
 	float: left;
 	margin-right: 8px;
-	margin-top: 5px;
+/* 	margin-top: 5px; */
 }
 
 ul.layer_panel > li > img {
@@ -299,7 +299,7 @@ ul.layer_panel > li > img.opacity {
 	margin-right: 31px;
 }
 
-.layer_panel .add_layer {
+.layer_panel .add_layer , .addCatalog {
 	color: #007eb6;
 	font-size: 11px;
 	margin: 0 0 0 2px;
