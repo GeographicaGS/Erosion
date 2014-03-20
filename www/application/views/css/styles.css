@@ -154,7 +154,7 @@ p.credits{
 }
 
 .layer_ctrl{
-	background:#f0f0f0 url("../img/MED_icon_capas.png") no-repeat left 9;
+	background:url("../img/MED_icon_capas.png") no-repeat left 9px #f0f0f0;
 	position:absolute;
 	bottom: 0px;
 	right:0px;
