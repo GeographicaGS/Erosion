@@ -149,6 +149,13 @@
 		
 		<div id="sep" class="sep" ></div>
 		
+		
+		<div id="tool_bar">
+			<div id="ctrl_rectangle_drawer"></div>
+			<div id="ctrl_feature_info"></div>
+		</div>
+		
+		
 		<div id="panel_right" class="panel">
 		
 			<div id="map_right"></div>
@@ -156,7 +163,7 @@
 			<div id="histogram_right" style="display:none"></div>
 		
 			<div class="split_ctrl">			
-				<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right")?>" width=15px height=16px title="Desincronizar mapas"/>			
+				<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right.png")?>" width=15px height=16px title="Desincronizar mapas"/>			
 				<a href="javascript:Split.togglePanel(Split.RIGHT)">
 					<img class="toggle" src="<?= get_img("MED_icon_split_right.png")?>" width=28px height=29px title="Ocultar mapa de la derecha"/>
 				</a>

@@ -15,7 +15,10 @@ function resize(){
 function showInfoFancybox(text) {
 	var html =  "<div>"+text+"</div>";
 	$("#info_fancy_box_data").html(html);
-	$("#info_fancybox").fancybox().trigger('click');
+	$("#info_fancybox").fancybox({
+		"openEffect" : "elastic",
+		'openSpeed' : 500
+	}).trigger('click');
 }
 
 function showDevMsg(){

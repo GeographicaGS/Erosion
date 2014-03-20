@@ -755,4 +755,64 @@ function GroupLayer(opts){
 		$el.draggable();
 	};
 	
+	this.featureInfo = function(e,id){
+		
+		if(!id){
+			id = 0;
+		}
+		
+		var map = this.getMap();
+		var latlngStr = '(' + e.latlng.lat.toFixed(3) + ', ' + e.latlng.lng.toFixed(3) + ')';
+		    
+		var BBOX = map.getBounds().toBBoxString();
+		var WIDTH = map.getSize().x;
+		var HEIGHT = map.getSize().y;
+		var X = map.layerPointToContainerPoint(e.layerPoint).x;
+		var Y = map.layerPointToContainerPoint(e.layerPoint).y;
+		    
+		var layers = null;   
+		var server = null;
+		var requestIdx = null;
+		
+		for (var i=id;i<this.layers.length;i++){
+			var l = this.layers[i];
+			if (l.visible && l.layer.options.opacity>0){
+				server = l.url;
+				layers = l.name;
+				requestIdx = i;
+				break;
+			}
+		}
+		
+		if (layers==null || server==null || requestIdx==null)
+		{
+			$("#container_feature_info").html("No hay información sobre este punto");
+			
+			return;
+		}
+		
+		var request = server + '?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=' +layers+'&QUERY_LAYERS='+layers+'&STYLES=&BBOX='+BBOX+'&FEATURE_COUNT=5&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&FORMAT=image%2Fpng&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A4326&X='+X+'&Y='+Y;
+		request = request.replace("wmts","wms");
+	    
+		var obj = this;
+	    $.ajax({
+			url : "application/views/proxy.php",
+			data: { "url": request},	       
+			type: "POST",			
+	        success: function(data) {
+	        	if (!data || data.indexOf("LayerNotQueryable")!=-1){
+	        		obj.featureInfo(e,requestIdx+1);
+	        	}
+	        	else{
+	        		$("#container_feature_info").html(data);
+	        	}
+	        	
+	        },
+	        error: function(){	        	
+	        	obj.featureInfo(e,requestIdx+1);
+	        }
+	    });
+		
+	};
+	
 }

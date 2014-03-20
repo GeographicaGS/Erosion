@@ -109,6 +109,17 @@ Split = {
 		
 		drawCategories();
 		
+		$("#ctrl_feature_info").click(function(){
+			if ($(this).hasClass("enable")) { 
+				$(this).removeClass("enable");
+				Split.deActivateFeatureInfo()
+			}
+			else{
+				$(this).addClass("enable");				
+				Split.activateFeatureInfo()
+			}
+		});
+		
 	},
 	/* Split handler*/
 	mapMover: function(a,b) {		  
@@ -272,7 +283,6 @@ Split = {
 		$panel.find(".toogleLayer").click(function(){
 			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"));
 		});
-		
 	},
 	__drawLayerInterface: function(el){		
 		if (el==this.LEFT){
@@ -351,7 +361,28 @@ Split = {
 		if(!$("#panel_left .layer_panel").hasClass("close")){
 			this.toggleLayersInterface(this.LEFT);
 		}
-	}
+	},
+	
+	activateFeatureInfo: function(){
+		var obj = this;
+		var msg = "Cargando"
+			
+		this.__mapLeft.getMap().on("click",function(e){
+			showInfoFancybox("<div id='container_feature_info'>" + msg + "</div>");
+			Split.__mapLeft.featureInfo(e);
+		});
+		
+		this.__mapRight.getMap().on("click",function(e){			
+			showInfoFancybox("<div id='container_feature_info'>" + msg + "</div>");
+			Split.__mapRight.featureInfo(e);
+		});
+		$("#map_left,#map_right").addClass("cursor_info");
+	},
+	deActivateFeatureInfo: function(){
+		this.__mapLeft.getMap().off("click");
+		this.__mapRight.getMap().off("click");
+		$("#map_left,#map_right").removeClass("cursor_info");
+	},
 	
 	
 }
