@@ -24,6 +24,8 @@
 
 <script type="text/javascript" src="<?= get_js("lib/jquery-1.8.2.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-0.5/leaflet.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/leaflet.draw-master/Leaflet.draw.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/leaflet.draw-master/Control.Draw.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/Google.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-wmts.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/jquery-ui-1.10.3.custom.min.js")?>"></script>

@@ -47,6 +47,14 @@ Split = {
 		    Split.__mapLeft.refreshLayers();
 		});
 		
+//		var drawnItems = new L.FeatureGroup();
+//		Split.__mapLeft.getMap().addLayer(drawnItems);
+//		var drawControl = new L.Control.Draw({
+//		    edit: {
+//		        featureGroup: drawnItems
+//		    }
+//		});
+		
 		
 		/* Only for debug purpose
 		mapLeft.on('click', function(e) {
