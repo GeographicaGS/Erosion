@@ -23,7 +23,70 @@ var categories = [
             	        		   server: "",
             	        		   name: ""
             	        	   }
-            	           }
+            	           },
+            	           {
+            	        	   id:21,
+            	        	   title: "mta10v_2007",
+            	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
+            	        	   wms: {
+     	        		   				
+            	        		   		server: "http://zidane.fgh.us.es:8080/geoserver/wms?",
+            	        		   		name: "mta10v_2007",
+            	        		   		
+            	        	   },
+            	        	   wmts: {
+     	        		   				
+       	        		   				server: "",
+       	        		   				name: ""
+            	        	   },
+            	        	   tms: {
+            	        		   
+            	        		   server: "",
+            	        		   name: ""
+            	        	   }
+            	           },
+            	           {
+            	        	   id:22,
+            	        	   title: "litoral:Andalucia",
+            	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
+            	        	   wms: {
+     	        		   				
+            	        		   		server: "",
+            	        		   		name: "",
+            	        		   		
+            	        	   },
+            	        	   wmts: {
+     	        		   				
+       	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts?",
+       	        		   				name: "litoral:Andalucia"
+            	        	   },
+            	        	   tms: {
+            	        		   
+            	        		   server: "",
+            	        		   name: ""
+            	        	   }
+            	           },
+            	           {
+            	        	   id:23,
+            	        	   title: "MTN",
+            	        	   description: "Ultrices aliquam vitae erat dolor commodo ut, sociis faucibus vivamus orci varius, orci habitasse massa vel pede mauris, erat tempor in purus in, at amet aliquam turpis.",
+            	        	   wms: {
+     	        		   				
+            	        		   		server: "",
+            	        		   		name: "",
+            	        		   		
+            	        	   },
+            	        	   wmts: {
+     	        		   				
+       	        		   				server: "http://www.ign.es/wmts/mapa-raster?",
+       	        		   				name: "MTN"
+            	        	   },
+            	        	   tms: {
+            	        		   
+            	        		   server: "",
+            	        		   name: ""
+            	        	   }
+            	           },
             	   ]
                },
                
