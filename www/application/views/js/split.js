@@ -47,15 +47,6 @@ Split = {
 		    Split.__mapLeft.refreshLayers();
 		});
 		
-//		var drawnItems = new L.FeatureGroup();
-//		Split.__mapLeft.getMap().addLayer(drawnItems);
-//		var drawControl = new L.Control.Draw({
-//		    edit: {
-//		        featureGroup: drawnItems
-//		    }
-//		});
-		
-		
 		/* Only for debug purpose
 		mapLeft.on('click', function(e) {
 		    console.log(e.latlng);
@@ -126,6 +117,99 @@ Split = {
 				$(this).addClass("enable");				
 				Split.activateFeatureInfo()
 			}
+		});
+		
+		
+		
+		
+		
+		
+//		Split.__mapLeft.getMap().on('mouseover', function(e) {
+//			var polyline = L.polyline(e.latlng, {color: 'red'});
+//		    polyline.addTo(Split.__mapRight.getMap());
+//		});
+		
+		
+		createDrawLocal();
+		var editableLayers = new L.FeatureGroup();
+		Split.__mapLeft.getMap().addLayer(editableLayers);
+		
+		var options = {
+		    position: 'bottomleft',
+		    draw: {
+		        polyline: {
+		            shapeOptions: {
+		                color: '#e1e100',
+		                weight: 2
+		            },
+		            showLength: true
+		        },
+		        polygon: {
+		            allowIntersection: false,
+		            drawError: {
+		                color: '#e1e100',
+		                message: '<strong>Oh snap!<strong> you can\'t draw that!'
+		            },
+		            shapeOptions: {
+		                color: '#bada55'
+		            }
+		        },
+		        circle: false, 
+		        rectangle: {
+		            shapeOptions: {
+		                clickable: false
+		            }
+		        },
+//		        marker: {
+//		            icon: new MyCustomMarker()
+//		        }
+		    },
+		    edit: {
+		        featureGroup: editableLayers,
+//		        remove: false
+		    }
+		};
+
+		var drawControl = new L.Control.Draw(options);
+		Split.__mapLeft.getMap().addControl(drawControl);
+		
+		var  latlng ;
+		var polyline;
+		Split.__mapLeft.getMap().on('draw:drawstart', function (e) {
+			Split.__mapLeft.getMap().on('click', function(e) {
+				latlng = e.latlng;
+				Split.__mapLeft.getMap().on('mousemove', function(e) {
+//					if(polyline){
+//						Split.__mapRight.getMap().remove(polyline);
+//					}
+//					polyline = L.polyline([latlng,e.latlng], {color: 'red'});
+//					polyline.addTo(Split.__mapRight.getMap());
+				});
+			});
+		});
+		
+		
+		Split.__mapLeft.getMap().on('draw:created', function (e) {
+		    var type = e.layerType,
+		        layer = e.layer;
+
+		    if (type === 'marker') {
+		        layer.bindPopup('A popup!');
+		    }
+
+		    editableLayers.addLayer(layer);
+		    
+		    var polyline = L.polyline(e.layer._latlngs, {color: 'red'});
+		    polyline.addTo(Split.__mapRight.getMap());
+//		    e.layer.addTo(Split.__mapRight.getMap());
+		});
+
+		Split.__mapLeft.getMap().on('draw:edited', function () {
+		    // Update db to save latest changes.
+		});
+
+		Split.__mapLeft.getMap().on('draw:deleted', function () {
+		    // Update db to save latest changes.
 		});
 		
 	},

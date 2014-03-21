@@ -252,10 +252,10 @@ function GroupLayer(opts){
 				    								'<p style="font-size:11px">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</p>' +
 				    								'<img style="margin-top:0px;" src="application/views/img/MED_icon_add_layer.png">' +
 				    								'<p class="fleft" style="font-size:11px; clear: none; margin-left: 0px;">AÑADIR A CAPAS:</p>' +
-				    								'<div nombreCapa="' + $(this).find("Name").text() + '" class="fleft ml">' +
+				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '" class="fleft ml">' +
 				    									'<span class="tiposCapas">WMS</span>' +
 				    								'</div>' +
-				    								'<div nombreCapa="' + $(this).find("Name").text() + '">' +
+				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '">' +
 				    									'<img class="tiposCapas" src="application/views/img/ERO_icon_link_naranja.png">' +
 				    								'</div>' +
 				    								'<div class="clear"></div>' +
@@ -816,5 +816,7 @@ function GroupLayer(opts){
 	    });
 		
 	};
+	
+	
 	
 }

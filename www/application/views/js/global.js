@@ -39,3 +39,97 @@ function navigate() {
         $("#catalogo").slideToggle(600);   
     }    
 }
+
+function createDrawLocal() {
+	L.drawLocal = {
+			draw: {
+				toolbar: {
+					actions: {
+						title: 'Cancelar dibujado',
+						text: 'Cancelar'
+					},
+					undo: {
+						title: 'Borrar el último punto dibujado',
+						text: 'Borrar el último punto'
+					},
+					buttons: {
+						polyline: 'Dibujar una polilínea',
+						polygon: 'Dibujar un polígono',
+						rectangle: 'Dibujar un rectángulo',
+						circle: 'Dibujar un círculo',
+						marker: 'Dibujar un marcador'
+					}
+				},
+				handlers: {
+					circle: {
+						tooltip: {
+							start: 'Hacer clic y arrastrar para dibujar el círculo.'
+						}
+					},
+					marker: {
+						tooltip: {
+							start: 'Hacer click en el mapa para colocar el marcador'
+						}
+					},
+					polygon: {
+						tooltip: {
+							start: 'Hacer click para empezar el dibujar el polígono',
+							cont: 'Hacer click para continuar dibujando el polígono',
+							end: 'Hacer clic en el primer punto para cerrar esta forma.'
+						}
+					},
+					polyline: {
+						error: '<strong>Error:</strong> las líneas no pueden cruzarse',
+						tooltip: {
+							start: 'Hacer click para empezar a dibujar la línea',
+							cont: 'Hacer click para continuar dibujando la línea.',
+							end: 'Hacer click en el último punto para finalizar la línea.'
+						}
+					},
+					rectangle: {
+						tooltip: {
+							start: 'Hacer click y arrastrar para dibujar el rectángulo.'
+						}
+					},
+					simpleshape: {
+						tooltip: {
+							end: 'Suelte el ratón para terminar el dibujo.'
+						}
+					}
+				}
+			},
+			edit: {
+				toolbar: {
+					actions: {
+						save: {
+							title: 'Guardar cambios.',
+							text: 'Guardar'
+						},
+						cancel: {
+							title: 'Cancelar edición, descartar todos los cambios.',
+							text: 'Cancelar'
+						}
+					},
+					buttons: {
+						edit: 'Editar capa.',
+						editDisabled: 'No hay capas para editar.',
+						remove: 'Borrar capas.',
+						removeDisabled: 'No hay capas para eliminar.'
+					}
+				},
+				handlers: {
+					edit: {
+						tooltip: {
+							text: 'Arrastra los puntos o los marcadores para editar las formas',
+							subtext: 'Pulsar cancelar para deshacer los cambios.'
+						}
+					},
+					remove: {
+						tooltip: {
+							text: 'Click on a feature to remove'
+						}
+					}
+				}
+			}
+		};
+}

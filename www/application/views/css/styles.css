@@ -341,7 +341,7 @@ ul.layer_panel > li > img.opacity {
 }
 
 .ui-slider-horizontal .ui-slider-handle {
-	top: -0.6em;
+/* 	top: -0.6em; */
 }
 
 .geo{
@@ -698,4 +698,33 @@ img.tiposCapas{
 	width: 800px;
 	height: 400px;
 	overflow:auto;
+}
+
+.loginDiv{
+	width: 220px;
+	height: 190px;
+	background-color: #f3f4f5;
+	border-radius: 5px;
+	position: absolute;
+	z-index: 1001;
+	right: 0;
+	margin-right: 25px;
+	margin-top: 10;
+}
+
+.loginDiv h1{
+	color: #899499;
+	margin-top: 20px;
+	margin-left: 10px;
+	font-size: 14px;
+	margin-bottom: 20px;
+}
+
+.loginDiv input[type="text"]{
+	width: 200px;
+	width: 200px;
+	height: 25px;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	border: 1px solid #c4c9cc;
 }

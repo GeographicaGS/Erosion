@@ -11,6 +11,7 @@
 <link rel="stylesheet" type="text/css" href="<?= get_css("reset.css")?>" />
 
 <link rel="stylesheet" href="<?= get_js("lib/leaflet-0.5/leaflet.css")?>" />
+<link rel="stylesheet" href="<?= get_js("lib/leaflet.draw/leaflet.draw.css")?>" />
 
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/jquery.fancybox.css?v=2.1.3")?>"/>
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5")?>"/>
@@ -24,8 +25,12 @@
 
 <script type="text/javascript" src="<?= get_js("lib/jquery-1.8.2.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-0.5/leaflet.js")?>"></script>
-<script type="text/javascript" src="<?= get_js("lib/leaflet.draw-master/Leaflet.draw.js")?>"></script>
-<script type="text/javascript" src="<?= get_js("lib/leaflet.draw-master/Control.Draw.js")?>"></script>
+
+
+<script type="text/javascript" src="<?= get_js("lib/leaflet.draw/leaflet.draw.js")?>"></script>
+
+
+
 <script type="text/javascript" src="<?= get_js("lib/Google.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-wmts.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/jquery-ui-1.10.3.custom.min.js")?>"></script>
@@ -129,6 +134,14 @@
 </header>
 
 <div id="container" style="overflow: auto;">
+
+	<div class="loginDiv">
+		<h1>Acceso de usuarios</h1>
+		<input type="text" value="Correo electrónico" />
+		<input type="text" value="Contraseña" />
+		<input type="button" valie="Acceder"/>	
+	</div>
+
 	<div id="proyecto">
 		<div id="panel_left" class="panel">
 		
