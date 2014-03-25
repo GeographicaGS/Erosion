@@ -123,24 +123,39 @@
 			CATÁLOGO
 		</a>
 	</nav>
-	<p class="fright size10 credits">
-		<span class="bold">Proyecto de I+D+i</span><br/>
-		Espacialización y difusión web de variables demográficas, <br/>
-		turísticas y ambientales para la evaluación de la vulnerabilidad<br/>
-		asociada a la erosión de playas en la costa andaluza.
-	</p>
+	
+	<div class="fright">
+		<p class="size10 credits fleft">
+			<span class="bold">Proyecto de I+D+i</span><br/>
+			Espacialización y difusión web de variables demográficas, <br/>
+			turísticas y ambientales para la evaluación de la vulnerabilidad<br/>
+			asociada a la erosión de playas en la costa andaluza.
+		</p>
+		
+		<div class="acceder">
+			<img class="mb5" src="<?= get_img("ERO_icon_user_cab.png")?>" title="Acceder"/>
+			<div class="clear"></div>
+			Acceder
+		</div>
+		<p id="closeSesion" class="credits fleft" style="margin-top: 30px; cursor: pointer; display: none">
+			Cerrar sesión
+		</p>
+	</div>
 	
 	<div class="clear"></div>
 </header>
 
 <div id="container" style="overflow: auto;">
 
-	<div class="loginDiv">
-		<h1>Acceso de usuarios</h1>
-		<input type="text" value="Correo electrónico" />
-		<input type="text" value="Contraseña" />
-		<input type="button" valie="Acceder"/>	
-	</div>
+	<form id="form_login" action="index.php/login/getUser" method="POST">
+		<div class="loginDiv">
+			<h1>Acceso de usuarios</h1>
+			<input name="email" type="text" value="Correo electrónico" />
+			<input name="password" type="password" value="Contraseña" />
+			<input type="button" value="Acceder"/>
+			<p id="errorLogin">Usuario y contraseña incorrectos</p>	
+		</div>
+	</form>
 
 	<div id="proyecto">
 		<div id="panel_left" class="panel">
@@ -166,6 +181,8 @@
 		
 		
 		<div id="tool_bar">
+			<div id="ctrl_marker_drawer"></div>
+			<div id="ctrl_line_drawer"></div>
 			<div id="ctrl_rectangle_drawer"></div>
 			<div id="ctrl_feature_info"></div>
 		</div>
@@ -211,6 +228,25 @@
 <div style="display: none">
 	<a id="info_fancybox" href="#info_fancy_box_data">Fancybox hidden_link</a>
 	<div id="info_fancy_box_data"></div>
+	
+	<div id="fancy_box_form_save_draw">
+		<div class="serviceFancy">
+			<h1>Nuevo elemento</h1>
+			<h2>Cerrar</h2>
+			<div class="clear"></div>
+			<input class="fleft" style="width: 390px; background: #ecedef;" type="text" value="Título">
+			<select style="width: 220px; background-position: 195 13;">
+				
+			</select>
+			<input style="width: 620px; background: #ecedef;" type="text" value="Comentario">
+			<input class="mt20" style="width: 620px;" type="button" value="Guardar punto">
+		</div>
+	</div>
+</div>
+
+<div id="fancy_box_save_draw">
+		<p class="fleft fancySave">Guardar punto</p>
+		<p class="fancyCancel">Cancelar</p>
 </div>
 
 <div style="display: none" id="service_fancy_box_data">

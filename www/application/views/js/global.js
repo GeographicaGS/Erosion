@@ -37,6 +37,11 @@ function navigate() {
     else{
         $("#proyecto").slideToggle(500);
         $("#catalogo").slideToggle(600);   
+        
+        $($("#fancy_box_save_draw").find("p")[0]).fadeOut(200);
+		$($("#fancy_box_save_draw").find("p")[1]).fadeOut(200);
+		$("#fancy_box_save_draw").animate({"width": 0},300);
+		$("#fancy_box_save_draw").hide(400);
     }    
 }
 

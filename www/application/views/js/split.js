@@ -107,8 +107,176 @@ Split = {
 		this.__mapRight.getMap().on('locationfound', onLocationFound);
 		
 		drawCategories();
+		createDrawLocal();
+		
+		var editableLayers = new L.FeatureGroup();
+		Split.__mapLeft.getMap().addLayer(editableLayers);
+		var editableLayersRight = new L.FeatureGroup();
+		Split.__mapRight.getMap().addLayer(editableLayersRight);
+		
+		var options = {
+		    position: 'bottomleft',
+		    draw: {
+		        polyline: {
+		            shapeOptions: {
+		    			color: 'red',
+		    			weight: 2,
+		    			opacity: 0.8,
+		
+		            },
+//		            showLength: true
+		        },
+		        polygon: {
+		            allowIntersection: false,
+		            drawError: {
+		                color: '#e1e100',
+		                message: '<strong>Oh snap!<strong> you can\'t draw that!'
+		            },
+		            shapeOptions: {
+		                color: 'red',
+		                fill: "red"
+		            }
+		        },
+		        circle: false,
+		        rectangle:false,
+//		        rectangle: {
+//		            shapeOptions: {
+//		                clickable: false
+//		            }
+//		        },
+//		        marker: {
+//		            icon: new MyCustomMarker()
+//		        }
+		    },
+		    edit: {
+		        featureGroup: editableLayers,
+//		        remove: false
+		    }
+		};
+		
+		var optionsRight = options;
+		optionsRight.edit.featureGroup = editableLayersRight;
+
+		var drawControl = new L.Control.Draw(options);
+		Split.__mapLeft.getMap().addControl(drawControl);
+		
+		var drawControlRight = new L.Control.Draw(optionsRight);
+		Split.__mapRight.getMap().addControl(drawControlRight);
+		
+		var drawMakerLeft = new L.Draw.Marker(Split.__mapLeft.getMap());
+		var drawMarkerRight = new L.Draw.Marker(Split.__mapRight.getMap());
+		var drawLineLeft = new L.Draw.Polyline(Split.__mapLeft.getMap(), options.draw.polyline);
+		var drawLineRight = new L.Draw.Polyline(Split.__mapRight.getMap(), optionsRight.draw.polyline);
+		var drawPolygonLeft = new L.Draw.Polygon(Split.__mapLeft.getMap(), options.draw.polygon);
+		var drawPolygonRight = new L.Draw.Polygon(Split.__mapRight.getMap(), optionsRight.draw.polygon);
+		
+		var  latlng ;
+		var polyline;
+		var poligono;
+		var type;
+		var arrayLatlng;
+			
+		
+		Split.__mapLeft.getMap().on('draw:drawstart', function (e) {
+			
+			$("#fancy_box_save_draw").fadeOut();
+			$("#fancy_box_save_draw").width(0)
+			$($("#fancy_box_save_draw").find("p")[0]).hide();
+			$($("#fancy_box_save_draw").find("p")[1]).hide();
+			
+			Split.__mapLeft.getMap().on('click', function(e) {
+				latlng = e.latlng;
+				polyline = null;
+				Split.__mapLeft.getMap().on('mousemove', function(e) {
+					if(polyline){
+						Split.__mapRight.getMap().removeLayer(polyline);
+					}
+					if(type == "linea"){
+						polyline = L.polyline([latlng,e.latlng], options.draw.polyline.shapeOptions).addTo(Split.__mapRight.getMap());
+					}
+				});
+				if(type =="poligono"){
+					if(poligono){
+						Split.__mapRight.getMap().removeLayer(poligono);
+					}
+					if(arrayLatlng.length == 0){
+						arrayLatlng.push(latlng);
+					}
+					arrayLatlng.push(e.latlng);
+					poligono = L.polygon(arrayLatlng, options.draw.polygon.shapeOptions).addTo(Split.__mapRight.getMap());
+				}
+			});
+		});
+		
+		Split.__mapRight.getMap().on('draw:drawstart', function (e) {
+			
+			$("#fancy_box_save_draw").fadeOut();
+			$("#fancy_box_save_draw").width(0)
+			$($("#fancy_box_save_draw").find("p")[0]).hide();
+			$($("#fancy_box_save_draw").find("p")[1]).hide();
+			
+			Split.__mapRight.getMap().on('click', function(e) {
+				latlng = e.latlng;
+				polyline = null;
+				Split.__mapRight.getMap().on('mousemove', function(e) {
+					if(polyline){
+						Split.__mapLeft.getMap().removeLayer(polyline);
+					}
+					if(type == "linea"){
+						polyline = L.polyline([latlng,e.latlng], optionsRight.draw.polyline.shapeOptions).addTo(Split.__mapLeft.getMap());
+					}
+				});
+				if(type =="poligono"){
+					if(poligono){
+						Split.__mapLeft.getMap().removeLayer(poligono);
+					}
+					if(arrayLatlng.length == 0){
+						arrayLatlng.push(latlng);
+					}
+					arrayLatlng.push(e.latlng);
+					poligono = L.polygon(arrayLatlng, optionsRight.draw.polygon.shapeOptions).addTo(Split.__mapLeft.getMap());
+				}
+			});
+		});
+		
+		
+		Split.__mapLeft.getMap().on('draw:created', function (e) {
+
+		    if (type == 'marker') {
+		    	L.marker(e.layer._latlng).addTo(Split.__mapRight.getMap());
+		    }		    
+		    editableLayers.addLayer(e.layer);
+		    Split.__mapLeft.getMap().off("click");
+		    Split.__mapLeft.getMap().off("mousemove");
+		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+		    Split.showFancySaveDraw(e, type);
+		});
+		
+		Split.__mapRight.getMap().on('draw:created', function (e) {
+
+		    if (type == 'marker') {
+		    	L.marker(e.layer._latlng).addTo(Split.__mapLeft.getMap());
+		    }		    
+		    editableLayersRight.addLayer(e.layer);
+		    Split.__mapRight.getMap().off("click");
+		    Split.__mapRight.getMap().off("mousemove");
+		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+		    Split.showFancySaveDraw(e, type);
+		});
+
+		Split.__mapLeft.getMap().on('draw:edited', function () {
+		    // Update db to save latest changes.
+		});
+
+		Split.__mapLeft.getMap().on('draw:deleted', function () {
+		    // Update db to save latest changes.
+		});
+		
+		
 		
 		$("#ctrl_feature_info").click(function(){
+			
+			Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
 			if ($(this).hasClass("enable")) { 
 				$(this).removeClass("enable");
 				Split.deActivateFeatureInfo()
@@ -119,97 +287,106 @@ Split = {
 			}
 		});
 		
+		$("#ctrl_marker_drawer").click(function(){
+			
+			if ($(this).hasClass("enable")) { 
+				$(this).removeClass("enable");
+				drawMakerLeft.disable();
+				drawMarkerRight.disable();
+				
+			}
+			else{
+				Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+				$(this).addClass("enable");
+				type = "marker";
+				drawMakerLeft.enable();
+				drawMarkerRight.enable();
+			}
+		});
+		
+		$("#ctrl_line_drawer").click(function(){
+			if ($(this).hasClass("enable")) { 
+				$(this).removeClass("enable");
+				drawLineLeft.disable();
+				drawLineRight.disable();
+			}
+			else{
+				Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+				$(this).addClass("enable");
+				drawLineLeft.enable();
+				drawLineRight.enable();
+				type = "linea";
+			}
+		});
+		
+		$("#ctrl_rectangle_drawer").click(function(){
+			if ($(this).hasClass("enable")) { 
+				$(this).removeClass("enable");
+				drawPolygonLeft.disable();
+				drawPolygonRight.disable();
+			}
+			else{
+				Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+				$(this).addClass("enable");				
+				drawPolygonLeft.enable();
+				drawPolygonRight.enable();
+				type = "poligono";
+				arrayLatlng = new Array();
+			}
+		});
 		
 		
 		
-		
-		
-//		Split.__mapLeft.getMap().on('mouseover', function(e) {
-//			var polyline = L.polyline(e.latlng, {color: 'red'});
-//		    polyline.addTo(Split.__mapRight.getMap());
-//		});
-		
-		
-		createDrawLocal();
-		var editableLayers = new L.FeatureGroup();
-		Split.__mapLeft.getMap().addLayer(editableLayers);
-		
-		var options = {
-		    position: 'bottomleft',
-		    draw: {
-		        polyline: {
-		            shapeOptions: {
-		                color: '#e1e100',
-		                weight: 2
-		            },
-		            showLength: true
-		        },
-		        polygon: {
-		            allowIntersection: false,
-		            drawError: {
-		                color: '#e1e100',
-		                message: '<strong>Oh snap!<strong> you can\'t draw that!'
-		            },
-		            shapeOptions: {
-		                color: '#bada55'
-		            }
-		        },
-		        circle: false, 
-		        rectangle: {
-		            shapeOptions: {
-		                clickable: false
-		            }
-		        },
-//		        marker: {
-//		            icon: new MyCustomMarker()
-//		        }
-		    },
-		    edit: {
-		        featureGroup: editableLayers,
-//		        remove: false
-		    }
-		};
-
-		var drawControl = new L.Control.Draw(options);
-		Split.__mapLeft.getMap().addControl(drawControl);
-		
-		var  latlng ;
-		var polyline;
-		Split.__mapLeft.getMap().on('draw:drawstart', function (e) {
-			Split.__mapLeft.getMap().on('click', function(e) {
-				latlng = e.latlng;
-				Split.__mapLeft.getMap().on('mousemove', function(e) {
-//					if(polyline){
-//						Split.__mapRight.getMap().remove(polyline);
-//					}
-//					polyline = L.polyline([latlng,e.latlng], {color: 'red'});
-//					polyline.addTo(Split.__mapRight.getMap());
+		$(".acceder").click(function(){
+			if($(".loginDiv").is(":visible")){
+				$(".loginDiv").fadeOut();
+				$($(".loginDiv").find("input[type='text']")).val("Correo electrónico");
+				$($(".loginDiv").find("input[type='text']")).removeClass("errorBorder");
+				$($(".loginDiv").find("input[type='password']")).val("Contraseña");
+				$($(".loginDiv").find("input[type='password']")).removeClass("errorBorder");
+				$("#errorLogin").hide();
+			}else{
+				$(".loginDiv").fadeIn();
+				$(".loginDiv").find("input[type='text'],input[type='password']").bind( "click", function(){
+					$(this).val("");
 				});
-			});
+				
+				$(".loginDiv").find("input[type='button']").bind( "click", function(){
+					var email = $(".loginDiv").find("input[type='text']");
+					var password = $(".loginDiv").find("input[type='password']");
+					var post = true;
+					if($(email).val() == "" || $(email).val() == "Correo electrónico"){
+						post = false;
+						$(email).addClass("errorBorder");
+					}
+					if($(password).val() == ""){
+						post = false;
+						$(password).addClass("errorBorder");
+					}
+					if(post){
+						$.ajax({
+					        url: 'index.php/login/getUser',
+					        type: 'post',
+					        data: $('form#form_login').serialize(),
+					        success: function(response) {
+					        	if(response ==  "false"){
+					        		$("#errorLogin").fadeIn();
+					        	}else{
+					        		$(".acceder").hide();
+					        		$("#closeSesion").show();
+					        		$(".loginDiv").fadeOut();
+					        	}
+					        }
+					    });
+					}
+				});
+				
+			}
 		});
 		
-		
-		Split.__mapLeft.getMap().on('draw:created', function (e) {
-		    var type = e.layerType,
-		        layer = e.layer;
-
-		    if (type === 'marker') {
-		        layer.bindPopup('A popup!');
-		    }
-
-		    editableLayers.addLayer(layer);
-		    
-		    var polyline = L.polyline(e.layer._latlngs, {color: 'red'});
-		    polyline.addTo(Split.__mapRight.getMap());
-//		    e.layer.addTo(Split.__mapRight.getMap());
-		});
-
-		Split.__mapLeft.getMap().on('draw:edited', function () {
-		    // Update db to save latest changes.
-		});
-
-		Split.__mapLeft.getMap().on('draw:deleted', function () {
-		    // Update db to save latest changes.
+		$("#closeSesion").bind( "click", function(){
+			$("#closeSesion").hide();
+			$(".acceder").show();
 		});
 		
 	},
@@ -375,6 +552,7 @@ Split = {
 		$panel.find(".toogleLayer").click(function(){
 			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"));
 		});
+		
 	},
 	__drawLayerInterface: function(el){		
 		if (el==this.LEFT){
@@ -428,10 +606,20 @@ Split = {
 			gsLayerLeft = new GSLayerWMTS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 			gsLayerRight = new GSLayerWMTS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 		
-		}else{
+		}else if(tipo == "tms"){
 			gsLayerLeft = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 			gsLayerRight = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 		}
+		else{
+			$.ajax({
+		        url: 'index.php/draw/getDraws/' + capa.id, 
+		        dataType: "json",
+		        success: function(response) {
+		        	
+		        }
+			});
+		}
+		
 		this.__mapLeft.addLayer(gsLayerLeft);
 		this.__mapRight.addLayer(gsLayerRight);
 		
@@ -475,6 +663,113 @@ Split = {
 		this.__mapRight.getMap().off("click");
 		$("#map_left,#map_right").removeClass("cursor_info");
 	},
+	
+	disableAllDrawTools: function(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight){
+		$("#ctrl_marker_drawer").removeClass("enable");
+	    $("#ctrl_line_drawer").removeClass("enable");
+	    $("#ctrl_rectangle_drawer").removeClass("enable");
+	    
+	    drawMakerLeft.disable();
+	    drawMarkerRight.disable();
+	    drawLineLeft.disable();
+	    drawLineRight.disable();
+	    drawPolygonLeft.disable();
+	    drawPolygonRight.disable();
+	},
+	
+	showFancySaveDraw: function(e, type){
+		$("#fancy_box_save_draw").css({"top":event.y, "left":event.x});
+		$("#fancy_box_save_draw").show();
+		$("#fancy_box_save_draw").animate({"width": 150},300);
+		$($("#fancy_box_save_draw").find("p")[0]).fadeIn(600);
+		$($("#fancy_box_save_draw").find("p")[1]).fadeIn(600);
+		
+		var latlng;
+		if(type == "marker"){
+			latlng = e.layer._latlng;
+		}else{
+			latlng = e.layer._latlngs
+		}
+		
+		
+		$($("#fancy_box_save_draw").find("p")[0]).on('click', function(e) {
+			$.ajax({
+		        url: 'index.php/draw/getCategories', dataType: "json",
+		        success: function(response) {
+		        	for(var i=0; i<response.length; i++){
+			    		$("#fancy_box_form_save_draw").find("select").append("<option value='" + response[i].id_category + "'>" + response[i].title + "</option>");
+			    	}
+		        	
+		        	$.fancybox($("#fancy_box_form_save_draw").html(), {
+						'width':'638',
+						"height": "190",
+					    'autoDimensions':false,
+					    'autoSize':false,
+					    "visibility":"hidden",
+					    'closeBtn' : false,
+					    "openEffect" : "elastic",		   
+					    'scrolling'   : 'no',
+					    helpers : {
+					        overlay : {
+					            	css : {
+					            		'background' : 'none',
+					            		'border-radius' : '0',
+					            	}
+					        }
+					    },
+					    afterShow: function () {
+					    	
+					    	var titulo = $(".fancybox-inner").find("input[type='text']")[0];
+					    	var comentario = $(".fancybox-inner").find("input[type='text']")[1];
+					    	var categoria = $($(".fancybox-inner").find("select")).val();
+					    	
+					    	
+					    	$("h2").on("click",function(){
+					    		$.fancybox.close();
+					    	});
+					    	
+					    	$(".fancybox-inner").find("input[type='text']").on("click",function(){
+					    		$(this).val("");
+					    	});
+					    	
+					    	$("input[type='button']").on("click",function(){
+					    		var enviar = true;
+					    		
+					    		if($(titulo).val() == "" || $(titulo).val() == "Título"){
+					    			enviar = false;
+					    			$(titulo).addClass("errorBorder");
+					    		}
+					    		if($(comentario).val() == "" || $(comentario).val() == "Comentario"){
+					    			enviar = false;
+					    			$(comentario).addClass("errorBorder");
+					    		}
+					    		if(enviar){
+					    			$.ajax({
+								        url: 'index.php/draw/saveDraw',
+								        data: "puntos=" + JSON.stringify(latlng) + "&type=" + type + "&" + "&titulo=" + $(titulo).val() + "&comentario=" + $(comentario).val() + "&categoria=" + categoria,
+								        type: "POST",
+								        success: function(response) {
+								        	$.fancybox.close();
+								        	$($("#fancy_box_save_draw").find("p")[1]).trigger( "click" );
+								        }
+						    		});
+					    		}
+					    	});
+					    }
+					});
+		        }
+		    });
+
+		});
+		
+		
+		$($("#fancy_box_save_draw").find("p")[1]).on('click', function(e) {
+			$($("#fancy_box_save_draw").find("p")[0]).fadeOut(200);
+			$($("#fancy_box_save_draw").find("p")[1]).fadeOut(200);
+			$("#fancy_box_save_draw").animate({"width": 0},300);
+			$("#fancy_box_save_draw").hide(400);
+		});
+	}
 	
 	
 }

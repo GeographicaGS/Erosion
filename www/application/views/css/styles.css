@@ -659,12 +659,12 @@ img.tiposCapas{
 	top: 73px;
 	background-color: #ccc;
 	height: 29px;
-	width: 67px;
+	width: 127px;
 	border-radius: 0 0 5px 5px;
 	border-bottom: 1px solid #999;
 	border-left: 1px solid #999;
 	border-right: 1px solid #999;
-	left: 50%;
+	left: 48.1%;;
 	margin-left: -36px;
 	z-index: 2;
 }
@@ -678,6 +678,14 @@ img.tiposCapas{
 	margin-left: 2px;
 }
 
+#tool_bar #ctrl_marker_drawer {
+	background: url("../img/ERO_herramienta_punto_off.png");
+}
+
+#tool_bar #ctrl_line_drawer {
+	background: url("../img/ERO_herramienta_linea_off.png");
+}
+
 #tool_bar #ctrl_rectangle_drawer {
 	background: url("../img/ERO_herramienta_poligono_off.png");
 }
@@ -688,6 +696,18 @@ img.tiposCapas{
 
 #tool_bar #ctrl_feature_info.enable {
 	background: url("../img/ERO_herramienta_info_on.png");
+}
+
+#tool_bar #ctrl_marker_drawer.enable {
+	background: url("../img/ERO_herramienta_punto_on.png");
+}
+
+#tool_bar #ctrl_line_drawer.enable {
+	background: url("../img/ERO_herramienta_linea_on.png");
+}
+
+#tool_bar #ctrl_rectangle_drawer.enable {
+	background: url("../img/ERO_herramienta_poligono_on.png");
 }
 
 .cursor_info{
@@ -710,6 +730,7 @@ img.tiposCapas{
 	right: 0;
 	margin-right: 25px;
 	margin-top: 10;
+	display: none;
 }
 
 .loginDiv h1{
@@ -720,11 +741,85 @@ img.tiposCapas{
 	margin-bottom: 20px;
 }
 
-.loginDiv input[type="text"]{
-	width: 200px;
+.loginDiv input[type="text"], input[type="password"]{
 	width: 200px;
 	height: 25px;
 	margin-bottom: 10px;
 	margin-left: 10px;
 	border: 1px solid #c4c9cc;
+	padding-left: 5px;
+	color: #c4c9cc;
+	font-size: 12px;
+	border-radius: 3px;
+}
+
+.loginDiv input[type="button"]{
+	width: 200px;
+	height: 30px;
+	background-color: #034da0;
+	color: white;
+	font-size: 13px;
+	text-align: center;
+	border-radius: 3px;
+	border: 1px solid #2d384f;
+	margin-left: 10px;
+	cursor:pointer;
+}
+
+.loginDiv p{
+	margin-top: 8px;
+	text-align: center;
+	color: red;
+	display: none;	
+}
+
+.errorBorder{
+	border: 1px solid red !important;
+}
+
+.acceder{
+	cursor: pointer;
+	float: left;
+	width: 75px;
+	color: white;
+	text-align: center;
+	margin-right: 10px;
+	background-image: url("../img/MED_separador_cab1.png");
+	background-repeat: repeat-y;
+	height: 54px;
+	padding-top: 18;
+	padding-left: 8px;
+}
+
+.leaflet-draw{
+	display: none;
+}
+
+#fancy_box_save_draw{
+	width: 0px;
+	height: 24px;
+	position: absolute;
+	background: #cccccc;
+	font-size: 10px;
+	border: 1px solid #333333;
+	display: none;
+}
+
+#fancy_box_save_draw .fancySave{
+	color: #0363aa;
+	font-weight: bold;
+	padding-top: 6px;
+	margin-left: 5px;
+	border-right: 1px solid black;
+	height: 19px;
+	margin-right: 5px;
+	padding-right: 5px;
+	cursor: pointer;
+	display: none;
+}
+
+#fancy_box_save_draw .fancyCancel{
+	margin-top: 6px;
+	cursor: pointer;
+	display: none;
 }
