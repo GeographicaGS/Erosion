@@ -611,13 +611,14 @@ Split = {
 			gsLayerRight = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 		}
 		else{
-			$.ajax({
-		        url: 'index.php/draw/getDraws/' + capa.id, 
-		        dataType: "json",
-		        success: function(response) {
-		        	
-		        }
-			});
+//			$.ajax({
+//		        url: 'index.php/draw/getDraws/' + capa.id, 
+//		        dataType: "json",
+//		        success: function(response) {
+//		        	
+//		        }
+//			});
+			return null;
 		}
 		
 		this.__mapLeft.addLayer(gsLayerLeft);
