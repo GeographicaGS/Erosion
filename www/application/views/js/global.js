@@ -1,5 +1,17 @@
 var isLoged = false;
 
+$.ajax({
+    url: 'index.php/login/isLoged',
+    success: function(response) {
+    	if(response == 1){
+    		$(".acceder").hide();
+    		$("#closeSesion").show();
+    		$(".loginDiv").fadeOut();
+    		isLoged = true;
+    	}
+    }
+});
+
 function getImg(s){
 	return base_url + "application/views/img/" + s;
 }

@@ -606,7 +606,7 @@ var categories = [
             	        	   wmts: {
 
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
-       	        		   				name: "medio_marino:batimetria"
+       	        		   				name: "medio_marino:batimetria_azul"
             	        	   }
             	            },
 
