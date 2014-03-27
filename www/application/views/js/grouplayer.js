@@ -657,7 +657,6 @@ function GroupLayer(opts){
 					 
 					 
 					 }
-
 					 ,{
 						 'Google satélite':gSatellite,
 						 'Google relieve': gTerrain,
@@ -680,7 +679,6 @@ function GroupLayer(opts){
 //						'WMTS IGN': wmts,
 //						'CVI WMTS' : wmts2
 					 },{position:position}).addTo(this.map);
-
 	
 	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));
 	
