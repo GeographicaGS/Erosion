@@ -26,6 +26,7 @@ class Login extends MY_Controller
       		$this->session->set_userdata("name",$user->name);
       		$this->session->set_userdata("surname",$user->surname);
       		$this->session->set_userdata("email",$user->email);
+      		$this->session->set_userdata("logged_status",LOGGED_STATUS_IN);
       		
 			echo "true";
 		}

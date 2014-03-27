@@ -60,6 +60,10 @@ header nav a{
 	text-shadow: #013e88 0px -1px 0px;
 }
 
+header nav a:HOVER{
+	color: white;
+}
+
 header .left{
 	background:#222d46 url("../img/MED_separador_cab1.png") repeat-y right top;
 	float:left;
@@ -240,10 +244,10 @@ ul.layer_panel li:FIRST-CHILD{
 /* } */
 
 ul.layer_panel li input[type="checkbox"]{
-/* 	position: relative; */
-/* 	top: 3px; */
+	margin-top: 7px;
 	margin-left: 0px;
 	margin-right: 20px;
+	float: left;
 }
 
 ul.layer_panel li a{
@@ -284,6 +288,7 @@ ul.layer_panel > li > span {
 	line-height: 25px;
 	padding-left: 5px;
 	padding-right: 5px;
+	display: block;
 }
 
 
@@ -781,7 +786,7 @@ img.tiposCapas{
 	cursor: pointer;
 	float: left;
 	width: 75px;
-	color: white;
+	color: #becbdc;
 	text-align: center;
 	margin-right: 10px;
 	background-image: url("../img/MED_separador_cab1.png");
@@ -789,6 +794,26 @@ img.tiposCapas{
 	height: 54px;
 	padding-top: 18;
 	padding-left: 8px;
+}
+
+.acceder:HOVER{
+	color: white;
+}
+
+#closeSesion{
+	margin-top: 0px;
+	cursor: pointer;
+	display: none;
+	background-image: url("../img/MED_separador_cab1.png");
+	background-repeat: repeat-y;
+	height: 42px;
+	padding-top: 30px;
+	padding-left: 10px;
+	margin-right: 10px;
+}
+
+#closeSesion:HOVER{
+	color: white;
 }
 
 .leaflet-draw{
@@ -822,4 +847,10 @@ img.tiposCapas{
 	margin-top: 6px;
 	cursor: pointer;
 	display: none;
+}
+
+.ellipsis{
+	text-overflow: ellipsis;
+   overflow: hidden;
+   white-space: nowrap;  
 }
