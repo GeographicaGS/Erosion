@@ -42,5 +42,6 @@ class Login extends MY_Controller
 	{
 		$this->session->sess_destroy();
 	}
+	
 } 
 ?>

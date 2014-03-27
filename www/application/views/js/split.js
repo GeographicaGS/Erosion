@@ -438,7 +438,7 @@ Split = {
 	},
 	/* Toogle an Split panel*/
 	togglePanel:function (el){
-		var totalWidth = Math.floor(($(window).width()-2) /2);
+		var totalWidth = Math.floor(($(window).width()-2) /2) - 7.5;
 		if (el==this.LEFT){
 			//Left panel
 			if ($("#panel_left").is(":visible") && $("#panel_right").is(":visible")){	
