@@ -15,9 +15,7 @@ class Draw_model extends CI_Model{
 	}
 	
 	public function getDrawsByCategory($id_category){
-		$sql = "SELECT d.id_draw, d.titulo, d.comentario, d.id_category, d.fecha, d.id_user, d.tipo, c.title, ST_AsGeoJSON(ST_Transform(geom, 4326)) FROM public.draw d
-				LEFT JOIN public.category c on d.id_category = c.id_category  
-				where d.id_category=?";
+		$sql = "SELECT id_draw, titulo, comentario, id_category, fecha, id_user, tipo, ST_AsGeoJSON(ST_Transform(geom, 4326)) FROM public.draw where id_category=?";
 		return $this->db->query($sql,array($id_category))->result();
 	}
 }

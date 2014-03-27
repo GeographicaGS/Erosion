@@ -1,5 +1,3 @@
-var isLoged = false;
-
 function getImg(s){
 	return base_url + "application/views/img/" + s;
 }

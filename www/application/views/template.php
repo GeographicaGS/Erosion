@@ -45,7 +45,6 @@
 <script type="text/javascript" src="<?= get_js("GSLayerWMS.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("GSLayerWMTS.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("GSLayerTMS.js")?>"></script>
-<script type="text/javascript" src="<?= get_js("GSLayerGeoJson.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("categories.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("global.js")?>"></script>
 
@@ -138,7 +137,7 @@
 			<div class="clear"></div>
 			Acceder
 		</div>
-		<p id="closeSesion" class="credits fleft">
+		<p id="closeSesion" class="credits fleft" style="margin-top: 30px; cursor: pointer; display: none">
 			Cerrar sesión
 		</p>
 	</div>

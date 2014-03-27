@@ -32,22 +32,17 @@ function GroupLayer(opts){
 				"	<input type='checkbox' class='toogleLayer' " +
 				"			id_layer="+x+" father="+this.father+ " " + lattr +">" +
 				
-					"<img class='remove' src='application/views/img/MED_icon_papelera_panel.png' title='Opacity 100 %' id_layer='" + x + "'>";
-					
-					if(l.tipo != "geoJson"){
-						html += "<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>";
-					}
+					"<img class='remove' src='application/views/img/MED_icon_papelera_panel.png' title='Opacity 100 %' id_layer='" + x + "'>"+
+					"<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>";
 					if(l.leyenda){
 						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Opacity 100 %' id_layer='" + x + "'>";
 					}
-					html += "<span class='ellipsis'>"+l.title+"</span>";
-					if(l.tipo != "geoJson"){
-						html += "<div class='opacity_panel' style='display: none;'>" +
+					html += "<span>"+l.title+"</span>"+
+					"<div class='opacity_panel' style='display: none;'>" +
 						"<span class='opacity_label'>Opacity 100 %</span>" +
-						"<div class='slider'></div>" +
-					"</div>";
-					}
-				html += "</li>";
+						"<div class='slider'></div>"
+					"</div>"
+				"</li>";
 			
 		}
 		html += "<li style='background: none; cursor: initial;' class='disableSortable' onclick='navigate()'><a class='addCatalog' href='#'>+ Añadir capas del <strong>Catálogo</strong></a></li>";
@@ -304,9 +299,8 @@ function GroupLayer(opts){
 			    		        	}
 			    		        	$(selfBoton).removeClass("cargadoServicio");
 			    		        },
-			    		        error: function(){
-			    		        	$(selfBoton).removeClass("cargadoServicio");
-			    		        	$(selfBoton).val("Servicio no encontrado");
+			    		        error: function(){	        	
+			    		        	obj.featureInfo(e,requestIdx+1);
 			    		        }
 			    		    });
 			    			

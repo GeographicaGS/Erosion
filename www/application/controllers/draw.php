@@ -21,9 +21,6 @@ class Draw extends MY_Controller
 	}
 	
 	public function saveDraw(){
-		
-		is_logged();
-		
 		$puntos = json_decode($this->input->post("puntos"), true);
 		
 		$data["tipo"] = $this->input->post("type");
@@ -67,7 +64,7 @@ class Draw extends MY_Controller
 		
 		foreach($draws as $draw){
 			$properties = array('id' => $draw->id_draw);
-			array_push($geojson,array( 'type' => 'Feature', 'properties' => array('id' => $draw->id_draw, 'titulo' => $draw->titulo, 'comentario' => $draw->comentario, 'id_category' => $draw->id_category, 'category' => $draw->title, 'fecha' => $draw->fecha, 'id_user' => $draw->id_user), 'geometry' => json_decode($draw->st_asgeojson)));
+			array_push($geojson,array( 'type' => 'Feature', 'properties' => array('id' => $draw->id_draw, 'titulo' => $draw->titulo, 'comentario' => $draw->comentario, 'id_category' => $draw->id_category, 'fecha' => $draw->fecha, 'id_user' => $draw->id_user), 'geometry' => json_decode($draw->st_asgeojson)));
 		}
 		
 		echo json_encode($geojson);

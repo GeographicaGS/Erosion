@@ -119,19 +119,3 @@ function strtrun($s, $max, $extra=null)
 	}
 	return $s;
 }
-
-function is_logged()
-{
-	$CI = & get_instance();
-	$logged_status = $CI->session->userdata("logged_status");
-	if ($logged_status == LOGGED_STATUS_IN)
-	{
-		return true;
-	}
-	else
-	{
-		$CI->session->sess_destroy();
-		echo "Access forbidden";
-		exit(-1);
-	}
-}

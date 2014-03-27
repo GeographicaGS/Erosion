@@ -249,9 +249,7 @@ Split = {
 		    Split.__mapLeft.getMap().off("click");
 		    Split.__mapLeft.getMap().off("mousemove");
 		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
-		    if(isLoged){
-		    	Split.showFancySaveDraw(e, type);
-		    }
+		    Split.showFancySaveDraw(e, type);
 		});
 		
 		Split.__mapRight.getMap().on('draw:created', function (e) {
@@ -263,9 +261,7 @@ Split = {
 		    Split.__mapRight.getMap().off("click");
 		    Split.__mapRight.getMap().off("mousemove");
 		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
-		    if(isLoged){
-		    	Split.showFancySaveDraw(e, type);
-		    }
+		    Split.showFancySaveDraw(e, type);
 		});
 
 		Split.__mapLeft.getMap().on('draw:edited', function () {
@@ -352,9 +348,7 @@ Split = {
 			}else{
 				$(".loginDiv").fadeIn();
 				$(".loginDiv").find("input[type='text'],input[type='password']").bind( "click", function(){
-					if($(".loginDiv").find("input[type='text']").val() == "Correo electrónico"){
-						$(".loginDiv").find("input[type='text'],input[type='password']").val("");
-					}
+					$(this).val("");
 				});
 				
 				$(".loginDiv").find("input[type='button']").bind( "click", function(){
@@ -377,12 +371,10 @@ Split = {
 					        success: function(response) {
 					        	if(response ==  "false"){
 					        		$("#errorLogin").fadeIn();
-					        		isLoged = false;
 					        	}else{
 					        		$(".acceder").hide();
 					        		$("#closeSesion").show();
 					        		$(".loginDiv").fadeOut();
-					        		isLoged = true;
 					        	}
 					        }
 					    });
@@ -393,18 +385,8 @@ Split = {
 		});
 		
 		$("#closeSesion").bind( "click", function(){
-			$.ajax({
-		        url: 'index.php/login/logout',
-		        type: 'post',
-		        data: $('form#form_login').serialize(),
-		        success: function(response) {
-		        	$("#closeSesion").hide();
-					$(".acceder").show();
-					$(".loginDiv").find("input[type='text']").val("Correo electrónico");
-					$(".loginDiv").find("input[type='password']").val("Contraseña");
-					isLoged = false;
-		        }
-		    });
+			$("#closeSesion").hide();
+			$(".acceder").show();
 		});
 		
 	},
@@ -612,7 +594,7 @@ Split = {
 	
 	
 	
-	addLayer: function(capa, tipo, leyenda, geoJson) {
+	addLayer: function(capa, tipo, leyenda) {
 		var gsLayerLeft;
 		var gsLayerRight;
 		
@@ -628,12 +610,14 @@ Split = {
 			gsLayerLeft = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 			gsLayerRight = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 		}
-		else if(geoJson.length > 0){
-			
-			gsLayerLeft = new GSLayerGeoJson(geoJson[0].properties.category, geoJson, null);
-			gsLayerRight = new GSLayerGeoJson(geoJson[0].properties.category, geoJson, null);
-		}
 		else{
+//			$.ajax({
+//		        url: 'index.php/draw/getDraws/' + capa.id, 
+//		        dataType: "json",
+//		        success: function(response) {
+//		        	
+//		        }
+//			});
 			return null;
 		}
 		
@@ -682,7 +666,6 @@ Split = {
 	},
 	
 	disableAllDrawTools: function(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight){
-		$("#ctrl_feature_info").removeClass("enable");
 		$("#ctrl_marker_drawer").removeClass("enable");
 	    $("#ctrl_line_drawer").removeClass("enable");
 	    $("#ctrl_rectangle_drawer").removeClass("enable");
@@ -714,7 +697,6 @@ Split = {
 			$.ajax({
 		        url: 'index.php/draw/getCategories', dataType: "json",
 		        success: function(response) {
-		        	$("#fancy_box_form_save_draw").find("select").children().remove();
 		        	for(var i=0; i<response.length; i++){
 			    		$("#fancy_box_form_save_draw").find("select").append("<option value='" + response[i].id_category + "'>" + response[i].title + "</option>");
 			    	}
@@ -737,6 +719,12 @@ Split = {
 					        }
 					    },
 					    afterShow: function () {
+					    	
+					    	var titulo = $(".fancybox-inner").find("input[type='text']")[0];
+					    	var comentario = $(".fancybox-inner").find("input[type='text']")[1];
+					    	var categoria = $($(".fancybox-inner").find("select")).val();
+					    	
+					    	
 					    	$("h2").on("click",function(){
 					    		$.fancybox.close();
 					    	});
@@ -746,10 +734,6 @@ Split = {
 					    	});
 					    	
 					    	$("input[type='button']").on("click",function(){
-					    		
-					    		var titulo = $(".fancybox-inner").find("input[type='text']")[0];
-						    	var comentario = $(".fancybox-inner").find("input[type='text']")[1];
-						    	var categoria = $($(".fancybox-inner").find("select")).val();
 					    		var enviar = true;
 					    		
 					    		if($(titulo).val() == "" || $(titulo).val() == "Título"){
