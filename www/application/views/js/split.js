@@ -170,6 +170,12 @@ Split = {
 		var drawPolygonLeft = new L.Draw.Polygon(Split.__mapLeft.getMap(), options.draw.polygon);
 		var drawPolygonRight = new L.Draw.Polygon(Split.__mapRight.getMap(), optionsRight.draw.polygon);
 		
+		
+		var editLeft = new L.EditToolbar.Edit(Split.__mapLeft.getMap(), {
+            featureGroup: drawControl.options.edit.featureGroup,
+            selectedPathOptions: drawControl.options.edit.selectedPathOptions
+        });
+		
 		var  latlng ;
 		var polyline;
 		var poligono;
@@ -248,14 +254,18 @@ Split = {
 		    editableLayers.addLayer(e.layer);
 		    Split.__mapLeft.getMap().off("click");
 		    Split.__mapLeft.getMap().off("mousemove");
-		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+//		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
 		    if(isLoged){
 		    	Split.showFancySaveDraw(e, type);
 		    }
+		    
+//		    e.layer.on('click', function (e) {
+//		    	alert("awdad");
+//			});
 		});
 		
 		Split.__mapRight.getMap().on('draw:created', function (e) {
-
+			
 		    if (type == 'marker') {
 		    	L.marker(e.layer._latlng).addTo(Split.__mapLeft.getMap());
 		    }		    
@@ -266,6 +276,10 @@ Split = {
 		    if(isLoged){
 		    	Split.showFancySaveDraw(e, type);
 		    }
+		    
+//		    e.layer.on('click', function (e) {
+//				alert("awdad");
+//			});
 		});
 
 		Split.__mapLeft.getMap().on('draw:edited', function () {

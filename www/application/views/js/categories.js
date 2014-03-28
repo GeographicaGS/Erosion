@@ -579,6 +579,60 @@ var categories = [
        	        		   				name: "litoral:Andalucia"
             	        	   }
             	           },
+            	           
+            	           {
+            	        	   id: 39,
+            	        	   title: "Sombreado",
+            	        	   description: "Sombreado modelo Mar de Alborán 40m",
+            	        	   wms: {
+
+       	        		   				server: "http://www.sandbox.geographica.gs/cgi-bin/movitra",
+       	        		   				name: "sombreado"
+            	        	   }
+            	           },
+            	           
+            	           {
+            	        	   id: 40,
+            	        	   title: "Mapa fisiográfico del litoral Andaluz",
+            	        	   description: "Mapa fisiográfico del litoral andaluz. Hoja 07-08. Escala 1:50.0000",
+            	        	   wms: {
+
+       	        		   				server: "http://www.sandbox.geographica.gs/cgi-bin/movitra",
+       	        		   				name: "malaga"
+            	        	   }
+            	           },
+            	           
+            	           {
+            	        	   id: 41,
+            	        	   title: "Litología-Sustrato de las Ecocartografías del Litoral y Medio Marino",
+            	        	   description: "Litología-Sustrato de las Ecocartografías del Litoral y Medio Marino. Escala: 1:50.000",
+            	        	   wmts: {
+
+       	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
+       	        		   				name: "medio_marino:morfologia_marina"
+            	        	   }
+            	           },
+            	           
+            	           {
+            	        	   id: 42,
+            	        	   title: "Arrecifes",
+            	        	   description: " ",
+            	        	   wmts: {
+
+       	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
+       	        		   				name: "litoral:Arrecifes"
+            	        	   }
+            	           },
+            	           
+            	           {
+						    	id: 46,
+						    	title: "Modelo digital del térreo con batimetría",
+						    	description: " ",
+						    	wms: {
+						    		server: "http://www.sandbox.geographica.gs/cgi-bin/movitra",
+						    		name: "mdt40fin4"
+						    	}
+						    },
 
 
 						  ]
@@ -620,7 +674,37 @@ var categories = [
             	        		   		name: "REDIAM"
 
             	        	   }
-						    },  
+						    },
+						    
+						    {
+						    	id: 43,
+						    	title: "Curvas batimétricas de las Ecocartografías del Litoral y Medio Marino blanco",
+						    	description: "Curvas batimétricas de las Ecocartografías del Litoral y Medio Marino (1m).Blanco. Escala:1:50.000.",
+						    	wmts: {
+						    		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
+						    		name: "medio_marino:batimetria_blanco"
+						    	}
+						    },
+						    
+						    {
+						    	id: 44,
+						    	title: "Cero hidrográfico de las Ecocartografías del Litoral y Medio Marino azul",
+						    	description: "Cero hidrográfico de las Ecocartografías del Litoral y el Medio Marino. Azul. Escala:1:50.000.",
+						    	wmts: {
+						    		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
+						    		name: "medio_marino:linea_cero_azul"
+						    	}
+						    },
+						    
+						    {
+						    	id: 45,
+						    	title: "Cero hidrográfico de las Ecocartografías del Litoral y Medio Marino blanco",
+						    	description: "Cero hidrográfico de las Ecocartografías del Litoral y el Medio Marino. blanco. Escala:1:50.000.",
+						    	wmts: {
+						    		server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
+						    		name: "medio_marino:linea_cero_blanco"
+						    	}
+						    },
 
     	             ]
                },
@@ -982,7 +1066,7 @@ var categories = [
             	        	   wmts: {
      	        		   				
        	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",
-       	        		   				name: "litoral_urbano:litoral_urbano:poblacion_250_p0"
+       	        		   				name: "litoral_urbano:poblacion_250_p0"
             	        	   }
             	           },
 						   {
