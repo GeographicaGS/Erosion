@@ -254,7 +254,7 @@ Split = {
 		    editableLayers.addLayer(e.layer);
 		    Split.__mapLeft.getMap().off("click");
 		    Split.__mapLeft.getMap().off("mousemove");
-//		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
 		    if(isLoged){
 		    	Split.showFancySaveDraw(e, type);
 		    }
