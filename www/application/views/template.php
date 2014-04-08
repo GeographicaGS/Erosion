@@ -11,19 +11,30 @@
 <link rel="stylesheet" type="text/css" href="<?= get_css("reset.css")?>" />
 
 <link rel="stylesheet" href="<?= get_js("lib/leaflet-0.5/leaflet.css")?>" />
+<link rel="stylesheet" href="<?= get_js("lib/leaflet.draw/leaflet.draw.css")?>" />
 
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/jquery.fancybox.css?v=2.1.3")?>"/>
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5")?>"/>
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7")?>"/>
+<link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/ui-lightness/jquery-ui-1.10.3.custom.min.css")?>"/>
 		
 <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
 
 <link rel="stylesheet" type="text/css" href="<?= get_css("layout.css")?>" />
-<link rel="stylesheet" type="text/css" href="<?= get_css("styles.css")?>" />
+<link rel="stylesheet" type="text/css" href="<?= get_css("styles.css")?>?v1.0" />
 
 <script type="text/javascript" src="<?= get_js("lib/jquery-1.8.2.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-0.5/leaflet.js")?>"></script>
+
+
+<script type="text/javascript" src="<?= get_js("lib/leaflet.draw/leaflet.draw.js")?>"></script>
+
+
+
 <script type="text/javascript" src="<?= get_js("lib/Google.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/leaflet-wmts.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/jquery-ui-1.10.3.custom.min.js")?>"></script>
+
 <!--[if lt IE 9]>
 <script src="<?= get_js("lib/html5shiv.js")?>"></script>
 <![endif]-->
@@ -31,6 +42,10 @@
 <script type="text/javascript" src="<?= get_js("grouplayer.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("split.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("layers.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("GSLayerWMS.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("GSLayerWMTS.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("GSLayerTMS.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("categories.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("global.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("lib/fancybox/jquery.fancybox.pack.js?v=2.1.3")?>"></script>
@@ -41,6 +56,8 @@
 <script type="text/javascript">	
 
 	$(window).ready(function(){
+		
+		
 		$("a#info_fancybox").fancybox({
 			"hideOnContentClick" : true,
 			"overlayColor" : "#150e09",
@@ -99,62 +116,111 @@
 		<div class="clear"></div>
 	</div>	
 	<nav class="fleft">
-		<a href="" target="_blank">
+		<a href="javascript:navigate()" target="_blank">
 			EL PROYECTO
 		</a>
-		<a href="javascript:showDevMsg()">
+		<a href="javascript:navigate()">
 			CATÁLOGO
 		</a>
 	</nav>
-	<p class="fright size10 credits">
-		<span class="bold">Proyecto de I+D+i</span><br/>
-		Espacialización y difusión web de variables demográficas, turísticas y ambientales para<br/>
-		la evaluación de la vulnerabilidad asociada a la erosión de playas en la costa andaluza
-	</p>
+	
+	<div class="fright">
+		<p class="size10 credits fleft">
+			<span class="bold">Proyecto de I+D+i</span><br/>
+			Espacialización y difusión web de variables demográficas, <br/>
+			turísticas y ambientales para la evaluación de la vulnerabilidad<br/>
+			asociada a la erosión de playas en la costa andaluza.
+		</p>
+		
+		<div class="acceder">
+			<img class="mb5" src="<?= get_img("ERO_icon_user_cab.png")?>" title="Acceder"/>
+			<div class="clear"></div>
+			Acceder
+		</div>
+		<p id="closeSesion" class="credits fleft" style="margin-top: 30px; cursor: pointer; display: none">
+			Cerrar sesión
+		</p>
+	</div>
 	
 	<div class="clear"></div>
 </header>
 
-<div id="container" >
-	
-	<div id="panel_left" class="panel">
-	
-		<div id="map_left"></div>
-	
-		<div id="histogram_left" style="display:none"></div>
-		
-		<div class="split_ctrl">			
-			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_left.png")?>" width=15px height=16px title="Desincronizar mapas" />						
-			<a href="javascript:Split.togglePanel(Split.LEFT)">
-				<img class="toggle" src="<?= get_img("MED_icon_split_left.png")?>" width=28px height=29px title="Ocultar mapa de la izquierda"/>
-			</a>
+<div id="container" style="overflow: auto;">
+
+	<form id="form_login" action="index.php/login/getUser" method="POST">
+		<div class="loginDiv">
+			<h1>Acceso de usuarios</h1>
+			<input name="email" type="text" value="Correo electrónico" />
+			<input name="password" type="password" value="Contraseña" />
+			<input type="button" value="Acceder"/>
+			<p id="errorLogin">Usuario y contraseña incorrectos</p>	
 		</div>
-	
-		<a id="capaLeft" href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Capas</a>
+	</form>
+
+	<div id="proyecto">
+		<div id="panel_left" class="panel">
 		
-		<ul class="layer_panel close"></ul>
-	
+			<div id="map_left"></div>
+		
+			<div id="histogram_left" style="display:none"></div>
+			
+			<div class="split_ctrl">			
+				<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_left.png")?>" width=15px height=16px title="Desincronizar mapas" />						
+				<a href="javascript:Split.togglePanel(Split.LEFT)">
+					<img class="toggle" src="<?= get_img("MED_icon_split_left.png")?>" width=28px height=29px title="Ocultar mapa de la izquierda"/>
+				</a>
+			</div>
+		
+			<a id="capaLeft" href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Capas</a>
+			
+			<ul class="layer_panel close"></ul>
+		
+		</div>
+		
+		<div id="sep" class="sep" ></div>
+		
+		
+		<div id="tool_bar">
+			<div id="ctrl_marker_drawer"></div>
+			<div id="ctrl_line_drawer"></div>
+			<div id="ctrl_rectangle_drawer"></div>
+			<div id="ctrl_feature_info"></div>
+		</div>
+		
+		
+		<div id="panel_right" class="panel">
+		
+			<div id="map_right"></div>
+		
+			<div id="histogram_right" style="display:none"></div>
+		
+			<div class="split_ctrl">			
+				<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right.png")?>" width=15px height=16px title="Desincronizar mapas"/>			
+				<a href="javascript:Split.togglePanel(Split.RIGHT)">
+					<img class="toggle" src="<?= get_img("MED_icon_split_right.png")?>" width=28px height=29px title="Ocultar mapa de la derecha"/>
+				</a>
+			</div>
+		
+			<a id="capaRight" href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
+			
+			<ul class="layer_panel close"></ul>
+		
+		</div>
 	</div>
-	
-	<div id="sep" class="sep" ></div>
-	
-	<div id="panel_right" class="panel">
-	
-		<div id="map_right"></div>
-	
-		<div id="histogram_right" style="display:none"></div>
-	
-		<div class="split_ctrl">			
-			<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right")?>" width=15px height=16px title="Desincronizar mapas"/>			
-			<a href="javascript:Split.togglePanel(Split.RIGHT)">
-				<img class="toggle" src="<?= get_img("MED_icon_split_right.png")?>" width=28px height=29px title="Ocultar mapa de la derecha"/>
-			</a>
+	<div id="catalogo" style="display: none;">
+		<div class="fleft mr20">
+			<div class="catalogo size18">Catálogo</div>
+			<p class="mt">Lorem ipsum dolor sit amet, 
+				consectetur adipiscing elit. 
+				Nam faucibus velit iaculis 
+				faucibus placerat. Morbi et 
+				porttitor lorem, id rutrum est. 
+				Morbi sed dolor ac nunc 
+				euismod tempus.
+			</p>
+			<div class="mt20"><a class="catalogo size13"  style="text-decoration: underline;" href="javascript:navigate()">Volver al mapa</a></div>
 		</div>
-	
-		<a id="capaRight" href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
-		
-		<ul class="layer_panel close"></ul>
-	
+		<div id="categories"></div>
 	</div>
 	<div class="clear"></div>
 </div>
@@ -162,6 +228,48 @@
 <div style="display: none">
 	<a id="info_fancybox" href="#info_fancy_box_data">Fancybox hidden_link</a>
 	<div id="info_fancy_box_data"></div>
+	
+	<div id="fancy_box_form_save_draw">
+		<div class="serviceFancy">
+			<h1>Nuevo elemento</h1>
+			<h2>Cerrar</h2>
+			<div class="clear"></div>
+			<input class="fleft" style="width: 390px; background: #ecedef;" type="text" value="Título">
+			<select style="width: 220px; background-position: 195 13;">
+				
+			</select>
+			<input style="width: 620px; background: #ecedef;" type="text" value="Comentario">
+			<input class="mt20" style="width: 620px;" type="button" value="Guardar punto">
+		</div>
+	</div>
+</div>
+
+<div id="fancy_box_save_draw">
+		<p class="fleft fancySave">Guardar punto</p>
+		<p class="fancyCancel">Cancelar</p>
+</div>
+
+<div style="display: none" id="service_fancy_box_data">
+	<div class="serviceFancy">
+		<h1>Añadir servicio externo</h1>
+		<h2>Cerrar</h2>
+		<div class="clear"></div>
+		<select>
+			<option>WMS</option>
+			<option>TMS</option>
+		</select>
+		<input type="text" value="url"/>
+		<input class="input_fancy" style="display: none;" type="text" value="Título de la capa" />
+		<div class="clear"></div>
+		<input type="button" value="Explorar servicio" />
+		<div class="clear"></div>
+		
+		<div class="info_fancy_service">Seleccione un tipo de servicio y especifique la url de descarga</div>
+		
+		<div class="ml mr tabla_fancy_service"></div>
+		<div class="urlServicioWms" style="display: none"></div>
+		
+	</div>
 </div>
 
 <footer>
