@@ -1235,7 +1235,7 @@ function drawCategories() {
         		        dataType: "json",
         		        success: function(response) {
         		        	Split.addLayer(null,tipo, null, response);  
-        		        	navigate();}
+        		        	navigate(0);}
         			});
         		}
         		else{
@@ -1245,7 +1245,7 @@ function drawCategories() {
         				leyenda = capa.wms.server;
         			}
         			Split.addLayer(capa,tipo, leyenda, null);
-        			navigate();
+        			navigate(0);
         		}			
         	});	
         }

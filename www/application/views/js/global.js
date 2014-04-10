@@ -1,4 +1,5 @@
 var isLoged = false;
+var sectionActual = 0;
 
 $.ajax({
     url: 'index.php/login/isLoged',
@@ -43,20 +44,51 @@ function onLocationFound(e) {
     L.marker(e.latlng).addTo(this).bindPopup("Esta es tu posición:</br>Latitud: " +  e.latlng.lat + "<br>Longitud: " + e.latlng.lng).closePopup();
 }
 
-function navigate() {
-    if ($("#catalogo").is(":visible")) {
-    	$("#catalogo").slideToggle(500);
-        $("#proyecto").slideToggle(600);
-    }
-    else{
-        $("#proyecto").slideToggle(500);
-        $("#catalogo").slideToggle(600);   
-        
-        $($("#fancy_box_save_draw").find("p")[0]).fadeOut(200);
-		$($("#fancy_box_save_draw").find("p")[1]).fadeOut(200);
-		$("#fancy_box_save_draw").animate({"width": 0},300);
-		$("#fancy_box_save_draw").hide(400);
-    }    
+function navigate(section) {
+	var ancho = $("#container").width() + 100;
+
+	
+	if(section != sectionActual){
+		if(sectionActual == 0){
+			$("#tool_bar").hide();
+			$("#proyecto").css({"position": "relative"});
+			$("#proyecto").animate({"right": ancho},500);
+			$("#proyecto").hide(300);
+		}else if(sectionActual == 1){
+			$("#catalogo").slideUp(300)
+		}else{
+			$("#actividad").slideUp(300)
+		}
+		
+		sectionActual = section;
+	
+		if(section == 0){
+			$("#proyecto").animate({"right":"0"},500,function(){
+				$("#proyecto").css({"position": "initial"});
+				$("#tool_bar").show();
+			});
+			$("#proyecto").show();
+		}else if(section == 1){
+			$("#catalogo").slideDown(400);
+		}else{
+			drawNotifications();
+			$("#actividad").slideDown(400);
+		}
+	}
+	 
+}
+
+
+function compareLayersCoordinates(cord1, cord2){
+	if(cord1.length != cord2.length){
+		return false;
+	}
+	for(var i=0; i< cord1.length; i++){
+		if(cord1[i].lat != cord2[i].lat || cord1[i].lng != cord2[i].lng){
+			return false;
+		}
+	}
+	return true;
 }
 
 function createDrawLocal() {

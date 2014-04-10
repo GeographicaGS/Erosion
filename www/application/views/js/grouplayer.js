@@ -50,7 +50,7 @@ function GroupLayer(opts){
 				html += "</li>";
 			
 		}
-		html += "<li style='background: none; cursor: initial;' class='disableSortable' onclick='navigate()'><a class='addCatalog' href='#'>+ Añadir capas del <strong>Catálogo</strong></a></li>";
+		html += "<li style='background: none; cursor: initial;' class='disableSortable' onclick='navigate(1)'><a class='addCatalog' href='#'>+ Añadir capas del <strong>Catálogo</strong></a></li>";
 		html += "<li style='background: none; cursor: initial;' class='disableSortable' ><a class='add_layer' href='#'>+ Añadir capas de un servicio externo</a></li>"; 
 		return html;		
 	};
@@ -312,7 +312,11 @@ function GroupLayer(opts){
 			    			
 			    		}else{
 			    			if(server != "" && server != "url" && name != "" && name != "Título de la capa"){
-			    				self.addLayer(new GSLayerTMS(name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
+			    				if(select == "WMTS"){
+			    					self.addLayer(new GSLayerWMTS(name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
+			    				}else{
+			    					self.addLayer(new GSLayerTMS(name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
+			    				}
 			    				$.fancybox.close();
 			    				if(!$("#panel_right .layer_panel").hasClass("close")){
 			    					Split.toggleLayersInterface(Split.RIGHT);

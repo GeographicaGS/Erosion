@@ -47,6 +47,7 @@
 <script type="text/javascript" src="<?= get_js("GSLayerTMS.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("GSLayerGeoJson.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("categories.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("notification.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("global.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("lib/fancybox/jquery.fancybox.pack.js?v=2.1.3")?>"></script>
@@ -117,11 +118,14 @@
 		<div class="clear"></div>
 	</div>	
 	<nav class="fleft">
-		<a href="javascript:navigate()" target="_blank">
+		<a href="javascript:navigate(0)" target="_blank">
 			EL PROYECTO
 		</a>
-		<a href="javascript:navigate()">
+		<a href="javascript:navigate(1)">
 			CATÁLOGO
+		</a>
+		<a href="javascript:navigate(2)">
+			ACTIVIDAD
 		</a>
 	</nav>
 	
@@ -211,18 +215,21 @@
 	<div id="catalogo" style="display: none;">
 		<div class="fleft mr20">
 			<div class="catalogo size18">Catálogo</div>
-			<p class="mt">Lorem ipsum dolor sit amet, 
-				consectetur adipiscing elit. 
-				Nam faucibus velit iaculis 
-				faucibus placerat. Morbi et 
-				porttitor lorem, id rutrum est. 
-				Morbi sed dolor ac nunc 
-				euismod tempus.
-			</p>
-			<div class="mt20"><a class="catalogo size13"  style="text-decoration: underline;" href="javascript:navigate()">Volver al mapa</a></div>
+			<p class="mt"></p>
+			<div class="mt20"><a class="catalogo size13"  style="text-decoration: underline;" href="javascript:navigate(0)">Volver al mapa</a></div>
 		</div>
 		<div id="categories"></div>
 	</div>
+	
+	<div id="actividad" style="display: none;" >
+		<div class="tablaActividad">
+			<h1>Actividad reciente</h1>
+			
+			<div class="comentTable" style="max-height: none;background-color: white;"></div>
+		
+		</div>
+	</div>
+	
 	<div class="clear"></div>
 </div>
 
@@ -245,9 +252,15 @@
 	</div>
 </div>
 
-<div id="fancy_box_save_draw">
+<div id="fancy_box_save_draw" class="miniFancy">
 		<p class="fleft fancySave">Guardar punto</p>
 		<p class="fancyCancel">Cancelar</p>
+		<img title="borrar" src="<?= get_img("MED_icon_papelera_panel.png")?>" >
+</div>
+
+<div id="fancy_box_dont_save_draw" class="miniFancy">
+		<p class="fleft fancySave">ok</p>
+		<img title="borrar" src="<?= get_img("MED_icon_papelera_panel.png")?>" >
 </div>
 
 <div style="display: none" id="service_fancy_box_data">
@@ -257,6 +270,7 @@
 		<div class="clear"></div>
 		<select>
 			<option>WMS</option>
+			<option>WMTS</option>
 			<option>TMS</option>
 		</select>
 		<input type="text" value="url"/>
@@ -270,6 +284,29 @@
 		<div class="ml mr tabla_fancy_service"></div>
 		<div class="urlServicioWms" style="display: none"></div>
 		
+	</div>
+</div>
+
+<div id="fancy_vector_info" style="position: absolute; background-color: white;top:10%; left: 50%;">
+	<div class="serviceFancy vectorFancy">
+		<div class="idDrawFancyVector" style="display: none"></div>
+		
+		<img class="imageType" src="" />
+		<h1></h1>
+		<div class="clear"></div>
+		<p class="titleComent"></p>
+		<div style="margin-left: 40px; margin-top: 25px;">
+			<span class="spanMini">CAPA:<span class="spanNormal"> Categoría 1</span></span>
+		</div>
+		<div class="clear"></div>
+		<div class="comentTable"></div>
+		<div class="addComent">
+			<input class="input_fancy input_fancy_vector" type="text" value="Añadir comentario">
+			<div class="clear"></div>
+			<input type="checkbox" /><label>Cambiar categoría</label>
+			<select class="fleft vectorFancySelect"></select>
+			<input type="button" value="Añadir">
+		</div>
 	</div>
 </div>
 

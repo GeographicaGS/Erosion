@@ -53,3 +53,49 @@ WITH (
 );
 ALTER TABLE public.draw
   OWNER TO erosion_admin;
+
+  
+ CREATE TABLE public.draw_coment
+(
+  id_coment serial NOT NULL,
+  id_draw integer,
+  comentario text,
+  fecha timestamp without time zone NOT NULL,
+  id_user integer,
+  CONSTRAINT draw_coment_pkey PRIMARY KEY (id_coment),
+  CONSTRAINT draw_coment_id_draw_fkey FOREIGN KEY (id_draw)
+      REFERENCES draw (id_draw) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT draw_coment_id_user_fkey FOREIGN KEY (id_user)
+      REFERENCES "user" (id_user) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.draw_coment
+  OWNER TO erosion_admin;
+  
+  
+CREATE TABLE public.notification
+(
+  id_notification serial NOT NULL,
+  titulo text,
+  texto text,
+  id_user integer,
+  id_draw integer,
+  fecha timestamp without time zone NOT NULL,
+  tipo integer,
+  CONSTRAINT notification_pkey PRIMARY KEY (id_notification),
+  CONSTRAINT notification_id_draw_fkey FOREIGN KEY (id_draw)
+      REFERENCES draw (id_draw) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT notification_id_user_fkey FOREIGN KEY (id_user)
+      REFERENCES "user" (id_user) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.notification
+  OWNER TO erosion_admin;

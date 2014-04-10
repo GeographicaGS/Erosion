@@ -190,15 +190,23 @@ Split = {
 			$($("#fancy_box_save_draw").find("p")[0]).hide();
 			$($("#fancy_box_save_draw").find("p")[1]).hide();
 			
+			polyline = null;
+			poligono = null;
+			
 			Split.__mapLeft.getMap().on('click', function(e) {
 				latlng = e.latlng;
-				polyline = null;
+				if(polyline == null){
+					polyline = L.polyline([latlng,latlng], options.draw.polyline.shapeOptions)
+				}else{
+					polyline._latlngs.push(latlng);
+				}
 				Split.__mapLeft.getMap().on('mousemove', function(e) {
 					if(polyline){
 						Split.__mapRight.getMap().removeLayer(polyline);
 					}
 					if(type == "linea"){
-						polyline = L.polyline([latlng,e.latlng], options.draw.polyline.shapeOptions).addTo(Split.__mapRight.getMap());
+						polyline._latlngs[polyline._latlngs.length-1] = e.latlng;
+						polyline.addTo(Split.__mapRight.getMap());
 					}
 				});
 				if(type =="poligono"){
@@ -221,15 +229,23 @@ Split = {
 			$($("#fancy_box_save_draw").find("p")[0]).hide();
 			$($("#fancy_box_save_draw").find("p")[1]).hide();
 			
+			polyline = null;
+			poligono = null;
+			
 			Split.__mapRight.getMap().on('click', function(e) {
 				latlng = e.latlng;
-				polyline = null;
+				if(polyline == null){
+					polyline = L.polyline([latlng,latlng], options.draw.polyline.shapeOptions)
+				}else{
+					polyline._latlngs.push(latlng);
+				}
 				Split.__mapRight.getMap().on('mousemove', function(e) {
 					if(polyline){
 						Split.__mapLeft.getMap().removeLayer(polyline);
 					}
 					if(type == "linea"){
-						polyline = L.polyline([latlng,e.latlng], optionsRight.draw.polyline.shapeOptions).addTo(Split.__mapLeft.getMap());
+						polyline._latlngs[polyline._latlngs.length-1] = e.latlng;
+						polyline.addTo(Split.__mapLeft	.getMap());
 					}
 				});
 				if(type =="poligono"){
@@ -247,43 +263,142 @@ Split = {
 		
 		
 		Split.__mapLeft.getMap().on('draw:created', function (e) {
-
+			var aux = new Object();
+			
 		    if (type == 'marker') {
-		    	L.marker(e.layer._latlng).addTo(Split.__mapRight.getMap());
+		    	var markerAux = L.marker(e.layer._latlng).addTo(Split.__mapRight.getMap());
+		    	markerAux.off('click');
+		    	 aux.layer = markerAux;
+		    	markerAux.on('click', function () {
+			    	if(isLoged){
+				    	Split.showFancySaveDraw(aux, type);
+				    }else{
+				    	Split.showFancyDontSaveDraw(aux);
+				    }
+				});
 		    }		    
 		    editableLayers.addLayer(e.layer);
 		    Split.__mapLeft.getMap().off("click");
 		    Split.__mapLeft.getMap().off("mousemove");
+		    Split.__mapRight.getMap().off("click");
+		    Split.__mapRight.getMap().off("mousemove");
 		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+		    
+		    
 		    if(isLoged){
 		    	Split.showFancySaveDraw(e, type);
+		    	
+		    }else{
+		    	Split.showFancyDontSaveDraw(e);
 		    }
 		    
-//		    e.layer.on('click', function (e) {
-//		    	alert("awdad");
-//			});
+		    e.layer.off('click');
+		    e.layer.on('click', function () {
+		    	if(isLoged){
+			    	Split.showFancySaveDraw(e, type);
+			    }else{
+			    	Split.showFancyDontSaveDraw(e);
+			    }
+			});
+		    
+		    
+		    if(type == "linea"){
+		    	polyline._latlngs.pop();
+			    polyline.redraw();
+		    	polyline.off('click');
+			    aux.layer = polyline;
+			    polyline.on('click', function () {
+			    	if(isLoged){
+				    	Split.showFancySaveDraw(aux, type);
+				    }else{
+				    	Split.showFancyDontSaveDraw(aux);
+				    }
+				});
+		    }else if(type =="poligono"){
+		    	poligono._latlngs = e.layer._latlngs;
+		    	poligono.redraw();
+		    	poligono.off('click');
+		    	aux.layer = poligono;
+		    	poligono.on('click', function () {
+			    	if(isLoged){
+				    	Split.showFancySaveDraw(aux, type);
+				    }else{
+				    	Split.showFancyDontSaveDraw(aux);
+				    }
+				});
+		    }
+		    
+		    
+		    
 		});
 		
 		Split.__mapRight.getMap().on('draw:created', function (e) {
+			var aux = new Object();
 			
 		    if (type == 'marker') {
-		    	L.marker(e.layer._latlng).addTo(Split.__mapLeft.getMap());
+		    	var markerAux = L.marker(e.layer._latlng).addTo(Split.__mapLeft.getMap());
+		    	markerAux.off('click');
+		    	aux.layer = markerAux;
+		    	markerAux.on('click', function () {
+			    	if(isLoged){
+				    	Split.showFancySaveDraw(aux, type);
+				    }else{
+				    	Split.showFancyDontSaveDraw(aux);
+				    }
+				});
 		    }		    
 		    editableLayersRight.addLayer(e.layer);
 		    Split.__mapRight.getMap().off("click");
 		    Split.__mapRight.getMap().off("mousemove");
+		    Split.__mapLeft.getMap().off("click");
+		    Split.__mapLeft.getMap().off("mousemove");
 		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+		  
 		    if(isLoged){
 		    	Split.showFancySaveDraw(e, type);
+		    	
+		    }else{
+		    	Split.showFancyDontSaveDraw(e);
 		    }
 		    
-//		    e.layer.on('click', function (e) {
-//				alert("awdad");
-//			});
+		    e.layer.off('click');
+		    e.layer.on('click', function () {
+		    	if(isLoged){
+			    	Split.showFancySaveDraw(e, type);
+			    }else{
+			    	Split.showFancyDontSaveDraw(e);
+			    }
+			});
+		    
+		    if(type == "linea"){
+		    	polyline._latlngs.pop();
+			    polyline.redraw();
+		    	polyline.off('click');
+			    aux.layer = polyline;
+			    polyline.on('click', function () {
+			    	if(isLoged){
+				    	Split.showFancySaveDraw(aux, type);
+				    }else{
+				    	Split.showFancyDontSaveDraw(aux);
+				    }
+				});
+		    }else if(type =="poligono"){
+		    	poligono._latlngs = e.layer._latlngs;
+		    	poligono.redraw();
+		    	poligono.off('click');
+		    	aux.layer = poligono;
+		    	poligono.on('click', function () {
+			    	if(isLoged){
+				    	Split.showFancySaveDraw(aux, type);
+				    }else{
+				    	Split.showFancyDontSaveDraw(aux);
+				    }
+				});
+		    }
+		    
 		});
 
 		Split.__mapLeft.getMap().on('draw:edited', function () {
-		    // Update db to save latest changes.
 		});
 
 		Split.__mapLeft.getMap().on('draw:deleted', function () {
@@ -420,6 +535,7 @@ Split = {
 		        }
 		    });
 		});
+		
 		
 	},
 	/* Split handler*/
@@ -712,9 +828,10 @@ Split = {
 	showFancySaveDraw: function(e, type){
 		$("#fancy_box_save_draw").css({"top":event.y, "left":event.x});
 		$("#fancy_box_save_draw").show();
-		$("#fancy_box_save_draw").animate({"width": 150},300);
+		$("#fancy_box_save_draw").animate({"width": 173},300);
 		$($("#fancy_box_save_draw").find("p")[0]).fadeIn(600);
 		$($("#fancy_box_save_draw").find("p")[1]).fadeIn(600);
+		$($("#fancy_box_save_draw").find("img")).fadeIn(600);
 		
 		var latlng;
 		if(type == "marker"){
@@ -782,6 +899,22 @@ Split = {
 								        success: function(response) {
 								        	$.fancybox.close();
 								        	$($("#fancy_box_save_draw").find("p")[1]).trigger( "click" );
+								        	
+								        	$.each(Split.__mapLeft.getMap()._layers, function(key){
+								        	    if((Split.__mapLeft.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlng, latlng)) || (Split.__mapLeft.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlngs, latlng))){
+								        	    	Split.__mapLeft.getMap().removeLayer(Split.__mapLeft.getMap()._layers[key]);
+								        	    	return true;
+								        	    }
+								        	});
+								        	
+								        	$.each(Split.__mapRight.getMap()._layers, function(key){
+								        	    if((Split.__mapRight.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlng, latlng)) || (Split.__mapRight.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlngs, latlng))){
+								        	    	Split.__mapRight.getMap().removeLayer(Split.__mapRight.getMap()._layers[key]);
+								        	    	return true;
+								        	    }
+								        	});
+								        	
+								        	
 								        }
 						    		});
 					    		}
@@ -797,8 +930,52 @@ Split = {
 		$($("#fancy_box_save_draw").find("p")[1]).on('click', function(e) {
 			$($("#fancy_box_save_draw").find("p")[0]).fadeOut(200);
 			$($("#fancy_box_save_draw").find("p")[1]).fadeOut(200);
+			$($("#fancy_box_save_draw").find("img")).fadeOut(200);
 			$("#fancy_box_save_draw").animate({"width": 0},300);
 			$("#fancy_box_save_draw").hide(400);
+		});
+		
+		var layer = e.layer;
+		$($("#fancy_box_save_draw").find("img")).off('click');
+		$($("#fancy_box_save_draw").find("img")).on('click', function(e) {
+			Split.__mapLeft.getMap().removeLayer(layer);
+			Split.__mapRight.getMap().removeLayer(layer);
+			$($("#fancy_box_save_draw").find("p")[0]).fadeOut(200);
+			$($("#fancy_box_save_draw").find("p")[1]).fadeOut(200);
+			$($("#fancy_box_save_draw").find("img")).fadeOut(200);
+			$("#fancy_box_save_draw").animate({"width": 0},300);
+			$("#fancy_box_save_draw").hide(400);
+		});
+	},
+	
+	
+	showFancyDontSaveDraw: function(e){
+		$("#fancy_box_dont_save_draw").css({"top":event.y, "left":event.x});
+		$("#fancy_box_dont_save_draw").show();
+		$("#fancy_box_dont_save_draw").animate({"width": 52},300);
+		$($("#fancy_box_dont_save_draw").find("p")[0]).fadeIn(600);
+		$($("#fancy_box_dont_save_draw").find("p")[1]).fadeIn(600);
+		$($("#fancy_box_dont_save_draw").find("img")).fadeIn(600);
+	
+		
+		$($("#fancy_box_dont_save_draw").find("p")).on('click', function(e) {
+			$($("#fancy_box_dont_save_draw").find("p")[0]).fadeOut(200);
+			$($("#fancy_box_dont_save_draw").find("p")[1]).fadeOut(200);
+			$($("#fancy_box_dont_save_draw").find("img")).fadeOut(200);
+			$("#fancy_box_dont_save_draw").animate({"width": 0},300);
+			$("#fancy_box_dont_save_draw").hide(400);
+		});
+		
+		var layer = e.layer;
+		$($("#fancy_box_dont_save_draw").find("img")).off('click');
+		$($("#fancy_box_dont_save_draw").find("img")).on('click', function(e) {
+			Split.__mapLeft.getMap().removeLayer(layer);
+			Split.__mapRight.getMap().removeLayer(layer);
+			$($("#fancy_box_dont_save_draw").find("p")[0]).fadeOut(200);
+			$($("#fancy_box_dont_save_draw").find("p")[1]).fadeOut(200);
+			$($("#fancy_box_dont_save_draw").find("img")).fadeOut(200);
+			$("#fancy_box_dont_save_draw").animate({"width": 0},300);
+			$("#fancy_box_dont_save_draw").hide(400);
 		});
 	}
 	

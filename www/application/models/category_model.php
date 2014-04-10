@@ -13,5 +13,12 @@ class Category_model extends CI_Model{
 		
 		return $this->db->query($sql)->result();
 	}
+	
+	public function getCategeryTitle($idCategory){
+	
+		$sql = "SELECT title FROM public.category where id_category=?";
+	
+		return $this->db->query($sql,array($idCategory))->row();
+	}
 }
 ?>
