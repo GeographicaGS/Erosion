@@ -975,6 +975,15 @@ img.tiposCapas{
 	cursor: pointer;
 }
 
+
+.divSelectPanel{
+	width: 140px;
+	height: 75px;
+	background-color: white;
+	border-radius: 5px;
+	border: 1px solid #cccccc;
+}
+
 #actividad .tablaActividad{
 	width: 660px;
 	margin: auto;

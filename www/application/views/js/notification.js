@@ -8,10 +8,10 @@ function drawNotifications() {
         		
         		var img = "";
         		if(response.result[i].tipo == 0){
-        			if(response.result[11].titulo.indexOf("punto") > 0){
+        			if(response.result[i].titulo.indexOf("punto") > 0){
         				img = "<img src='application/views/img/ERO_icon_punto.png'";
         			}
-        			else if(response.result[11].titulo.indexOf("línea") > 0){
+        			else if(response.result[i].titulo.indexOf("línea") > 0){
         				img = "<img src='application/views/img/ERO_icon_linea.png'";
         			}else{
         				img = "<img src='application/views/img/ERO_icon_poligono.png'";

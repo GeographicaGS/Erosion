@@ -311,6 +311,13 @@
 	</div>
 </div>
 
+
+<div id="fancy_select_panel" style="position: absolute; top:54%; left: 70%;">
+	<div class="divSelectPanel">
+		
+	</div>
+</div>
+
 <footer>
 	<div class="uni">
 		<a href="http://www.us.es" target="_blank">
