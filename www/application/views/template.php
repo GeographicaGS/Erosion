@@ -312,11 +312,11 @@
 </div>
 
 
-<div id="fancy_select_panel" style="position: absolute; top:54%; left: 70%;">
-	<div class="divSelectPanel">
+<!--<div id="fancy_select_panel" style="position: absolute; top:54%; left: 70%;">-->
+<!-- 	<div class="divSelectPanel"> -->
 		
-	</div>
-</div>
+<!-- 	</div> -->
+<!-- </div> -->
 
 <footer>
 	<div class="uni">
