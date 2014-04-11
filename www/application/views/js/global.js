@@ -1,5 +1,7 @@
 var isLoged = false;
 var sectionActual = 0;
+var markerLocationLeft;
+var markerLocationRight;
 
 $.ajax({
     url: 'index.php/login/isLoged',
@@ -40,8 +42,14 @@ function showDevMsg(){
 	showInfoFancybox("<br/><br/>Funcionalidad en desarrollo");
 }
 
-function onLocationFound(e) {
-    L.marker(e.latlng).addTo(this).bindPopup("Esta es tu posición:</br>Latitud: " +  e.latlng.lat + "<br>Longitud: " + e.latlng.lng).closePopup();
+function onLocationFoundLeft(e) {
+	markerLocationLeft = L.marker(e.latlng);
+	markerLocationLeft.addTo(this).bindPopup("Esta es tu posición:</br>Latitud: " +  e.latlng.lat + "<br>Longitud: " + e.latlng.lng).closePopup();
+}
+
+function onLocationFoundRight(e) {
+	markerLocationRight = L.marker(e.latlng);
+	markerLocationRight.addTo(this).bindPopup("Esta es tu posición:</br>Latitud: " +  e.latlng.lat + "<br>Longitud: " + e.latlng.lng).closePopup();
 }
 
 function navigate(section) {
@@ -80,14 +88,25 @@ function navigate(section) {
 
 
 function compareLayersCoordinates(cord1, cord2){
-	if(cord1.length != cord2.length){
-		return false;
-	}
-	for(var i=0; i< cord1.length; i++){
-		if(cord1[i].lat != cord2[i].lat || cord1[i].lng != cord2[i].lng){
+	
+	if(cord1.length && cord2.length){
+		
+		if(cord1.length != cord2.length){
+			return false;
+		}
+		for(var i=0; i< cord1.length; i++){
+			if(cord1[i].lat != cord2[i].lat || cord1[i].lng != cord2[i].lng){
+				return false;
+			}
+		}
+		
+	}else{
+		if(cord1.lat != cord2.lat || cord1.lng != cord2.lng){
 			return false;
 		}
 	}
+	
+	
 	return true;
 }
 

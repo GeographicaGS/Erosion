@@ -65,11 +65,10 @@ class Draw extends MY_Controller
 		
 		$data["geom"] = $geom;
 		
-// 		$notification["id_draw"] = $this->draw_model->saveDraw($data);
+		$notification["id_draw"] = $this->draw_model->saveDraw($data);
 		
-// 		$this->notification_model->createNotification($notification);
- 		
-		
+		$this->notification_model->createNotification($notification);
+	
 	}
 	
 	public function getDraw($id_draw){

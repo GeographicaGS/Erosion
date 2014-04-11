@@ -190,6 +190,7 @@
 			<div id="ctrl_line_drawer"></div>
 			<div id="ctrl_rectangle_drawer"></div>
 			<div id="ctrl_feature_info"></div>
+			<div id="ctrl_location" class="enable"></div>
 		</div>
 		
 		

@@ -771,7 +771,7 @@ img.tiposCapas{
 	top: 73px;
 	background-color: #ccc;
 	height: 33px;
-	width: 127px;
+	width: 157px;
 	border-radius: 0 0 5px 5px;
 	border-bottom: 1px solid #999;
 	border-left: 1px solid #999;
@@ -806,6 +806,10 @@ img.tiposCapas{
 	background: url("../img/ERO_herramienta_info_off.png");
 }
 
+#tool_bar #ctrl_location {
+	background: url("../img/ERO_herramienta_gps_off.png");
+}
+
 #tool_bar #ctrl_feature_info.enable {
 	background: url("../img/ERO_herramienta_info_on.png");
 }
@@ -820,6 +824,10 @@ img.tiposCapas{
 
 #tool_bar #ctrl_rectangle_drawer.enable {
 	background: url("../img/ERO_herramienta_poligono_on.png");
+}
+
+#tool_bar #ctrl_location.enable {
+	background: url("../img/ERO_herramienta_gps_on.png");
 }
 
 .cursor_info{

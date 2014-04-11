@@ -102,9 +102,9 @@ Split = {
 		this.__currentMasterMap = this.__mapLeft;
 		
 		this.__mapLeft.getMap().locate({setView: false, maxZoom: 7});
-		this.__mapLeft.getMap().on('locationfound', onLocationFound);
+		this.__mapLeft.getMap().on('locationfound', onLocationFoundLeft);
 		this.__mapRight.getMap().locate({setView: false, maxZoom: 7});
-		this.__mapRight.getMap().on('locationfound', onLocationFound);
+		this.__mapRight.getMap().on('locationfound', onLocationFoundRight);
 		
 		drawCategories();
 		createDrawLocal();
@@ -409,12 +409,12 @@ Split = {
 		
 		$("#ctrl_feature_info").click(function(){
 			
-			Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
 			if ($(this).hasClass("enable")) { 
 				$(this).removeClass("enable");
 				Split.deActivateFeatureInfo()
 			}
 			else{
+				Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
 				$(this).addClass("enable");				
 				Split.activateFeatureInfo()
 			}
@@ -465,6 +465,20 @@ Split = {
 				drawPolygonRight.enable();
 				type = "poligono";
 				arrayLatlng = new Array();
+			}
+		});
+		
+		
+		$("#ctrl_location").click(function(){
+			if ($(this).hasClass("enable")) { 
+				$(this).removeClass("enable");
+				Split.__mapLeft.getMap().removeLayer(markerLocationLeft);
+				Split.__mapRight.getMap().removeLayer(markerLocationRight);
+			}
+			else{
+				$(this).addClass("enable");
+				markerLocationLeft.addTo(Split.__mapLeft.getMap());
+				markerLocationRight.addTo(Split.__mapRight.getMap())
 			}
 		});
 		
@@ -817,6 +831,7 @@ Split = {
 	    $("#ctrl_line_drawer").removeClass("enable");
 	    $("#ctrl_rectangle_drawer").removeClass("enable");
 	    
+	    Split.deActivateFeatureInfo()
 	    drawMakerLeft.disable();
 	    drawMarkerRight.disable();
 	    drawLineLeft.disable();
@@ -834,13 +849,13 @@ Split = {
 		$($("#fancy_box_save_draw").find("img")).fadeIn(600);
 		
 		var latlng;
-		if(type == "marker"){
+		if(e.layer._latlng){
 			latlng = e.layer._latlng;
 		}else{
 			latlng = e.layer._latlngs
 		}
 		
-		
+		$($("#fancy_box_save_draw").find("p")[0]).off('click');
 		$($("#fancy_box_save_draw").find("p")[0]).on('click', function(e) {
 			$.ajax({
 		        url: 'index.php/draw/getCategories', dataType: "json",
@@ -876,11 +891,13 @@ Split = {
 					    		$(this).val("");
 					    	});
 					    	
+					    	$("input[type='button']").off('click');
 					    	$("input[type='button']").on("click",function(){
 					    		
 					    		var titulo = $(".fancybox-inner").find("input[type='text']")[0];
 						    	var comentario = $(".fancybox-inner").find("input[type='text']")[1];
 						    	var categoria = $($(".fancybox-inner").find("select")).val();
+						    	var nombreCategoria = $($(".fancybox-inner").find("select option:selected")).text();
 					    		var enviar = true;
 					    		
 					    		if($(titulo).val() == "" || $(titulo).val() == "Título"){
@@ -914,6 +931,23 @@ Split = {
 								        	    }
 								        	});
 								        	
+								        	$.ajax({
+						        		        url: 'index.php/draw/getDraws/' + categoria, 
+						        		        dataType: "json",
+						        		        success: function(response) {
+						        		        	for(var i=0; i<Split.__mapLeft.layers.length; i++){
+						        		        		if(Split.__mapLeft.layers[i].title == nombreCategoria){
+						        		        			Split.__mapLeft.removeLayer(Split.__mapLeft.layers[i].title, "geoJson");
+						        		        		}
+						        		        	}
+						        		        	for(var i=0; i<Split.__mapRight.layers.length; i++){
+						        		        		if(Split.__mapRight.layers[i].title == nombreCategoria){
+						        		        			Split.__mapRight.removeLayer(Split.__mapRight.layers[i].title, "geoJson");
+						        		        		}
+						        		        	}
+						        		        	Split.addLayer(null,"vectorial", null, response);  
+						        		        }
+						        			});
 								        	
 								        }
 						    		});
@@ -926,7 +960,7 @@ Split = {
 
 		});
 		
-		
+		$($("#fancy_box_save_draw").find("p")[1]).off("click");
 		$($("#fancy_box_save_draw").find("p")[1]).on('click', function(e) {
 			$($("#fancy_box_save_draw").find("p")[0]).fadeOut(200);
 			$($("#fancy_box_save_draw").find("p")[1]).fadeOut(200);
@@ -958,6 +992,7 @@ Split = {
 		$($("#fancy_box_dont_save_draw").find("img")).fadeIn(600);
 	
 		
+		$($("#fancy_box_dont_save_draw").find("p")).off("click");
 		$($("#fancy_box_dont_save_draw").find("p")).on('click', function(e) {
 			$($("#fancy_box_dont_save_draw").find("p")[0]).fadeOut(200);
 			$($("#fancy_box_dont_save_draw").find("p")[1]).fadeOut(200);
