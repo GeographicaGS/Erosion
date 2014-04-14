@@ -112,7 +112,7 @@
 </script>	
 
 <header>
-	<div class="fleft left">
+	<div class="fleft left" style="display: none;">
 		
 		<input class="fleft" type="text" id="search" value="buscar..."/>
 		<div class="clear"></div>

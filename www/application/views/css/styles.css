@@ -157,6 +157,13 @@ p.credits{
 	text-shadow: #013e88 0px -1px 0px;
 }
 
+
+@media (max-width: 760px) {
+  p.credits {
+    display: none;
+  }
+}
+
 .layer_ctrl{
 	background:url("../img/MED_icon_capas.png") no-repeat left 9px #f0f0f0;
 	position:absolute;
