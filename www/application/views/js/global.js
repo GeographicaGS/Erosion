@@ -22,7 +22,7 @@ function getImg(s){
 
 function resize(){
 	$("#container,.sep").height($(window).height() - $("header").outerHeight(true) - $("footer").outerHeight(true));
-	var mw = Math.floor($(window).width() /2) - 7.5;
+	var mw = Math.floor($(window).width() /2) - 1.5;
 	$("#sep").css("left",mw-1);
 	$("#panel_left").width(mw);
 	$("#panel_right").width(mw);

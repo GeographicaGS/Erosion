@@ -150,7 +150,7 @@
 	<div class="clear"></div>
 </header>
 
-<div id="container" style="overflow: auto;">
+<div id="container" style="overflow: hidden;">
 
 	<form id="form_login" action="index.php/login/getUser" method="POST">
 		<div class="loginDiv">
