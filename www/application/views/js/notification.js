@@ -51,7 +51,7 @@ function drawNotifications() {
     		        url: 'index.php/draw/getDraws/' + $(this).attr("idCategory"), 
     		        dataType: "json",
     		        success: function(response) {
-    		        	var layerAux = Split.addLayer(null,"vectorial", null, response);  
+    		        	var layerAux = Split.addLayer(null,"vectorial", null, response,3);  
     		        	for(var i=0; i<response.length; i++){
     		        		if(response[i].properties.id == id_draw){
     		        			showFancyVectorInfo(response[i], null);

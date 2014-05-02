@@ -1,4 +1,5 @@
-function GSLayerTMS(title, url, name, leyenda){
+function GSLayerTMS(id,title, url, name, leyenda){
+	this.id = id;
 	this.title = title;
 	this.server = url;
 	this.name = name;

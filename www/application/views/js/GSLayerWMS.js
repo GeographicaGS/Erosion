@@ -1,4 +1,5 @@
-function GSLayerWMS(title, url, name, leyenda){
+function GSLayerWMS(id,title, url, name, leyenda){
+	this.id = id;
 	this.title = title;
 	this.url = url;
 	this.name = name;

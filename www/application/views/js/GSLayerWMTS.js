@@ -7,7 +7,8 @@ for (var i=0; i<26; ++i) {
 		
 }
 
-function GSLayerWMTS(title, url, name, leyenda){
+function GSLayerWMTS(id,title, url, name, leyenda){
+	this.id = id;
 	this.title = title;
 	this.url = url;
 	this.name = name;

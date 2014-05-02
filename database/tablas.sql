@@ -99,3 +99,25 @@ WITH (
 );
 ALTER TABLE public.notification
   OWNER TO erosion_admin;
+
+  
+CREATE TABLE public.project
+(
+  titulo text,
+  descripcion text,
+  capas text,
+  id_user integer,
+  CONSTRAINT plan_pkey PRIMARY KEY (titulo),
+  CONSTRAINT plan_id_user_fkey FOREIGN KEY (id_user)
+      REFERENCES "user" (id_user) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.project
+  OWNER TO erosion_admin;
+  
+alter table public.project add column is_public boolean;
+alter table public.user add column is_admin boolean default false;
+UPDATE public.user SET is_admin = true WHERE email = 'zujar@us.es';

@@ -778,13 +778,13 @@ img.tiposCapas{
 	top: 73px;
 	background-color: #ccc;
 	height: 33px;
-	width: 157px;
+	width: 200px;
 	border-radius: 0 0 5px 5px;
 	border-bottom: 1px solid #999;
 	border-left: 1px solid #999;
 	border-right: 1px solid #999;
-	left: 48.1%;;
-	margin-left: -36px;
+	left: 50%;;
+	margin-left: -95px;
 	z-index: 2;
 }
 
@@ -813,6 +813,24 @@ img.tiposCapas{
 	background: url("../img/ERO_herramienta_info_off.png");
 }
 
+#tool_bar #ctrl_add_project {
+	background: url("../img/ERO_herramienta_proyecto_off.png");
+	border-right: 1px solid b9b9b9;
+	padding-right: 10px;
+}
+
+#tool_bar #ctrl_add_project:HOVER{
+	background: url("../img/ERO_herramienta_proyecto_hover.png");
+}
+
+#tool_bar #ctrl_add_project .enable{
+	background: url("../img/ERO_herramienta_proyecto_hover.png");
+}
+
+#tool_bar #ctrl_add_project.enable {
+	background: url("../img/ERO_herramienta_proyecto_hover.png");
+}
+
 #tool_bar #ctrl_location {
 	background: url("../img/ERO_herramienta_gps_off.png");
 }
@@ -821,7 +839,15 @@ img.tiposCapas{
 	background: url("../img/ERO_herramienta_info_on.png");
 }
 
+#tool_bar #ctrl_feature_info:HOVER {
+	background: url("../img/ERO_herramienta_info_on.png");
+}
+
 #tool_bar #ctrl_marker_drawer.enable {
+	background: url("../img/ERO_herramienta_punto_on.png");
+}
+
+#tool_bar #ctrl_marker_drawer:HOVER {
 	background: url("../img/ERO_herramienta_punto_on.png");
 }
 
@@ -829,7 +855,15 @@ img.tiposCapas{
 	background: url("../img/ERO_herramienta_linea_on.png");
 }
 
+#tool_bar #ctrl_line_drawer:HOVER {
+	background: url("../img/ERO_herramienta_linea_on.png");
+}
+
 #tool_bar #ctrl_rectangle_drawer.enable {
+	background: url("../img/ERO_herramienta_poligono_on.png");
+}
+
+#tool_bar #ctrl_rectangle_drawer:HOVER {
 	background: url("../img/ERO_herramienta_poligono_on.png");
 }
 
@@ -1021,6 +1055,42 @@ img.tiposCapas{
 
 #actividad .fila span{
 	color: #666666;
+}
+
+#fancy_select_panel{
+	display:none;
+	position:absolute;
+	-moz-box-shadow: 1px 1px 1px #cccccc;
+	-webkit-box-shadow: 1px 1px 1px #cccccc;
+	box-shadow: 1px 1px 1px #cccccc;
+}
+
+#fancy_select_panel p{
+	text-align: right;
+	font-size: 10px;
+	color: #333333;
+	line-height: 24px;
+	float:left;
+}
+
+#fancy_select_panel img{
+	margin: 6px 8px 0px 5px;
+}
+
+#fancy_select_panel .divSelectPanel .panelSelect{
+	cursor:pointer;
+	border-top: 1px solid #cccccc;
+}
+
+#fancy_select_panel .divSelectPanel div:FIRST-CHILD{
+	border-top: none;
+}
+
+#project_fancy{
+/* 	width: 660px; */
+/* 	height: 215px; */
+	background-color: white;
+	display: none;
 }
 
 .drawNotification{

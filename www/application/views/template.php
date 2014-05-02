@@ -18,7 +18,8 @@
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7")?>"/>
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/ui-lightness/jquery-ui-1.10.3.custom.min.css")?>"/>
 		
-<script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
+<!-- <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script> -->
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBv2LS8Lqu53wYmtgxztWVBTEpLdMWIzHQ&sensor=false"></script>
 
 <link rel="stylesheet" type="text/css" href="<?= get_css("layout.css")?>" />
 <link rel="stylesheet" type="text/css" href="<?= get_css("styles.css")?>?v1.0" />
@@ -191,6 +192,7 @@
 			<div id="ctrl_line_drawer"></div>
 			<div id="ctrl_rectangle_drawer"></div>
 			<div id="ctrl_feature_info"></div>
+			<div id="ctrl_add_project"></div>
 			<div id="ctrl_location" class="enable"></div>
 		</div>
 		
@@ -249,13 +251,13 @@
 				
 			</select>
 			<input style="width: 620px; background: #ecedef;" type="text" value="Comentario">
-			<input class="mt20" style="width: 620px;" type="button" value="Guardar punto">
+			<input class="mt20" style="width: 620px;" type="button" value="Guardar geometría">
 		</div>
 	</div>
 </div>
 
 <div id="fancy_box_save_draw" class="miniFancy">
-		<p class="fleft fancySave">Guardar punto</p>
+		<p class="fleft fancySave">Guardar geometría</p>
 		<p class="fancyCancel">Cancelar</p>
 		<img title="borrar" src="<?= get_img("MED_icon_papelera_panel.png")?>" >
 </div>
@@ -263,6 +265,29 @@
 <div id="fancy_box_dont_save_draw" class="miniFancy">
 		<p class="fleft fancySave">ok</p>
 		<img title="borrar" src="<?= get_img("MED_icon_papelera_panel.png")?>" >
+</div>
+
+
+<div id="project_fancy">
+	<div class="serviceFancy">
+		<h1>Proyecto</h1>
+		<h2>Cerrar</h2>
+		<div class="clear"></div>
+		<input name='tituloProyecto'  class="fleft" style="width: 545px; background: #ecedef;" type="text" value="Título">
+		<div id="divIsPublic" class="fright" style="display:none; margin-top: 28px; font-size: 14px;color: #666666; margin-right: 30px;">
+			<input name="isPublic" type="checkbox" /><label>Público</label>
+		</div>
+		<input name='descripcionProyecto' style="width: 620px; background: #ecedef;" type="text" value="Descripción">
+		<p id="errorNoCapas" style="display:none; text-align: center; margin-top: 15px; color: red;">No ha cargado ninguna capa en ninguno de los mapas</p>
+		<input name="saveProject" class="mt20" style="width: 620px;" type="button" value="Guardar proyecto">
+		
+		<div id="projectExist" style="display: none;">
+			<p style="text-align: center; margin-top: 15px; color: red;">Este proyecto ya existe ¿Desea sobreescribirlo?</p>
+			<input id="aceptSaveProject" class="mt20" style="width: 310px;" type="button" value="Aceptar">
+			<input id="cancelSaveProject" class="mt20" style="width: 310px;" type="button" value="Cancelar">
+		</div>
+		
+	</div>
 </div>
 
 <div style="display: none" id="service_fancy_box_data">
@@ -313,11 +338,30 @@
 </div>
 
 
-<!--<div id="fancy_select_panel" style="position: absolute; top:54%; left: 70%;">-->
-<!-- 	<div class="divSelectPanel"> -->
-		
-<!-- 	</div> -->
-<!-- </div> -->
+<div id="fancy_select_panel">
+	<div class="divSelectPanel">
+		<div class="panelSelect" panel="1">
+			<div class="fright">
+				<p>al panel derecho</p>
+				<img src="<?= get_img("ERO_icon_panel_derecho.png")?>" />
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="panelSelect" panel="2">
+			<div class="fright">
+				<p>al panel izquierdo</p>
+				<img src="<?= get_img("ERO_icon_panel_izquierdo.png")?>" />
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="panelSelect" panel="3">
+			<div class="fright">
+				<p>a ambos paneles</p>
+				<img src="<?= get_img("ERO_icon_panel_ambos.png")?>" />
+			</div>
+		</div>
+	</div>
+</div>
 
 <footer>
 	<div class="uni">

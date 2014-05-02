@@ -20,6 +20,10 @@ function GroupLayer(opts){
 //		var html = "<li>Erosión en deltas mediterráneos</li>";
 		var html = "";
 		
+		if(this.project){
+			html += "<li style='background: none; cursor: initial;' class='disableSortable'><img style='float:left; padding-right: 10px; padding-left: 0;' src='application/views/img/ERO_icon_proyecto.png'><strong class='ellipsis' title='" + this.project + "' style='display: block; padding-top: 5px;'>" + this.project + "</strong></li>";
+		}
+		
 		for(x in this.layers){
 			var l =  this.layers[x];
 //			var lattr = l.visible ? "checked" : ""; 
@@ -289,7 +293,7 @@ function GroupLayer(opts){
 					    					var url = $(".urlServicioWms").val().replace("?VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS", "");
 					    					var layer = $(this).parent().attr("nombreCapa");
 					    					var leyenda = url.replace("/gwc/service", "");
-					    					self.addLayer(new GSLayerWMS(title, url, layer, leyenda));
+					    					self.addLayer(new GSLayerWMS(-1,title, url, layer, leyenda));
 					    					
 					    					$.fancybox.close();
 						    				if(!$("#panel_right .layer_panel").hasClass("close")){
@@ -313,9 +317,9 @@ function GroupLayer(opts){
 			    		}else{
 			    			if(server != "" && server != "url" && name != "" && name != "Título de la capa"){
 			    				if(select == "WMTS"){
-			    					self.addLayer(new GSLayerWMTS(name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
+			    					self.addLayer(new GSLayerWMTS(-1,name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
 			    				}else{
-			    					self.addLayer(new GSLayerTMS(name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
+			    					self.addLayer(new GSLayerTMS(-1,name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
 			    				}
 			    				$.fancybox.close();
 			    				if(!$("#panel_right .layer_panel").hasClass("close")){
@@ -340,10 +344,10 @@ function GroupLayer(opts){
 	};
 	
 	/* Toogle a given layer*/
-	this.toogleLayer = function(id_layer){
+	this.toogleLayer = function(id_layer,checked){
 		// get the layer
 		var l =  this.layers[id_layer];
-		l.visible = !l.visible;
+		l.visible = checked;
 		this.__refreshLayer(l);
 	};
 		
@@ -443,6 +447,7 @@ function GroupLayer(opts){
 	this.map = opts.map;	
 	this.father = opts.father;
 	this.layers = null;
+	this.project = null;
 	this.__layerHistogram = null;
 	this.__active = true;	
 	

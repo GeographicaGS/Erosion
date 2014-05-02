@@ -1,4 +1,5 @@
 var isLoged = false;
+var isAdmin = false;
 var sectionActual = 0;
 var markerLocationLeft;
 var markerLocationRight;
@@ -11,6 +12,16 @@ $.ajax({
     		$("#closeSesion").show();
     		$(".loginDiv").fadeOut();
     		isLoged = true;
+    		$.ajax({
+    		    url: 'index.php/login/isAdmin',
+    		    success: function(response) {
+    		    	if(response == 1){
+    		    		isAdmin = true;
+    		    	}else{
+    		    		isAdmin = false;
+    		    	}
+    		    }
+    		});
     	}
     }
 });
@@ -22,7 +33,7 @@ function getImg(s){
 
 function resize(){
 	$("#container,.sep").height($(window).height() - $("header").outerHeight(true) - $("footer").outerHeight(true));
-	var mw = Math.floor($(window).width() /2) - 1.5;
+	var mw = Math.floor($(window).width() /2)-1;
 	$("#sep").css("left",mw-1);
 	$("#panel_left").width(mw);
 	$("#panel_right").width(mw);

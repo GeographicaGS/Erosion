@@ -3,7 +3,8 @@ var myStyle = {
     "weight": 3,
 };
 
-function GSLayerGeoJson(title, geoJson, leyenda){
+function GSLayerGeoJson(id,title, geoJson, leyenda){
+	this.id = id;
 	this.title = title;
 	this.geoJson = geoJson;
 	this.visible = true;

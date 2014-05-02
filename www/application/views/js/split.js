@@ -483,6 +483,183 @@ Split = {
 		});
 		
 		
+		$("#ctrl_add_project").click(function(){
+			if(isLoged){
+				if ($(this).hasClass("enable")) { 
+					$(this).removeClass("enable");
+					
+				}
+				else{
+					$(this).addClass("enable");
+					$.fancybox($("#project_fancy"), {
+						'width':'660',
+						"height": "auto",
+					    'autoDimensions':false,
+					    'autoSize':false,
+					    "visibility":"hidden",
+					    'closeBtn' : false,
+					    "openEffect" : "elastic",		   
+					    'scrolling'   : 'no',
+					    helpers : {
+					        overlay : {
+					            	css : {
+					            		'background' : 'none',
+					            		'border-radius' : '0',
+					            	}
+					        }
+					    },
+					    afterShow: function () {
+					    	if(isAdmin){
+					    		$("#divIsPublic").show();
+					    	}else{
+					    		$("input[name='isPublic']").attr('checked', false);
+					    		$("#divIsPublic").hide();
+					    	}
+					    	$("input[name='tituloProyecto']").click(function(){
+					    		if($(this).val() == "Título"){
+					    			$(this).val("");
+					    		}
+					    	});
+					    	
+					    	$("input[name='descripcionProyecto']").click(function(){
+					    		if($(this).val() == "Descripción"){
+					    			$(this).val("");
+					    		}
+					    	});
+					    	
+					    	$("h2").on("click",function(){
+					    		$.fancybox.close();
+					    	});
+					    	
+					    	var to;
+					    	$("input[name='tituloProyecto']").on("keyup",function(){
+					    		clearTimeout(to);
+					    	       to = setTimeout(function(){
+					    	    	   $.ajax({
+									        url: 'index.php/project/getInformationProject/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
+									        dataType: "json",
+									        success: function(response) {
+									        	
+									        	if(response.length != 0){
+									        		$("input[name='descripcionProyecto']").val(response.descripcion);
+									        		if(response.is_public == "t"){
+									        			$("input[name='isPublic']").attr('checked', true);
+									        		}else{
+									        			$("input[name='isPublic']").attr('checked', false);
+									        		}
+									        	}
+									        }
+					    	    	   });
+					    	       }, 500);
+					    	});
+					    	
+					    	
+					    	$("input[name='saveProject']").on("click",function(){
+					    		var enviar = true;
+					    		$("input[name='tituloProyecto']").css({"border":"1px solid #001232"});
+					    		$("input[name='descripcionProyecto']").css({"border":"1px solid #001232"});
+					    		$("#errorNoCapas").hide();
+					    		if($("input[name='tituloProyecto']").val() == "" || $("input[name='tituloProyecto']").val() == "Título"){
+					    			
+					    			$("input[name='tituloProyecto']").css({"border":"1px solid red"});
+					    			enviar = false;
+					    		} 
+					    		if($("input[name='descripcionProyecto']").val() == '' || $("input[name='descripcionProyecto']").val() == 'Descripción'){
+					    			$("input[name='descripcionProyecto']").css({"border":"1px solid red"});
+					    			enviar = false;
+					    		}
+					    		
+					    		if(Split.__mapRight.layers.length == 0 && Split.__mapLeft.layers.length == 0){
+					    			$("#errorNoCapas").show();
+					    			enviar = false;
+					    		}
+					    		
+					    		if(enviar){
+					    			var panels = {};
+					    			var leftPanel = Array();
+					    			var rightPanel = Array();
+					    			for(var i=0; i<Split.__mapLeft.layers.length; i++){
+					    				capas = {};
+					    				capas["id"] = Split.__mapLeft.layers[i].id;
+					    				capas["tipo"] = Split.__mapLeft.layers[i].tipo;
+					    				leftPanel.push(capas); 
+					    			}
+					    			for(var i=0; i<Split.__mapRight.layers.length; i++){
+					    				capas = {};
+					    				capas["id"] = Split.__mapRight.layers[i].id;
+					    				capas["tipo"] = Split.__mapRight.layers[i].tipo;
+					    				rightPanel.push(capas); 
+					    			}
+					    			panels = { 'left':JSON.stringify(leftPanel),'right':JSON.stringify(rightPanel)};
+					    			
+					    			$.ajax({
+								        url: 'index.php/project/projectExist/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
+								        success: function(response) {
+								        	if(response ==  "true"){
+								        		$("input[name='saveProject']").hide();
+								        		$("#projectExist").show();
+								        		
+								        		
+								        		$("#aceptSaveProject").click(function(){
+								        			$.ajax({
+												        url: 'index.php/project/updateProject',
+												        data: "titulo=" +  $("input[name='tituloProyecto']").val() + "&descripcion=" + $("input[name='descripcionProyecto']").val() + "&" + "&public=" + ($("input[name='isPublic']").is(":checked") ? "1":"0") + "&panels=" + JSON.stringify(panels),
+												        type: "POST",
+												        success: function(response) {
+												        	$("#projectExist").hide();
+										        			$("input[name='saveProject']").show();
+												        	$.fancybox.close();
+												        	drawCategories();
+												        }
+										    		});
+								        		});
+								        		
+								        		$("#cancelSaveProject").click(function(){
+								        			$("#projectExist").hide();
+								        			$("input[name='saveProject']").show();
+								        		});
+								        		
+								        	}else{
+								    			$.ajax({
+											        url: 'index.php/project/createProject',
+											        data: "titulo=" +  $("input[name='tituloProyecto']").val() + "&descripcion=" + $("input[name='descripcionProyecto']").val() + "&" + "&public=" + ($("input[name='isPublic']").is(":checked") ? "1":"0") + "&panels=" + JSON.stringify(panels),
+											        type: "POST",
+											        success: function(response) {
+											        	drawCategories();
+											        	$.fancybox.close();
+											        }
+									    		});
+								        	}
+								        }
+						    		});
+					    			
+					    			
+					    		}
+					    	
+					    	});
+					    	
+					    },
+					    
+					    afterClose:function () {
+					    	$("#ctrl_add_project").removeClass("enable");
+					    	$("input[name='tituloProyecto']").val("Título");
+				        	$("input[name='descripcionProyecto']").val("Descripción");
+				        	$("#errorNoCapas").hide();
+				        	$("input[name='isPublic']").attr('checked', false);
+				        	$("#divIsPublic").hide();
+					    },
+					    
+					});
+					
+				}
+			}else{
+				if(!$(".loginDiv").is(":visible")){
+    				$(".acceder").trigger("click")
+    			}
+			}
+		});
+		
+		
 		
 		$(".acceder").click(function(){
 			if($(".loginDiv").is(":visible")){
@@ -521,12 +698,26 @@ Split = {
 					        	if(response ==  "false"){
 					        		$("#errorLogin").fadeIn();
 					        		isLoged = false;
+					        		isAdmin = false;
+					        		
 					        	}else{
 					        		$(".acceder").hide();
 					        		$("#closeSesion").show();
 					        		$(".loginDiv").fadeOut();
 					        		isLoged = true;
+					        		$.ajax({
+					        		    url: 'index.php/login/isAdmin',
+					        		    success: function(response) {
+					        		    	if(response == 1){
+					        		    		isAdmin = true;
+					        		    	}else{
+					        		    		isAdmin = false;
+					        		    	}
+					        		    }
+					        		});
+					        		
 					        	}
+					        	drawCategories();
 					        }
 					    });
 					}
@@ -545,11 +736,17 @@ Split = {
 					$(".acceder").show();
 					$(".loginDiv").find("input[type='text']").val("Correo electrónico");
 					$(".loginDiv").find("input[type='password']").val("Contraseña");
+					drawCategories();
 					isLoged = false;
+					isAdmin = false;
 		        }
 		    });
 		});
 		
+	
+		
+		this.__mapLeft.getMap().touchZoom.disable();
+		this.__mapRight.getMap().touchZoom.disable();
 		
 	},
 	/* Split handler*/
@@ -582,7 +779,7 @@ Split = {
 	},
 	/* Toogle an Split panel*/
 	togglePanel:function (el){
-		var totalWidth = Math.floor(($(window).width()-2) /2) - 7.5;
+		var totalWidth = Math.floor(($(window).width()) /2);
 		if (el==this.LEFT){
 			//Left panel
 			if ($("#panel_left").is(":visible") && $("#panel_right").is(":visible")){	
@@ -712,7 +909,7 @@ Split = {
 		
 		
 		$panel.find(".toogleLayer").click(function(){
-			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"));
+			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"),$(this).is(":checked"));
 		});
 		
 	},
@@ -729,18 +926,18 @@ Split = {
 		}
 		
 		$panel.find(".toogleLayer").click(function(){
-			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"));
+			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"),$(this).is(":checked"));
 
 		})
 		
 	},
 	/* Toogle a layer of one map */
-	toggleLayer: function(id_layer,el){
+	toggleLayer: function(id_layer,el,checked){
 		if (el==this.LEFT){
-			this.__mapLeft.toogleLayer(id_layer);			
+			this.__mapLeft.toogleLayer(id_layer,checked);			
 		}
 		else if (el==this.RIGHT){
-			this.__mapRight.toogleLayer(id_layer);			
+			this.__mapRight.toogleLayer(id_layer,checked);			
 		}
 //		this.__drawLayerInterface(el);
 	},
@@ -756,33 +953,38 @@ Split = {
 	
 	
 	
-	addLayer: function(capa, tipo, leyenda, geoJson) {
+	addLayer: function(capa, tipo, leyenda, geoJson, panel) {
 		var gsLayerLeft;
 		var gsLayerRight;
 		
 		if(tipo == "wms"){
-			gsLayerLeft = new GSLayerWMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
-			gsLayerRight = new GSLayerWMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerLeft = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerRight = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 			
 		}else if(tipo == "wmts"){
-			gsLayerLeft = new GSLayerWMTS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
-			gsLayerRight = new GSLayerWMTS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerLeft = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerRight = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 		
 		}else if(tipo == "tms"){
-			gsLayerLeft = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
-			gsLayerRight = new GSLayerTMS(capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerLeft = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerRight = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 		}
 		else if(geoJson.length > 0){
 			
-			gsLayerLeft = new GSLayerGeoJson(geoJson[0].properties.category, geoJson, null);
-			gsLayerRight = new GSLayerGeoJson(geoJson[0].properties.category, geoJson, null);
+			gsLayerLeft = new GSLayerGeoJson(geoJson[0].properties.id_category, geoJson[0].properties.category, geoJson, null);
+			gsLayerRight = new GSLayerGeoJson(geoJson[0].properties.id_category, geoJson[0].properties.category, geoJson, null);
 		}
 		else{
 			return null;
 		}
 		
-		this.__mapLeft.addLayer(gsLayerLeft);
-		this.__mapRight.addLayer(gsLayerRight);
+		if(panel==1 || panel==3){
+			this.__mapRight.addLayer(gsLayerRight);
+		}
+		if(panel==2 || panel==3){
+			this.__mapLeft.addLayer(gsLayerLeft);
+		}
+		
 		
 		if(!$("#panel_right .layer_panel").hasClass("close")){
 			this.toggleLayersInterface(this.RIGHT);
@@ -801,6 +1003,19 @@ Split = {
 		}
 		if(!$("#panel_left .layer_panel").hasClass("close")){
 			this.toggleLayersInterface(this.LEFT);
+		}
+	},
+	
+	removeAllLayers: function() {
+		
+		var layers = this.__mapLeft.layers.slice();
+		for(var i=0; i<layers.length; i++){
+			this.removeLayer(layers[i].title, layers[i].tipo)
+		}
+		
+		layers = this.__mapRight.layers.slice();
+		for(var i=0; i<layers.length; i++){
+			this.__mapRight.removeLayer(layers[i].title, layers[i].tipo)
 		}
 	},
 	
@@ -843,7 +1058,7 @@ Split = {
 	showFancySaveDraw: function(e, type){
 		$("#fancy_box_save_draw").css({"top":event.y, "left":event.x});
 		$("#fancy_box_save_draw").show();
-		$("#fancy_box_save_draw").animate({"width": 173},300);
+		$("#fancy_box_save_draw").animate({"width": 198},300);
 		$($("#fancy_box_save_draw").find("p")[0]).fadeIn(600);
 		$($("#fancy_box_save_draw").find("p")[1]).fadeIn(600);
 		$($("#fancy_box_save_draw").find("img")).fadeIn(600);
@@ -945,7 +1160,7 @@ Split = {
 						        		        			Split.__mapRight.removeLayer(Split.__mapRight.layers[i].title, "geoJson");
 						        		        		}
 						        		        	}
-						        		        	Split.addLayer(null,"vectorial", null, response);  
+						        		        	Split.addLayer(null,"vectorial", null, response,3);  
 						        		        }
 						        			});
 								        	

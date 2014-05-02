@@ -1,0 +1,83 @@
+<?php
+class Project extends MY_Controller
+{
+	public function __construct()
+	{
+		parent::__construct();
+		
+		$this->load->model("project_model");
+	}
+	
+	public function index()
+	{
+		
+
+	}
+	
+	public function projectExist($titulo){
+		is_logged();
+		
+		$project = $this->project_model->getProject(urldecode($titulo));
+		
+		if(count($project) > 0){
+			echo "true";
+		}
+		else{
+			echo "false";
+		}
+		
+	}
+	
+	public function createProject(){
+		is_logged();
+		
+		$data["titulo"] = $this->input->post("titulo");
+		$data["descripcion"] = $this->input->post("descripcion");
+		$data["capas"] = $this->input->post("panels");
+		if($this->session->userdata('is_admin') == "t"){
+			$data["is_public"] = $this->input->post("public");
+		}else{
+			$data["is_public"] = "0";
+		}
+		$data["id_user"] = $this->session->userdata('id_user');
+		$project = $this->project_model->createProject($data);
+	}
+	
+	public function updateProject(){
+		is_logged();
+		
+		$data["descripcion"] = $this->input->post("descripcion");
+		$data["capas"] = $this->input->post("panels");
+		if($this->session->userdata('is_admin') == "t"){
+			$data["is_public"] = $this->input->post("public");
+		}else{
+			$data["is_public"] = "0";
+		}
+		$data["id_user"] = $this->session->userdata('id_user');
+		$project = $this->project_model->updateProject($this->input->post("titulo"),$data);
+		
+	}
+	
+	public function getPublicProjects()
+	{
+		echo json_encode($this->project_model->getPublicProjects());
+	}
+	
+	public function getMyProjects()
+	{
+		echo json_encode($this->project_model->getMyProjects($this->session->userdata('id_user')));
+	}
+	
+	public function getLayersProject($id_project)
+	{
+		echo json_encode($this->project_model->getLayersProject(urldecode($id_project)));
+	}
+	
+	public function getInformationProject($id_project)
+	{
+		echo json_encode($this->project_model->getInformationProject(urldecode($id_project)));
+	}
+	
+	
+} 
+?>
