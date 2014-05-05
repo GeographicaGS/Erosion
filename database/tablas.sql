@@ -121,3 +121,19 @@ ALTER TABLE public.project
 alter table public.project add column is_public boolean;
 alter table public.user add column is_admin boolean default false;
 UPDATE public.user SET is_admin = true WHERE email = 'zujar@us.es';
+
+
+CREATE TABLE public.simbolo
+(
+  id_simbolo serial NOT NULL,
+  lng numeric,
+  lat numeric,
+  valor numeric,
+  tipo text,
+  CONSTRAINT simbolo_pkey PRIMARY KEY (id_simbolo)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE public.simbolo
+  OWNER TO erosion_admin;

@@ -569,7 +569,37 @@ var categories = [
             	        	   }
             	           }
             	      ]
-               }
+               },
+               
+               {
+            	   title:"Tasas de erosión",
+            	   description: "Tasas de erosión",
+            	   layers:[
+            	           {
+            	        	   id: 47,
+            	        	   title: "base de prueba",
+            	        	   description: "bla bla bla",
+            	        	   simbolo: {
+
+       	        		   				umbral: "0",
+       	        		   				colorUmbralPositivo: "#FF0000",
+       	        		   				colorUmbralNegativo: "#01DF01"
+            	        	   }
+            	           },
+            	           
+            	           {
+            	        	   id: 48,
+            	        	   title: "Criterio estricto",
+            	        	   description: "bla bla bla",
+            	        	   simbolo: {
+
+       	        		   				umbral: "0",
+       	        		   				colorUmbralPositivo: "#FF0000",
+       	        		   				colorUmbralNegativo: "#01DF01"
+            	        	   }
+            	           }
+    	             ]
+               },
 			   		                   
               
 

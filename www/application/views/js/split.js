@@ -975,7 +975,40 @@ Split = {
 		}else if(tipo == "tms"){
 			gsLayerLeft = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 			gsLayerRight = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+		
+		}else if(tipo == "simbolo"){
+			
+//			var prueba = new L.CircleMarker([37.388096,-5.98233], {
+//		        radius: 30,
+//		        fillColor: "#FF0000",
+//		        color: "#FF0000",
+//		        opacity: 1,
+//		        fillOpacity: 1,
+//		    });
+//			
+//			var prueba2 = new L.CircleMarker([37.388096,-5.98233], {
+//		        radius: 30,
+//		        fillColor: "#FF0000",
+//		        color: "#FF0000",
+//		        opacity: 1,
+//		        fillOpacity: 1,
+//		    });
+//			
+//			
+//			var bolas = [];
+//			bolas.push(prueba);
+//			
+//			var bolas2 = [];
+//			bolas2.push(prueba2);
+//			
+//			gsLayerLeft = new GSLayerSimbolo(capa.id,capa.title, bolas);
+//			gsLayerRight = new GSLayerSimbolo(capa.id,capa.title, bolas2);
+			
+			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title);
+			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title);
+			
 		}
+		
 		else if(geoJson.length > 0){
 			
 			gsLayerLeft = new GSLayerGeoJson(geoJson[0].properties.id_category, geoJson[0].properties.category, geoJson, null);

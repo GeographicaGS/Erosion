@@ -47,6 +47,7 @@
 <script type="text/javascript" src="<?= get_js("GSLayerWMTS.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("GSLayerTMS.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("GSLayerGeoJson.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("GSLayerSimbolo.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("categories.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("categoriesFunction.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("notification.js")?>"></script>

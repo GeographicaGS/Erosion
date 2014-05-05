@@ -38,14 +38,14 @@ function GroupLayer(opts){
 				
 					"<img class='remove' src='application/views/img/MED_icon_papelera_panel.png' title='Opacity 100 %' id_layer='" + x + "'>";
 					
-					if(l.tipo != "geoJson"){
+					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
 						html += "<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>";
 					}
 					if(l.leyenda){
 						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Opacity 100 %' id_layer='" + x + "'>";
 					}
 					html += "<span class='ellipsis'>"+l.title+"</span>";
-					if(l.tipo != "geoJson"){
+					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
 						html += "<div class='opacity_panel' style='display: none;'>" +
 						"<span class='opacity_label'>Opacity 100 %</span>" +
 						"<div class='slider'></div>" +

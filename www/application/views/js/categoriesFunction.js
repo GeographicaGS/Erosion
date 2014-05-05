@@ -120,6 +120,11 @@ function drawCategories() {
                         								"<div idCapa='"+ categories[i].layers[y].id +"' tipo='tms' ><img class='tiposCapas' src='application/views/img/ERO_icon_link_naranja.png'></div>" ;
                         							}
                         							
+                        							if(categories[i].layers[y].simbolo){
+                        								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='simbolo' class='fleft ml'><span class='tiposCapas'>Símbolos proporcionales</span></div>" +
+                        								"<div idCapa='"+ categories[i].layers[y].id +"' tipo='simbolo' ><img class='tiposCapas' src='application/views/img/ERO_icon_link_naranja.png'></div>" ;
+                        							}
+                        							
                         							html+= "<div class='clear'></div>" + 
                         						"</li>";
                         						}
