@@ -279,6 +279,7 @@
 		</div>
 		<input name='descripcionProyecto' style="width: 620px; background: #ecedef;" type="text" value="Descripción">
 		<p id="errorNoCapas" style="display:none; text-align: center; margin-top: 15px; color: red;">No ha cargado ninguna capa en ninguno de los mapas</p>
+		<p id="errorProjectOwner" style="display:none; text-align: center; margin-top: 15px; color: red;">Usted no es propietario de este proyecto y no puede sobreescribirlo</p>
 		<input name="saveProject" class="mt20" style="width: 620px;" type="button" value="Guardar proyecto">
 		
 		<div id="projectExist" style="display: none;">

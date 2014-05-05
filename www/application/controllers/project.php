@@ -54,7 +54,19 @@ class Project extends MY_Controller
 			$data["is_public"] = "0";
 		}
 		$data["id_user"] = $this->session->userdata('id_user');
-		$project = $this->project_model->updateProject($this->input->post("titulo"),$data);
+		
+		$projectAux = $this->project_model->getProject($this->input->post("titulo"));
+		if($projectAux->id_user != $data["id_user"])
+		{
+			echo "0";
+		}
+		else
+		{
+			$project = $this->project_model->updateProject($this->input->post("titulo"),$data);
+			echo "1";
+		}
+		
+		
 		
 	}
 	

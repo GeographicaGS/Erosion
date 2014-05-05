@@ -19,13 +19,13 @@ class Project_model extends CI_Model{
 	
 	public function getPublicProjects(){
 		$sql = "SELECT titulo, descripcion, name, surname FROM public.project p
-				LEFT JOIN public.user u on p.id_user = p.id_user where is_public ORDER BY titulo";
+				LEFT JOIN public.user u on p.id_user = u.id_user where is_public ORDER BY titulo";
 		return $this->db->query($sql)->result();
 	}
 	
 	public function getMyProjects($idUser){
 		$sql = "SELECT titulo, descripcion, name, surname, is_public FROM public.project p
-				LEFT JOIN public.user u on p.id_user = p.id_user where p.id_user=? ORDER BY p.titulo";
+				LEFT JOIN public.user u on p.id_user = u.id_user where p.id_user=? ORDER BY p.titulo";
 		return $this->db->query($sql,array($idUser))->result();
 	}
 	

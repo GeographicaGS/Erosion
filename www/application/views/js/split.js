@@ -597,6 +597,7 @@ Split = {
 								        success: function(response) {
 								        	if(response ==  "true"){
 								        		$("input[name='saveProject']").hide();
+								        		$("#errorProjectOwner").hide();
 								        		$("#projectExist").show();
 								        		
 								        		
@@ -606,16 +607,22 @@ Split = {
 												        data: "titulo=" +  $("input[name='tituloProyecto']").val() + "&descripcion=" + $("input[name='descripcionProyecto']").val() + "&" + "&public=" + ($("input[name='isPublic']").is(":checked") ? "1":"0") + "&panels=" + JSON.stringify(panels),
 												        type: "POST",
 												        success: function(response) {
-												        	$("#projectExist").hide();
-										        			$("input[name='saveProject']").show();
-												        	$.fancybox.close();
-												        	drawCategories();
+												        	if(response == "0"){
+												        		$( "#cancelSaveProject" ).trigger( "click" );
+												        		$("#errorProjectOwner").show();
+												        	}else{
+												        		$("#projectExist").hide();
+											        			$("input[name='saveProject']").show();
+													        	$.fancybox.close();
+													        	drawCategories();
+												        	}
 												        }
 										    		});
 								        		});
 								        		
 								        		$("#cancelSaveProject").click(function(){
 								        			$("#projectExist").hide();
+								        			$("#errorProjectOwner").hide();
 								        			$("input[name='saveProject']").show();
 								        		});
 								        		
