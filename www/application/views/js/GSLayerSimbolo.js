@@ -3,7 +3,7 @@ function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegat
 	this.title = title;
 	this.visible = true;
 	this.tipo = "simbolo";
-	this.bolas = null;
+	this.layer = null;
 	this.umbral = umbral;
 	this.colorUmbralPositivo = colorUmbralPositivo;
 	this.colorUmbralNegativo = colorUmbralNegativo;
@@ -39,16 +39,20 @@ function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegat
 			       		
 			       	}
 			       	
-			       	if(self.bolas != null){
-						map.removeLayer(self.bolas);
+			       	if(self.layer != null){
+						map.removeLayer(self.layer);
 					}
-			       	self.bolas = new L.layerGroup(markers);
-			       	self.bolas.addTo(map);
+			       	self.layer = new L.layerGroup(markers);
+			       	self.layer.addTo(map);
+			       	if(z_index){
+			       		self.layer.setZIndex(z_index);
+					}
+			       	
 			       }
 			});
 
 		}else{
-			map.removeLayer(this.bolas);			
+			map.removeLayer(this.layer);			
 		}
 	};
 }
