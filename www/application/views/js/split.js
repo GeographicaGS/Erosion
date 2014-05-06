@@ -978,35 +978,8 @@ Split = {
 		
 		}else if(tipo == "simbolo"){
 			
-//			var prueba = new L.CircleMarker([37.388096,-5.98233], {
-//		        radius: 30,
-//		        fillColor: "#FF0000",
-//		        color: "#FF0000",
-//		        opacity: 1,
-//		        fillOpacity: 1,
-//		    });
-//			
-//			var prueba2 = new L.CircleMarker([37.388096,-5.98233], {
-//		        radius: 30,
-//		        fillColor: "#FF0000",
-//		        color: "#FF0000",
-//		        opacity: 1,
-//		        fillOpacity: 1,
-//		    });
-//			
-//			
-//			var bolas = [];
-//			bolas.push(prueba);
-//			
-//			var bolas2 = [];
-//			bolas2.push(prueba2);
-//			
-//			gsLayerLeft = new GSLayerSimbolo(capa.id,capa.title, bolas);
-//			gsLayerRight = new GSLayerSimbolo(capa.id,capa.title, bolas2);
-			
-			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title);
-			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title);
-			
+			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax);
+			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax);
 		}
 		
 		else if(geoJson.length > 0){
