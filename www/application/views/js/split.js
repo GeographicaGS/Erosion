@@ -101,10 +101,18 @@ Split = {
 		
 		this.__currentMasterMap = this.__mapLeft;
 		
+		var self = this;
 		this.__mapLeft.getMap().locate({setView: false, maxZoom: 7});
 		this.__mapLeft.getMap().on('locationfound', onLocationFoundLeft);
 		this.__mapRight.getMap().locate({setView: false, maxZoom: 7});
 		this.__mapRight.getMap().on('locationfound', onLocationFoundRight);
+		
+		setInterval(function() {
+			self.__mapLeft.getMap().locate({setView: false, maxZoom: 7});
+			self.__mapRight.getMap().locate({setView: false, maxZoom: 7});
+		}, 10000);
+		
+		
 		
 		drawCategories();
 		createDrawLocal();
