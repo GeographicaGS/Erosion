@@ -1,4 +1,4 @@
-function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegativo, radioMin, radioMax){
+function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegativo, radioMin, radioMax, zoomGroup){
 	this.id = id;
 	this.title = title;
 	this.visible = true;
@@ -9,6 +9,7 @@ function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegat
 	this.colorUmbralNegativo = colorUmbralNegativo;
 	this.radioMin = radioMin;
 	this.radioMax = radioMax;
+	this.zoomGroup = zoomGroup;
 	
 	this.setVisibility = function(visibility, map, z_index){
 		
@@ -21,22 +22,29 @@ function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegat
 			       success: function(response) {
 			       	var json = response.result;
 			       	var markers = [];
-//			       	var bound = map.getBounds();
+			       	var contador = 0;
 			       	for(var i=0; i<json.length; i++){
-			       		
-//			       		if(json[i].lat >= bound._southWest.lat && json[i].lat <= map.getBounds()._northEast.lat && json[i].lng >= bound._southWest.lng && json[i].lng <= map.getBounds()._northEast.lng){
+
+			       		if((i != 0) && (i % self.zoomGroup[map.getZoom()] == 0)){
 			       			
+			       			contador += Number(json[i].valor);
+			       			var value = contador / self.zoomGroup[map.getZoom()];
+
 			       			var marker = new L.CircleMarker([json[i].lat,json[i].lng], {
-						        radius: json[i].radius,
-						        fillColor: (self.umbral ? (json[i].valor >= self.umbral ? self.colorUmbralPositivo:self.colorUmbralNegativo):self.colorUmbralPositivo),
-						        color: (self.umbral ? (json[i].valor >= self.umbral ? self.colorUmbralPositivo:self.colorUmbralNegativo):self.colorUmbralPositivo),
+						        radius: self.getRadius(value, response.minValue, response.maxValue),
+						        fillColor: (self.umbral ? (value >= self.umbral ? self.colorUmbralPositivo:self.colorUmbralNegativo):self.colorUmbralPositivo),
+						        color: (self.umbral ? (value >= self.umbral ? self.colorUmbralPositivo:self.colorUmbralNegativo):self.colorUmbralPositivo),
 						        opacity: 1,
 						        fillOpacity: 1,
 						        weight: 1,
 						    });			       		
 				       		markers.push(marker);
-//			       		}
-			       		
+				       		
+			       			contador = 0;
+			       			
+			       		}else if (((self.zoomGroup[map.getZoom()] -1) / 2) != i){
+			       			contador += Number(json[i].valor);
+			       		}
 			       	}
 			       	
 			       	if(self.layer != null){
@@ -55,4 +63,10 @@ function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegat
 			map.removeLayer(this.layer);			
 		}
 	};
+	
+	this.getRadius = function(valor, min, max){
+		var aux = ((this.radioMax - this.radioMin) * (Math.abs(valor) - min) ) / (((max - min) != 0) ? (max - min) : 1);
+		return (aux <= this.radioMin ? this.radioMin:aux)
+	};
+	
 }

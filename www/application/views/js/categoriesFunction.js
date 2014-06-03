@@ -19,7 +19,7 @@ function drawCategories() {
         		for(var y=0; y<response.length; y++){
         		html += "<li style='border-top: 1px dotted #ccc;'>" + 
         			"<span style='margin-left:20px;'>" + response[y].titulo + "</span>" + 
-        			"<a class='ml' href=''>Reducir</a>" +
+        			"<a class='ml reducir' href='#'>Colapsar</a>" +
         			"<p style='font-size:11px'>" + response[y].descripcion + "</p>" +
         			"<p style='font-size:11px'>Autor: " + response[y].name + " " + response[y].surname + "</p>"
         			;
@@ -53,7 +53,7 @@ function drawCategories() {
                 		for(var y=0; y<response.length; y++){
                 		html += "<li style='border-top: 1px dotted #ccc;'>" + 
                 			"<span style='margin-left:20px;'>" + response[y].titulo + "</span>" + 
-                			"<a class='ml' href=''>Reducir</a>" +
+                			"<a class='ml reducir' href='#'>Colapsar</a>" +
                 			"<p style='font-size:11px'>" + response[y].descripcion + "</p>"+
                 			"<p style='font-size:11px'>Autor: " + response[y].name + " " + response[y].surname + "</p>";
                 			
@@ -100,7 +100,7 @@ function drawCategories() {
                         						html += "<li style='border-top: 1px dotted #ccc;'>" + 
                         							"<img src='application/views/img/MED_icon_layer.png'>" +
                         							"<span>" + categories[i].layers[y].title + "</span>" + 
-                        							"<a class='ml' href=''>Reducir</a>" +
+                        							"<a class='ml reducir' href='#'>Colapsar</a>" +
                         							"<p style='font-size:11px'>" + categories[i].layers[y].description + "</p>" +
                         							"<img style='margin-top:0px;' src='application/views/img/MED_icon_add_layer.png'>" +
                         							"<p class='fleft' style='font-size:11px; clear: none; margin-left: 0px;'>AÑADIR A CAPAS:</p>";
@@ -150,7 +150,7 @@ function drawCategories() {
                 					html += "<li style='border-top: 1px dotted #ccc;'>" + 
                 						"<img src='application/views/img/MED_icon_layer.png'>" +
                 						"<span>" + response[y].title + "</span>" + 
-                						"<a class='ml' href=''>Reducir</a>" +
+                						"<a class='ml reducir' href='#'>Colapsar</a>" +
                 						"<p style='font-size:11px'></p>" +
                 						"<img style='margin-top:0px;' src='application/views/img/MED_icon_add_layer.png'>" +
                 						"<p class='fleft' style='font-size:11px; clear: none; margin-left: 0px;'>AÑADIR A CAPAS:</p>";
@@ -181,10 +181,12 @@ function drawCategories() {
                         		if($(this).next().is(":visible")){
                         			$(this).find(".name").css({"font-weight":"normal"})
                         			$(this).next().fadeOut();
+                        			$($(this).find("img")[0]).attr("src", "application/views/img/MED_icon_familia.png")
                         			$(this).parent().css({"background-color":"white"});
-                        		}else{
+                        		}else if($(this).next().find("li").length > 1){
                         			$(this).find(".name").css({"font-weight":"bold"})
                         			$(this).next().fadeIn();
+                        			$($(this).find("img")[0]).attr("src", "application/views/img/MED_icon_cerrar_capas.png")
                         			if($(this).attr('tipo') && $(this).attr('tipo') == 'project'){
                         				$(this).parent().css({"background-color":"#e5eff6"});
                         			}else{
@@ -296,6 +298,10 @@ function drawCategories() {
                         	
                         	$("body").click(function(){
                         		$("#fancy_select_panel").hide(300);
+                        	});
+                        	
+                        	$(".reducir").click(function(){
+                        		$(this).closest("ul").parent().find(".family_header").trigger("click")
                         	});
                         }
                     });

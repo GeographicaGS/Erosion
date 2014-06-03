@@ -675,13 +675,22 @@ Split = {
 				$($(".loginDiv").find("input[type='text']")).removeClass("errorBorder");
 				$($(".loginDiv").find("input[type='password']")).val("Contraseña");
 				$($(".loginDiv").find("input[type='password']")).removeClass("errorBorder");
+				$(".loginDiv").find("input[type='text'],input[type='password']").css({"color":""});
 				$("#errorLogin").hide();
+				
 			}else{
 				$(".loginDiv").fadeIn();
 				$(".loginDiv").find("input[type='text'],input[type='password']").bind( "click", function(){
 					if($(".loginDiv").find("input[type='text']").val() == "Correo electrónico"){
 						$(".loginDiv").find("input[type='text'],input[type='password']").val("");
+						$(".loginDiv").find("input[type='text'],input[type='password']").css({"color":"black"});
 					}
+				});
+				
+				$(document).unbind().bind("keypress", function(e) {
+				    if($(".loginDiv").is(":visible") && e.which == 13) {
+				    	$(".loginDiv").find("input[type='button']").trigger("click");
+				    }
 				});
 				
 				$(".loginDiv").find("input[type='button']").bind( "click", function(){
@@ -696,6 +705,7 @@ Split = {
 						post = false;
 						$(password).addClass("errorBorder");
 					}
+					
 					if(post){
 						$.ajax({
 					        url: 'index.php/login/getUser',
@@ -837,9 +847,10 @@ Split = {
 	sync: function(){
 		Split.syncEnable = !Split.syncEnable;
 		var lurl = Split.syncEnable ? "MED_icon_enlazar_OK_left.png" : "MED_icon_enlazar_KO_left.png";
-		var rurl = Split.syncEnabletoggleLayer ? "MED_icon_enlazar_OK_right.png" : "MED_icon_enlazar_KO_right.png";
-		$("#panel_left img.sync").attr("src","img/"+lurl);
-		$("#panel_right img.sync").attr("src","img/"+rurl);
+//		var rurl = Split.syncEnabletoggleLayer ? "MED_icon_enlazar_OK_right.png" : "MED_icon_enlazar_KO_right.png";
+		var rurl = Split.syncEnable ? "MED_icon_enlazar_OK_right.png" : "MED_icon_enlazar_KO_right.png";
+		$("#panel_left img.sync").attr("src","application/views/img/"+lurl);
+		$("#panel_right img.sync").attr("src","application/views/img/"+rurl);
 		
 		if (Split.syncEnable){
 			$("img.sync").attr("title","Desynchronize maps");
@@ -978,8 +989,8 @@ Split = {
 		
 		}else if(tipo == "simbolo"){
 			
-			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax);
-			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax);
+			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [29,27,25,23,21,19,17,15,13,11,9,1,1,1,1,1,1,1,1]);
+			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [29,27,25,23,21,19,17,15,13,11,9,1,1,1,1,1,1,1,1]);
 		}
 		
 		else if(geoJson.length > 0){

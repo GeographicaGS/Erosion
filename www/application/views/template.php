@@ -189,12 +189,12 @@
 		
 		
 		<div id="tool_bar">
-			<div id="ctrl_marker_drawer"></div>
-			<div id="ctrl_line_drawer"></div>
-			<div id="ctrl_rectangle_drawer"></div>
-			<div id="ctrl_feature_info"></div>
-			<div id="ctrl_add_project"></div>
-			<div id="ctrl_location" class="enable"></div>
+			<div title="Dibujar marcador" id="ctrl_marker_drawer"></div>
+			<div title="Dibujar línea" id="ctrl_line_drawer"></div>
+			<div title="Dibujar polígono" id="ctrl_rectangle_drawer"></div>
+			<div title="Obtener información" id="ctrl_feature_info"></div>
+			<div title="Guardar proyecto" id="ctrl_add_project"></div>
+			<div title="Mostrar mi ubicación" id="ctrl_location" class="enable"></div>
 		</div>
 		
 		

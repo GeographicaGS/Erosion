@@ -41,11 +41,12 @@ class Symbol extends MY_Controller
 		
 		foreach ($simbolos as $simbolo) {
 			
-			$aux = (($radioMax - $radioMin) * (abs($simbolo->valor) - $minValue) ) / ((($maxValue - $minValue) != 0) ? ($maxValue - $minValue) : 1);
-			array_push($bolas,array('lat' => $simbolo->lat, 'lng' => $simbolo->lng , 'radius' => ($aux <= $radioMin ? ($radioMin+0):$aux) , 'valor' => $simbolo->valor));
+// 			$aux = (($radioMax - $radioMin) * (abs($simbolo->valor) - $minValue) ) / ((($maxValue - $minValue) != 0) ? ($maxValue - $minValue) : 1);
+// 			array_push($bolas,array('lat' => $simbolo->lat, 'lng' => $simbolo->lng , 'radius' => ($aux <= $radioMin ? ($radioMin+0):$aux) , 'valor' => $simbolo->valor));
+			array_push($bolas,array('lat' => $simbolo->lat, 'lng' => $simbolo->lng , 'valor' => $simbolo->valor));
 		}
 	
-		echo json_encode(array('result' => $bolas));
+		echo json_encode(array('result' => $bolas, 'minValue' => $minValue, 'maxValue' => $maxValue));
 	}
 	
 } 
