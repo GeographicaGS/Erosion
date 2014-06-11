@@ -222,7 +222,8 @@ function drawCategories() {
                                         		        dataType: "json",
                                         		        success: function(response) {
                                         		        	Split.addLayer(null,"vectorial", null, response,1);  
-                                        		        	navigate(0);}
+                                        		        	//navigate(0);
+                                        		        }
                                         			});
                         		        			
                         		        		}else{
@@ -232,7 +233,7 @@ function drawCategories() {
                                         				leyenda = capa.wms.server;
                                         			}
                                         			Split.addLayer(capa,capasRight[i].tipo, leyenda, null,1);
-                                        			navigate(0);
+                                        			//navigate(0);
                         		        		}
                         		        	}
                         		        	
@@ -244,7 +245,8 @@ function drawCategories() {
                                         		        dataType: "json",
                                         		        success: function(response) {
                                         		        	Split.addLayer(null,"vectorial", null, response,2);  
-                                        		        	navigate(0);}
+                                        		        	//navigate(0);
+                                        		        }
                                         			});
                         		        			
                         		        		}else{
@@ -254,7 +256,7 @@ function drawCategories() {
                                         				leyenda = capa.wms.server;
                                         			}
                                         			Split.addLayer(capa,capasLeft[i].tipo, leyenda, null,2);
-                                        			navigate(0);
+                                        			//navigate(0);
                         		        		}
                         		        	}
                         		        	
@@ -277,7 +279,8 @@ function drawCategories() {
                                 		        dataType: "json",
                                 		        success: function(response) {
                                 		        	Split.addLayer(null,tipo, null, response,panel);  
-                                		        	navigate(0);}
+                                		        	//navigate(0);
+                                		        }
                                 			});
                                 		}
                                 		else{
@@ -287,7 +290,7 @@ function drawCategories() {
                                 				leyenda = capa.wms.server;
                                 			}
                                 			Split.addLayer(capa,tipo, leyenda, null,panel);
-                                			navigate(0);
+                                			//navigate(0);
                                 		}
                             		});
                             		
