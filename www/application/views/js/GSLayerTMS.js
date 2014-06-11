@@ -1,4 +1,4 @@
-function GSLayerTMS(id,title, url, name, leyenda){
+function GSLayerTMS(id,title, url, name, leyenda, isGoogle){
 	this.id = id;
 	this.title = title;
 	this.server = url;
@@ -7,11 +7,12 @@ function GSLayerTMS(id,title, url, name, leyenda){
 	this.layer = null;
 	this.tipo = "tms";
 	this.leyenda = leyenda;
+	this.isGoogle = isGoogle;
 	
 	this.setVisibility = function(visibility, map, z_index){
 		
 		if(this.layer == null){
-			this.layer =  L.tileLayer(this.server + this.name + '/{z}/{x}/{y}.png',{tms: true});
+			this.layer =  L.tileLayer(this.server + this.name + '/{z}/{x}/{y}.png',{tms: this.isGoogle ? false:true});
 		}
 		this.visible = visibility;
 		if(this.visible){

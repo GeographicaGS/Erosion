@@ -994,8 +994,8 @@ Split = {
 			gsLayerRight = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 		
 		}else if(tipo == "tms"){
-			gsLayerLeft = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
-			gsLayerRight = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerLeft = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google);
+			gsLayerRight = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google);
 		
 		}else if(tipo == "simbolo"){
 			

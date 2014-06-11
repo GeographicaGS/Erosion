@@ -872,6 +872,43 @@ var categories = [
        	        		   				name: "OI.OrthoimageCoverage"
             	        	   }		
 						   },
+						   {
+            	        	   
+            	        	   id: 89,
+            	        	   title: "Andalucía 40",
+            	        	   description: "",
+            	        	   tms: {
+
+            	        		   server: "http://peter.geographica.gs/tileserver/",
+            	        		   name: "andaluciamdt40",
+            	        		   google:true
+            	        	   }		
+						   },
+						   {
+            	        	   
+            	        	   id: 90,
+            	        	   title: "Batimetría Cádiz",
+            	        	   description: "",
+            	        	   tms: {
+
+            	        		   server: "http://peter.geographica.gs/tileserver/",
+            	        		   name: "batimetriacadiz",
+            	        		   google:true
+            	        	   }		
+						   },
+						   {   
+            	        	   id: 91,
+            	        	   title: "Fisiográficos Andalucía",
+            	        	   description: "",
+            	        	   tms: {
+
+            	        		   server: "http://peter.geographica.gs/tileserver/",
+            	        		   name: "fisiograficosandalucia",
+            	        		   google:true
+            	        	   }		
+						   },
+
+						   
 					  ]
                },
                
