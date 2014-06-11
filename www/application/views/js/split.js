@@ -22,7 +22,8 @@ Split = {
 			  fadeAnimation: false,
 			//  crs: L.CRS.EPSG4326,
 			  zoomControl: false,
-			  attributionControl: false
+			  attributionControl: false,
+			  maxZoom:20
 		});
 		
 		
@@ -59,7 +60,8 @@ Split = {
 			  fadeAnimation: false,
 			  //crs: L.CRS.EPSG4326,
 			  zoomControl: false,
-			  attributionControl: false
+			  attributionControl: false,
+			  maxZoom:20
 		});
 		
 		
