@@ -135,9 +135,25 @@
 	<div class="fright">
 		<p class="size10 credits fleft">
 			<span class="bold">Proyecto de I+D+i</span><br/>
-			Espacialización y difusión web de variables demográficas, <br/>
-			turísticas y ambientales para la evaluación de la vulnerabilidad<br/>
-			asociada a la erosión de playas en la costa andaluza.
+			<?
+				if(strpos($_SERVER["SCRIPT_NAME"],"excelencia.gis-and-coast")){
+					
+					echo "Espacialización y difusión web de datos de urbanización, y fitodiversidad, <br/>
+							para el análisis de vulnerabilidad ante los procesos de inundación<br/>
+							asociados a la subida del nivel del mar en la costa andaluza.";
+				
+				}if(strpos($_SERVER["SCRIPT_NAME"],"visor.gis-and-coast")){
+					
+					echo "CLIENTES Y VISORES WEB<br/>
+							Información espacial del medio<br/>
+							litoral y marino.";
+				}
+				else{
+					echo "Espacialización y difusión web de variables demográficas, <br/>
+							turísticas y ambientales para la evaluación de la vulnerabilidad<br/>
+							asociada a la erosión de playas en la costa andaluza.";
+				}
+			?>
 		</p>
 		
 		<div class="acceder">
