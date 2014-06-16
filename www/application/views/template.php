@@ -155,6 +155,9 @@
 				}
 			?>
 		</p>
+		<?if(strpos($_SERVER["HTTP_HOST"],"excelencia.gis-and-coast")){?>
+			<a href="http://www.andaluciasemueveconeuropa.com/" target="_blank"><img style="width: 90px;" class="fleft mt mr" src="<?= get_img("ERO_Andalucia-se-mueve-UE.png")?>" /></a>
+		<?}?>
 		
 		<div class="acceder">
 			<img class="mb5" src="<?= get_img("ERO_icon_user_cab.png")?>" title="Acceder"/>
@@ -405,21 +408,61 @@
 	</div>
 	<div class="fright">
 		<p class="fleft fund">
+		<? if(strpos($_SERVER["HTTP_HOST"],"excelencia.gis-and-coast")){?>
+					
 			<span class="bold">Proyecto cofinanciado<br/> por los Fondos FEDER</span><br/>
 			Ref. del Proyecto:<br/>
-			CS02010-15807
+			P10-RNM-6207H		
+				
+		<?}else if(strpos($_SERVER["HTTP_HOST"],"visor.gis-and-coast")){?>
+			
+			<span class="bold">GRUPO INVESTIGACIÓN <br/>(RNM177):</span><br/>
+			Ordenación del Litoral y Tecnologías<br/>
+			de Información Territorial			
+					
+		<?}else{?>
+			<span class="bold">Proyecto cofinanciado<br/> por los Fondos FEDER</span><br/>
+			Ref. del Proyecto:<br/>
+			CS02010-15807		
+		<?}?>
+		
+			
 		</p>
-		<div class="fleft mt20">	
-			<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" >
-				<img src="<?= get_img("ERO_logo_EU.png")?>" />
-			</a>
-			<a href="http://www.mineco.gob.es/" target="_blank" class="fleft" >
-				<img src="<?= get_img("ERO_logo_MEC.png")?>" />
-			</a>
-			<a href="http://www.idi.mineco.gob.es/" target="_blank" class="fleft mr20" >
-				<img src="<?= get_img("ERO_logo_MCI.png")?>" />
-			</a>
-		</div>
+		
+		<? if(strpos($_SERVER["HTTP_HOST"],"excelencia.gis-and-coast")){?>
+			
+			<div class="fleft mt ml mr">
+				<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" >
+					<img style="width: 70px;" src="<?= get_img("ERO_Fondos-FEDER.png")?>" />
+				</a>
+				<a href="http://www.juntadeandalucia.es/organismos/economiainnovacioncienciayempleo.html" target="_blank" class="fleft" >
+					<img style="width: 160px; margin-left: 45px; margin-right: 30px;" src="<?= get_img("ERO_JA-Consejeria-EICE.png")?>" />
+				</a>
+			</div>		
+			
+		<?}else if(strpos($_SERVER["HTTP_HOST"],"visor.gis-and-coast")){?>
+			
+			<div class="fleft mt20">
+				<img style="width: 150px;" class="fleft" src="<?= get_img("ERO_logo.png")?>" />	
+				<p class="logoGisText fleft mr20">Research Group</p>	
+			</div>			
+					
+		<?}else{?>
+ 			<div class="fleft mt20">
+	 			<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" > 
+					<img src="<?= get_img("ERO_logo_EU.png")?>" />
+				</a>
+				<a href="http://www.mineco.gob.es/" target="_blank" class="fleft" >
+					<img src="<?= get_img("ERO_logo_MEC.png")?>" />
+				</a>
+				<a href="http://www.idi.mineco.gob.es/" target="_blank" class="fleft mr20" >
+					<img src="<?= get_img("ERO_logo_MCI.png")?>" />
+				</a>
+ 			</div>
+		<?}?>
+		
+			
+		
 		
 	</div>
 </footer>
