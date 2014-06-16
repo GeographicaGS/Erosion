@@ -416,7 +416,9 @@
 		</div>
 		
 	</div>
-	
+	<?php
+  		echo $_SERVER["SCRIPT_NAME"];
+	?>
 </footer>
 </body>
 </html>
