@@ -395,7 +395,13 @@
 			<img src="<?= get_img("GEO_W12_icon_bygeographica.png")?>" />
 			<span class="italic ml5 grey2 size10 mr3">D+D by</span>
 			<span class="bold size10 grey"> Geographica</span>
-		</a>		
+		</a>
+		<?if(strpos($_SERVER["HTTP_HOST"],"nacional.gis-and-coast") || strpos($_SERVER["HTTP_HOST"],"excelencia.gis-and-coast")){?>
+			<div class="clear"></div>
+			<img class="logoGis" src="<?= get_img("ERO_logo.png")?>" />	
+			<p class="logoGisText">Research Group</p>	
+		<?}?>
+		
 	</div>
 	<div class="fright">
 		<p class="fleft fund">

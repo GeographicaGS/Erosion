@@ -359,7 +359,8 @@ ul.layer_panel > li > img.opacity {
 .geo{
 	height:100%;
 	border-left: 1px solid #424e65;
-	float:left;	
+	float:left;
+	width: 215px;	
 }
 .geo > a {
 	display:block;
@@ -368,6 +369,21 @@ ul.layer_panel > li > img.opacity {
 }
 .geo > a > * {
 	float:left;
+}
+
+.geo .logoGis{
+	width: 100px !important;
+	margin-top: 10px;
+	margin-left: 10px;
+	float: left;
+	width: 215px;
+}
+
+.geo .logoGisText{
+	color: #949ead;
+	font-size: 10px;
+	font-style: italic;
+	margin-top: 22px;
 }
 
 .uni{
