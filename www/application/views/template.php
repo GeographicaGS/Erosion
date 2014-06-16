@@ -142,7 +142,7 @@
 							para el análisis de vulnerabilidad ante los procesos de inundación<br/>
 							asociados a la subida del nivel del mar en la costa andaluza.";
 				
-				}if(strpos($_SERVER["HTTP_HOST"],"visor.gis-and-coast")){
+				}else if(strpos($_SERVER["HTTP_HOST"],"visor.gis-and-coast")){
 					
 					echo "CLIENTES Y VISORES WEB<br/>
 							Información espacial del medio<br/>
