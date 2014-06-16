@@ -136,13 +136,13 @@
 		<p class="size10 credits fleft">
 			<span class="bold">Proyecto de I+D+i</span><br/>
 			<?
-				if(strpos($_SERVER["SCRIPT_NAME"],"excelencia.gis-and-coast")){
+				if(strpos($_SERVER["HTTP_HOST"],"excelencia.gis-and-coast")){
 					
 					echo "Espacialización y difusión web de datos de urbanización, y fitodiversidad, <br/>
 							para el análisis de vulnerabilidad ante los procesos de inundación<br/>
 							asociados a la subida del nivel del mar en la costa andaluza.";
 				
-				}if(strpos($_SERVER["SCRIPT_NAME"],"visor.gis-and-coast")){
+				}if(strpos($_SERVER["HTTP_HOST"],"visor.gis-and-coast")){
 					
 					echo "CLIENTES Y VISORES WEB<br/>
 							Información espacial del medio<br/>
@@ -416,9 +416,6 @@
 		</div>
 		
 	</div>
-	<?php
-  		echo $_SERVER["HTTP_HOST"];
-	?>
 </footer>
 </body>
 </html>
