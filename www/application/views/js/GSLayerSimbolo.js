@@ -17,7 +17,8 @@ function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegat
 		if(this.visible){
 				var self = this;
 				$.ajax({
-			        url: 'index.php/symbol/getSymbols/' + encodeURIComponent(this.title) + "/" + map.getBounds()._southWest.lat + "/" + map.getBounds()._northEast.lat + "/" +  map.getBounds()._southWest.lng + "/" + map.getBounds()._northEast.lng + "/" + self.radioMin + "/" + self.radioMax, 
+//			        url: 'index.php/symbol/getSymbols/' + encodeURIComponent(this.title) + "/" + map.getBounds()._southWest.lat + "/" + map.getBounds()._northEast.lat + "/" +  map.getBounds()._southWest.lng + "/" + map.getBounds()._northEast.lng + "/" + self.radioMin + "/" + self.radioMax, 
+					url: 'index.php/symbol/getSymbols/' + this.id + "/" + map.getBounds()._southWest.lat + "/" + map.getBounds()._northEast.lat + "/" +  map.getBounds()._southWest.lng + "/" + map.getBounds()._northEast.lng + "/" + self.radioMin + "/" + self.radioMax,
 			        dataType: "json",
 			       success: function(response) {
 			       	var json = response.result;
@@ -28,7 +29,11 @@ function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegat
 			       		if((i != 0) && (i % self.zoomGroup[map.getZoom()] == 0)){
 			       			
 			       			contador += Number(json[i].valor);
-			       			var value = contador / self.zoomGroup[map.getZoom()];
+			       			var value = (contador / self.zoomGroup[map.getZoom()]);
+			       			if(self.zoomGroup[map.getZoom()] != 1){
+			       				value = value.toFixed(2);
+			       			}
+			       			
 
 			       			var marker = new L.CircleMarker([json[i].lat,json[i].lng], {
 						        radius: self.getRadius(value, response.minValue, response.maxValue),
@@ -37,7 +42,16 @@ function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegat
 						        opacity: 1,
 						        fillOpacity: 1,
 						        weight: 1,
-						    });			       		
+						        clickable: true,
+						        value : value,
+//						        onEachFeature : function (feature, layer) {
+//					                alert("hola");
+//					            }
+						    });
+			       			marker.on('click', function(e) {
+//			       			    alert(e.target.options.value);
+			       				e.target.bindPopup("<strong>" + e.target.options.value + "</strong>").openPopup();
+			       			});
 				       		markers.push(marker);
 				       		
 			       			contador = 0;
@@ -70,3 +84,13 @@ function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegat
 	};
 	
 }
+
+
+
+
+//function onEachFeatureGeoJson() {
+//	alert("Hola");
+//	layer.on("click",function(e){
+//		alert("Hola");
+//	});
+//}

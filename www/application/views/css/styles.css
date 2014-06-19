@@ -415,6 +415,7 @@ ul.layer_panel > li > img.opacity {
 .catalogo{
 	color: #013e88;
 	margin-top: 40px;
+	min-width: 300px
 }
 
 #catalogo{
@@ -424,89 +425,335 @@ ul.layer_panel > li > img.opacity {
 	height: 100%;
 	overflow-y: auto;
 }
+/* ////////////////////////////////////////////////////////////////////////////////// */
+/* #catalogo p { */
+/* 	width: 200px; */
+/* 	font-size: 13px; */
+/* 	color: #666666; */
+/* } */
 
-#catalogo p {
-	width: 200px;
-	font-size: 13px;
-	color: #666666;
+/* .co_families { */
+/* 	float: left; */
+/* 	width: 640px; */
+/* 	min-height: 100%; */
+/* 	border-left: 1px solid #ccc; */
+/* 	border-right: 1px solid #ccc; */
+/* } */
+
+/* .families { */
+/* 	padding-top: 25px; */
+/* } */
+
+/* ul.families > li { */
+/* 	border-bottom: 1px solid #ccc; */
+/* 	line-height: 35px; */
+/* } */
+
+/* ul.families ul.family_header > li.ico_open_close { */
+/* 	margin: 15px 8px 0 10px; */
+
+/* } */
+
+/* ul.families ul.family_header > li { */
+/* 	float: left; */
+/* 	line-height: 35px; */
+/* 	font-size: 11px; */
+/* 	cursor:pointer; */
+/* } */
+
+/* ul.families ul.family_header > li.ico { */
+/* 	margin-top: 8px; */
+/* } */
+
+/* ul.families ul.family_header > li.name { */
+/* 	color: #0363aa; */
+/* 	margin: 0 5px 0 5px; */
+/* } */
+
+/* ul.families ul.family_header > li.n_elements { */
+/* 	color: #a9a9a9; */
+/* } */
+
+/* ul.families ul.family_content { */
+/* 	margin: 0 10px; */
+/* 	display: none; */
+/* } */
+
+/* ul.family_content > li > p { */
+/* 	clear: both; */
+/* 	margin: 0px 20px 20px 20px; */
+/* 	line-height: 15px; */
+/* 	width: auto !important; */
+/* } */
+
+/* ul.family_content > li > img { */
+/* 	float: left; */
+/* 	margin: 12px 5px 0 20px; */
+/* } */
+
+/* ul.family_content > li > span { */
+/* 	color:#666666; */
+/* 	font-weight: bold; */
+/* 	font-size: 11px; */
+/* } */
+
+/* ul.family_content > li > a { */
+/* 	float: right; */
+/* 	color:#013e88; */
+/* 	font-size: 11px; */
+/* 	text-decoration: underline;; */
+	
+/* } */
+
+/* ul.family_content > li > div { */
+/* 	margin-top: -10px; */
+/* 	margin-right: -1px; */
+/* } */
+/* ////////////////////////////////////////////////////////////////////////////////// */
+
+.catalogo{
+	width: 30%;
+/* 	min-width: 310px; */
+	background-color: #cccccc;
+	position: absolute;
+	bottom: 162px;
+	top: 102px;
+	border: 1px solid #b9b9b9;
+	border-left: none;
+	border-radius: 0px 2px 2px 0px;
+}
+.catalogo .cuerpoCatalogo{
+	background-color: white;
+	position: absolute;
+	top: 2px;
+	bottom: 2px;
+	left: 0px;
+	right: 2px;
+	border: 1px solid #b9b9b9;
+	border-left: none;
+	border-radius: 0px 2px 2px 0px;
 }
 
-.co_families {
-	float: left;
-	width: 640px;
-	min-height: 100%;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
+.catalogo .cuerpoCatalogo .cabecera{
+	background-color: #e5eff6;
+	width: 100%;
+	height: 35px;
+	border-bottom: 1px solid #013e88;
 }
 
-.families {
-	padding-top: 25px;
-}
-
-ul.families > li {
-	border-bottom: 1px solid #ccc;
-	line-height: 35px;
-}
-
-ul.families ul.family_header > li.ico_open_close {
-	margin: 15px 8px 0 10px;
-
-}
-
-ul.families ul.family_header > li {
-	float: left;
-	line-height: 35px;
-	font-size: 11px;
-	cursor:pointer;
-}
-
-ul.families ul.family_header > li.ico {
-	margin-top: 8px;
-}
-
-ul.families ul.family_header > li.name {
-	color: #0363aa;
-	margin: 0 5px 0 5px;
-}
-
-ul.families ul.family_header > li.n_elements {
-	color: #a9a9a9;
-}
-
-ul.families ul.family_content {
-	margin: 0 10px;
-	display: none;
-}
-
-ul.family_content > li > p {
-	clear: both;
-	margin: 0px 20px 20px 20px;
-	line-height: 15px;
-	width: auto !important;
-}
-
-ul.family_content > li > img {
-	float: left;
-	margin: 12px 5px 0 20px;
-}
-
-ul.family_content > li > span {
-	color:#666666;
+.catalogo .cuerpoCatalogo .cabecera .seccion{
+	float:left;
+	font-size: 14px;
 	font-weight: bold;
-	font-size: 11px;
+	color: #013e88;
+	border-left: 1px solid #b9b9b9;
+	padding: 9px;
+	height: 17px;
+	cursor: pointer;
 }
 
-ul.family_content > li > a {
-	float: right;
-	color:#013e88;
-	font-size: 11px;
-	text-decoration: underline;;
+.catalogo .cuerpoCatalogo .cabecera .active{
+	background-color: white;
+}
+
+.catalogo .cuerpoCatalogo .cabecera .seccion:FIRST-CHILD{
+	border-left: none;
+}
+
+.catalogo .cuerpoCatalogo .contenidoCatalogo{
+	overflow: auto;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 35px;
+	bottom: 0;
+}
+
+.catalogo .petaniaCatalogo{
+	width: 35px;
+	height: 35px;
+	background-color: #cccccc;
+	position: absolute;
+	right: 0;
+	margin-right: -35px;
+	top: 40px;
+	border-radius: 2px;
+	border-radius: 0px 2px 2px 0px;
+	cursor: pointer;
+}
+.catalogo .petaniaCatalogo img{ 	
+	padding: 8px;
+}
+
+.family_header{
+	border-bottom: 1px solid #013e88;
+	border-top: 1px solid #013e88;
+	cursor: pointer;
+	float: left;
+	width: 100%;
+	margin-bottom: -1px;
+}
+
+.family_header li{
+	float: left;
+	margin-top: 15px;
+	padding-bottom: 11px;
+}
+
+.family_header .name{
+	margin-right: 5px;
+	max-width: 80%;
+	
 	
 }
 
-ul.family_content > li > div {
-	margin-top: -10px;
-	margin-right: -1px;
+@media (max-width: 900px) {
+	.family_header .name{
+		max-width: 70%;
+	}
+}
+
+.family_header .ico_open_close{
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 20px;
+}
+
+.family_content{
+/* 	display: none; */
+}
+
+.family_content li{
+	padding-left: 20px;
+	line-height: 35px;
+}
+
+.family_content li:HOVER{
+	background-color: #f1f2f3;	
+}
+
+.family_content li p{
+	font-size: 11px;
+	margin-right: 10px;
+	
+	float: left;
+}
+
+#capasCatalogo .family_content li p{
+	max-width: 80%;
+}
+
+@media (max-width: 1023px) {
+	#capasCatalogo .family_content li p{
+		max-width: 75%;
+	}
+}
+
+#publicProyectCatalogo  .family_content li p{
+	max-width: 65%;
+}
+
+@media (max-width: 1600px) {
+	#publicProyectCatalogo  .family_content li p{
+		max-width: 55%;
+	}
+}
+
+@media (max-width: 1250px) {
+	#publicProyectCatalogo  .family_content li p{
+		max-width: 42%;
+	}
+}
+
+#myProyectCatalogo  .family_content li p{
+	max-width: 65%;
+}
+
+@media (max-width: 1600px) {
+	#myProyectCatalogo  .family_content li p{
+		max-width: 55%;
+	}
+}
+
+@media (max-width: 1250px) {
+	#myProyectCatalogo  .family_content li p{
+		max-width: 42%;
+	}
+}
+
+#usuariosCatalogo  .family_content li p{
+	max-width: 65%;
+}
+
+@media (max-width: 1600px) {
+	#usuariosCatalogo  .family_content li p{
+		max-width: 50%;
+	}
+}
+
+@media (max-width: 1250px) {
+	#usuariosCatalogo  .family_content li p{
+		max-width: 39%;
+	}
+}
+
+
+
+.family_content li .botonAddImage{
+	border: 1px solid #ff6600;
+	padding: 4px 7px 5px 7px;
+	border-radius: 2px;
+	margin-top: 5px;
+	float: right;
+	margin-right: 10px;
+	cursor: pointer;
+	margin-left: -1px;
+}
+
+.family_content li p:BEFORE{
+	content: url("../img/ERO_icon_elemento-final.png");	
+	margin-right: 10px;
+}
+
+.infoCatalogo{
+	width: 25%;
+	background-color: #cccccc;
+	position: absolute;
+	bottom: 162px;
+	top: 142px;
+	right:0;
+	border: 1px solid #b9b9b9;
+	border-right: none;
+	border-radius: 2px 0px 0px 2px;
+}
+.infoCatalogo .cuerpoInfoCatalogo{
+	background-color: white;
+	position: absolute;
+	top: 2px;
+	bottom: 2px;
+	left: 2px;
+	right: 0px;
+	border: 1px solid #b9b9b9;
+	border-left: none;
+	border-radius: 2px 0px 0px 2px;
+}
+
+.infoCatalogo .petaniaInfoCatalogo{
+	width: 35px;
+	height: 35px;
+	background-color: #cccccc;
+	position: absolute;
+	margin-left: -35px;
+	top: 40px;
+	border-radius: 2px 0px 0px 2px;
+	cursor: pointer;
+}
+.infoCatalogo .petaniaInfoCatalogo img{ 	
+	padding: 9px;
+}
+
+.listaTipos{
+	display: none;
 }
 
 .tiposCapas {
@@ -517,6 +764,7 @@ ul.family_content > li > div {
 	border-radius: 1px;
 	cursor: pointer;
 	background-color: white;
+	margin-left: -1px;
 }
 
 img.tiposCapas{
@@ -925,7 +1173,7 @@ img.tiposCapas{
 	margin-left: 10px;
 	border: 1px solid #c4c9cc;
 	padding-left: 5px;
-	color: #c4c9cc;
+/* 	color: #c4c9cc; */
 	font-size: 12px;
 	border-radius: 3px;
 }
@@ -1079,6 +1327,7 @@ img.tiposCapas{
 	-moz-box-shadow: 1px 1px 1px #cccccc;
 	-webkit-box-shadow: 1px 1px 1px #cccccc;
 	box-shadow: 1px 1px 1px #cccccc;
+	border-radius: 6px;
 }
 
 #fancy_select_panel p{
@@ -1120,3 +1369,19 @@ img.tiposCapas{
    overflow: hidden;
    white-space: nowrap;  
 }
+
+
+
+
+
+
+
+
+
+
+.leaflet-popup-pane{
+	position: absolute;
+}
+
+
+

@@ -177,8 +177,8 @@
 	<form id="form_login" action="index.php/login/getUser" method="POST">
 		<div class="loginDiv">
 			<h1>Acceso de usuarios</h1>
-			<input name="email" type="text" value="Correo electrónico" />
-			<input name="password" type="password" value="Contraseña" />
+			<input name="email" placeholder="Correo electrónico" type="text" value=""/>
+			<input name="password" placeholder="Contraseña" type="password" value="" />
 			<input type="button" value="Acceder"/>
 			<p id="errorLogin">Usuario y contraseña incorrectos</p>	
 		</div>
@@ -233,9 +233,36 @@
 			<a id="capaRight" href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
 			
 			<ul class="layer_panel close"></ul>
-		
 		</div>
 	</div>
+	
+	<div class="catalogo">
+		<div class="cuerpoCatalogo">
+			<div class="cabecera">
+				<div idSection="1" class="seccion active">Catálogo</div>
+				<div idSection="2" title="Proyectos" class="seccion"><img src="<?= get_img("ERO_icon_proyecto.png")?>"/></div>
+				<div idSection="3" title="Contenido subido por los usuarios" class="seccion"><img src="<?= get_img("ERO_icon_contenido_usuario.png")?>"/></div>
+				<div idSection="4" title="Proyectos personales" class="seccion" style="display:none"><img src="<?= get_img("ERO_icon_proyectos_personales.png")?>"/></div>
+				<div class="clear"></div>
+				<div class="contenidoCatalogo">
+					<div idSection="1" id="capasCatalogo" class="catalogueSection"></div>
+					<div idSection="2" id="publicProyectCatalogo" class="catalogueSection" style="display:none;"></div>
+					<div idSection="3" id="usuariosCatalogo" class="catalogueSection" style="display:none;"></div>
+					<div idSection="4" id="myProyectCatalogo" class="catalogueSection" style="display:none;"></div>
+				</div>
+				
+			</div>
+		</div>
+		<div class="petaniaCatalogo"><img class="" src="<?= get_img("ERO_icon_pestana_catalogo_off.png")?>"/></div>
+	</div>
+	
+	<div class="infoCatalogo">
+		<div class="cuerpoInfoCatalogo">
+			
+		</div>
+		<div class="petaniaInfoCatalogo"><img class="" src="<?= get_img("ERO_icon_pestana_info_off.png")?>"/></div>
+	</div>
+	
 	<div id="catalogo" style="display: none;">
 		<div class="fleft mr20">
 			<div class="catalogo size18">Catálogo</div>

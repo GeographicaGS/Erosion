@@ -14,16 +14,18 @@ class Symbol extends MY_Controller
 
 	}
 	
-	public function getSymbols($tipo, $southWestLat, $northEastLat, $southWestLng, $northEastLng, $radioMin, $radioMax)
+	public function getSymbols($id, $southWestLat, $northEastLat, $southWestLng, $northEastLng, $radioMin, $radioMax)
 	{
 		$aux;
 		$bolas = array();
 		
 		
-		$minMax = $this->symbol_model->getMinMax(urldecode($tipo));
+// 		$minMax = $this->symbol_model->getMinMax(urldecode($tipo));
+		$minMax = $this->symbol_model->getMinMax($id);
 		$minValue = $minMax->min;
 		$maxValue = $minMax->max;
-		$simbolos = $this->symbol_model->getSymbols(urldecode($tipo),$southWestLat, $northEastLat, $southWestLng, $northEastLng);
+// 		$simbolos = $this->symbol_model->getSymbols(urldecode($tipo),$southWestLat, $northEastLat, $southWestLng, $northEastLng);
+		$simbolos = $this->symbol_model->getSymbols($id,$southWestLat, $northEastLat, $southWestLng, $northEastLng);
 		
 		/*foreach ($simbolos as $simbolo) {
 			

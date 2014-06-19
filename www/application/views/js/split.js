@@ -681,20 +681,21 @@ Split = {
 		$(".acceder").click(function(){
 			if($(".loginDiv").is(":visible")){
 				$(".loginDiv").fadeOut();
-				$($(".loginDiv").find("input[type='text']")).val("Correo electrónico");
+//				$($(".loginDiv").find("input[type='text']")).val("Correo electrónico");
 				$($(".loginDiv").find("input[type='text']")).removeClass("errorBorder");
-				$($(".loginDiv").find("input[type='password']")).val("Contraseña");
+//				$($(".loginDiv").find("input[type='password']")).val("Contraseña");
 				$($(".loginDiv").find("input[type='password']")).removeClass("errorBorder");
 				$(".loginDiv").find("input[type='text'],input[type='password']").css({"color":""});
 				$("#errorLogin").hide();
 				
 			}else{
 				$(".loginDiv").fadeIn();
+				$(".loginDiv").find("input[type='text']").focus();
 				$(".loginDiv").find("input[type='text'],input[type='password']").bind( "click", function(){
-					if($(".loginDiv").find("input[type='text']").val() == "Correo electrónico"){
-						$(".loginDiv").find("input[type='text'],input[type='password']").val("");
-						$(".loginDiv").find("input[type='text'],input[type='password']").css({"color":"black"});
-					}
+//					if($(".loginDiv").find("input[type='text']").val() == "Correo electrónico"){
+//						$(".loginDiv").find("input[type='text'],input[type='password']").val("");
+//						$(".loginDiv").find("input[type='text'],input[type='password']").css({"color":"black"});
+//					}
 				});
 				
 				$(document).unbind().bind("keypress", function(e) {
@@ -761,8 +762,8 @@ Split = {
 		        success: function(response) {
 		        	$("#closeSesion").hide();
 					$(".acceder").show();
-					$(".loginDiv").find("input[type='text']").val("Correo electrónico");
-					$(".loginDiv").find("input[type='password']").val("Contraseña");
+					$(".loginDiv").find("input[type='text']").val("");
+					$(".loginDiv").find("input[type='password']").val("");
 					drawCategories();
 					isLoged = false;
 					isAdmin = false;
@@ -999,8 +1000,8 @@ Split = {
 		
 		}else if(tipo == "simbolo"){
 			
-			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [29,27,25,23,21,19,17,15,13,11,9,1,1,1,1,1,1,1,1]);
-			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [29,27,25,23,21,19,17,15,13,11,9,1,1,1,1,1,1,1,1]);
+			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [29,27,25,23,21,19,17,15,13,11,9,1,1,1,1,1,1,1,1,1,1,1]);
+			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [29,27,25,23,21,19,17,15,13,11,9,1,1,1,1,1,1,1,1,1,1,1]);
 		}
 		
 		else if(geoJson.length > 0){

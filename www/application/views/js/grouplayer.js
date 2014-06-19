@@ -34,7 +34,7 @@ function GroupLayer(opts){
 			html += "<li title='" + l.title + "'>" +	
 			
 				"	<input type='checkbox' class='toogleLayer' " +
-				"			id_layer="+x+" father="+this.father+ " " + lattr +">" +
+				"			id_layer="+x+" father="+this.father+ " " + (l.visible ? lattr :"") +">" +
 				
 					"<img class='remove' src='application/views/img/MED_icon_papelera_panel.png' title='Opacity 100 %' id_layer='" + x + "'>";
 					
@@ -478,6 +478,11 @@ function GroupLayer(opts){
 	var gSatellite = new L.Google('SATELLITE'),
 		gTerrain = new L.Google('TERRAIN')
 		gRoad = new L.Google('ROADMAP');
+	
+//	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+//	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+//	}).addTo(map);
+	
 	this.map.addLayer(gSatellite);
 	
 	var orto56 = L.tileLayer('http://www.erosion.geographica.gs/tileado/00-orto56-result/{z}/{x}/{y}.png',{tms: true});

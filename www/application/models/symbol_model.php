@@ -7,7 +7,7 @@ class Symbol_model extends CI_Model{
 		parent::__construct();
 	}
 	
-	public function getSymbols($tipo, $southWestLat, $northEastLat, $southWestLng, $northEastLng){
+	public function getSymbols($id, $southWestLat, $northEastLat, $southWestLng, $northEastLng){
 		
 // 		$limit = 200;
 // 		$sql = "SELECT count(*) FROM public.simbolo where tipo=? and lat>=? and lat<=? and lng>=? and lng<=?";
@@ -23,17 +23,17 @@ class Symbol_model extends CI_Model{
 // 		{
 // 			$sql = "SELECT * FROM public.simbolo where tipo=? and lat>=? and lat<=? and lng>=? and lng<=?";
 // 		}
-		$sql = "SELECT * FROM public.simbolo where tipo=? and lat>=? and lat<=? and lng>=? and lng<=?";
+		$sql = "SELECT * FROM public.simbolo where id_catalogo=? and lat>=? and lat<=? and lng>=? and lng<=?";
 		
-		return $this->db->query($sql,array($tipo,$southWestLat,$northEastLat,$southWestLng,$northEastLng))->result();
+		return $this->db->query($sql,array($id,$southWestLat,$northEastLat,$southWestLng,$northEastLng))->result();
 	}
 	
 	
-	public function getMinMax($tipo){
+	public function getMinMax($id){
 	
-		$sql = "select min(abs(valor)) as min, max(abs(valor)) as max from public.simbolo where tipo=?";
+		$sql = "select min(abs(valor)) as min, max(abs(valor)) as max from public.simbolo where id_catalogo=?";
 		
-		return $this->db->query($sql,array($tipo))->row();
+		return $this->db->query($sql,array($id))->row();
 	}
 	
 }
