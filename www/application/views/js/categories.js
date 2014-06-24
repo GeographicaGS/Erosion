@@ -625,12 +625,7 @@ var categories = [
 	            	            	        	   }
             	                		        },
             	                			]
-            	                	},
-            	                	{
-            	                		title: "prueba2",
-            	                		description: "p",
-            	                		layers:[]
-            	                	},
+            	                	}
             	                ],
             	   layers: [
             	           {
