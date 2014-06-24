@@ -31,7 +31,7 @@ function GroupLayer(opts){
 			var lattr = "checked"; 
 			var lstyle = "color:black";
 					
-			html += "<li title='" + l.title + "'>" +	
+			html += "<li class='layerTree' title='" + l.title + "'>" +	
 			
 				"	<input type='checkbox' class='toogleLayer' " +
 				"			id_layer="+x+" father="+this.father+ " " + (l.visible ? lattr :"") +">" +
@@ -41,9 +41,9 @@ function GroupLayer(opts){
 					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
 						html += "<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>";
 					}
-					if(l.leyenda){
-						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Opacity 100 %' id_layer='" + x + "'>";
-					}
+//					if(l.leyenda){
+//						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Opacity 100 %' id_layer='" + x + "'>";
+//					}
 					html += "<span class='ellipsis'>"+l.title+"</span>";
 					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
 						html += "<div class='opacity_panel' style='display: none;'>" +
@@ -54,7 +54,7 @@ function GroupLayer(opts){
 				html += "</li>";
 			
 		}
-		html += "<li style='background: none; cursor: initial;' class='disableSortable' onclick='navigate(1)'><a class='addCatalog' href='#'>+ Añadir capas del <strong>Catálogo</strong></a></li>";
+//		html += "<li style='background: none; cursor: initial;' class='disableSortable' onclick='navigate(1)'><a class='addCatalog' href='#'>+ Añadir capas del <strong>Catálogo</strong></a></li>";
 		html += "<li style='background: none; cursor: initial;' class='disableSortable' ><a class='add_layer' href='#'>+ Añadir capas de un servicio externo</a></li>"; 
 		return html;		
 	};
@@ -180,7 +180,7 @@ function GroupLayer(opts){
 				}
 			});
 			
-			
+			event.stopPropagation();
 		});
 		
 		$panel.find(".add_layer").click(function(){
@@ -256,17 +256,17 @@ function GroupLayer(opts){
 							    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
 							    				html +='<ul class="family_content" style="display: block;">' +
 				    							'<li style="border-top: 1px dotted #ccc;">' +
-				    								'<img style="margin-left: 0px" src="application/views/img/MED_icon_layer.png">' +
-				    								'<span>' + $(this).find("Title").text() + '</span>' +
-				    								'<p style="font-size:11px">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</p>' +
-				    								'<img style="margin-top:0px;" src="application/views/img/MED_icon_add_layer.png">' +
-				    								'<p class="fleft" style="font-size:11px; clear: none; margin-left: 0px;">AÑADIR A CAPAS:</p>' +
-				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '" class="fleft ml">' +
+//				    								'<img style="margin-left: 0px" src="application/views/img/MED_icon_layer.png">' +
+				    								'<p class="fleft">' + $(this).find("Title").text() + '</p>' +
+//				    								'<img style="margin-top:0px;" src="application/views/img/MED_icon_add_layer.png">' +
+//				    								'<p class="fleft" style="font-size:11px; clear: none; margin-left: 0px;">AÑADIR A CAPAS:</p>' +
+				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '" class="ml">' +
 				    									'<span class="tiposCapas">WMS</span>' +
 				    								'</div>' +
-				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '">' +
-				    									'<img class="tiposCapas" src="application/views/img/ERO_icon_link_naranja.png">' +
-				    								'</div>' +
+				    								'<span style="font-size:11px">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</span>' +
+//				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '">' +
+//				    									'<img class="tiposCapas" src="application/views/img/ERO_icon_link_naranja.png">' +
+//				    								'</div>' +
 				    								'<div class="clear"></div>' +
 				    							'</li>' +
 		    								'</ul>';
@@ -302,6 +302,30 @@ function GroupLayer(opts){
 						    				if(!$("#panel_left .layer_panel").hasClass("close")){
 						    					Split.toggleLayersInterface(Split.LEFT);
 						    				}
+						    				
+						    				
+						    				//Relleno el panel de la leyenda
+						    				$(".infoCatalogo .petaniaInfoCatalogo").show();
+						    				if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
+						    					$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
+						    				}
+						    				$(".cuerpoInfoCatalogo").find(".title1").text(title);
+						    				$(".cuerpoInfoCatalogo").find(".title1").prop('title', title);
+						    				$(".cuerpoInfoCatalogo").find(".title2").text("");
+						    				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
+						    				var legendUrl = leyenda.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+						    				+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer;
+						    				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
+						    				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
+						    				
+						    				$(".extraLeyenda").show();
+						    				$(".botonAddImageLeyenda").hide();
+						    				
+						    				
+						    				
+						    				
+						    				
+						    				
 					    				});
 			    		        	}else{
 			    		        		$(selfBoton).val("Servicio no encontrado");
@@ -328,6 +352,20 @@ function GroupLayer(opts){
 			    				if(!$("#panel_left .layer_panel").hasClass("close")){
 			    					Split.toggleLayersInterface(Split.LEFT);
 			    				}
+			    				
+			    				//Relleno el panel de la leyenda
+			    				$(".infoCatalogo .petaniaInfoCatalogo").show();
+			    				if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
+			    					$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
+			    				}
+			    				$(".cuerpoInfoCatalogo").find(".title1").text(name);
+			    				$(".cuerpoInfoCatalogo").find(".title1").prop('title', name);
+			    				$(".cuerpoInfoCatalogo").find(".title2").text("");
+			    				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
+			    				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
+			    				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
+			    				$(".extraLeyenda").hide();
+			    				
 			    			}
 			    		}
 			    	});
@@ -339,6 +377,32 @@ function GroupLayer(opts){
 			    	});
 			    }
 			});
+		});
+		
+		$(".layerTree").unbind().on("click",function(){
+			var id_layer = $(this).find("input").attr("id_layer");
+			if(self.layers[id_layer].id != -1){
+				$(".family_content").find("li[idCapa=" + self.layers[id_layer].id + "]").trigger("click");
+			}else{
+				$(".infoCatalogo .petaniaInfoCatalogo").show();
+				if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
+					$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
+				}
+				$(".cuerpoInfoCatalogo").find(".title1").text(self.layers[id_layer].title);
+				$(".cuerpoInfoCatalogo").find(".title1").prop('title', self.layers[id_layer].title);
+				$(".cuerpoInfoCatalogo").find(".title2").text("");
+				$(".extraLeyenda").show();
+				$(".botonAddImageLeyenda").hide();
+				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
+				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
+				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
+				if(self.layers[id_layer].tipo == "wms"){
+					var legendUrl = self.layers[id_layer].url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+					+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
+					$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
+					$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
+				}
+			}
 		});
 		
 	};
@@ -476,8 +540,10 @@ function GroupLayer(opts){
 	
 	
 	var gSatellite = new L.Google('SATELLITE'),
-		gTerrain = new L.Google('TERRAIN')
-		gRoad = new L.Google('ROADMAP');
+		gTerrain = new L.Google('TERRAIN'),
+		gRoad = new L.Google('ROADMAP'),
+		bingSatellite =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {type: "AerialWithLabels", maxZoom:20}),
+		bingRoad =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {type: "Road", maxZoom:20});
 	
 //	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 //	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -675,6 +741,8 @@ function GroupLayer(opts){
 						 'Google satélite':gSatellite,
 						 'Google relieve': gTerrain,
 						 'Google callejero' : gRoad,
+						 'Bing satélite' : bingSatellite,
+						 'Bing callejero' : bingRoad,
 //						"Línea de costa en 2009": din_linea09,
 //						"Línea de costa en 1977": din_linea77,
 //						"Línea de costa en 1956": din_linea56,
@@ -822,13 +890,23 @@ function GroupLayer(opts){
 			data: { "url": request},	       
 			type: "POST",			
 	        success: function(data) {
-	        	if (!data || data.indexOf("LayerNotQueryable")!=-1){
-	        		obj.featureInfo(e,requestIdx+1);
+	        	try {
+		        	if (!data || data.indexOf("LayerNotQueryable")!=-1){
+		        		obj.featureInfo(e,requestIdx+1);
+		        	}
+		        	else{
+		        		if($.trim($($.parseXML(data)).find("body").html()).length != 0){
+		        			$("#container_feature_info").html(data);
+		        		}else{
+		        			$("#container_feature_info").html("No hay información sobre este punto");
+//		        			$.fancybox.close();
+		        		}
+		        	}
+	        	}catch (ex){
+	        		$("#container_feature_info").html("No hay información sobre este punto");
+//	        		$.fancybox.cclose();
 	        	}
-	        	else{
-	        		$("#container_feature_info").html(data);
-	        	}
-	        	
+	        	$.fancybox.update();	
 	        },
 	        error: function(){	        	
 	        	obj.featureInfo(e,requestIdx+1);

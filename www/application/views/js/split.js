@@ -31,7 +31,7 @@ Split = {
 		
 		// add zoom control to map left
 		var zoomControl = new L.Control.Zoom({
-			position : 'bottomleft'
+			position : 'bottomright'
 		});		
 		zoomControl.addTo(mapLeft);
 		
@@ -733,6 +733,7 @@ Split = {
 					        		$("#closeSesion").show();
 					        		$(".loginDiv").fadeOut();
 					        		isLoged = true;
+					        		$("#closeSesion").text(response);
 					        		$.ajax({
 					        		    url: 'index.php/login/isAdmin',
 					        		    success: function(response) {
@@ -885,7 +886,7 @@ Split = {
 				
 				$("#capaLeft").animate({"width":'319px'});
 //				$("#capaLeft").css("width","319px");
-				$("#capaLeft").css("border-top-left-radius","0px");
+//				$("#capaLeft").css("border-top-left-radius","0px");
 				$("#capaLeft").css("border-top","2px solid #888");
 				
 				$panel.hide();
@@ -898,7 +899,7 @@ Split = {
 				
 				$("#capaLeft").animate({"width":'40px'});
 //				$("#capaLeft").css("width","Auto");
-				$("#capaLeft").css("border-top-left-radius","5px");
+//				$("#capaLeft").css("border-top-left-radius","5px");
 				$("#capaLeft").css("border-top","1px solid #888");
 				
 				$panel.addClass("close");
@@ -913,7 +914,7 @@ Split = {
 				
 				$("#capaRight").animate({"width":'319px'});
 //				$("#capaRight").css("width","319px");
-				$("#capaRight").css("border-top-left-radius","0px");
+//				$("#capaRight").css("border-top-left-radius","0px");
 				$("#capaRight").css("border-top","2px solid #888");
 				
 				$panel.hide();
@@ -926,7 +927,7 @@ Split = {
 				
 				$("#capaRight").animate({"width":'40px'});
 				$("#capaRight").css("width","Auto");
-				$("#capaRight").css("border-top-left-radius","5px");
+//				$("#capaRight").css("border-top-left-radius","5px");
 				$("#capaRight").css("border-top","1px solid #888");
 				
 				$panel.addClass("close");

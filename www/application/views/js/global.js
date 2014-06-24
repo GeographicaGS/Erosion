@@ -7,10 +7,11 @@ var markerLocationRight;
 $.ajax({
     url: 'index.php/login/isLoged',
     success: function(response) {
-    	if(response == 1){
+    	if(response != "Access forbidden"){
     		$(".acceder").hide();
     		$("#closeSesion").show();
     		$(".loginDiv").fadeOut();
+    		$("#closeSesion").text(response);
     		isLoged = true;
     		$.ajax({
     		    url: 'index.php/login/isAdmin',
@@ -44,6 +45,10 @@ function showInfoFancybox(text) {
 	var html =  "<div>"+text+"</div>";
 	$("#info_fancy_box_data").html(html);
 	$("#info_fancybox").fancybox({
+		'width':'auto',
+		"height": "auto",
+		'autoDimensions':true,
+	    'autoSize':true,
 		"openEffect" : "elastic",
 		'openSpeed' : 500
 	}).trigger('click');

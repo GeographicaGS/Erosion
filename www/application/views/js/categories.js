@@ -609,6 +609,29 @@ var categories = [
                {
             	   title: "BASE CARTOGRÁFICA de España",
             	   description: "Base cartográfica de España.",
+            	   categories: [
+            	                	{
+            	                		title: "prueba1",
+            	                		description: "p",
+            	                		layers:[
+            	                		        {
+	            	            	        	   id: 100,
+	            	            	        	   title: "Base cartográfica del Instituto Geográfico Nacional",
+	            	            	        	   description: "Cartografía Base del Instituto Geográfico Nacional",
+	            	            	        	   wmts: {
+	
+	            	       	        		   				server: "http://www.ign.es/wmts/ign-base",
+	            	       	        		   				name: "IGNBaseTodo"
+	            	            	        	   }
+            	                		        },
+            	                			]
+            	                	},
+            	                	{
+            	                		title: "prueba2",
+            	                		description: "p",
+            	                		layers:[]
+            	                	},
+            	                ],
             	   layers: [
             	           {
             	        	   id: 1,
@@ -619,9 +642,9 @@ var categories = [
        	        		   				server: "http://www.ign.es/wmts/ign-base",
        	        		   				name: "IGNBaseTodo"
             	        	   }
-            	           }, 
+            	           	}, 
 						    ]
-							},
+				},
 			   {
             	   title: "BASE CARTOGRÁFICA de Andalucía",
             	   description: "Base cartográfica de Andalucía.",

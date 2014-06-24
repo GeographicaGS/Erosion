@@ -8,6 +8,7 @@ body {
 	font-size: 12px;	
 /* 	background-color:#ccc; */
 	color:#333;
+	overflow: hidden;
 }
 
 .grey {color:#becbdc }
@@ -168,7 +169,7 @@ p.credits{
 	background:url("../img/MED_icon_capas.png") no-repeat left 9px #f0f0f0;
 	position:absolute;
 	bottom: 0px;
-	right:0px;
+/* 	right:0px; */
 	z-index:4;
 	height: 24px;
 	line-height:24px;
@@ -179,12 +180,15 @@ p.credits{
 	box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
 	border-top: 1px solid #888;
 	border-left: 1px solid #888;
+	border-bottom: 1px solid #888;
 /* 	-webkit-border-radius: 5px; */
 /* 	border-radius: 5px; */
-	border-top-left-radius: 5px;
+/* 	border-top-left-radius: 5px; */
 	text-shadow: #fff 0px -1px 0px;
 	z-index:1002;
 	background-position: 55px;
+	margin-left: 1px;
+	margin-right: 1px;	
 	
 }
 .layer_ctrl.open{
@@ -195,8 +199,8 @@ p.credits{
 	position: absolute;	
 	background-color: white;
 	bottom: -44;
-	right:0;
-	width: 350px;	
+/* 	right:0; */
+	width: 351px;	
 /* 	height: 70%; */
 	z-index:1001;
 /* 	padding-bottom:40px; */
@@ -513,7 +517,8 @@ ul.layer_panel > li > img.opacity {
 
 .catalogo{
 	width: 30%;
-/* 	min-width: 310px; */
+	left: -30.1%;
+	min-width: 310px;
 	background-color: #cccccc;
 	position: absolute;
 	bottom: 162px;
@@ -521,7 +526,15 @@ ul.layer_panel > li > img.opacity {
 	border: 1px solid #b9b9b9;
 	border-left: none;
 	border-radius: 0px 2px 2px 0px;
+	
 }
+
+@media (max-width: 1030px) {
+	.catalogo{
+		left: -311px;
+	}
+}
+
 .catalogo .cuerpoCatalogo{
 	background-color: white;
 	position: absolute;
@@ -532,6 +545,7 @@ ul.layer_panel > li > img.opacity {
 	border: 1px solid #b9b9b9;
 	border-left: none;
 	border-radius: 0px 2px 2px 0px;
+	display: none;
 }
 
 .catalogo .cuerpoCatalogo .cabecera{
@@ -592,6 +606,7 @@ ul.layer_panel > li > img.opacity {
 	float: left;
 	width: 100%;
 	margin-bottom: -1px;
+	height: 41px;
 }
 
 .family_header li{
@@ -624,19 +639,24 @@ ul.layer_panel > li > img.opacity {
 }
 
 .family_content li{
-	padding-left: 20px;
-	line-height: 35px;
+/* 	padding-left: 20px; */
+	height: 35px;
+	cursor: pointer;
 }
 
 .family_content li:HOVER{
 	background-color: #f1f2f3;	
 }
 
+.family_header li:HOVER{
+	background-color: initial;
+}
+
 .family_content li p{
 	font-size: 11px;
 	margin-right: 10px;
-	
 	float: left;
+	margin-top: 12px;
 }
 
 #capasCatalogo .family_content li p{
@@ -708,20 +728,24 @@ ul.layer_panel > li > img.opacity {
 	margin-right: 10px;
 	cursor: pointer;
 	margin-left: -1px;
+	background-color: white;
 }
 
 .family_content li p:BEFORE{
 	content: url("../img/ERO_icon_elemento-final.png");	
 	margin-right: 10px;
+	margin-left: 20px;
 }
 
 .infoCatalogo{
-	width: 25%;
+/* 	width: 25%; */
+	width:270px;
+	right: -270px;
 	background-color: #cccccc;
 	position: absolute;
 	bottom: 162px;
 	top: 142px;
-	right:0;
+/* 	right:0; */
 	border: 1px solid #b9b9b9;
 	border-right: none;
 	border-radius: 2px 0px 0px 2px;
@@ -736,6 +760,79 @@ ul.layer_panel > li > img.opacity {
 	border: 1px solid #b9b9b9;
 	border-left: none;
 	border-radius: 2px 0px 0px 2px;
+	display: none;
+}
+
+.infoCatalogo .cuerpoInfoCatalogo .title1{
+	font-size: 14px;
+	color: #013e88;
+	line-height: 35px;
+	margin-left: 10px;
+	margin-right: 10px;
+	border-bottom: 1px solid #dcdcdc; 
+}
+
+.infoCatalogo .cuerpoInfoCatalogo .title1:BEFORE{
+	content: url("../img/ERO_icon_elemento-final.png");
+	margin-right: 10px;
+}
+
+.infoCatalogo .cuerpoInfoCatalogo .title2{
+	color: #666666;
+	font-size: 11px;
+	margin: 10px 10px 35px 10px;
+}
+
+.infoCatalogo .cuerpoInfoCatalogo .title3{
+	font-size: 10px;
+	font-weight: bold;
+	color: #666666;
+	line-height: 25px;
+	margin-left: 10px;
+}
+
+.infoCatalogo .cuerpoInfoCatalogo .botonAddImageLeyenda{
+	border: 1px solid #ff6600;
+	padding: 4px 7px 5px 7px;
+	border-radius: 2px;
+	cursor: pointer;
+	margin-left: 10px;
+	background-color: white;
+	float: left;
+}
+
+.infoCatalogo .cuerpoInfoCatalogo .separador{
+	width: 100%;
+	background-color: #dcdcdc;
+	height: 1px;
+	margin-left: 10px;
+	margin-top: 20px;
+}
+
+.infoCatalogo .cuerpoInfoCatalogo .divLeyenda{
+	width: 242px;
+	height: 260px;
+	border: 1px solid #dcdcdc;
+	margin: auto;
+	overflow: auto;
+}
+
+.infoCatalogo .cuerpoInfoCatalogo .diagonal1{
+	width: 355px;
+	border-bottom: 1px solid #dcdcdc;
+	-webkit-transform: translateY(4px) translateX(-57px) rotate(47deg);
+	position: relative;
+	top: 125px;
+	
+}
+
+.infoCatalogo .cuerpoInfoCatalogo .diagonal2{
+	width: 355px;
+	border-bottom: 1px dotted #dcdcdc;
+	-webkit-transform: translateY(4px) translateX(-57px) rotate(-47deg);
+	position: relative;
+	top: 125px;
+	
 }
 
 .infoCatalogo .petaniaInfoCatalogo{
@@ -747,6 +844,7 @@ ul.layer_panel > li > img.opacity {
 	top: 40px;
 	border-radius: 2px 0px 0px 2px;
 	cursor: pointer;
+	display: none;
 }
 .infoCatalogo .petaniaInfoCatalogo img{ 	
 	padding: 9px;
@@ -754,6 +852,11 @@ ul.layer_panel > li > img.opacity {
 
 .listaTipos{
 	display: none;
+}
+
+.tiposCapas:HOVER{
+	background-color: #ff6600;
+	color: white !important;
 }
 
 .tiposCapas {
@@ -1140,8 +1243,8 @@ img.tiposCapas{
 }
 
 #container_feature_info{
-	width: 800px;
-	height: 400px;
+/* 	width: 800px; */
+/* 	height: 400px; */
 	overflow:auto;
 }
 
@@ -1371,17 +1474,13 @@ img.tiposCapas{
 }
 
 
-
-
-
-
-
-
-
-
 .leaflet-popup-pane{
 	position: absolute;
 }
+
+.leaflet-bottom{
+	top: 30%;
+} 
 
 
 

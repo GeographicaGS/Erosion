@@ -1,51 +1,53 @@
 function drawCategories() {
 	
 	var html = "<ul class='families'>";
-	for(var i=0; i<categories.length; i++){
-		html +=
-					"<ul class='family_header' title='" + categories[i].title + "'>" +
-						"<li class='ico_open_close'><img src='application/views/img/MED_icon_familia.png'></li>" +
-						"<li class='name ellipsis'>" + categories[i].title + "</li>" +
-						"<li class='n_elements'>(" + categories[i].layers.length + ")</li>" +
-					"</ul>"+
-					
-					"<div class='clear'></div>"+
-					
-					"<ul class='family_content' style='display:none;'>";
-						
-						for(var y=0; y<categories[i].layers.length; y++){
-						html += "<li style='border-top: 1px solid #ccc;'>" + 
-							"<p class='ellipsis' title='"+ categories[i].layers[y].title + "'>" + categories[i].layers[y].title + "</p>" +
-							"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>";
-							;
-							
-							html += "<div class='listaTipos'>"
-    							if((categories[i].layers[y].wms) && (categories[i].layers[y].wms.server) && (categories[i].layers[y].wms.name)){
-    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wms' class='fleft fright'><span class='tiposCapas'>WMS</span></div>";
-    							}
-                        							
-    							if((categories[i].layers[y].wmts) && (categories[i].layers[y].wmts.server) && (categories[i].layers[y].wmts.name)){
-    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wmts' class='fleft fright'><span class='tiposCapas'>WMTS</span></div>";
-    							}
-                        							
-    							if((categories[i].layers[y].tms) && (categories[i].layers[y].tms.server) && (categories[i].layers[y].tms.name)){
-    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='tms' class='fleft fright'><span class='tiposCapas'>TILES</span></div>";
-    								
-    							}
-                        							
-    							if(categories[i].layers[y].simbolo){
-    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='simbolo' class='fleft fright'><span class='tiposCapas'>Símbolos</span></div>";
-    							}
-							html += "</div>"
-							html+= "<div class='clear'></div>" + 
-						"</li>";
-						}
-
-					html += "</ul>"+
-					
-				"<div class='clear'></div>" + 
-				"</li>";
-	}
+	html += getHtmlCategories(categories);
+//	for(var i=0; i<categories.length; i++){
+//		html +=
+//					"<ul class='family_header' title='" + categories[i].title + "'>" +
+//						"<li class='ico_open_close'><img src='application/views/img/MED_icon_familia.png'></li>" +
+//						"<li class='name ellipsis'>" + categories[i].title + "</li>" +
+//						"<li class='n_elements'>(" + categories[i].layers.length + ")</li>" +
+//					"</ul>"+
+//					
+//					"<div class='clear'></div>"+
+//					
+//					"<ul class='family_content' style='display:none;'>";
+//						
+//						for(var y=0; y<categories[i].layers.length; y++){
+//						html += "<li idCapa='" + categories[i].layers[y].id + "' style='border-top: 1px solid #ccc;'>" + 
+//							"<p class='ellipsis' title='"+ categories[i].layers[y].title + "'>" + categories[i].layers[y].title + "</p>" +
+//							"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>" +
+//							"<span style='display:none;'>" + categories[i].layers[y].description + "</span>"
+//							;
+//							
+//							html += "<div class='listaTipos'>"
+//    							if((categories[i].layers[y].wms) && (categories[i].layers[y].wms.server) && (categories[i].layers[y].wms.name)){
+//    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wms' class='fleft fright'><span class='tiposCapas'>WMS</span></div>";
+//    							}
+//                        							
+//    							if((categories[i].layers[y].wmts) && (categories[i].layers[y].wmts.server) && (categories[i].layers[y].wmts.name)){
+//    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wmts' class='fleft fright'><span class='tiposCapas'>WMTS</span></div>";
+//    							}
+//                        							
+//    							if((categories[i].layers[y].tms) && (categories[i].layers[y].tms.server) && (categories[i].layers[y].tms.name)){
+//    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='tms' class='fleft fright'><span class='tiposCapas'>TILES</span></div>";
+//    								
+//    							}
+//                        							
+//    							if(categories[i].layers[y].simbolo){
+//    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='simbolo' class='fleft fright'><span class='tiposCapas'>Símbolos</span></div>";
+//    							}
+//							html += "</div>"
+//							html+= "<div class='clear'></div>" + 
+//						"</li>";
+//						}
+//
+//					html += "</ul>"+
+//					
+//				"<div class='clear'></div>" + 
+//				"</li>";
+//	}
 	
 	$("#capasCatalogo").html(html);
 	eventosCatalogo();
@@ -58,10 +60,11 @@ function drawCategories() {
 					for(var y=0; y<response.length; y++){
 						html += "<li style='border-top: 1px solid #ccc;'>" + 
 						"<p class='ellipsis' title='"+ response[y].title + "'>" + response[y].title + "</p>" +
-						"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>";
+						"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
+						"<span style='display:none;'></span>"
 						;
 					
-						html+= "<div idCapa='"+ response[y].id_category +"' tipo='vectorial' class='fleft fright'><span class='tiposCapas'>CAPA VECTORIAL</span></div>";
+						html+= "<div idCapa='"+ response[y].id_category +"' tipo='vectorial' class='fleft fright mt'><span class='tiposCapas'>CAPA VECTORIAL</span></div>";
 						
 						html += "</div>"
 							html+= "<div class='clear'></div>" + 
@@ -92,10 +95,11 @@ function drawCategories() {
             		for(var y=0; y<response.length; y++){
             			html += "<li style='border-top: 1px solid #ccc;'>" + 
         				"<p class='ellipsis' title='"+ response[y].titulo + "'>" + response[y].titulo + "</p>" +
-        				"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>";
+        				"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
+        				"<span style='display:none;'>" + response[y].descripcion + "</span>"
         				;
             			
-            			html+= "<div class='fleft fright' idProject='"+ response[y].titulo +"' tipo='proyecto' class='fleft'><span class='tiposCapas'>Cargar proyecto</span></div>";
+            			html+= "<div class='fleft fright mt' idProject='"+ response[y].titulo +"' tipo='proyecto' class='fleft'><span class='tiposCapas'>Cargar proyecto</span></div>";
             			
             			
             			
@@ -129,10 +133,11 @@ function drawCategories() {
         		for(var y=0; y<response.length; y++){
         			html += "<li style='border-top: 1px solid #ccc;'>" + 
     				"<p class='ellipsis' title='"+ response[y].titulo + "'>" + response[y].titulo + "</p>" +
-    				"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>";
+    				"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>" +
+    				"<span style='display:none;'>" + response[y].descripcion + "</span>"	
     				;
         			
-        			html+= "<div class='fleft fright' idProject='"+ response[y].titulo +"' tipo='proyecto' class='fleft'><span class='tiposCapas'>Cargar proyecto</span></div>";
+        			html+= "<div class='fleft fright mt' idProject='"+ response[y].titulo +"' tipo='proyecto' class='fleft'><span class='tiposCapas'>Cargar proyecto</span></div>";
         			
         			html+= "<div class='clear'></div>" + 
         		"</li>";
@@ -151,7 +156,13 @@ function drawCategories() {
 	
 	$(".petaniaCatalogo").unbind().bind( "click", function(){
 		if($(".cuerpoCatalogo").is(":visible")){
-			$(".catalogo").animate({"left":"-30%"},function(){
+			var left;
+			if($(".catalogo").outerWidth() > 311){
+				left = "-30.1%";
+			}else{
+				left = "-311px";
+			}
+			$(".catalogo").animate({"left":left},function(){
 				$(".cuerpoCatalogo").hide();
 				$(".petaniaCatalogo").find("img").attr("src",$(".petaniaCatalogo").find("img").attr("src").replace("ERO_icon_pestana_catalogo.png","ERO_icon_pestana_catalogo_off.png"));
 			});
@@ -165,7 +176,7 @@ function drawCategories() {
 	
 	$(".petaniaInfoCatalogo").unbind().bind( "click", function(){
 		if($(".cuerpoInfoCatalogo").is(":visible")){
-			$(".infoCatalogo").animate({"right":"-25%"},function(){
+			$(".infoCatalogo").animate({"right":"-270px"},function(){
 				$(".cuerpoInfoCatalogo").hide();
 				$(".petaniaInfoCatalogo").find("img").attr("src",$(".petaniaInfoCatalogo").find("img").attr("src").replace("ERO_icon_pestana_info.png","ERO_icon_pestana_info_off.png"));
 			});
@@ -184,7 +195,7 @@ function drawCategories() {
 		$("div[idSection=" + $(this).attr("idSection") + "]").show();
 	});
 	
-	$(".botonAddImage").unbind().bind( "click", function(){
+	$(".botonAddImage").unbind().bind( "hover", function(){
 		var lista = $(this).siblings(".listaTipos");
 		var aux;
 		
@@ -201,6 +212,23 @@ function drawCategories() {
 		}
 	});
 	
+	$(".listaTipos").unbind().bind( "hover", function(){
+		var aux;
+		if($(this).is(":visible")){
+			$(this).hide();
+			aux = $(this).parent().outerWidth() - $(this).outerWidth() - 40;
+			$(this).siblings("p").css({"width":aux});
+		}else{
+			aux = $(this).parent().outerWidth() - $(this).siblings("p").outerWidth() - $(this).parent().find(".botonAddImage").outerWidth()-40;
+			if($(this).siblings("p").width() > aux){
+				$(this).siblings("p").css({"width":$(this).siblings("p").outerWidth() + aux - $(this).outerWidth()});
+			}
+			$(this).show();
+		}
+	});
+	
+
+		
 	$(".family_header").unbind().bind( "click", function(){
 //		for(var i=0; i<$(".name").length; i++){
 //			if(!$($(".name")[i]).is(":visible")){
@@ -256,11 +284,17 @@ function desColoreaEtiquetas(e){
 	}
 }
 	
-function buscarCapa(id){
+function buscarCapa(id, categories){
 	for(var i=0; i<categories.length; i++){
 		for(var y=0; y<categories[i].layers.length; y++){
 			if(categories[i].layers[y].id==id){
 				return categories[i].layers[y];
+			}
+		}
+		if(categories[i].hasOwnProperty("categories")){
+			var capa = buscarCapa(id, categories[i].categories);
+			if(capa){
+				return capa;
 			}
 		}
 	}
@@ -270,6 +304,8 @@ function buscarCapa(id){
 function eventosCatalogo(){
 	
 	$(".tiposCapas").unbind().bind( "click", function(){
+		$(this).closest("li").trigger("click");
+		
 		if($(this).parent().attr("tipo") == "proyecto"){
 			
 			Split.removeAllLayers();
@@ -301,7 +337,7 @@ function eventosCatalogo(){
                 			});
 		        			
 		        		}else{
-		        			var capa = buscarCapa(capasRight[i].id);
+		        			var capa = buscarCapa(capasRight[i].id, categories);
                 			leyenda = null;
                 			if(capa.wms){
                 				leyenda = capa.wms.server;
@@ -324,7 +360,7 @@ function eventosCatalogo(){
                 			});
 		        			
 		        		}else{
-		        			var capa = buscarCapa(capasLeft[i].id);
+		        			var capa = buscarCapa(capasLeft[i].id, categories);
                 			leyenda = null;
                 			if(capa.wms){
                 				leyenda = capa.wms.server;
@@ -358,7 +394,7 @@ function eventosCatalogo(){
         			});
         		}
         		else{
-        			capa = buscarCapa(self.parent().attr("idCapa"));
+        			capa = buscarCapa(self.parent().attr("idCapa"), categories);
         			leyenda = null;
         			if(capa.wms){
         				leyenda = capa.wms.server;
@@ -376,4 +412,108 @@ function eventosCatalogo(){
 	$("body").unbind().bind( "click", function(){
 		$("#fancy_select_panel").hide(300);
 	});
+	
+	$(".family_content li").unbind().bind( "click", function(){
+		if($(this).parent().hasClass("family_content")){
+			$(".infoCatalogo .petaniaInfoCatalogo").show();
+			if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
+				$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
+			}
+			
+			
+			$(".cuerpoInfoCatalogo").find(".title1").text($(this).find("p").text());
+			$(".cuerpoInfoCatalogo").find(".title1").prop('title', $(this).find("p").text());
+			$(".cuerpoInfoCatalogo").find(".title2").text($($(this).find("span")[0]).text());
+			
+			$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
+			$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
+			
+			$(".extraLeyenda").show();
+			$(".botonAddImageLeyenda").show();
+			
+			var tipos = $(this).find(".listaTipos").children();
+			$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
+			var aux;
+			if(tipos.length > 0){
+				for(var i=0; i<tipos.length; i++){
+					aux = $(tipos[i]).clone();
+					$(aux).removeClass();
+					$(aux).find("span").addClass("fleft");
+					$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").append(aux);
+				}
+				var capa = buscarCapa($(this).attr("idCapa"),categories);
+				if(capa.wms){
+					var legendUrl = capa.wms.server.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+					+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + capa.wms.name;
+					$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
+					$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
+				}
+				
+				
+			}else{
+				aux = $(this).find("div[tipo]").clone();
+				$(aux).removeClass();
+				$(aux).find("span").addClass("fleft");
+				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").append(aux);			
+			}
+			
+			eventosCatalogo();
+		}
+	});
+}
+
+function getHtmlCategories(categories) {
+	var html = "";
+	
+	for(var i=0; i<categories.length; i++){
+		html +=
+					"<ul class='family_header' title='" + categories[i].title + "'>" +
+						"<li class='ico_open_close'><img src='application/views/img/MED_icon_familia.png'></li>" +
+						"<li class='name ellipsis'>" + categories[i].title + "</li>" +
+						"<li class='n_elements'>(" + categories[i].layers.length + ")</li>" +
+					"</ul>"+
+					
+					"<div class='clear'></div>"+
+					
+					"<ul class='family_content' style='display:none;'>";
+						
+						for(var y=0; y<categories[i].layers.length; y++){
+							if(categories[i].hasOwnProperty("categories")){
+								html += getHtmlCategories(categories[i].categories);
+							}
+							html += "<li idCapa='" + categories[i].layers[y].id + "' style='border-top: 1px solid #ccc;'>" + 
+								"<p class='ellipsis' title='"+ categories[i].layers[y].title + "'>" + categories[i].layers[y].title + "</p>" +
+								"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>" +
+								"<span style='display:none;'>" + categories[i].layers[y].description + "</span>"
+								;
+								
+								html += "<div class='listaTipos mt'>"
+	    							if((categories[i].layers[y].wms) && (categories[i].layers[y].wms.server) && (categories[i].layers[y].wms.name)){
+	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wms' class='fleft fright'><span class='tiposCapas'>WMS</span></div>";
+	    							}
+	                        							
+	    							if((categories[i].layers[y].wmts) && (categories[i].layers[y].wmts.server) && (categories[i].layers[y].wmts.name)){
+	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wmts' class='fleft fright'><span class='tiposCapas'>WMTS</span></div>";
+	    							}
+	                        							
+	    							if((categories[i].layers[y].tms) && (categories[i].layers[y].tms.server) && (categories[i].layers[y].tms.name)){
+	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='tms' class='fleft fright'><span class='tiposCapas'>TILES</span></div>";
+	    								
+	    							}
+	                        							
+	    							if(categories[i].layers[y].simbolo){
+	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='simbolo' class='fleft fright'><span class='tiposCapas'>Símbolos</span></div>";
+	    							}
+								html += "</div>"
+								html+= "<div class='clear'></div>" + 
+							"</li>";
+						}
+
+					html += "</ul>"+
+					
+				"<div class='clear'></div>" + 
+				"</li>";
+	}
+	
+	return html;
 }

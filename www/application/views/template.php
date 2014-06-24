@@ -33,6 +33,7 @@
 
 
 <script type="text/javascript" src="<?= get_js("lib/Google.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/Bing.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-wmts.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/jquery-ui-1.10.3.custom.min.js")?>"></script>
 
@@ -124,9 +125,9 @@
 		<a href="javascript:navigate(0)" target="_blank">
 			EL PROYECTO
 		</a>
-		<a href="javascript:navigate(1)">
-			CATÁLOGO
-		</a>
+<!-- 		<a href="javascript:navigate(1)"> -->
+<!-- 			CATÁLOGO -->
+<!-- 		</a> -->
 		<a href="javascript:navigate(2)">
 			ACTIVIDAD
 		</a>
@@ -165,7 +166,7 @@
 			Acceder
 		</div>
 		<p id="closeSesion" class="credits fleft">
-			Cerrar sesión
+			
 		</p>
 	</div>
 	
@@ -198,9 +199,9 @@
 				</a>
 			</div>
 		
-			<a id="capaLeft" href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl">Capas</a>
+			<a id="capaLeft" href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl" style="right:0">Capas</a>
 			
-			<ul class="layer_panel close"></ul>
+			<ul class="layer_panel close" style="right: 0"></ul>
 		
 		</div>
 		
@@ -259,6 +260,19 @@
 	<div class="infoCatalogo">
 		<div class="cuerpoInfoCatalogo">
 			
+			<p class="title1 ellipsis" title=""></p>
+			<p class="title2"></p>
+			<div class="extraLeyenda">
+				<img title="Añadir capa" class="botonAddImageLeyenda" src="application/views/img/ERO_icon_anadir_capa.png">
+				<div class="listaTiposLeyenda"></div>
+				<div class="clear"></div>
+				<div class="separador"></div>
+				<p class="title3">LEYENDA</p>
+				<div class="divLeyenda">
+					<div class="diagonal1"></div>
+					<div class="diagonal2"></div>
+				</div>
+			</div>
 		</div>
 		<div class="petaniaInfoCatalogo"><img class="" src="<?= get_img("ERO_icon_pestana_info_off.png")?>"/></div>
 	</div>

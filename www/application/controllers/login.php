@@ -29,7 +29,7 @@ class Login extends MY_Controller
       		$this->session->set_userdata("is_admin",$user->is_admin);
       		$this->session->set_userdata("logged_status",LOGGED_STATUS_IN);
       		
-			echo "true";
+			echo $user->name . " " . $user->surname;
 		}
 		else{
 			$this->session->sess_destroy();
@@ -45,7 +45,9 @@ class Login extends MY_Controller
 	}
 	
 	function isLoged(){
-		echo is_logged();
+		if(is_logged()){
+			echo $this->session->userdata("name") . " " .  $this->session->userdata("surname");
+		}
 	}
 	
 	function isAdmin(){
