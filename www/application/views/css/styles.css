@@ -419,7 +419,8 @@ ul.layer_panel > li > img.opacity {
 .catalogo{
 	color: #013e88;
 	margin-top: 40px;
-	min-width: 300px
+	min-width: 300px;
+	z-index: 2;
 }
 
 #catalogo{
@@ -575,12 +576,15 @@ ul.layer_panel > li > img.opacity {
 }
 
 .catalogo .cuerpoCatalogo .contenidoCatalogo{
-	overflow: auto;
+/* 	overflow: auto; */
 	position: absolute;
 	left: 0;
 	right: 0;
 	top: 35px;
 	bottom: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	
 }
 
 .catalogo .petaniaCatalogo{
@@ -738,17 +742,16 @@ ul.layer_panel > li > img.opacity {
 }
 
 .infoCatalogo{
-/* 	width: 25%; */
 	width:270px;
 	right: -270px;
 	background-color: #cccccc;
 	position: absolute;
 	bottom: 162px;
 	top: 142px;
-/* 	right:0; */
 	border: 1px solid #b9b9b9;
 	border-right: none;
 	border-radius: 2px 0px 0px 2px;
+	z-index: 2;
 }
 .infoCatalogo .cuerpoInfoCatalogo{
 	background-color: white;
@@ -761,6 +764,8 @@ ul.layer_panel > li > img.opacity {
 	border-left: none;
 	border-radius: 2px 0px 0px 2px;
 	display: none;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .infoCatalogo .cuerpoInfoCatalogo .title1{
@@ -814,7 +819,8 @@ ul.layer_panel > li > img.opacity {
 	height: 260px;
 	border: 1px solid #dcdcdc;
 	margin: auto;
-	overflow: auto;
+	overflow: hidden;
+	margin-bottom: 20px;
 }
 
 .infoCatalogo .cuerpoInfoCatalogo .diagonal1{
@@ -1243,8 +1249,6 @@ img.tiposCapas{
 }
 
 #container_feature_info{
-/* 	width: 800px; */
-/* 	height: 400px; */
 	overflow:auto;
 }
 
@@ -1431,6 +1435,7 @@ img.tiposCapas{
 	-webkit-box-shadow: 1px 1px 1px #cccccc;
 	box-shadow: 1px 1px 1px #cccccc;
 	border-radius: 6px;
+	z-index: 3;
 }
 
 #fancy_select_panel p{
@@ -1482,5 +1487,50 @@ img.tiposCapas{
 	top: 30%;
 } 
 
+.streetButtonLeft{
+	position: absolute;
+	top: 88;
+	left: 53px;
+	z-index: 1;
+	cursor: pointer;
+}
 
+.streetButtonLeft.active {
+	content: url("../img/POR_button_360_ON.png");
+}
 
+.streetButtonLeft:HOVER {
+	content: url("../img/POR_button_360_ON.png");
+}
+
+.streetButtonRight{
+	position: absolute;
+	top: 88;
+	right: 53px;
+	z-index: 1;
+	cursor: pointer;
+}
+
+.streetButtonRight.active {
+	content: url("../img/POR_button_360_ON.png");
+}
+
+.streetButtonRight:HOVER {
+	content: url("../img/POR_button_360_ON.png");
+}
+
+.closeStreetLeft{
+	position: absolute;
+	top: 5px;
+	right: 100px;
+	cursor: pointer;
+	display: none;
+}
+
+.closeStreetRight{
+	position: absolute;
+	top: 5px;
+	left: 116px;
+	cursor: pointer;
+	display: none;	
+}

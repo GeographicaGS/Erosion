@@ -24,42 +24,72 @@ function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegat
 			       	var json = response.result;
 			       	var markers = [];
 			       	var contador = 0;
-			       	for(var i=0; i<json.length; i++){
-
-			       		if((i != 0) && (i % self.zoomGroup[map.getZoom()] == 0)){
-			       			
-			       			contador += Number(json[i].valor);
-			       			var value = (contador / self.zoomGroup[map.getZoom()]);
-			       			if(self.zoomGroup[map.getZoom()] != 1){
-			       				value = value.toFixed(2);
-			       			}
-			       			
-
-			       			var marker = new L.CircleMarker([json[i].lat,json[i].lng], {
-						        radius: self.getRadius(value, response.minValue, response.maxValue),
-						        fillColor: (self.umbral ? (value >= self.umbral ? self.colorUmbralPositivo:self.colorUmbralNegativo):self.colorUmbralPositivo),
-						        color: (self.umbral ? (value >= self.umbral ? self.colorUmbralPositivo:self.colorUmbralNegativo):self.colorUmbralPositivo),
-						        opacity: 1,
-						        fillOpacity: 1,
-						        weight: 1,
-						        clickable: true,
-						        value : value,
-//						        onEachFeature : function (feature, layer) {
-//					                alert("hola");
-//					            }
-						    });
-			       			marker.on('click', function(e) {
-//			       			    alert(e.target.options.value);
-			       				e.target.bindPopup("<strong>" + e.target.options.value + "</strong>").openPopup();
-			       			});
-				       		markers.push(marker);
+//			       	for(var i=0; i<json.length; i++){
+//
+//			       		if((i != 0) && (i % self.zoomGroup[map.getZoom()] == 0)){
+//			       			
+//			       			contador += Number(json[i].valor);
+//			       			var value = (contador / self.zoomGroup[map.getZoom()]);
+//			       			if(self.zoomGroup[map.getZoom()] != 1){
+//			       				value = value.toFixed(2);
+//			       			}
+//			       			
+//
+//			       			var marker = new L.CircleMarker([json[i].lat,json[i].lng], {
+//						        radius: self.getRadius(value, response.minValue, response.maxValue),
+//						        fillColor: (self.umbral ? (value >= self.umbral ? self.colorUmbralPositivo:self.colorUmbralNegativo):self.colorUmbralPositivo),
+//						        color: (self.umbral ? (value >= self.umbral ? self.colorUmbralPositivo:self.colorUmbralNegativo):self.colorUmbralPositivo),
+//						        opacity: 1,
+//						        fillOpacity: 1,
+//						        weight: 1,
+//						        clickable: true,
+//						        value : value,
+//						    });
+//			       			marker.on('click', function(e) {
+//			       				e.target.bindPopup("<strong>" + e.target.options.value + "</strong>").openPopup();
+//			       			});
+//				       		markers.push(marker);
+//				       		
+//			       			contador = 0;
+//			       			
+//			       		}else if (((self.zoomGroup[map.getZoom()] -1) / 2) != i){
+//			       			contador += Number(json[i].valor);
+//			       		}
+//			       	}
+			       	
+			     	for(var i=0; i<json.length-self.zoomGroup[map.getZoom()]; i++){
+			     		if(json[i].id % self.zoomGroup[map.getZoom()] == 0){
+				     		var value = 0;
+				     		if(i==0){
+				     			value = Number(json[i].valor);
+				     		}else{
+				     			for(var y=i-self.zoomGroup[map.getZoom()]+1; y<i+self.zoomGroup[map.getZoom()]-1; y++){
+				     				if(i != y){
+				     					value += Number(json[y].valor);
+				     				}
+				     			}
+				     			value /= (self.zoomGroup[map.getZoom()]-2);
+				     		}
+				     		
+				     		value = value.toFixed(2);
 				       		
-			       			contador = 0;
-			       			
-			       		}else if (((self.zoomGroup[map.getZoom()] -1) / 2) != i){
-			       			contador += Number(json[i].valor);
-			       		}
+				       		var marker = new L.CircleMarker([json[i].lat,json[i].lng], {
+							       radius: self.getRadius(value, response.minValue, response.maxValue),
+							       fillColor: (self.umbral ? (value >= self.umbral ? self.colorUmbralPositivo:self.colorUmbralNegativo):self.colorUmbralPositivo),
+							       color: (self.umbral ? (value >= self.umbral ? self.colorUmbralPositivo:self.colorUmbralNegativo):self.colorUmbralPositivo),
+							       opacity: 1,
+							       fillOpacity: 1,
+							       weight: 1,
+							       clickable: true,
+							       value : value,
+							   });
+				       		marker.on('click', function(e) {
+				       			e.target.bindPopup("<strong>" + e.target.options.value + "</strong>").openPopup();
+				       		});
+					       	markers.push(marker);
+				     	}
 			       	}
+			     	
 			       	
 			       	if(self.layer != null){
 						map.removeLayer(self.layer);

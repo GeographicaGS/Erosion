@@ -50,7 +50,12 @@ function showInfoFancybox(text) {
 		'autoDimensions':true,
 	    'autoSize':true,
 		"openEffect" : "elastic",
-		'openSpeed' : 500
+		'openSpeed' : 500,
+		afterShow: function () {
+			if($('#container_feature_info').text() == "No hay información sobre este punto"){
+				$('.fancybox-outer').height("15");
+			}
+        }
 	}).trigger('click');
 }
 

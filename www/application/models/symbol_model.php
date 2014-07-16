@@ -23,7 +23,7 @@ class Symbol_model extends CI_Model{
 // 		{
 // 			$sql = "SELECT * FROM public.simbolo where tipo=? and lat>=? and lat<=? and lng>=? and lng<=?";
 // 		}
-		$sql = "SELECT * FROM public.simbolo where id_catalogo=? and lat>=? and lat<=? and lng>=? and lng<=?";
+		$sql = "SELECT * FROM public.simbolo where id_catalogo=? and lat>=? and lat<=? and lng>=? and lng<=? order by id_simbolo";
 		
 		return $this->db->query($sql,array($id,$southWestLat,$northEastLat,$southWestLng,$northEastLng))->result();
 	}

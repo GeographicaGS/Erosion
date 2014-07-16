@@ -20,6 +20,9 @@ function GroupLayer(opts){
 //		var html = "<li>Erosión en deltas mediterráneos</li>";
 		var html = "";
 		
+		//Añado la capa de  Panoramio
+		html += "<li class='panoramio disableSortable' style='cursor:pointer' title='Panoramio'><input type='checkbox' disabled='disabled' class='toogleLayer'/> <span class='ellipsis'>Panoramio</span></li>";
+		
 		if(this.project){
 			html += "<li style='background: none; cursor: initial;' class='disableSortable'><img style='float:left; padding-right: 10px; padding-left: 0;' src='application/views/img/ERO_icon_proyecto.png'><strong class='ellipsis' title='" + this.project + "' style='display: block; padding-top: 5px;'>" + this.project + "</strong></li>";
 		}
@@ -54,6 +57,8 @@ function GroupLayer(opts){
 				html += "</li>";
 			
 		}
+		
+		
 //		html += "<li style='background: none; cursor: initial;' class='disableSortable' onclick='navigate(1)'><a class='addCatalog' href='#'>+ Añadir capas del <strong>Catálogo</strong></a></li>";
 		html += "<li style='background: none; cursor: initial;' class='disableSortable' ><a class='add_layer' href='#'>+ Añadir capas de un servicio externo</a></li>"; 
 		return html;		
@@ -405,7 +410,98 @@ function GroupLayer(opts){
 			}
 		});
 		
+		$panel.find(".panoramio").unbind().on("click",function(){
+			if($(this).find("input[type='checkbox']").is(":checked")){
+				self.mostrarPanoramios = true;
+				self.drawPanoramio();
+			}else{
+				self.mostrarPanoramios = false;
+				if(self.__panoramios){
+					self.getMap().removeLayer(self.__panoramios);
+				}
+			}
+			 
+			 
+		});
+		
+		if(this.getMap().getZoom() >= 11){
+			$panel.find(".panoramio").find("input[type='checkbox']").prop("disabled",false);
+			if(self.mostrarPanoramios){
+				$panel.find(".panoramio").find("input[type='checkbox']").prop("checked",true);
+			}
+		}else{
+			$panel.find(".panoramio").find("input[type='checkbox']").prop("disabled",true);
+			$panel.find(".panoramio").find("input[type='checkbox']").prop("checked",false);
+		}
 	};
+	
+	this.drawPanoramio = function(){
+		var self = this;
+		
+//		if(self.__panoramios){
+//			self.getMap().removeLayer(self.__panoramios);
+//		}
+		if(this.getMap().getZoom() >= 11 && self.mostrarPanoramios){
+			$.ajax({
+				url : "application/views/proxy.php",
+				data: { "url": "http://www.panoramio.com/map/get_panoramas.php?order=public&set=full&from=0&to=100&minx=" + this.getMap().getBounds()._southWest.lng + "&miny=" + this.getMap().getBounds()._southWest.lat + "&maxx=" + this.getMap().getBounds()._northEast.lng + "&maxy=" + this.getMap().getBounds()._northEast.lat + "&size=mini_square&mapfilter=true"},
+				type: "POST",
+				dataType: "json",
+		        success: function(data) {
+		        	var markers = Array();
+		        	for(var i=0; i<data.photos.length; i++){
+		        		var greenIcon = L.icon({
+		        		    iconUrl: data.photos[i].photo_file_url,
+		        		});
+		        				  
+//		        		var marker = L.marker([data.photos[i].latitude, data.photos[i].longitude], {icon: greenIcon, value:data.photos[i].photo_file_url});
+//		        		marker.on('click', function(){
+//		        			showInfoFancybox("<img src='" + this.options.value.replace("mini_square","medium") + "'/>");
+//		        		});
+		        		var marker = new L.CircleMarker([data.photos[i].latitude, data.photos[i].longitude], {
+					        radius: 5,
+					        fillColor: '#FF6600',
+					        color: '#FF6600',
+					        opacity: 1,
+					        fillOpacity: 1,
+					        weight: 1,
+					        clickable: true,
+					        value : data.photos[i].photo_file_url,
+					    });
+		        		marker.on('click', function(){
+		        			showInfoFancybox("<img src='" + this.options.value.replace("mini_square","medium") + "'/>");
+		        		});
+		        		
+		        		markers.push(marker);
+		        	}
+		        	if(self.__panoramios){
+						self.getMap().removeLayer(self.__panoramios);
+					}
+		        	self.__panoramios = L.layerGroup(markers);
+		        	self.__panoramios.addTo(self.getMap());
+		        }
+		    });
+		}else{
+			if(self.__panoramios){
+				self.getMap().removeLayer(self.__panoramios);
+			}
+		}
+	};
+	
+	this.refreshPanoramioCheck = function(check){
+		if($(check).length > 0){
+			if(this.getMap().getZoom() >= 11){
+				$(check).find("input[type='checkbox']").prop("disabled",false);
+				
+			}else{
+				$(check).find("input[type='checkbox']").prop("disabled",true);
+				$(check).find("input[type='checkbox']").prop("checked",false)
+				this.mostrarPanoramios = false;
+			}
+		}
+	};
+	
+	
 	
 	/* Toogle a given layer*/
 	this.toogleLayer = function(id_layer,checked){
@@ -513,7 +609,10 @@ function GroupLayer(opts){
 	this.layers = null;
 	this.project = null;
 	this.__layerHistogram = null;
-	this.__active = true;	
+	this.__active = true;
+	this.__panoramios = null;
+	this.mostrarPanoramios = false;
+	this.callejero = new L.GoogleStreet();
 	
 	//initialize context layers
 	//this.ctxLayers = [];
@@ -743,6 +842,8 @@ function GroupLayer(opts){
 						 'Google callejero' : gRoad,
 						 'Bing satélite' : bingSatellite,
 						 'Bing callejero' : bingRoad,
+						 
+						 
 //						"Línea de costa en 2009": din_linea09,
 //						"Línea de costa en 1977": din_linea77,
 //						"Línea de costa en 1956": din_linea56,
@@ -914,7 +1015,8 @@ function GroupLayer(opts){
 	    });
 		
 	};
-	
-	
-	
+}
+
+function onClick(data) {
+   var a = 9;
 }

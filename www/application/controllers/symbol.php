@@ -45,7 +45,7 @@ class Symbol extends MY_Controller
 			
 // 			$aux = (($radioMax - $radioMin) * (abs($simbolo->valor) - $minValue) ) / ((($maxValue - $minValue) != 0) ? ($maxValue - $minValue) : 1);
 // 			array_push($bolas,array('lat' => $simbolo->lat, 'lng' => $simbolo->lng , 'radius' => ($aux <= $radioMin ? ($radioMin+0):$aux) , 'valor' => $simbolo->valor));
-			array_push($bolas,array('lat' => $simbolo->lat, 'lng' => $simbolo->lng , 'valor' => $simbolo->valor));
+			array_push($bolas,array('lat' => $simbolo->lat, 'lng' => $simbolo->lng , 'valor' => $simbolo->valor, 'id'=>$simbolo->id_simbolo));
 		}
 	
 		echo json_encode(array('result' => $bolas, 'minValue' => $minValue, 'maxValue' => $maxValue));

@@ -1,7 +1,7 @@
 function drawCategories() {
 	
 	var html = "<ul class='families'>";
-	html += getHtmlCategories(categories);
+	html += getHtmlCategories(categories,0);
 //	for(var i=0; i<categories.length; i++){
 //		html +=
 //					"<ul class='family_header' title='" + categories[i].title + "'>" +
@@ -462,12 +462,12 @@ function eventosCatalogo(){
 	});
 }
 
-function getHtmlCategories(categories) {
+function getHtmlCategories(categories, index) {
 	var html = "";
 	
 	for(var i=0; i<categories.length; i++){
 		html +=
-					"<ul class='family_header' title='" + categories[i].title + "'>" +
+					"<ul class='family_header' style='padding-left:" + index*10 +"px' title='" + categories[i].title + "'>" +
 						"<li class='ico_open_close'><img src='application/views/img/MED_icon_familia.png'></li>" +
 						"<li class='name ellipsis'>" + categories[i].title + "</li>" +
 						"<li class='n_elements'>(" + categories[i].layers.length + ")</li>" +
@@ -475,11 +475,11 @@ function getHtmlCategories(categories) {
 					
 					"<div class='clear'></div>"+
 					
-					"<ul class='family_content' style='display:none;'>";
+					"<ul class='family_content' style='display:none;padding-left:" + index*10 +"px'>";
 						
 						for(var y=0; y<categories[i].layers.length; y++){
 							if(categories[i].hasOwnProperty("categories")){
-								html += getHtmlCategories(categories[i].categories);
+								html += getHtmlCategories(categories[i].categories, index+1);
 							}
 							html += "<li idCapa='" + categories[i].layers[y].id + "' style='border-top: 1px solid #ccc;'>" + 
 								"<p class='ellipsis' title='"+ categories[i].layers[y].title + "'>" + categories[i].layers[y].title + "</p>" +

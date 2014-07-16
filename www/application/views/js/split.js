@@ -89,16 +89,34 @@ Split = {
 			Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
 		});
 
+		this.__mapLeft.getMap().on("dragend", function() {
+			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
+			Split.__mapLeft.drawPanoramio();
+			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
+			Split.__mapRight.drawPanoramio();
+		});
+		
 		this.__mapRight.getMap().on("drag", function() {
 			Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
+		});
+		
+		this.__mapRight.getMap().on("dragend", function() {
+			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
+			Split.__mapLeft.drawPanoramio();
+			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
+			Split.__mapRight.drawPanoramio();
 		});
 
 		this.__mapLeft.getMap().on("zoomend", function() {
 			Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
+			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
+			Split.__mapLeft.drawPanoramio();
 		});
 
 		this.__mapRight.getMap().on("zoomend", function() {
 			Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
+			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
+			Split.__mapRight.drawPanoramio();
 		});
 		
 		this.__currentMasterMap = this.__mapLeft;
@@ -773,6 +791,88 @@ Split = {
 		});
 		
 	
+		$(".streetButtonLeft,.streetButtonRight").on('click', function() {
+			var map;
+			var mapHtml;
+			var capaHtml;
+			var panelHtml;
+			var closeStreet;
+
+			if($(this).hasClass("streetButtonLeft")){
+				map = Split.__mapLeft;
+				mapHtml = $("#map_left");
+				capaHtml = $("#capaLeft");
+				panelHtml = $("#panel_left");
+				closeStreet = $(".closeStreetLeft");
+			}else{
+				map = Split.__mapRight;
+				mapHtml = $("#map_right");
+				capaHtml = $("#capaRight");
+				panelHtml = $("#panel_right");
+				closeStreet = $(".closeStreetRight");
+			}
+			
+			if($(this).hasClass("active")){
+				$(this).removeClass("active");
+				map.getMap().removeLayer(map.callejero);
+				mapHtml.css({"cursor":"-webkit-grab"});
+			}else{
+				$(this).addClass("active");
+				map.getMap().addLayer(map.callejero);
+				mapHtml.css({"cursor":"pointer"});
+
+			var self = $(this);
+			map.getMap().on('click', function(e) {
+				var service = new google.maps.StreetViewService();			
+				service.getPanoramaByLocation(e.latlng, (map.getMap().getZoom()>11? 50:2000), function(result, status) {
+				    if (status == google.maps.StreetViewStatus.OK) {
+				    	mapHtml.hide();
+				    	$(".catalogo").hide();
+				    	capaHtml.hide();
+				    	self.hide();
+				    	self.trigger("click");
+				    	closeStreet.show();
+						panelHtml.append("<object width='100%' height='100%' data='https://maps.google.es/maps/sv?cbll=" + result.location.latLng.lat() + "," + result.location.latLng.lng() + "'></object>");
+					}		
+				 });
+			});
+
+
+
+
+			}
+		});
+
+		$(".closeStreetLeft,.closeStreetRight").on('click', function() {
+			var map;
+			var mapHtml;
+			var capaHtml;
+			var panelHtml;
+			var street;
+
+
+			if($(this).hasClass("closeStreetLeft")){
+				map = Split.__mapLeft;
+				mapHtml = $("#map_left");
+				capaHtml = $("#capaLeft");
+				panelHtml = $("#panel_left");
+				street = $(".streetButtonLeft");
+			}else{
+				map = Split.__mapRight;
+				mapHtml = $("#map_right");
+				capaHtml = $("#capaRight");
+				panelHtml = $("#panel_right");
+				street = $(".streetButtonRight");
+			}
+			map.getMap().off("click");
+			mapHtml.show();
+			$(".catalogo").show();
+			capaHtml.show();
+			street.show();
+			$(this).hide();
+			panelHtml.find("object").remove();
+
+		});
 		
 		this.__mapLeft.getMap().touchZoom.disable();
 		this.__mapRight.getMap().touchZoom.disable();
@@ -1001,8 +1101,8 @@ Split = {
 		
 		}else if(tipo == "simbolo"){
 			
-			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [29,27,25,23,21,19,17,15,13,11,9,1,1,1,1,1,1,1,1,1,1,1]);
-			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [29,27,25,23,21,19,17,15,13,11,9,1,1,1,1,1,1,1,1,1,1,1]);
+			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [43,41,39,37,35,33,31,29,27,25,23,21,19,17,15,13,11,9,7,5,3,1]);
+			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [43,41,39,37,35,33,31,29,27,25,23,21,19,17,15,13,11,9,7,5,3,1]);
 		}
 		
 		else if(geoJson.length > 0){
@@ -1264,6 +1364,5 @@ Split = {
 			$("#fancy_box_dont_save_draw").hide(400);
 		});
 	}
-	
 	
 }

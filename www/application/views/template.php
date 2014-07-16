@@ -33,6 +33,7 @@
 
 
 <script type="text/javascript" src="<?= get_js("lib/Google.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/GoogleStreet.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/Bing.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-wmts.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/jquery-ui-1.10.3.custom.min.js")?>"></script>
@@ -202,6 +203,8 @@
 			<a id="capaLeft" href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl" style="right:0">Capas</a>
 			
 			<ul class="layer_panel close" style="right: 0"></ul>
+
+			<input class="closeStreetLeft" type="button" value="Cerrar Street View"/>
 		
 		</div>
 		
@@ -234,6 +237,9 @@
 			<a id="capaRight" href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
 			
 			<ul class="layer_panel close"></ul>
+
+			<input class="closeStreetRight" type="button" value="Cerrar Street View"/>
+
 		</div>
 	</div>
 	
@@ -260,7 +266,7 @@
 	<div class="infoCatalogo">
 		<div class="cuerpoInfoCatalogo">
 			
-			<p class="title1 ellipsis" title=""></p>
+			<p class="title1" title=""></p>
 			<p class="title2"></p>
 			<div class="extraLeyenda">
 				<img title="Añadir capa" class="botonAddImageLeyenda" src="application/views/img/ERO_icon_anadir_capa.png">
@@ -297,6 +303,13 @@
 	
 	<div class="clear"></div>
 </div>
+
+
+<img class="streetButtonLeft" title="Activar Google Street" src="<?= get_img("POR_button_360_OFF.png")?>" >
+<img class="streetButtonRight" title="Activar Google Street" src="<?= get_img("POR_button_360_OFF.png")?>" >
+
+
+
 
 <div style="display: none">
 	<a id="info_fancybox" href="#info_fancy_box_data">Fancybox hidden_link</a>
