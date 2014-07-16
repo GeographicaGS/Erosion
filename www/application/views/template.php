@@ -204,6 +204,7 @@
 			
 			<ul class="layer_panel close" style="right: 0"></ul>
 
+			<img class="streetButtonLeft" title="Activar Google Street" src="<?= get_img("POR_button_360_OFF.png")?>" >
 			<input class="closeStreetLeft" type="button" value="Cerrar Street View"/>
 		
 		</div>
@@ -239,6 +240,7 @@
 			<ul class="layer_panel close"></ul>
 
 			<input class="closeStreetRight" type="button" value="Cerrar Street View"/>
+			<img class="streetButtonRight" title="Activar Google Street" src="<?= get_img("POR_button_360_OFF.png")?>" >
 
 		</div>
 	</div>
@@ -303,13 +305,6 @@
 	
 	<div class="clear"></div>
 </div>
-
-
-<img class="streetButtonLeft" title="Activar Google Street" src="<?= get_img("POR_button_360_OFF.png")?>" >
-<img class="streetButtonRight" title="Activar Google Street" src="<?= get_img("POR_button_360_OFF.png")?>" >
-
-
-
 
 <div style="display: none">
 	<a id="info_fancybox" href="#info_fancy_box_data">Fancybox hidden_link</a>
