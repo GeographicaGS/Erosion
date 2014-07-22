@@ -331,7 +331,7 @@ function eventosCatalogo(){
                 		        url: 'index.php/draw/getDraws/' + capasRight[i].id, 
                 		        dataType: "json",
                 		        success: function(response) {
-                		        	Split.addLayer(null,"vectorial", null, response,1);  
+                		        	Split.addLayer(null,"vectorial", null, response,1,capasRight[i].visible);  
                 		        	//navigate(0);
                 		        }
                 			});
@@ -342,7 +342,7 @@ function eventosCatalogo(){
                 			if(capa.wms){
                 				leyenda = capa.wms.server;
                 			}
-                			Split.addLayer(capa,capasRight[i].tipo, leyenda, null,1);
+                			Split.addLayer(capa,capasRight[i].tipo, leyenda, null,1, capasRight[i].visible);
                 			//navigate(0);
 		        		}
 		        	}
@@ -354,7 +354,7 @@ function eventosCatalogo(){
                 		        url: 'index.php/draw/getDraws/' + capasLeft[i].id, 
                 		        dataType: "json",
                 		        success: function(response) {
-                		        	Split.addLayer(null,"vectorial", null, response,2);  
+                		        	Split.addLayer(null,"vectorial", null, response,2, capasLeft[i].visible);  
                 		        	//navigate(0);
                 		        }
                 			});
@@ -365,7 +365,7 @@ function eventosCatalogo(){
                 			if(capa.wms){
                 				leyenda = capa.wms.server;
                 			}
-                			Split.addLayer(capa,capasLeft[i].tipo, leyenda, null,2);
+                			Split.addLayer(capa,capasLeft[i].tipo, leyenda, null,2, capasLeft[i].visible);
                 			//navigate(0);
 		        		}
 		        	}
@@ -416,9 +416,9 @@ function eventosCatalogo(){
 	$(".family_content li").unbind().bind( "click", function(){
 		if($(this).parent().hasClass("family_content")){
 			$(".infoCatalogo .petaniaInfoCatalogo").show();
-			if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
-				$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
-			}
+			// if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
+			// 	$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
+			// }
 			
 			
 			$(".cuerpoInfoCatalogo").find(".title1").text($(this).find("p").text());

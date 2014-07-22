@@ -179,6 +179,7 @@
 	<form id="form_login" action="index.php/login/getUser" method="POST">
 		<div class="loginDiv">
 			<h1>Acceso de usuarios</h1>
+			<img class="closeLogin" src="<?= get_img("MED_icon_delete.png")?>" title="Cerrar" />						
 			<input name="email" placeholder="Correo electrónico" type="text" value=""/>
 			<input name="password" placeholder="Contraseña" type="password" value="" />
 			<input type="button" value="Acceder"/>
@@ -267,7 +268,7 @@
 	
 	<div class="infoCatalogo">
 		<div class="cuerpoInfoCatalogo">
-			
+			<p class="id" style="display:none;" title=""></p>
 			<p class="title1" title=""></p>
 			<p class="title2"></p>
 			<div class="extraLeyenda">

@@ -26,7 +26,7 @@ function GroupLayer(opts){
 		if(this.project){
 			html += "<li style='background: none; cursor: initial;' class='disableSortable'><img style='float:left; padding-right: 10px; padding-left: 0;' src='application/views/img/ERO_icon_proyecto.png'><strong class='ellipsis' title='" + this.project + "' style='display: block; padding-top: 5px;'>" + this.project + "</strong></li>";
 		}
-		
+		html += "<ul>"
 		for(x in this.layers){
 			var l =  this.layers[x];
 //			var lattr = l.visible ? "checked" : ""; 
@@ -45,7 +45,7 @@ function GroupLayer(opts){
 						html += "<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>";
 					}
 //					if(l.leyenda){
-//						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Opacity 100 %' id_layer='" + x + "'>";
+						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Leyenda' id_layer='" + x + "'>";
 //					}
 					html += "<span class='ellipsis'>"+l.title+"</span>";
 					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
@@ -57,6 +57,7 @@ function GroupLayer(opts){
 				html += "</li>";
 			
 		}
+		html += "</ul>"
 		
 		
 //		html += "<li style='background: none; cursor: initial;' class='disableSortable' onclick='navigate(1)'><a class='addCatalog' href='#'>+ Añadir capas del <strong>Catálogo</strong></a></li>";
@@ -81,7 +82,7 @@ function GroupLayer(opts){
 			}
 		});
 		
-		$panel.sortable({
+		$panel.find("ul").sortable({
 //			out: function(event, ui) {
 //				var leftGap = 70;					
 //				if ((ui.position.left + leftGap) < 0 ){
@@ -105,7 +106,7 @@ function GroupLayer(opts){
 				for(var i=0;i<self.layers.length;i++){
 					self.layers[i].layer.setZIndex(self.layers.length-i);
 				}
-				var checks = $(ui.item).parent().find("input[type='checkbox']");
+				var checks = $(ui.item).parent().find(".layerTree").find("input[type='checkbox']");
 				for(var i=0; i<checks.length; i++){
 					$(checks[i]).attr("id_layer",i);
 				}
@@ -134,35 +135,59 @@ function GroupLayer(opts){
 		});
 		
 		$panel.find("li > img.legend").click(function(){
-			var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
-			var $container = $(self.map.getContainer()).parent();
-			var $el = self.__getLegendContainer();
-			$el.hide(); //Para que aparezca de forma animada
-			var dibjuarLeyenda = true;
+			// var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
+			// var $container = $(self.map.getContainer()).parent();
+			// var $el = self.__getLegendContainer();
+			// $el.hide(); //Para que aparezca de forma animada
+			// var dibjuarLeyenda = true;
 			
-			$el.find("h4").find("p").text($(this).parent().attr("title"))
+			// $el.find("h4").find("p").text($(this).parent().attr("title"))
 			
-			var legendUrl = self.layers[id_layer].leyenda.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
-			+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
+			// var legendUrl = self.layers[id_layer].leyenda.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+			// +"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
 			
-			$el.find(".co_legend").html("<img src='" + legendUrl +"'/>");
+			// $el.find(".co_legend").html("<img src='" + legendUrl +"'/>");
 			
-			//Si esta leyenda ya se esta mostrando la elimino
-			var leyendas = $container.find(".flotable_legend");
-			for(var i=0; i<leyendas.length; i++){
-				if($(leyendas[i]).find("h4").find("p").text() == $el.find("h4").find("p").text()){
+			// //Si esta leyenda ya se esta mostrando la elimino
+			// var leyendas = $container.find(".flotable_legend");
+			// for(var i=0; i<leyendas.length; i++){
+			// 	if($(leyendas[i]).find("h4").find("p").text() == $el.find("h4").find("p").text()){
 					
-					$(leyendas[i]).fadeOut(function () {
-						$(this).remove();
-					});
-					dibjuarLeyenda = false;
-					break;
-				}	
+			// 		$(leyendas[i]).fadeOut(function () {
+			// 			$(this).remove();
+			// 		});
+			// 		dibjuarLeyenda = false;
+			// 		break;
+			// 	}	
+			// }
+			// if(dibjuarLeyenda){
+			// 	self.__addLegendDOM($container,$el);
+			// 	$el.fadeIn(); //Para que aparezca de forma animada
+			// }
+			
+			var id_layer = $(this).parent().find("input").attr("id_layer");
+			
+			if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible") || $(".cuerpoInfoCatalogo").find(".id").text() == id_layer){
+				$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
 			}
-			if(dibjuarLeyenda){
-				self.__addLegendDOM($container,$el);
-				$el.fadeIn(); //Para que aparezca de forma animada
+
+
+			$(".cuerpoInfoCatalogo").find(".id").text(id_layer);
+			$(".cuerpoInfoCatalogo").find(".title1").text(self.layers[id_layer].title);
+			$(".cuerpoInfoCatalogo").find(".title1").prop('title', self.layers[id_layer].title);
+			$(".cuerpoInfoCatalogo").find(".title2").text("");
+			$(".extraLeyenda").show();
+			$(".botonAddImageLeyenda").hide();
+			$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
+			$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
+			$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
+			if(self.layers[id_layer].tipo == "wms"){
+				var legendUrl = self.layers[id_layer].url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+				+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
+				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
+				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
 			}
+			
 			
 		});
 		
@@ -384,31 +409,31 @@ function GroupLayer(opts){
 			});
 		});
 		
-		$(".layerTree").unbind().on("click",function(){
-			var id_layer = $(this).find("input").attr("id_layer");
-			if(self.layers[id_layer].id != -1){
-				$(".family_content").find("li[idCapa=" + self.layers[id_layer].id + "]").trigger("click");
-			}else{
-				$(".infoCatalogo .petaniaInfoCatalogo").show();
-				if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
-					$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
-				}
-				$(".cuerpoInfoCatalogo").find(".title1").text(self.layers[id_layer].title);
-				$(".cuerpoInfoCatalogo").find(".title1").prop('title', self.layers[id_layer].title);
-				$(".cuerpoInfoCatalogo").find(".title2").text("");
-				$(".extraLeyenda").show();
-				$(".botonAddImageLeyenda").hide();
-				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
-				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
-				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
-				if(self.layers[id_layer].tipo == "wms"){
-					var legendUrl = self.layers[id_layer].url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
-					+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
-					$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
-					$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
-				}
-			}
-		});
+		// $(".layerTree").unbind().on("click",function(){
+		// 	var id_layer = $(this).find("input").attr("id_layer");
+		// 	if(self.layers[id_layer].id != -1){
+		// 		$(".family_content").find("li[idCapa=" + self.layers[id_layer].id + "]").trigger("click");
+		// 	}else{
+		// 		$(".infoCatalogo .petaniaInfoCatalogo").show();
+		// 		if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
+		// 			$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
+		// 		}
+		// 		$(".cuerpoInfoCatalogo").find(".title1").text(self.layers[id_layer].title);
+		// 		$(".cuerpoInfoCatalogo").find(".title1").prop('title', self.layers[id_layer].title);
+		// 		$(".cuerpoInfoCatalogo").find(".title2").text("");
+		// 		$(".extraLeyenda").show();
+		// 		$(".botonAddImageLeyenda").hide();
+		// 		$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
+		// 		$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
+		// 		$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
+		// 		if(self.layers[id_layer].tipo == "wms"){
+		// 			var legendUrl = self.layers[id_layer].url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+		// 			+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
+		// 			$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
+		// 			$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
+		// 		}
+		// 	}
+		// });
 		
 		$panel.find(".panoramio").unbind().on("click",function(){
 			if($(this).find("input[type='checkbox']").is(":checked")){
@@ -444,7 +469,7 @@ function GroupLayer(opts){
 		if(this.getMap().getZoom() >= 11 && self.mostrarPanoramios){
 			$.ajax({
 				url : "application/views/proxy.php",
-				data: { "url": "http://www.panoramio.com/map/get_panoramas.php?order=public&set=full&from=0&to=100&minx=" + this.getMap().getBounds()._southWest.lng + "&miny=" + this.getMap().getBounds()._southWest.lat + "&maxx=" + this.getMap().getBounds()._northEast.lng + "&maxy=" + this.getMap().getBounds()._northEast.lat + "&size=mini_square&mapfilter=true"},
+				data: { "url": "http://www.panoramio.com/map/get_panoramas.php?order=public&set=full&from=0&to=200&minx=" + this.getMap().getBounds()._southWest.lng + "&miny=" + this.getMap().getBounds()._southWest.lat + "&maxx=" + this.getMap().getBounds()._northEast.lng + "&maxy=" + this.getMap().getBounds()._northEast.lat + "&size=mini_square&mapfilter=true"},
 				type: "POST",
 				dataType: "json",
 		        success: function(data) {
@@ -469,7 +494,7 @@ function GroupLayer(opts){
 					        value : data.photos[i].photo_file_url,
 					    });
 		        		marker.on('click', function(){
-		        			showInfoFancybox("<img src='" + this.options.value.replace("mini_square","medium") + "'/>");
+		        			showInfoFancybox("<img src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
 		        		});
 		        		
 		        		markers.push(marker);

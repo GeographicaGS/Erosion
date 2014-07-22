@@ -55,6 +55,10 @@ function showInfoFancybox(text) {
 			if($('#container_feature_info').text() == "No hay información sobre este punto"){
 				$('.fancybox-outer').height("15");
 			}
+			$.fancybox.update();
+        },
+        onUpdate: function () {
+        	$.fancybox.update();
         }
 	}).trigger('click');
 }

@@ -267,23 +267,23 @@ ul.layer_panel li a{
 /* 	margin-top: 5px; */
 }
 
-ul.layer_panel > li > img {
+ul.layer_panel > li > img, ul.layer_panel  > ul > li > img {
 	float: right;
 	padding: 5px 15px 5px 10px;
 	cursor: pointer;
 }
 
-ul.layer_panel > li > img.remove {
+ul.layer_panel > li > img.remove, ul.layer_panel > ul > li > img.remove {
 	display: none;
 	padding-left: 0px;
 }
 
 
-ul.layer_panel > li > img.legend {
+ul.layer_panel > li > img.legend, ul.layer_panel > ul > li > img.legend {
 	padding: 5px 0px;
 }
 
-ul.layer_panel > li > span {
+ul.layer_panel > li > span, ul.layer_panel > ul > li > span {
 	margin-right: 30px;
 /* 	margin-left: 25px; */
 	white-space: nowrap;
@@ -303,15 +303,15 @@ ul.layer_panel > li > span {
 }
 
 
-ul.layer_panel > li:hover > img.remove {
+ul.layer_panel > li:hover > img.remove, ul.layer_panel > ul > li:hover > img.remove {
 	display: inline;
 }
 
-ul.layer_panel > li:hover > img.opacity {
+ul.layer_panel > li:hover > img.opacity, ul.layer_panel > ul > li:hover > img.opacity {
 	margin-right: 0px;
 }
 
-ul.layer_panel > li > img.opacity {
+ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 	margin-right: 31px;
 }
 
@@ -1266,11 +1266,18 @@ img.tiposCapas{
 }
 
 .loginDiv h1{
+	float: left;
 	color: #899499;
 	margin-top: 20px;
 	margin-left: 10px;
 	font-size: 14px;
 	margin-bottom: 20px;
+}
+
+.closeLogin{
+	float: right;
+	margin: 10px;
+	cursor: pointer;
 }
 
 .loginDiv input[type="text"], input[type="password"]{

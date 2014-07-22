@@ -606,16 +606,18 @@ Split = {
 					    			var panels = {};
 					    			var leftPanel = Array();
 					    			var rightPanel = Array();
-					    			for(var i=0; i<Split.__mapLeft.layers.length; i++){
+					    			for(var i=Split.__mapLeft.layers.length-1; i>=0; i--){
 					    				capas = {};
 					    				capas["id"] = Split.__mapLeft.layers[i].id;
 					    				capas["tipo"] = Split.__mapLeft.layers[i].tipo;
+					    				capas["visible"] = Split.__mapLeft.layers[i].visible;
 					    				leftPanel.push(capas); 
 					    			}
-					    			for(var i=0; i<Split.__mapRight.layers.length; i++){
+					    			for(var i=Split.__mapRight.layers.length-1; i>=0; i--){
 					    				capas = {};
 					    				capas["id"] = Split.__mapRight.layers[i].id;
 					    				capas["tipo"] = Split.__mapRight.layers[i].tipo;
+					    				capas["visible"] = Split.__mapRight.layers[i].visible;
 					    				rightPanel.push(capas); 
 					    			}
 					    			panels = { 'left':JSON.stringify(leftPanel),'right':JSON.stringify(rightPanel)};
@@ -772,6 +774,10 @@ Split = {
 				
 			}
 		});
+
+		$(".closeLogin").bind( "click", function(){
+			$(".acceder").trigger("click");
+		});
 		
 		$("#closeSesion").bind( "click", function(){
 			$.ajax({
@@ -898,11 +904,12 @@ Split = {
 
 		var lng, newZoom = a.getZoom(),otherZoom = b.getZoom();		     
 
-		b.panTo(a.getCenter());
-		
-		if (newZoom !== otherZoom){
-		    b.setZoom(newZoom);
-		}
+		// if (newZoom !== otherZoom){
+		//     b.setZoom(newZoom);
+		// }
+
+		// b.panTo(a.getCenter());
+		b.setView(a.getCenter(),newZoom);
 	
 		Split.__mapIsMoving = false;
 	},
@@ -1083,9 +1090,13 @@ Split = {
 	
 	
 	
-	addLayer: function(capa, tipo, leyenda, geoJson, panel) {
+	addLayer: function(capa, tipo, leyenda, geoJson, panel, visible) {
 		var gsLayerLeft;
 		var gsLayerRight;
+
+		if(visible == undefined){
+			visible = true;
+		}
 		
 		if(tipo == "wms"){
 			gsLayerLeft = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
@@ -1116,9 +1127,12 @@ Split = {
 		
 		if(panel==1 || panel==3){
 			this.__mapRight.addLayer(gsLayerRight);
+			gsLayerRight.setVisibility(visible,Split.__mapRight.getMap(),null)
+
 		}
 		if(panel==2 || panel==3){
 			this.__mapLeft.addLayer(gsLayerLeft);
+			gsLayerLeft.setVisibility(visible,Split.__mapLeft.getMap(),null)
 		}
 		
 		
