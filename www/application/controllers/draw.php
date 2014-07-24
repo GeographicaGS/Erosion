@@ -20,6 +20,11 @@ class Draw extends MY_Controller
 	{
 		echo json_encode($this->category_model->getCategories());	
 	}
+
+	public function getCategoriesWithData()
+	{
+		echo json_encode($this->category_model->getCategoriesWithData());	
+	}
 	
 	public function saveDraw(){
 		

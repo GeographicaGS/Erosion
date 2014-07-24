@@ -26,6 +26,7 @@
 
 <script type="text/javascript" src="<?= get_js("lib/jquery-1.8.2.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-0.5/leaflet.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/MarkerClusterGroup.js")?>"></script>
 
 
 <script type="text/javascript" src="<?= get_js("lib/leaflet.draw/leaflet.draw.js")?>"></script>

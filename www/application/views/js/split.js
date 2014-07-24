@@ -92,7 +92,7 @@ Split = {
 		this.__mapLeft.getMap().on("dragend", function() {
 			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
 			Split.__mapLeft.drawPanoramio();
-			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
+			// Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
 			Split.__mapRight.drawPanoramio();
 		});
 		
@@ -103,7 +103,7 @@ Split = {
 		this.__mapRight.getMap().on("dragend", function() {
 			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
 			Split.__mapLeft.drawPanoramio();
-			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
+			// Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
 			Split.__mapRight.drawPanoramio();
 		});
 
@@ -127,10 +127,10 @@ Split = {
 		this.__mapRight.getMap().locate({setView: false, maxZoom: 7});
 		this.__mapRight.getMap().on('locationfound', onLocationFoundRight);
 		
-		setInterval(function() {
-			self.__mapLeft.getMap().locate({setView: false, maxZoom: 7});
-			self.__mapRight.getMap().locate({setView: false, maxZoom: 7});
-		}, 10000);
+		// setInterval(function() {
+		// 	self.__mapLeft.getMap().locate({setView: false, maxZoom: 7});
+		// 	self.__mapRight.getMap().locate({setView: false, maxZoom: 7});
+		// }, 10000);
 		
 		
 		
@@ -209,6 +209,8 @@ Split = {
 		var poligono;
 		var type;
 		var arrayLatlng;
+		var xClick;
+		var yClick;
 			
 		
 		Split.__mapLeft.getMap().on('draw:drawstart', function (e) {
@@ -222,6 +224,8 @@ Split = {
 			poligono = null;
 			
 			Split.__mapLeft.getMap().on('click', function(e) {
+				xClick = e.originalEvent.clientX	
+				yClick = e.originalEvent.clientY
 				latlng = e.latlng;
 				if(polyline == null){
 					polyline = L.polyline([latlng,latlng], options.draw.polyline.shapeOptions)
@@ -261,6 +265,8 @@ Split = {
 			poligono = null;
 			
 			Split.__mapRight.getMap().on('click', function(e) {
+				xClick = e.originalEvent.clientX	
+				yClick = e.originalEvent.clientY
 				latlng = e.latlng;
 				if(polyline == null){
 					polyline = L.polyline([latlng,latlng], options.draw.polyline.shapeOptions)
@@ -294,14 +300,16 @@ Split = {
 			var aux = new Object();
 			
 		    if (type == 'marker') {
+		    	xClick= Split.__mapLeft.getMap().latLngToLayerPoint(e.layer.getLatLng()).x; 
+		    	yClick= Split.__mapLeft.getMap().latLngToLayerPoint(e.layer.getLatLng()).y +20;
 		    	var markerAux = L.marker(e.layer._latlng).addTo(Split.__mapRight.getMap());
 		    	markerAux.off('click');
 		    	 aux.layer = markerAux;
-		    	markerAux.on('click', function () {
+		    	markerAux.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type);
+				    	Split.showFancySaveDraw(aux, type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
-				    	Split.showFancyDontSaveDraw(aux);
+				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
 				});
 		    }		    
@@ -314,18 +322,18 @@ Split = {
 		    
 		    
 		    if(isLoged){
-		    	Split.showFancySaveDraw(e, type);
+		    	Split.showFancySaveDraw(e, type, xClick,yClick);
 		    	
 		    }else{
-		    	Split.showFancyDontSaveDraw(e);
+		    	Split.showFancyDontSaveDraw(e,xClick,yClick);
 		    }
 		    
 		    e.layer.off('click');
-		    e.layer.on('click', function () {
+		    e.layer.on('click', function (e) {
 		    	if(isLoged){
-			    	Split.showFancySaveDraw(e, type);
+			    	Split.showFancySaveDraw(e, type, e.originalEvent.clientX,e.originalEvent.clientY);
 			    }else{
-			    	Split.showFancyDontSaveDraw(e);
+			    	Split.showFancyDontSaveDraw(e,e.originalEvent.clientX,e.originalEvent.clientY);
 			    }
 			});
 		    
@@ -335,11 +343,11 @@ Split = {
 			    polyline.redraw();
 		    	polyline.off('click');
 			    aux.layer = polyline;
-			    polyline.on('click', function () {
+			    polyline.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type);
+				    	Split.showFancySaveDraw(aux, type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
-				    	Split.showFancyDontSaveDraw(aux);
+				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
 				});
 		    }else if(type =="poligono"){
@@ -347,11 +355,11 @@ Split = {
 		    	poligono.redraw();
 		    	poligono.off('click');
 		    	aux.layer = poligono;
-		    	poligono.on('click', function () {
+		    	poligono.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type);
+				    	Split.showFancySaveDraw(aux, type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
-				    	Split.showFancyDontSaveDraw(aux);
+				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
 				});
 		    }
@@ -364,14 +372,16 @@ Split = {
 			var aux = new Object();
 			
 		    if (type == 'marker') {
+		    	xClick= Split.__mapRight.getMap().latLngToLayerPoint(e.layer.getLatLng()).x+$("#map_left").outerWidth(); 
+		    	yClick= Split.__mapRight.getMap().latLngToLayerPoint(e.layer.getLatLng()).y+20;
 		    	var markerAux = L.marker(e.layer._latlng).addTo(Split.__mapLeft.getMap());
 		    	markerAux.off('click');
 		    	aux.layer = markerAux;
-		    	markerAux.on('click', function () {
+		    	markerAux.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type);
+				    	Split.showFancySaveDraw(aux, type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
-				    	Split.showFancyDontSaveDraw(aux);
+				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
 				});
 		    }		    
@@ -383,18 +393,18 @@ Split = {
 		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
 		  
 		    if(isLoged){
-		    	Split.showFancySaveDraw(e, type);
+		    	Split.showFancySaveDraw(e, type, xClick,yClick);
 		    	
 		    }else{
-		    	Split.showFancyDontSaveDraw(e);
+		    	Split.showFancyDontSaveDraw(e,xClick,yClick);
 		    }
 		    
 		    e.layer.off('click');
-		    e.layer.on('click', function () {
+		    e.layer.on('click', function (e) {
 		    	if(isLoged){
-			    	Split.showFancySaveDraw(e, type);
+			    	Split.showFancySaveDraw(e, type, e.originalEvent.clientX,e.originalEvent.clientY);
 			    }else{
-			    	Split.showFancyDontSaveDraw(e);
+			    	Split.showFancyDontSaveDraw(e,e.originalEvent.clientX,e.originalEvent.clientY);
 			    }
 			});
 		    
@@ -403,11 +413,11 @@ Split = {
 			    polyline.redraw();
 		    	polyline.off('click');
 			    aux.layer = polyline;
-			    polyline.on('click', function () {
+			    polyline.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type);
+				    	Split.showFancySaveDraw(aux, type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
-				    	Split.showFancyDontSaveDraw(aux);
+				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
 				});
 		    }else if(type =="poligono"){
@@ -415,11 +425,11 @@ Split = {
 		    	poligono.redraw();
 		    	poligono.off('click');
 		    	aux.layer = poligono;
-		    	poligono.on('click', function () {
+		    	poligono.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type);
+				    	Split.showFancySaveDraw(aux, type,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
-				    	Split.showFancyDontSaveDraw(aux);
+				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
 				});
 		    }
@@ -1094,6 +1104,13 @@ Split = {
 		var gsLayerLeft;
 		var gsLayerRight;
 
+		if(!$("#panel_right .layer_panel").hasClass("close")){
+			this.toggleLayersInterface(this.RIGHT);
+		}
+		if(!$("#panel_left .layer_panel").hasClass("close")){
+			this.toggleLayersInterface(this.LEFT);
+		}
+
 		if(visible == undefined){
 			visible = true;
 		}
@@ -1116,12 +1133,25 @@ Split = {
 			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [43,41,39,37,35,33,31,29,27,25,23,21,19,17,15,13,11,9,7,5,3,1]);
 		}
 		
-		else if(geoJson.length > 0){
+		else if(geoJson && geoJson.length > 0){
 			
 			gsLayerLeft = new GSLayerGeoJson(geoJson[0].properties.id_category, geoJson[0].properties.category, geoJson, null);
 			gsLayerRight = new GSLayerGeoJson(geoJson[0].properties.id_category, geoJson[0].properties.category, geoJson, null);
 		}
-		else{
+		else if(tipo == "panoramio"){
+			if(panel == 1){
+						Split.__mapRight.mostrarPanoramios = true;
+			}else if(panel == 2){
+        		Split.__mapLeft.mostrarPanoramios = true;
+			}else{
+				Split.__mapRight.mostrarPanoramios = true;
+				Split.__mapLeft.mostrarPanoramios = true;
+        	}
+    	  	Split.__mapLeft.drawPanoramio();
+	    	Split.__mapRight.drawPanoramio();
+	    	return null;
+
+		}else{
 			return null;
 		}
 		
@@ -1133,14 +1163,6 @@ Split = {
 		if(panel==2 || panel==3){
 			this.__mapLeft.addLayer(gsLayerLeft);
 			gsLayerLeft.setVisibility(visible,Split.__mapLeft.getMap(),null)
-		}
-		
-		
-		if(!$("#panel_right .layer_panel").hasClass("close")){
-			this.toggleLayersInterface(this.RIGHT);
-		}
-		if(!$("#panel_left .layer_panel").hasClass("close")){
-			this.toggleLayersInterface(this.LEFT);
 		}
 	},
 	
@@ -1205,8 +1227,8 @@ Split = {
 	    drawPolygonRight.disable();
 	},
 	
-	showFancySaveDraw: function(e, type){
-		$("#fancy_box_save_draw").css({"top":event.y, "left":event.x});
+	showFancySaveDraw: function(e, type,xClick,yClick){
+		$("#fancy_box_save_draw").css({"top":yClick, "left":xClick});
 		$("#fancy_box_save_draw").show();
 		$("#fancy_box_save_draw").animate({"width": 198},300);
 		$($("#fancy_box_save_draw").find("p")[0]).fadeIn(600);
@@ -1348,8 +1370,8 @@ Split = {
 	},
 	
 	
-	showFancyDontSaveDraw: function(e){
-		$("#fancy_box_dont_save_draw").css({"top":event.y, "left":event.x});
+	showFancyDontSaveDraw: function(e,xClick,yClick){
+		$("#fancy_box_dont_save_draw").css({"top":yClick, "left":xClick});
 		$("#fancy_box_dont_save_draw").show();
 		$("#fancy_box_dont_save_draw").animate({"width": 52},300);
 		$($("#fancy_box_dont_save_draw").find("p")[0]).fadeIn(600);

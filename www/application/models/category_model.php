@@ -13,6 +13,13 @@ class Category_model extends CI_Model{
 		
 		return $this->db->query($sql)->result();
 	}
+
+	public function getCategoriesWithData(){
+		
+		$sql = "SELECT * FROM public.category c WHERE EXISTS(SELECT d.id_category FROM draw d WHERE c.id_category = d.id_category);";
+		
+		return $this->db->query($sql)->result();
+	}
 	
 	public function getCategeryTitle($idCategory){
 	

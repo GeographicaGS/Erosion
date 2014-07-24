@@ -771,15 +771,19 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 .infoCatalogo .cuerpoInfoCatalogo .title1{
 	font-size: 14px;
 	color: #013e88;
-	line-height: 35px;
+	line-height: 20px;
 	margin-left: 10px;
 	margin-right: 10px;
 	border-bottom: 1px solid #dcdcdc; 
+	display: flex;
+	margin-top: 10px;
+	padding-bottom: 5px;
 }
 
 .infoCatalogo .cuerpoInfoCatalogo .title1:BEFORE{
 	content: url("../img/ERO_icon_elemento-final.png");
 	margin-right: 10px;
+	margin-top: 5px;
 }
 
 .infoCatalogo .cuerpoInfoCatalogo .title2{
@@ -807,11 +811,11 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 }
 
 .infoCatalogo .cuerpoInfoCatalogo .separador{
-	width: 100%;
 	background-color: #dcdcdc;
 	height: 1px;
 	margin-left: 10px;
 	margin-top: 20px;
+	margin-right: 10px;
 }
 
 .infoCatalogo .cuerpoInfoCatalogo .divLeyenda{
@@ -865,6 +869,11 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 	color: white !important;
 }
 
+
+.tiposCapas.plus:HOVER:AFTER{
+	content: url("../img/ERO_icon_anadir_capa_h.png");	
+}
+
 .tiposCapas {
 	color: #ff6600 !important;
 	border: 1px solid #ff6600;
@@ -874,6 +883,13 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 	cursor: pointer;
 	background-color: white;
 	margin-left: -1px;
+}
+
+.tiposCapas.plus:AFTER{
+	content: url("../img/ERO_icon_anadir_capa.png");
+	position: relative;
+	top: 2px;
+	margin-left: 10px;
 }
 
 img.tiposCapas{
@@ -1540,4 +1556,9 @@ img.tiposCapas{
 	left: 116px;
 	cursor: pointer;
 	display: none;	
+}
+
+
+.leaflet-map-pane svg{
+	z-index: 100;
 }

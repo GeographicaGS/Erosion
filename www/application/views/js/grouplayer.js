@@ -21,7 +21,9 @@ function GroupLayer(opts){
 		var html = "";
 		
 		//Añado la capa de  Panoramio
-		html += "<li class='panoramio disableSortable' style='cursor:pointer' title='Panoramio'><input type='checkbox' disabled='disabled' class='toogleLayer'/> <span class='ellipsis'>Panoramio</span></li>";
+		if(this.mostrarPanoramios){
+			html += "<li class='panoramio disableSortable' style='cursor:pointer' title='Panoramio'><img class='remove' src='application/views/img/MED_icon_papelera_panel.png'/><input id_layer='panoramio' type='checkbox' "+ (this.getMap().getZoom()>=11? '' : 'disabled') + " " + (this.getMap().getZoom()>=11? '' : 'disabled') + "  " + (this.mostrarPanoramios && this.getMap().getZoom()>=11 ? 'checked':'') + " class='toogleLayer'/> <span class='ellipsis'>Panoramio</span></li>";
+		}
 		
 		if(this.project){
 			html += "<li style='background: none; cursor: initial;' class='disableSortable'><img style='float:left; padding-right: 10px; padding-left: 0;' src='application/views/img/ERO_icon_proyecto.png'><strong class='ellipsis' title='" + this.project + "' style='display: block; padding-top: 5px;'>" + this.project + "</strong></li>";
@@ -43,6 +45,8 @@ function GroupLayer(opts){
 					
 					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
 						html += "<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>";
+					}else{
+						html += "<img class='opacity' style='margin-left: -11px;' src=''>";
 					}
 //					if(l.leyenda){
 						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Leyenda' id_layer='" + x + "'>";
@@ -193,14 +197,18 @@ function GroupLayer(opts){
 		
 		$panel.find("li > img.remove").click(function(){
 			var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
-			self.layers[id_layer].setVisibility(false, self.map, null);
-			self.layers.splice(id_layer,1);
-			
-			for(var i=0;i<self.layers.length;i++){
-				self.layers[i].layer.setZIndex(self.layers.length-i);
+			if(id_layer == "panoramio"){
+				self.__panoramios? self.getMap().removeLayer(self.__panoramios):null;
+				self.mostrarPanoramios = false;
+			}else{
+				self.layers[id_layer].setVisibility(false, self.map, null);
+				self.layers.splice(id_layer,1);
+				
+				for(var i=0;i<self.layers.length;i++){
+					self.layers[i].layer.setZIndex(self.layers.length-i);
+				}
 			}
-			
-//			$(this).parent().remove();
+
 			$(this).parent().animate({"width":'0px'}, function(){
 				var checks = $(this).parent();
 				$(this).remove();
@@ -449,23 +457,33 @@ function GroupLayer(opts){
 			 
 		});
 		
-		if(this.getMap().getZoom() >= 11){
-			$panel.find(".panoramio").find("input[type='checkbox']").prop("disabled",false);
-			if(self.mostrarPanoramios){
-				$panel.find(".panoramio").find("input[type='checkbox']").prop("checked",true);
+		// if(this.getMap().getZoom() >= 11){
+		// 	$panel.find(".panoramio").find("input[type='checkbox']").prop("disabled",false);
+		// 	if(self.mostrarPanoramios){
+		// 		$panel.find(".panoramio").find("input[type='checkbox']").prop("checked",true);
+		// 	}
+		// }else{
+		// 	$panel.find(".panoramio").find("input[type='checkbox']").prop("disabled",true);
+		// 	$panel.find(".panoramio").find("input[type='checkbox']").prop("checked",false);
+		// }
+
+	};
+
+	this.refreshPanoramioCheck = function(check){
+		// if($(check).length > 0){
+			if(this.getMap().getZoom() >= 11){
+				$(check).find("input[type='checkbox']").prop("disabled",false);
+				
+			}else{
+				$(check).find("input[type='checkbox']").prop("disabled",true);
+				$(check).find("input[type='checkbox']").prop("checked",false)
+				this.mostrarPanoramios = false;
 			}
-		}else{
-			$panel.find(".panoramio").find("input[type='checkbox']").prop("disabled",true);
-			$panel.find(".panoramio").find("input[type='checkbox']").prop("checked",false);
-		}
+		// }
 	};
 	
 	this.drawPanoramio = function(){
 		var self = this;
-		
-//		if(self.__panoramios){
-//			self.getMap().removeLayer(self.__panoramios);
-//		}
 		if(this.getMap().getZoom() >= 11 && self.mostrarPanoramios){
 			$.ajax({
 				url : "application/views/proxy.php",
@@ -478,11 +496,6 @@ function GroupLayer(opts){
 		        		var greenIcon = L.icon({
 		        		    iconUrl: data.photos[i].photo_file_url,
 		        		});
-		        				  
-//		        		var marker = L.marker([data.photos[i].latitude, data.photos[i].longitude], {icon: greenIcon, value:data.photos[i].photo_file_url});
-//		        		marker.on('click', function(){
-//		        			showInfoFancybox("<img src='" + this.options.value.replace("mini_square","medium") + "'/>");
-//		        		});
 		        		var marker = new L.CircleMarker([data.photos[i].latitude, data.photos[i].longitude], {
 					        radius: 5,
 					        fillColor: '#FF6600',
@@ -494,7 +507,7 @@ function GroupLayer(opts){
 					        value : data.photos[i].photo_file_url,
 					    });
 		        		marker.on('click', function(){
-		        			showInfoFancybox("<img src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
+		        			showInfoFancybox("<img id='prueba' src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
 		        		});
 		        		
 		        		markers.push(marker);
@@ -513,18 +526,18 @@ function GroupLayer(opts){
 		}
 	};
 	
-	this.refreshPanoramioCheck = function(check){
-		if($(check).length > 0){
-			if(this.getMap().getZoom() >= 11){
-				$(check).find("input[type='checkbox']").prop("disabled",false);
+	// this.refreshPanoramioStatus = function(check){
+	// 	if($(check).length > 0){
+	// 		if(this.getMap().getZoom() >= 11){
+	// 			$(check).find("input[type='checkbox']").prop("disabled",false);
 				
-			}else{
-				$(check).find("input[type='checkbox']").prop("disabled",true);
-				$(check).find("input[type='checkbox']").prop("checked",false)
-				this.mostrarPanoramios = false;
-			}
-		}
-	};
+	// 		}else{
+	// 			$(check).find("input[type='checkbox']").prop("disabled",true);
+	// 			$(check).find("input[type='checkbox']").prop("checked",false)
+	// 			this.mostrarPanoramios = false;
+	// 		}
+	// 	}
+	// };
 	
 	
 	
@@ -827,66 +840,14 @@ function GroupLayer(opts){
 		format: 'image/png'
 	});
 	
-	
-	
-//	   var wmts = new OpenLayers.Layer.WMTS({
-//        name: "Medford Buildings",
-//        url: "http://v2.suite.opengeo.org/geoserver/gwc/service/wmts/",
-//        layer: "medford:buildings",
-//        matrixSet: "EPSG:900913",
-//        matrixIds: matrixIds,
-//        format: "image/png",
-//        style: "_null",
-//        opacity: 0.7,
-//        isBaseLayer: false
-//    });
-
-//var ign = new L.TileLayer.WMTS(gGEOPORTALRIGHTSMANAGEMENT[gGEOPORTALRIGHTSMANAGEMENT.apiKey].resources['GEOGRAPHICALGRIDSYSTEMS.MAPS:WMTS'].url,
-//                {
-//                    layer: 'GEOGRAPHICALGRIDSYSTEMS.MAPS',
-//                    style: 'normal',
-//                    tilematrixSet: "PM",
-//                    matrixIds: matrixIds3857,
-//                    format: 'image/jpeg',
-//                    attribution: "&copy; <a href='http://www.ign.fr'>IGN</a>"
-//                }
-//    );
 	L.control.layers(
 					 {
-//					 'Google satélite':gSatellite,
-//					 'Google relieve': gTerrain,
-//					 'Google callejero' : gRoad,
-//					 'Orto 56': orto56,
-//					 'WMTS IGN': wmts,
-					 
-					 
-					 }
-					 ,{
 						 'Google satélite':gSatellite,
 						 'Google relieve': gTerrain,
 						 'Google callejero' : gRoad,
 						 'Bing satélite' : bingSatellite,
-						 'Bing callejero' : bingRoad,
-						 
-						 
-//						"Línea de costa en 2009": din_linea09,
-//						"Línea de costa en 1977": din_linea77,
-//						"Línea de costa en 1956": din_linea56,
-//							"Tasa 56 - 77": din_tasa56_77,
-//						"Tasa 77 - 09": din_tasa77_09,
-//						"Tasa 56 - 09": din_tasa56_09,
-//						"CVI":cvi1,
-//						"Geomorfología":cvi2,
-//						"Topografía":cvi3,
-//						"Erosión":cvi7,
-//						"Nivel del mal":cvi4,
-//						"Oleaje":cvi5,
-//						"Marea":cvi6,
-//						"Unidades fisiográficas": ufis,
-//						"Unidades fisiográficas (Transparencia 50%)": ufis2,
-//						'WMTS IGN': wmts,
-//						'CVI WMTS' : wmts2
-					 },{position:position}).addTo(this.map);
+						 'Bing callejero' : bingRoad
+					 },null,{position: position}).addTo(this.map);
 	
 	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));
 	

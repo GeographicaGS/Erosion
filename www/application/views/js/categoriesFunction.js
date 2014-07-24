@@ -50,21 +50,38 @@ function drawCategories() {
 //	}
 	
 	$("#capasCatalogo").html(html);
+
+
+	$(".families").append("	<ul class='family_header' style='padding-left:0px' title='SERVICIOS DE TERCEROS'> "+
+								"<li class='ico_open_close'><img style='vertical-align: top;' src='application/views/img/MED_icon_familia.png'></li>"+
+								"<li class='name ellipsis'>SERVICIOS DE TERCEROS</li>"+
+								"<li class='n_elements'>(1)</li>"+
+							"</ul>"+
+							"<div class='clear'></div>"+
+							"<ul class='family_content' style='padding-left: 0px; display:none;'>"+
+								"<li idcapa='60' style='border-top: 1px solid #ccc;'>"+
+									"<p class='ellipsis' title='Panoramio'>Panoramio</p>"+
+									"<div class='fleft fright mr' style='margin-top:8px;' tipo='panoramio'>"+
+										"<span class='tiposCapas plus'>PANORAMIO</span></div></div><div class='clear'>"+
+									"</div>"+
+								"</li>"+
+							"</ul>");
+
 	eventosCatalogo();
 	
 	$.ajax({
-        url: 'index.php/draw/getCategories', dataType: "json",
+        url: 'index.php/draw/getCategoriesWithData', dataType: "json",
         success: function(response) {
         	var html = "<ul class='family_content'>";
 					
 					for(var y=0; y<response.length; y++){
 						html += "<li style='border-top: 1px solid #ccc;'>" + 
 						"<p class='ellipsis' title='"+ response[y].title + "'>" + response[y].title + "</p>" +
-						"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
+						// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
 						"<span style='display:none;'></span>"
 						;
 					
-						html+= "<div idCapa='"+ response[y].id_category +"' tipo='vectorial' class='fleft fright mt'><span class='tiposCapas'>CAPA VECTORIAL</span></div>";
+						html+= "<div idCapa='"+ response[y].id_category +"' tipo='vectorial' class='fleft fright' style='margin-top:8px;'><span class='tiposCapas plus mr'>CAPA VECTORIAL</span></div>";
 						
 						html += "</div>"
 							html+= "<div class='clear'></div>" + 
@@ -95,11 +112,11 @@ function drawCategories() {
             		for(var y=0; y<response.length; y++){
             			html += "<li style='border-top: 1px solid #ccc;'>" + 
         				"<p class='ellipsis' title='"+ response[y].titulo + "'>" + response[y].titulo + "</p>" +
-        				"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
+        				// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
         				"<span style='display:none;'>" + response[y].descripcion + "</span>"
         				;
             			
-            			html+= "<div class='fleft fright mt' idProject='"+ response[y].titulo +"' tipo='proyecto' class='fleft'><span class='tiposCapas'>Cargar proyecto</span></div>";
+            			html+= "<div class='fleft fright' style='margin-top:8px;' idProject='"+ response[y].titulo +"' tipo='proyecto' class='fleft'><span class='tiposCapas plus mr'>CARGAR PROYECTO</span></div>";
             			
             			
             			
@@ -133,11 +150,11 @@ function drawCategories() {
         		for(var y=0; y<response.length; y++){
         			html += "<li style='border-top: 1px solid #ccc;'>" + 
     				"<p class='ellipsis' title='"+ response[y].titulo + "'>" + response[y].titulo + "</p>" +
-    				"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>" +
+    				// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>" +
     				"<span style='display:none;'>" + response[y].descripcion + "</span>"	
     				;
         			
-        			html+= "<div class='fleft fright mt' idProject='"+ response[y].titulo +"' tipo='proyecto' class='fleft'><span class='tiposCapas'>Cargar proyecto</span></div>";
+        			html+= "<div class='fleft fright' style='margin-top:8px;' idProject='"+ response[y].titulo +"' tipo='proyecto' class='fleft'><span class='tiposCapas plus mr'>CARGAR PROYECTO</span></div>";
         			
         			html+= "<div class='clear'></div>" + 
         		"</li>";
@@ -303,7 +320,7 @@ function buscarCapa(id, categories){
 
 function eventosCatalogo(){
 	
-	$(".tiposCapas").unbind().bind( "click", function(){
+	$(".tiposCapas").unbind().bind( "click", function(event){
 		$(this).closest("li").trigger("click");
 		
 		if($(this).parent().attr("tipo") == "proyecto"){
@@ -377,7 +394,7 @@ function eventosCatalogo(){
 			
 		}else{
 			var self = $(this);
-    		$("#fancy_select_panel").css({"top":event.y, "left":event.x});
+    		$("#fancy_select_panel").css({"top":event.pageY, "left":event.pageX});
     		$("#fancy_select_panel").show(300);
     		
     		$(".panelSelect").unbind().bind( "click", function(){
@@ -393,7 +410,10 @@ function eventosCatalogo(){
         		        }
         			});
         		}
-        		else{
+        		else if(tipo == "panoramio"){
+        			Split.addLayer("null","panoramio",null,null,panel,null)
+
+        		}else{
         			capa = buscarCapa(self.parent().attr("idCapa"), categories);
         			leyenda = null;
         			if(capa.wms){
@@ -468,7 +488,7 @@ function getHtmlCategories(categories, index) {
 	for(var i=0; i<categories.length; i++){
 		html +=
 					"<ul class='family_header' style='padding-left:" + index*10 +"px' title='" + categories[i].title + "'>" +
-						"<li class='ico_open_close'><img src='application/views/img/MED_icon_familia.png'></li>" +
+						"<li class='ico_open_close'><img style='vertical-align: top;' src='application/views/img/MED_icon_familia.png'></li>" +
 						"<li class='name ellipsis'>" + categories[i].title + "</li>" +
 						"<li class='n_elements'>(" + categories[i].layers.length + ")</li>" +
 					"</ul>"+
