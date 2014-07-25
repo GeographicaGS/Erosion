@@ -21,8 +21,8 @@ function GroupLayer(opts){
 		var html = "";
 		
 		//Añado la capa de  Panoramio
-		if(this.mostrarPanoramios){
-			html += "<li class='panoramio disableSortable' style='cursor:pointer' title='Panoramio'><img class='remove' src='application/views/img/MED_icon_papelera_panel.png'/><input id_layer='panoramio' type='checkbox' "+ (this.getMap().getZoom()>=11? '' : 'disabled') + " " + (this.getMap().getZoom()>=11? '' : 'disabled') + "  " + (this.mostrarPanoramios && this.getMap().getZoom()>=11 ? 'checked':'') + " class='toogleLayer'/> <span class='ellipsis'>Panoramio</span></li>";
+		if(this.capaPanoramios){
+			html += "<li class='panoramio disableSortable' style='cursor:pointer' title='Panoramio'><img class='remove' src='application/views/img/MED_icon_papelera_panel.png'/><input id_layer='panoramio' type='checkbox' "+ (this.getMap().getZoom()>=11? '' : 'disabled') + " " + (this.mostrarPanoramios && this.getMap().getZoom()>=11 ? 'checked':'') + " class='toogleLayer'/> <span class='ellipsis'>Panoramio (visble a partir de zoom 11)</span></li>";
 		}
 		
 		if(this.project){
@@ -54,8 +54,8 @@ function GroupLayer(opts){
 					html += "<span class='ellipsis'>"+l.title+"</span>";
 					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
 						html += "<div class='opacity_panel' style='display: none;'>" +
-						"<span class='opacity_label'>Opacity 100 %</span>" +
-						"<div class='slider'></div>" +
+						"<span class='opacity_label'>Opacity " + (l.layer.options.opacity * 100).toFixed(0) +" %</span>" +
+						"<div class='slider' opacity='" + (l.layer.options.opacity * 100).toFixed(0) + "'></div>" +
 					"</div>";
 					}
 				html += "</li>";
@@ -77,6 +77,9 @@ function GroupLayer(opts){
 			max: 100,
 			min: 0,
 			value: 100,
+			create: function(event, ui){
+				$(this).slider("value",$(this).attr("opacity"))
+			},
 			stop: function( event, ui ){
 				$(ui.handle).closest(".opacity_panel").find(".opacity_label").html("Opacity "+ ui.value + " %");
 				var id_layer = $(ui.handle).closest(".opacity_panel").siblings("input").attr("id_layer");
@@ -199,6 +202,7 @@ function GroupLayer(opts){
 			var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
 			if(id_layer == "panoramio"){
 				self.__panoramios? self.getMap().removeLayer(self.__panoramios):null;
+				self.capaPanoramios = false;
 				self.mostrarPanoramios = false;
 			}else{
 				self.layers[id_layer].setVisibility(false, self.map, null);
@@ -491,37 +495,64 @@ function GroupLayer(opts){
 				type: "POST",
 				dataType: "json",
 		        success: function(data) {
-		        	var markers = Array();
-		        	for(var i=0; i<data.photos.length; i++){
-		        		var greenIcon = L.icon({
-		        		    iconUrl: data.photos[i].photo_file_url,
-		        		});
-		        		var marker = new L.CircleMarker([data.photos[i].latitude, data.photos[i].longitude], {
-					        radius: 5,
-					        fillColor: '#FF6600',
-					        color: '#FF6600',
-					        opacity: 1,
-					        fillOpacity: 1,
-					        weight: 1,
-					        clickable: true,
-					        value : data.photos[i].photo_file_url,
-					    });
-		        		marker.on('click', function(){
-		        			showInfoFancybox("<img id='prueba' src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
-		        		});
+		   //      	var markers = Array();
+		   //      	for(var i=0; i<data.photos.length; i++){
+		   //      		var greenIcon = L.icon({
+		   //      		    iconUrl: data.photos[i].photo_file_url,
+		   //      		});
+		       //  		var marker = new L.CircleMarker([data.photos[i].latitude, data.photos[i].longitude], {
+					    //     radius: 5,
+					    //     fillColor: '#FF6600',
+					    //     color: '#FF6600',
+					    //     opacity: 1,
+					    //     fillOpacity: 1,
+					    //     weight: 1,
+					    //     clickable: true,
+					    //     value : data.photos[i].photo_file_url,
+					    // });
+		       //  		marker.on('click', function(){
+		       //  			showInfoFancybox("<img id='prueba' src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
+		       //  		});
 		        		
-		        		markers.push(marker);
-		        	}
-		        	if(self.__panoramios){
+		   //      		markers.push(marker);
+		   //      	}
+		   //      	if(self.__panoramios){
+					// 	self.getMap().removeLayer(self.__panoramios);
+					// }
+		   //      	self.__panoramios = L.layerGroup(markers);
+		   //      	self.__panoramios.addTo(self.getMap());
+
+		   			if(self.__panoramios){
 						self.getMap().removeLayer(self.__panoramios);
 					}
-		        	self.__panoramios = L.layerGroup(markers);
-		        	self.__panoramios.addTo(self.getMap());
+		   			self.__panoramios = new L.MarkerClusterGroup();
+		   			for(var i=0; i<data.photos.length; i++){
+
+		   				// var marker = new L.CircleMarker([data.photos[i].latitude, data.photos[i].longitude], {
+					    //     radius: 5,
+					    //     fillColor: '#FF6600',
+					    //     color: '#FF6600',
+					    //     opacity: 1,
+					    //     fillOpacity: 1,
+					    //     weight: 1,
+					    //     clickable: true,
+					    //     value : data.photos[i].photo_file_url,
+					    // });
+
+						var marker = L.marker([data.photos[i].latitude, data.photos[i].longitude], {icon: new L.icon({iconUrl: 'application/views/img/ERO_icon_map_panoramio.png'}),value : data.photos[i].photo_file_url});
+		        		marker.on('click', function(){
+		        			showInfoFancybox("<img style='height:" + $("#panel_left").outerHeight() + "' src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
+		        		});
+
+		   				self.__panoramios.addLayer(marker);
+		   			}
+		   			self.getMap().addLayer(self.__panoramios);
 		        }
 		    });
 		}else{
 			if(self.__panoramios){
 				self.getMap().removeLayer(self.__panoramios);
+				self.mostrarPanoramios = false;
 			}
 		}
 	};
@@ -650,6 +681,7 @@ function GroupLayer(opts){
 	this.__active = true;
 	this.__panoramios = null;
 	this.mostrarPanoramios = false;
+	this.capaPanoramios = false;
 	this.callejero = new L.GoogleStreet();
 	
 	//initialize context layers

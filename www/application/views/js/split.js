@@ -300,8 +300,15 @@ Split = {
 			var aux = new Object();
 			
 		    if (type == 'marker') {
-		    	xClick= Split.__mapLeft.getMap().latLngToLayerPoint(e.layer.getLatLng()).x; 
-		    	yClick= Split.__mapLeft.getMap().latLngToLayerPoint(e.layer.getLatLng()).y +20;
+		    	var layerAux = e.layer;
+		    	try{
+		    		xClick= event.x; 
+		    		yClick= event.y;
+		    	}catch(e) {
+		    		xClick= Split.__mapLeft.getMap().latLngToLayerPoint(layerAux.getLatLng()).x; 
+		    		yClick= Split.__mapLeft.getMap().latLngToLayerPoint(layerAux.getLatLng()).y +20;
+		    	}
+		    	
 		    	var markerAux = L.marker(e.layer._latlng).addTo(Split.__mapRight.getMap());
 		    	markerAux.off('click');
 		    	 aux.layer = markerAux;
@@ -621,6 +628,7 @@ Split = {
 					    				capas["id"] = Split.__mapLeft.layers[i].id;
 					    				capas["tipo"] = Split.__mapLeft.layers[i].tipo;
 					    				capas["visible"] = Split.__mapLeft.layers[i].visible;
+					    				capas["opacity"] = Split.__mapLeft.layers[i].layer.options.opacity;
 					    				leftPanel.push(capas); 
 					    			}
 					    			for(var i=Split.__mapRight.layers.length-1; i>=0; i--){
@@ -628,6 +636,7 @@ Split = {
 					    				capas["id"] = Split.__mapRight.layers[i].id;
 					    				capas["tipo"] = Split.__mapRight.layers[i].tipo;
 					    				capas["visible"] = Split.__mapRight.layers[i].visible;
+					    				capas["opacity"] = Split.__mapRight.layers[i].layer.options.opacity;
 					    				rightPanel.push(capas); 
 					    			}
 					    			panels = { 'left':JSON.stringify(leftPanel),'right':JSON.stringify(rightPanel)};
@@ -1100,7 +1109,7 @@ Split = {
 	
 	
 	
-	addLayer: function(capa, tipo, leyenda, geoJson, panel, visible) {
+	addLayer: function(capa, tipo, leyenda, geoJson, panel, visible, opacity) {
 		var gsLayerLeft;
 		var gsLayerRight;
 
@@ -1113,6 +1122,10 @@ Split = {
 
 		if(visible == undefined){
 			visible = true;
+		}
+
+		if(opacity == undefined){
+			opacity = 1;
 		}
 		
 		if(tipo == "wms"){
@@ -1140,12 +1153,16 @@ Split = {
 		}
 		else if(tipo == "panoramio"){
 			if(panel == 1){
-						Split.__mapRight.mostrarPanoramios = true;
+				Split.__mapRight.capaPanoramios = true;
+				Split.__mapRight.mostrarPanoramios = true;
 			}else if(panel == 2){
+				Split.__mapLeft.capaPanoramios = true;
         		Split.__mapLeft.mostrarPanoramios = true;
 			}else{
 				Split.__mapRight.mostrarPanoramios = true;
 				Split.__mapLeft.mostrarPanoramios = true;
+				Split.__mapRight.capaPanoramios = true;
+				Split.__mapLeft.capaPanoramios = true;
         	}
     	  	Split.__mapLeft.drawPanoramio();
 	    	Split.__mapRight.drawPanoramio();
@@ -1158,11 +1175,13 @@ Split = {
 		if(panel==1 || panel==3){
 			this.__mapRight.addLayer(gsLayerRight);
 			gsLayerRight.setVisibility(visible,Split.__mapRight.getMap(),null)
+			gsLayerRight.layer.setOpacity(opacity);
 
 		}
 		if(panel==2 || panel==3){
 			this.__mapLeft.addLayer(gsLayerLeft);
 			gsLayerLeft.setVisibility(visible,Split.__mapLeft.getMap(),null)
+			gsLayerLeft.layer.setOpacity(opacity);
 		}
 	},
 	

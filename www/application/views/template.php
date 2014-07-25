@@ -24,9 +24,13 @@
 <link rel="stylesheet" type="text/css" href="<?= get_css("layout.css")?>" />
 <link rel="stylesheet" type="text/css" href="<?= get_css("styles.css")?>?v1.0" />
 
+<link rel="stylesheet" type="text/css" href="<?= get_css("MarkerCluster.css")?>?v1.0" />
+<link rel="stylesheet" type="text/css" href="<?= get_css("MarkerCluster.Default.css")?>?v1.0" />
+
+
 <script type="text/javascript" src="<?= get_js("lib/jquery-1.8.2.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-0.5/leaflet.js")?>"></script>
-<script type="text/javascript" src="<?= get_js("lib/MarkerClusterGroup.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/leaflet.markercluster.js")?>"></script>
 
 
 <script type="text/javascript" src="<?= get_js("lib/leaflet.draw/leaflet.draw.js")?>"></script>
@@ -412,17 +416,17 @@
 
 <div id="fancy_select_panel">
 	<div class="divSelectPanel">
-		<div class="panelSelect" panel="1">
-			<div class="fright">
-				<p>al panel derecho</p>
-				<img src="<?= get_img("ERO_icon_panel_derecho.png")?>" />
-			</div>
-		</div>
-		<div class="clear"></div>
 		<div class="panelSelect" panel="2">
 			<div class="fright">
 				<p>al panel izquierdo</p>
 				<img src="<?= get_img("ERO_icon_panel_izquierdo.png")?>" />
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="panelSelect" panel="1">
+			<div class="fright">
+				<p>al panel derecho</p>
+				<img src="<?= get_img("ERO_icon_panel_derecho.png")?>" />
 			</div>
 		</div>
 		<div class="clear"></div>

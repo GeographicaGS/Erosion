@@ -359,7 +359,7 @@ function eventosCatalogo(){
                 			if(capa.wms){
                 				leyenda = capa.wms.server;
                 			}
-                			Split.addLayer(capa,capasRight[i].tipo, leyenda, null,1, capasRight[i].visible);
+                			Split.addLayer(capa,capasRight[i].tipo, leyenda, null,1, capasRight[i].visible, capasRight[i].opacity);
                 			//navigate(0);
 		        		}
 		        	}
@@ -382,7 +382,7 @@ function eventosCatalogo(){
                 			if(capa.wms){
                 				leyenda = capa.wms.server;
                 			}
-                			Split.addLayer(capa,capasLeft[i].tipo, leyenda, null,2, capasLeft[i].visible);
+                			Split.addLayer(capa,capasLeft[i].tipo, leyenda, null,2, capasLeft[i].visible, capasLeft[i].opacity);
                 			//navigate(0);
 		        		}
 		        	}

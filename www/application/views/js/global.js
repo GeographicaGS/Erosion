@@ -51,6 +51,11 @@ function showInfoFancybox(text) {
 	    'autoSize':true,
 		"openEffect" : "elastic",
 		'openSpeed' : 500,
+		'helpers' : {
+		  overlay : {
+		    css : { 'overflow' : 'auto' }
+		  }
+		},
 		afterShow: function () {
 			if($('#container_feature_info').text() == "No hay información sobre este punto"){
 				$('.fancybox-outer').height("15");
