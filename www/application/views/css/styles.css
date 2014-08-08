@@ -742,8 +742,10 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 }
 
 .infoCatalogo{
-	width:270px;
-	right: -270px;
+	width:30%;
+	min-width: 15%;
+	max-width: 40%;
+	right: -30%;
 	background-color: #cccccc;
 	position: absolute;
 	bottom: 162px;
@@ -752,6 +754,7 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 	border-right: none;
 	border-radius: 2px 0px 0px 2px;
 	z-index: 2;
+	cursor: col-resize;
 }
 .infoCatalogo .cuerpoInfoCatalogo{
 	background-color: white;
@@ -766,6 +769,11 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 	display: none;
 	overflow-x: hidden;
 	overflow-y: auto;
+	cursor: initial;
+
+/*	resize: horizontal;
+	overflow: auto;
+	-webkit-transform: rotate(-180deg);*/
 }
 
 .infoCatalogo .cuerpoInfoCatalogo .title1{
@@ -822,9 +830,10 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 	width: 242px;
 	height: 260px;
 	border: 1px solid #dcdcdc;
-	margin: auto;
+	/*margin: auto;*/
 	overflow: hidden;
 	margin-bottom: 20px;
+	margin-left: 10px;
 }
 
 .infoCatalogo .cuerpoInfoCatalogo .diagonal1{
@@ -868,7 +877,6 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 	background-color: #ff6600;
 	color: white !important;
 }
-
 
 .tiposCapas.plus:HOVER:AFTER{
 	content: url("../img/ERO_icon_anadir_capa_h.png");	
@@ -1073,11 +1081,12 @@ img.tiposCapas{
 	margin-left: 10px;
 }
 
-.vectorFancy p{
-	margin-top: 30px;
+.comentTable p{
+	/*margin-top: 30px;*/
+	margin: 10px;
 	line-height: 18px;
-	margin-left: 40px;
-	margin-right: 10px;
+	/*margin-left: 40px;
+	margin-right: 10px;*/
 	color: #666666;
 }
 
@@ -1091,7 +1100,7 @@ img.tiposCapas{
 	float: left;
 }
 
-.vectorFancy span{
+.comentTable span{
 	font-size: 11px;
 	color: #666666;
 	font-weight: bold;
@@ -1109,14 +1118,15 @@ img.tiposCapas{
 /* 	height: 270px; */
 	border-top: 1px solid #cccccc;
 	background-color: #ecedef;
-	margin-top: 30px;
-	max-height: 291px;
+	/*margin-top: 30px;*/
+	/*max-height: 291px;*/
 	overflow: auto;
+	margin: 10px;
 }
 
-.comentTable p{
+./*comentTable p{
 	padding-bottom: 30px;
-}
+}*/
 
 .userComentTable{
 	border-right: 1px solid #939393;
@@ -1556,6 +1566,124 @@ img.tiposCapas{
 	left: 116px;
 	cursor: pointer;
 	display: none;	
+}
+
+#geometryVectorList p{
+	color: #013e88;
+	margin: 10px;
+	cursor: pointer;
+}
+
+#commentsVector h1, #addHistoryForm h1{
+	color: #013e88;
+	margin: 10px;
+	font-size: 13px;
+	float: left;
+}
+
+#commentsVector h2{
+	margin-left: 36px;
+	margin-right: 10px;
+	margin-bottom: 20px;
+}
+
+#commentsVector img{
+	float: left;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+
+.addCommentInput, .addCommentHistory{
+	height: 100px;
+	border: 1px solid #001232;
+	color: #666666;
+	font-size: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+	background-color: #ecedef;
+	/*margin: 10px 10px 10px 20px;*/
+	width: 100%;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+
+.genericButton{
+	height: 35px;
+	background-color: #013e88;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	border-radius: 2px;
+	border: none;
+	cursor: pointer;
+}
+
+.addComentButton{
+	margin-bottom: 10px;
+	width: 140px !important;
+	margin-top: 10px;
+	float: right;
+}
+
+.addHistoryButton{
+	margin: 10px;
+	float: right;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+.saveHistoryButton{
+	float: right;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+#addHistoryForm input[type='text']{
+	float: left;
+	/*width: 390px; */
+	width: 70%;
+	background: #ecedef;
+	height: 35px;
+	color: #666666;
+	font-size: 14px;
+	margin-top: 18px;
+	/*margin-left: 10px;*/
+	padding-right: 10px;
+	padding-left: 10px;
+	border: 1px solid #001232;
+	margin-bottom: 10px;
+	margin-right: 1%;
+}
+
+#addHistoryForm select{
+	/*width: 220px; */
+	width: 29%;
+	margin-top: 18px;
+	background-color: white;
+	border: 1px solid #001232;
+	height: 35px;
+	-webkit-appearance: none;
+	padding-left: 10px;
+	color: #013e88;
+	background: url(../img/ERO_icon_flecha_select.png) no-repeat 95%;
+	float: left;
+	/*margin-left: 10px;*/
+	border-radius: 0;
+	font-size: 14px;
+
+}
+
+.goBack{
+	font-size: 13px;
+	float: right;
+	color: #013e88;
+	text-decoration: underline;
+	margin-right: 10px;
+	cursor: pointer;
+	margin-top: 10px;
 }
 
 

@@ -191,9 +191,9 @@ function drawCategories() {
 		}
 	});
 	
-	$(".petaniaInfoCatalogo").unbind().bind( "click", function(){
+	$(".petaniaInfoCatalogo").unbind().bind( "click", function(e){
 		if($(".cuerpoInfoCatalogo").is(":visible")){
-			$(".infoCatalogo").animate({"right":"-270px"},function(){
+			$(".infoCatalogo").animate({"right": "-" + $(".infoCatalogo").outerWidth() + "px"},function(){
 				$(".cuerpoInfoCatalogo").hide();
 				$(".petaniaInfoCatalogo").find("img").attr("src",$(".petaniaInfoCatalogo").find("img").attr("src").replace("ERO_icon_pestana_info.png","ERO_icon_pestana_info_off.png"));
 			});
@@ -203,8 +203,45 @@ function drawCategories() {
 			$(".infoCatalogo").animate({"right":""});
 			$(".petaniaInfoCatalogo").find("img").attr("src",$(".petaniaInfoCatalogo").find("img").attr("src").replace("ERO_icon_pestana_info_off.png","ERO_icon_pestana_info.png"));
 		}
+		e.stopPropagation();
+	});
+
+	//Menú de información resizable
+	// $(".cuerpoInfoCatalogo").on('click', function(e) {
+	// 	$("#fancy_select_panel").hide(300);
+	// 	e.stopPropagation();
+	// });
+
+	$(".cuerpoInfoCatalogo").mousedown(function(e) {
+		e.stopPropagation();
+	}).mouseup(function(e) {
+		e.stopPropagation();
 	});
 	
+	$(".petaniaInfoCatalogo").mousedown(function(e) {
+		e.stopPropagation();
+	}).mouseup(function(e) {
+		e.stopPropagation();
+	});
+
+	$(".infoCatalogo").mousedown(function() {
+		$(".cuerpoInfoCatalogo, #container").css({"cursor":"col-resize"});
+		$(".cuerpoInfoCatalogo, #container").mousemove(function(e) {
+			$(".infoCatalogo").outerWidth($("#proyecto").outerWidth() - e.originalEvent.clientX);
+		});
+	});
+
+	$("#container, .cuerpoInfoCatalogo, header, footer").mouseup(function(e) {
+		$(".cuerpoInfoCatalogo, #container").css({"cursor":""});
+		$(".cuerpoInfoCatalogo, #container").off("mousemove");
+		if($(this).hasClass("cuerpoInfoCatalogo")){
+			$("#fancy_select_panel").hide(300);
+			e.stopPropagation();
+		}
+	});
+
+	//Fin menú de información resizable
+
 	$(".catalogo .cuerpoCatalogo .cabecera .seccion").unbind().bind( "click", function(){
 		$(".catalogo .cuerpoCatalogo .cabecera .seccion").removeClass("active");
 		$(this).addClass("active");
@@ -424,7 +461,7 @@ function eventosCatalogo(){
         		}
     		});
     		
-    		event.stopPropagation()
+    		event.stopPropagation();
 		}
 		
 	});	
@@ -434,6 +471,14 @@ function eventosCatalogo(){
 	});
 	
 	$(".family_content li").unbind().bind( "click", function(){
+		//Restauro vistas
+		$("#commentsVector").hide();
+		$("#geometryVector").hide();
+		$("#addHistoryForm").hide();
+		$(".botonAddImageLeyenda").show();
+		$(".extraLeyenda").children(".title3, .divLeyenda").show();
+
+
 		if($(this).parent().hasClass("family_content")){
 			$(".infoCatalogo .petaniaInfoCatalogo").show();
 			// if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
@@ -450,11 +495,15 @@ function eventosCatalogo(){
 			
 			$(".extraLeyenda").show();
 			$(".botonAddImageLeyenda").show();
+			$(".cuerpoInfoCatalogo").find(".title1").show();
+			$(".cuerpoInfoCatalogo").find(".title2").show();
 			
 			var tipos = $(this).find(".listaTipos").children();
 			$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
 			var aux;
 			if(tipos.length > 0){
+				$(".botonAddImageLeyenda").show();
+				$(".extraLeyenda").children(".title3, .divLeyenda").show();
 				for(var i=0; i<tipos.length; i++){
 					aux = $(tipos[i]).clone();
 					$(aux).removeClass();
@@ -474,12 +523,208 @@ function eventosCatalogo(){
 				aux = $(this).find("div[tipo]").clone();
 				$(aux).removeClass();
 				$(aux).find("span").addClass("fleft");
-				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").append(aux);			
-			}
+				$(aux).css({"margin-left":"10"});
+				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").append(aux);
+				$(".botonAddImageLeyenda").hide();
+
+				//Para el caso de los vectoriales
+				if($($(this).find("div[idcapa]")[0]).attr("tipo") == "vectorial"){
+					$(".extraLeyenda").children(".title3, .divLeyenda").hide();
+					$("#geometryVector").show();
+					$("#geometryVectorList").html("");
+					var idCapa = $($(this).find("div[idcapa]")[0]).attr("idcapa");
+					$.ajax({
+						url: 'index.php/draw/getDrawList/' + idCapa, 
+						dataType: "json",
+						success: function(response) {
+							for(var i=0; i<response.length; i++){
+								$("#geometryVectorList").append("<p idDraw='" + response[i].id_draw + "' tipo= '" + response[i].tipo + "' comentario='" + response[i].comentario +"'>" + response[i].titulo + "</p>");
+							}
+							$("#geometryVectorList p").unbind().bind("click", function(event) {
+								var tipo = $(this).attr("tipo");
+								var idDraw = $(this).attr("idDraw");
+								$(".addCommentInput").val("");
+								if(tipo == "marker"){
+					    			$("#commentsVector img").attr("src", "application/views/img/ERO_icon_punto.png");
+						    	}else if(tipo == "linea"){
+						    		$("#commentsVector img").attr("src", "application/views/img/ERO_icon_linea.png");
+						    	}else{
+						    		$("#commentsVector img").attr("src", "application/views/img/ERO_icon_poligono.png");
+		    					}
+								$("#commentsVector h1").text($(this).text());
+								$("#commentsVector h2").text($(this).attr("comentario"));
+								$.ajax({
+									url: 'index.php/draw/getBoundingBox/' + idDraw, 
+									dataType: "json",
+									success: function(response) {
+										var loadLeft = searchCapaVectorial(Split.__mapLeft, idCapa);
+										var loadRight = searchCapaVectorial(Split.__mapRight, idCapa);
+										if(!loadLeft && !loadRight){
+											$(".cuerpoInfoCatalogo").find(".tiposCapas").trigger("click");
+											$("#fancy_select_panel").css({"top":$(".cuerpoInfoCatalogo").find(".tiposCapas").offset().top +20, "left":$(".cuerpoInfoCatalogo").find(".tiposCapas").offset().left+20});
+											
+											if(response.latmin != null && response.lngmin != null && response.latmax != null && response.lngmax != null){
+												$(".panelSelect").addClass("clickVectorial")
+												$(".clickVectorial").on("click", function() {
+													$(".panelSelect").removeClass("clickVectorial");
+													var panel = $(this).attr("panel");
+													if(panel == "1"){
+														Split.__mapRight.getMap().fitBounds([[response.latmin, response.lngmin],[response.latmax, response.lngmax]])
+													}else if(panel == "2"){
+														Split.__mapLeft.getMap().fitBounds([[response.latmin, response.lngmin],[response.latmax, response.lngmax]])
+													}else{
+														Split.__mapRight.getMap().fitBounds([[response.latmin, response.lngmin],[response.latmax, response.lngmax]])
+														Split.__mapLeft.getMap().fitBounds([[response.latmin, response.lngmin],[response.latmax, response.lngmax]])
+													}
+												});
+											}
+										}
+										if(response.latmin != null && response.lngmin != null && response.latmax != null && response.lngmax != null){
+											if(loadLeft){
+												Split.__mapLeft.getMap().fitBounds([[response.latmin, response.lngmin],[response.latmax, response.lngmax]])
+											}
+											if(loadRight){
+												Split.__mapRight.getMap().fitBounds([[response.latmin, response.lngmin],[response.latmax, response.lngmax]])
+											}
+										}
+									}
+								});
+								
+								$("#geometryVector").hide();
+								$("#commentsVectorVectorList").html("");
+								$("#commentsVector").show();
+								$.ajax({
+									url: 'index.php/draw/getDrawsComents/' + idDraw, 
+									dataType: "json",
+									success: function(response) {
+										for(var i=0; i<response.result.length; i++){
+											$("#commentsVectorVectorList").append("<p class='size11'>" +
+														"<span class='userComentTable'>" + response.result[i].name + " " + response.result[i].surname +"</span>" +
+														"<span class='pl5' style='font-weight: normal;'>" + response.result[i].fecha + "</span>" +
+														"</br>" +
+														response.result[i].comentario +
+													"</p>" +
+													"<div style='border-top: 1px solid #cccccc;width: 100%;'></div>");
+										}
+									}
+								});
+
+								$(".addComentButton").unbind().bind("click", function() {
+									if($(".addCommentInput").val() != ""){
+										$.ajax({
+					        		        url: 'index.php/draw/addComent/' + idDraw,
+					        		        data: { cometario:$(".addCommentInput").val()},
+					        		        dataType: "json",
+					        		        type: 'POST',
+					        		        success: function(response) {
+					        		        	$("#commentsVectorVectorList").append("<p class='size11'>" +
+																					"<span class='userComentTable'>" + response.user +"</span>" +
+																					"<span class='pl5' style='font-weight: normal;'>" + response.fecha + "</span>" +
+																					"</br>" +
+																					response.comentario +
+																				"</p>" +
+																				"<div style='border-top: 1px solid #cccccc;width: 100%;'></div>");
+					        		        	
+					        		        	 $(".addCommentInput").val("");
+					        		        	 $(".cuerpoInfoCatalogo").scrollTop($(".cuerpoInfoCatalogo").outerHeight())
+					        		        }
+					        			});
+									}
+								});
+
+							});       		        	
+						}
+					});
+				}
+			}	
 			
 			eventosCatalogo();
 		}
 	});
+
+	$(".goBack").unbind().bind("click", function() {
+		$("#commentsVector").hide();
+		$("#addHistoryForm").hide();
+		$("#geometryVector").show()
+	});
+
+	$(".addHistoryButton").unbind().bind("click", function(event, latlng) {
+		$("#geometryVector").hide();
+		$("#addHistoryForm input[type='text']").val("");
+		$(".addCommentHistory").val("");
+		$("#addHistoryForm").show();
+		$("#addHistoryForm input[type='text']").removeClass("errorBorder");
+		$(".addCommentHistory").removeClass("errorBorder");
+		$("#typeHistory").val("Historia");
+		$("#addHistoryForm").find(".goBack").show();
+
+		// Cargo las categorias
+		$("#addHistoryForm select").html("");
+		$.ajax({
+		        url: 'index.php/draw/getCategories', dataType: "json",
+		        success: function(response) {
+		        	$("#fancy_box_form_save_draw").find("select").children().remove();
+		        	for(var i=0; i<response.length; i++){
+			    		$("#addHistoryForm select").append("<option value='" + response[i].id_category + "'>" + response[i].title + "</option>");
+			    	}
+			    }
+		});
+
+		$(".saveHistoryButton").unbind().bind("click", function() {
+			$("#addHistoryForm input[type='text']").removeClass("errorBorder");
+			$(".addCommentHistory").removeClass("errorBorder");
+			var guardar = true;
+			if($("#addHistoryForm input[type='text']").val() == ""){
+				$("#addHistoryForm input[type='text']").addClass("errorBorder");
+				guardar = false;
+			}
+			if($(".addCommentHistory").val() == ""){
+				$(".addCommentHistory").addClass("errorBorder");
+				guardar = false;
+			}
+			if(guardar){
+				$.ajax({
+					url: 'index.php/draw/saveDraw',
+					data: "puntos=" + (latlng != null ? JSON.stringify(latlng): "") + "&type=" + $("#typeHistory").val() + "&" + "&titulo=" + $("#addHistoryForm input[type='text']").val() + "&comentario=" + $(".addCommentHistory").val() + "&categoria=" + $("#addHistoryForm select").val(),
+					type: "POST",
+					success: function(response) {
+						$(".contenidoCatalogo").find("div[idCapa='" + $("#addHistoryForm select").val() + "'][tipo='vectorial']").parent().trigger("click");
+
+						if(latlng != null){
+							//Borro la geomatría y refresco la categoría
+							$.each(Split.__mapLeft.getMap()._layers, function(key){
+								if((Split.__mapLeft.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlng, latlng)) || (Split.__mapLeft.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlngs, latlng))){
+									Split.__mapLeft.getMap().removeLayer(Split.__mapLeft.getMap()._layers[key]);
+									return true;
+								}
+							});
+									        	
+							$.each(Split.__mapRight.getMap()._layers, function(key){
+								if((Split.__mapRight.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlng, latlng)) || (Split.__mapRight.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlngs, latlng))){
+									Split.__mapRight.getMap().removeLayer(Split.__mapRight.getMap()._layers[key]);
+									return true;
+								}
+							});
+
+							// REFRESCAR CATEGORIA EN EL MAPA, TENGO QUE BORRARLA SI ESTÁ CARGADA Y VOLVERLA A CARGAR
+							Split.__mapLeft.removeLayer($("#addHistoryForm select option:selected").text(), "geoJson");
+							Split.__mapRight.removeLayer($("#addHistoryForm select option:selected").text(), "geoJson");
+							$.ajax({
+								url: 'index.php/draw/getDraws/' + $("#addHistoryForm select").val(), 
+								dataType: "json",
+								success: function(response) {
+									Split.addLayer(null,"vectorial", null, response,3);  
+								}
+							});
+						}
+
+					}
+				});
+			}
+		});
+
+	});
+
 }
 
 function getHtmlCategories(categories, index) {
@@ -536,4 +781,13 @@ function getHtmlCategories(categories, index) {
 	}
 	
 	return html;
+}
+
+function searchCapaVectorial(map, idCapa){
+	for(var i=0; i<map.layers.length; i++){
+		if(map.layers[i].tipo == "geoJson" && map.layers[i].id == idCapa){
+			return true;
+		}
+	}
+	return false;
 }

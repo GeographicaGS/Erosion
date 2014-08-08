@@ -61,5 +61,21 @@ class Draw_model extends CI_Model{
 		
 		return $this->db->query($sql,array($id_draw))->row();
 	}
+
+	public function getDrawListByCategory($id_category){
+		$sql = "SELECT id_draw, titulo, tipo, comentario FROM public.draw
+				where id_category=? ORDER BY fecha";
+		
+		return $this->db->query($sql,array($id_category))->result();
+	}
+
+	public function getBoundingBox($id_draw){
+		$sql = "select st_ymin(st_transform(geom, 4326)) as latMin, st_ymax(st_transform(geom, 4326)) as latMax, 
+				st_xmin(st_transform(geom, 4326)) as lngMin, st_xmax(st_transform(geom, 4326)) as lngMax  
+				FROM public.draw
+				where id_draw=?";
+		
+		return $this->db->query($sql,array($id_draw))->row();
+	}
 }
 ?>

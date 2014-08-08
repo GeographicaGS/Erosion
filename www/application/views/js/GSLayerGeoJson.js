@@ -38,7 +38,11 @@ function GSLayerGeoJson(id,title, geoJson, leyenda){
 
 function onEachFeatureGeoJson(feature, layer) {
 	layer.on("click",function(e){
-		showFancyVectorInfo(feature, layer);
+		// showFancyVectorInfo(feature, layer);
+		if($(".infoCatalogo").css('right').indexOf("-") == 0){
+			$(".petaniaInfoCatalogo").trigger("click");
+		}
+		$("#geometryVectorList").find("p[idDraw='" + feature.properties.id + "']").trigger("click");
 	});
 }
 

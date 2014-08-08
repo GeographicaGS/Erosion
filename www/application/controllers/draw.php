@@ -44,36 +44,52 @@ class Draw extends MY_Controller
 		$notification["fecha"] = $data["fecha"];
 		$notification["tipo"] = 0;
 	
-		$geom = "ST_GeomFromEWKT('SRID=4326;";
-		$arrayPuntos = "";
-		
-		if($data["tipo"] != "marker"){
-			foreach ($puntos as $punto) {
-				$arrayPuntos .= $punto['lng'] . " " . $punto['lat'] . ",";
-				$notification["titulo"] = "ha añadido un nuevo punto:";
+		if($data["tipo"] == "marker" || $data["tipo"] == "linea" || $data["tipo"] == "poligono")
+		{
+			$geom = "ST_GeomFromEWKT('SRID=4326;";
+			$arrayPuntos = "";
+			
+			if($data["tipo"] != "marker"){
+				foreach ($puntos as $punto) {
+					$arrayPuntos .= $punto['lng'] . " " . $punto['lat'] . ",";
+					$notification["titulo"] = "ha añadido un nuevo punto:";
+				}
+				$arrayPuntos = rtrim($arrayPuntos, ",");
+				if($data["tipo"] == "linea"){
+					$geom .= "LINESTRING(" . $arrayPuntos . ")";
+					$notification["titulo"] = "ha añadido un nueva línea:";
+				}else{
+					$arrayPuntos .= "," . $puntos[0]['lng'] . " " . $puntos[0]['lat'];
+					$geom .= "POLYGON((" . $arrayPuntos . "))";
+					$notification["titulo"] = "ha añadido un nuevo polígono:";
+				}
 			}
-			$arrayPuntos = rtrim($arrayPuntos, ",");
-			if($data["tipo"] == "linea"){
-				$geom .= "LINESTRING(" . $arrayPuntos . ")";
-				$notification["titulo"] = "ha añadido un nueva línea:";
-			}else{
-				$arrayPuntos .= "," . $puntos[0]['lng'] . " " . $puntos[0]['lat'];
-				$geom .= "POLYGON((" . $arrayPuntos . "))";
-				$notification["titulo"] = "ha añadido un nuevo polígono:";
+			else{
+				$geom .= "POINT(" . $puntos['lng'] . " " . $puntos['lat'] . ")";
 			}
+			
+			$geom .= "')";
+			
+			$data["geom"] = $geom;
+		}else{
+			$data["geom"] = "null";
+			$notification["titulo"] = "ha añadido una historia sin geometría";
 		}
-		else{
-			$geom .= "POINT(" . $puntos['lng'] . " " . $puntos['lat'] . ")";
-		}
-		
-		$geom .= "')";
-		
-		$data["geom"] = $geom;
 		
 		$notification["id_draw"] = $this->draw_model->saveDraw($data);
 		
 		$this->notification_model->createNotification($notification);
 	
+	}
+
+	public function getDrawList($id_category)
+	{
+		echo json_encode($this->draw_model->getDrawListByCategory($id_category));	
+	}
+
+	public function getBoundingBox($id_draw)
+	{
+		echo json_encode($this->draw_model->getBoundingBox($id_draw));	
 	}
 	
 	public function getDraw($id_draw){

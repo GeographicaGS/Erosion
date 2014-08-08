@@ -270,7 +270,7 @@
 		</div>
 		<div class="petaniaCatalogo"><img class="" src="<?= get_img("ERO_icon_pestana_catalogo_off.png")?>"/></div>
 	</div>
-	
+
 	<div class="infoCatalogo">
 		<div class="cuerpoInfoCatalogo">
 			<p class="id" style="display:none;" title=""></p>
@@ -286,7 +286,44 @@
 					<div class="diagonal1"></div>
 					<div class="diagonal2"></div>
 				</div>
+
+				<div id="geometryVector">
+					<p class="title3 mt5">HISTORIAS</p>
+					<div id="geometryVectorList"></div>
+					<div class="separador" style="margin-top: 0px !important;"></div>
+					<input class="addHistoryButton genericButton" type="button" value="Añadir historia">
+				</div>
+
+				<div id="commentsVector" style="display:none">
+					<img src=""/>
+					<h1></h1>
+					<p class="goBack">Volver</p>
+					<div class="clear"></div>
+					<h2></h2>
+					<p class="title3">COMENTARIOS</p>
+					<div id="commentsVectorVectorList" class="comentTable"></div>
+					<div style="position: absolute; right: 10px; left: 10px;">
+						<textarea class="addCommentInput" type="text" placeholder="Añadir comentario"></textarea>
+						<input class="addComentButton genericButton" type="button" value="Añadir">
+					</div>
+				</div>
 			</div>
+
+			<div id="addHistoryForm">
+				<div id="typeHistory" style="display:none"></div>
+				<h1>Nueva historia</h1>
+				<p class="goBack">Volver</p>
+				<div class="clear"></div>
+				<div class="ml mr">
+					<input class="fleft" type="text" placeholder="Título"/>
+					<select></select>
+				</div>
+				<div style="margin: 10px;">
+					<textarea class="addCommentHistory" type="text" placeholder="Añadir comentario"></textarea>
+				</div>
+				<input class="saveHistoryButton genericButton" type="button" value="Guardar historia">
+			</div>
+
 		</div>
 		<div class="petaniaInfoCatalogo"><img class="" src="<?= get_img("ERO_icon_pestana_info_off.png")?>"/></div>
 	</div>

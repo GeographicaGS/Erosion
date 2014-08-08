@@ -39,7 +39,7 @@ function GroupLayer(opts){
 			html += "<li class='layerTree' title='" + l.title + "'>" +	
 			
 				"	<input type='checkbox' class='toogleLayer' " +
-				"			id_layer="+x+" father="+this.father+ " " + (l.visible ? lattr :"") +">" +
+				"			id_layer="+x+" father="+this.father+ " " + (l.visible ? lattr :"") +" tipo=" + (l.tipo=="geoJson" ? "vectorial":l.tipo) + " + idCapa='" + l.id +"'>" +
 				
 					"<img class='remove' src='application/views/img/MED_icon_papelera_panel.png' title='Opacity 100 %' id_layer='" + x + "'>";
 					
@@ -173,27 +173,31 @@ function GroupLayer(opts){
 			// }
 			
 			var id_layer = $(this).parent().find("input").attr("id_layer");
+			var id_capa = $(this).parent().find("input").attr("idCapa");
+			var tipo = $(this).parent().find("input").attr("tipo");
 			
 			if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible") || $(".cuerpoInfoCatalogo").find(".id").text() == id_layer){
 				$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
 			}
 
+			$("div[idCapa='" + id_capa + "'][tipo='" + tipo +"']").trigger("click");
 
-			$(".cuerpoInfoCatalogo").find(".id").text(id_layer);
-			$(".cuerpoInfoCatalogo").find(".title1").text(self.layers[id_layer].title);
-			$(".cuerpoInfoCatalogo").find(".title1").prop('title', self.layers[id_layer].title);
-			$(".cuerpoInfoCatalogo").find(".title2").text("");
-			$(".extraLeyenda").show();
-			$(".botonAddImageLeyenda").hide();
-			$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
-			$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
-			$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
-			if(self.layers[id_layer].tipo == "wms"){
-				var legendUrl = self.layers[id_layer].url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
-				+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
-				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
-				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
-			}
+
+			// $(".cuerpoInfoCatalogo").find(".id").text(id_layer);
+			// $(".cuerpoInfoCatalogo").find(".title1").text(self.layers[id_layer].title);
+			// $(".cuerpoInfoCatalogo").find(".title1").prop('title', self.layers[id_layer].title);
+			// $(".cuerpoInfoCatalogo").find(".title2").text("");
+			// $(".extraLeyenda").show();
+			// $(".botonAddImageLeyenda").hide();
+			// $(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
+			// $(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
+			// $(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
+			// if(self.layers[id_layer].tipo == "wms"){
+			// 	var legendUrl = self.layers[id_layer].url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+			// 	+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
+			// 	$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
+			// 	$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
+			// }
 			
 			
 		});
@@ -297,15 +301,16 @@ function GroupLayer(opts){
 							    		$(xml).find("Layer").slice(1).each(function(){
 							    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
 							    				html +='<ul class="family_content" style="display: block;">' +
-				    							'<li style="border-top: 1px dotted #ccc;">' +
+				    							'<li style="border-top: 1px dotted #ccc; height:auto;">' +
 //				    								'<img style="margin-left: 0px" src="application/views/img/MED_icon_layer.png">' +
-				    								'<p class="fleft">' + $(this).find("Title").text() + '</p>' +
+				    								'<p class="fleft mb">' + $(this).find("Title").text() + '</p>' +
 //				    								'<img style="margin-top:0px;" src="application/views/img/MED_icon_add_layer.png">' +
 //				    								'<p class="fleft" style="font-size:11px; clear: none; margin-left: 0px;">AÑADIR A CAPAS:</p>' +
-				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '" class="ml">' +
+				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '" class="ml fleft mt">' +
 				    									'<span class="tiposCapas">WMS</span>' +
 				    								'</div>' +
-				    								'<span style="font-size:11px">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</span>' +
+				    								'<div class="clear"></div>'+
+				    								'<span style="font-size:11px; margin-left:40px; display:flex; line-height:36px;">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</span>' +
 //				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '">' +
 //				    									'<img class="tiposCapas" src="application/views/img/ERO_icon_link_naranja.png">' +
 //				    								'</div>' +

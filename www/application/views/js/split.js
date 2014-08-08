@@ -336,11 +336,11 @@ Split = {
 		    }
 		    
 		    e.layer.off('click');
-		    e.layer.on('click', function (e) {
+		    e.layer.on('click', function (event) {
 		    	if(isLoged){
-			    	Split.showFancySaveDraw(e, type, e.originalEvent.clientX,e.originalEvent.clientY);
+			    	Split.showFancySaveDraw(e, type, event.originalEvent.clientX,event.originalEvent.clientY);
 			    }else{
-			    	Split.showFancyDontSaveDraw(e,e.originalEvent.clientX,e.originalEvent.clientY);
+			    	Split.showFancyDontSaveDraw(e,event.originalEvent.clientX,event.originalEvent.clientY);
 			    }
 			});
 		    
@@ -407,11 +407,11 @@ Split = {
 		    }
 		    
 		    e.layer.off('click');
-		    e.layer.on('click', function (e) {
+		    e.layer.on('click', function (event) {
 		    	if(isLoged){
-			    	Split.showFancySaveDraw(e, type, e.originalEvent.clientX,e.originalEvent.clientY);
+			    	Split.showFancySaveDraw(e, type, event.originalEvent.clientX,event.originalEvent.clientY);
 			    }else{
-			    	Split.showFancyDontSaveDraw(e,e.originalEvent.clientX,e.originalEvent.clientY);
+			    	Split.showFancyDontSaveDraw(e,event.originalEvent.clientX,event.originalEvent.clientY);
 			    }
 			});
 		    
@@ -901,7 +901,6 @@ Split = {
 		
 		this.__mapLeft.getMap().touchZoom.disable();
 		this.__mapRight.getMap().touchZoom.disable();
-		
 	},
 	/* Split handler*/
 	mapMover: function(a,b) {		  
@@ -1175,14 +1174,15 @@ Split = {
 		if(panel==1 || panel==3){
 			this.__mapRight.addLayer(gsLayerRight);
 			gsLayerRight.setVisibility(visible,Split.__mapRight.getMap(),null)
-			gsLayerRight.layer.setOpacity(opacity);
+			gsLayerRight.layer.setOpacity != null ? gsLayerRight.layer.setOpacity(opacity): "";
 
 		}
 		if(panel==2 || panel==3){
 			this.__mapLeft.addLayer(gsLayerLeft);
 			gsLayerLeft.setVisibility(visible,Split.__mapLeft.getMap(),null)
-			gsLayerLeft.layer.setOpacity(opacity);
+			gsLayerLeft.layer.setOpacity != null ? gsLayerLeft.layer.setOpacity(opacity):"";
 		}
+
 	},
 	
 	removeLayer: function(title, tipo) {
@@ -1263,106 +1263,120 @@ Split = {
 		
 		$($("#fancy_box_save_draw").find("p")[0]).off('click');
 		$($("#fancy_box_save_draw").find("p")[0]).on('click', function(e) {
-			$.ajax({
-		        url: 'index.php/draw/getCategories', dataType: "json",
-		        success: function(response) {
-		        	$("#fancy_box_form_save_draw").find("select").children().remove();
-		        	for(var i=0; i<response.length; i++){
-			    		$("#fancy_box_form_save_draw").find("select").append("<option value='" + response[i].id_category + "'>" + response[i].title + "</option>");
-			    	}
+			$($("#fancy_box_save_draw").find("p")[1]).trigger("click");
+			$(".petaniaInfoCatalogo").show();
+			if($(".infoCatalogo").css('right').indexOf("-") == 0){
+				$(".petaniaInfoCatalogo").trigger("click");
+			}
+			
+			$(".extraLeyenda").hide();
+			$(".cuerpoInfoCatalogo").find(".title1").hide();
+			$(".cuerpoInfoCatalogo").find(".title2").hide();
+			$(".addHistoryButton").trigger("click", [latlng]);
+			$("#addHistoryForm").find(".goBack").hide();
+			$("#typeHistory").val(type);
+
+			
+			// $.ajax({
+		 //        url: 'index.php/draw/getCategories', dataType: "json",
+		 //        success: function(response) {
+		 //        	$("#fancy_box_form_save_draw").find("select").children().remove();
+		 //        	for(var i=0; i<response.length; i++){
+			//     		$("#fancy_box_form_save_draw").find("select").append("<option value='" + response[i].id_category + "'>" + response[i].title + "</option>");
+			//     	}
 		        	
-		        	$.fancybox($("#fancy_box_form_save_draw").html(), {
-						'width':'638',
-						"height": "190",
-					    'autoDimensions':false,
-					    'autoSize':false,
-					    "visibility":"hidden",
-					    'closeBtn' : false,
-					    "openEffect" : "elastic",		   
-					    'scrolling'   : 'no',
-					    helpers : {
-					        overlay : {
-					            	css : {
-					            		'background' : 'none',
-					            		'border-radius' : '0',
-					            	}
-					        }
-					    },
-					    afterShow: function () {
-					    	$("h2").on("click",function(){
-					    		$.fancybox.close();
-					    	});
+		 //        	$.fancybox($("#fancy_box_form_save_draw").html(), {
+			// 			'width':'638',
+			// 			"height": "190",
+			// 		    'autoDimensions':false,
+			// 		    'autoSize':false,
+			// 		    "visibility":"hidden",
+			// 		    'closeBtn' : false,
+			// 		    "openEffect" : "elastic",		   
+			// 		    'scrolling'   : 'no',
+			// 		    helpers : {
+			// 		        overlay : {
+			// 		            	css : {
+			// 		            		'background' : 'none',
+			// 		            		'border-radius' : '0',
+			// 		            	}
+			// 		        }
+			// 		    },
+			// 		    afterShow: function () {
+			// 		    	$("h2").on("click",function(){
+			// 		    		$.fancybox.close();
+			// 		    	});
 					    	
-					    	$(".fancybox-inner").find("input[type='text']").on("click",function(){
-					    		$(this).val("");
-					    	});
+			// 		    	$(".fancybox-inner").find("input[type='text']").on("click",function(){
+			// 		    		$(this).val("");
+			// 		    	});
 					    	
-					    	$("input[type='button']").off('click');
-					    	$("input[type='button']").on("click",function(){
+			// 		    	$("input[type='button']").off('click');
+			// 		    	$("input[type='button']").on("click",function(){
 					    		
-					    		var titulo = $(".fancybox-inner").find("input[type='text']")[0];
-						    	var comentario = $(".fancybox-inner").find("input[type='text']")[1];
-						    	var categoria = $($(".fancybox-inner").find("select")).val();
-						    	var nombreCategoria = $($(".fancybox-inner").find("select option:selected")).text();
-					    		var enviar = true;
+			// 		    		var titulo = $(".fancybox-inner").find("input[type='text']")[0];
+			// 			    	var comentario = $(".fancybox-inner").find("input[type='text']")[1];
+			// 			    	var categoria = $($(".fancybox-inner").find("select")).val();
+			// 			    	var nombreCategoria = $($(".fancybox-inner").find("select option:selected")).text();
+			// 		    		var enviar = true;
 					    		
-					    		if($(titulo).val() == "" || $(titulo).val() == "Título"){
-					    			enviar = false;
-					    			$(titulo).addClass("errorBorder");
-					    		}
-					    		if($(comentario).val() == "" || $(comentario).val() == "Comentario"){
-					    			enviar = false;
-					    			$(comentario).addClass("errorBorder");
-					    		}
-					    		if(enviar){
-					    			$.ajax({
-								        url: 'index.php/draw/saveDraw',
-								        data: "puntos=" + JSON.stringify(latlng) + "&type=" + type + "&" + "&titulo=" + $(titulo).val() + "&comentario=" + $(comentario).val() + "&categoria=" + categoria,
-								        type: "POST",
-								        success: function(response) {
-								        	$.fancybox.close();
-								        	$($("#fancy_box_save_draw").find("p")[1]).trigger( "click" );
+			// 		    		if($(titulo).val() == "" || $(titulo).val() == "Título"){
+			// 		    			enviar = false;
+			// 		    			$(titulo).addClass("errorBorder");
+			// 		    		}
+			// 		    		if($(comentario).val() == "" || $(comentario).val() == "Comentario"){
+			// 		    			enviar = false;
+			// 		    			$(comentario).addClass("errorBorder");
+			// 		    		}
+			// 		    		if(enviar){
+			// 		    			$.ajax({
+			// 					        url: 'index.php/draw/saveDraw',
+			// 					        data: "puntos=" + JSON.stringify(latlng) + "&type=" + type + "&" + "&titulo=" + $(titulo).val() + "&comentario=" + $(comentario).val() + "&categoria=" + categoria,
+			// 					        type: "POST",
+			// 					        success: function(response) {
+			// 					        	$.fancybox.close();
+			// 					        	$($("#fancy_box_save_draw").find("p")[1]).trigger( "click" );
 								        	
-								        	$.each(Split.__mapLeft.getMap()._layers, function(key){
-								        	    if((Split.__mapLeft.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlng, latlng)) || (Split.__mapLeft.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlngs, latlng))){
-								        	    	Split.__mapLeft.getMap().removeLayer(Split.__mapLeft.getMap()._layers[key]);
-								        	    	return true;
-								        	    }
-								        	});
+			// 					        	$.each(Split.__mapLeft.getMap()._layers, function(key){
+			// 					        	    if((Split.__mapLeft.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlng, latlng)) || (Split.__mapLeft.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlngs, latlng))){
+			// 					        	    	Split.__mapLeft.getMap().removeLayer(Split.__mapLeft.getMap()._layers[key]);
+			// 					        	    	return true;
+			// 					        	    }
+			// 					        	});
 								        	
-								        	$.each(Split.__mapRight.getMap()._layers, function(key){
-								        	    if((Split.__mapRight.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlng, latlng)) || (Split.__mapRight.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlngs, latlng))){
-								        	    	Split.__mapRight.getMap().removeLayer(Split.__mapRight.getMap()._layers[key]);
-								        	    	return true;
-								        	    }
-								        	});
+			// 					        	$.each(Split.__mapRight.getMap()._layers, function(key){
+			// 					        	    if((Split.__mapRight.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlng, latlng)) || (Split.__mapRight.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlngs, latlng))){
+			// 					        	    	Split.__mapRight.getMap().removeLayer(Split.__mapRight.getMap()._layers[key]);
+			// 					        	    	return true;
+			// 					        	    }
+			// 					        	});
 								        	
-								        	$.ajax({
-						        		        url: 'index.php/draw/getDraws/' + categoria, 
-						        		        dataType: "json",
-						        		        success: function(response) {
-						        		        	for(var i=0; i<Split.__mapLeft.layers.length; i++){
-						        		        		if(Split.__mapLeft.layers[i].title == nombreCategoria){
-						        		        			Split.__mapLeft.removeLayer(Split.__mapLeft.layers[i].title, "geoJson");
-						        		        		}
-						        		        	}
-						        		        	for(var i=0; i<Split.__mapRight.layers.length; i++){
-						        		        		if(Split.__mapRight.layers[i].title == nombreCategoria){
-						        		        			Split.__mapRight.removeLayer(Split.__mapRight.layers[i].title, "geoJson");
-						        		        		}
-						        		        	}
-						        		        	Split.addLayer(null,"vectorial", null, response,3);  
-						        		        }
-						        			});
+			// 					        	$.ajax({
+			// 			        		        url: 'index.php/draw/getDraws/' + categoria, 
+			// 			        		        dataType: "json",
+			// 			        		        success: function(response) {
+			// 			        		        	for(var i=0; i<Split.__mapLeft.layers.length; i++){
+			// 			        		        		if(Split.__mapLeft.layers[i].title == nombreCategoria){
+			// 			        		        			Split.__mapLeft.removeLayer(Split.__mapLeft.layers[i].title, "geoJson");
+			// 			        		        		}
+			// 			        		        	}
+			// 			        		        	for(var i=0; i<Split.__mapRight.layers.length; i++){
+			// 			        		        		if(Split.__mapRight.layers[i].title == nombreCategoria){
+			// 			        		        			Split.__mapRight.removeLayer(Split.__mapRight.layers[i].title, "geoJson");
+			// 			        		        		}
+			// 			        		        	}
+			// 			        		        	Split.addLayer(null,"vectorial", null, response,3);  
+			// 			        		        }
+			// 			        			});
 								        	
-								        }
-						    		});
-					    		}
-					    	});
-					    }
-					});
-		        }
-		    });
+			// 					        }
+			// 			    		});
+			// 		    		}
+			// 		    	});
+			// 		    }
+			// 		});
+		 //        }
+		 //    });
 
 		});
 		
@@ -1385,6 +1399,11 @@ Split = {
 			$($("#fancy_box_save_draw").find("img")).fadeOut(200);
 			$("#fancy_box_save_draw").animate({"width": 0},300);
 			$("#fancy_box_save_draw").hide(400);
+
+			if($(".infoCatalogo").css('right').indexOf("-") != 0 && $("#addHistoryForm").is(":visible")){
+				$(".petaniaInfoCatalogo").trigger("click");
+				$(".petaniaInfoCatalogo").hide();
+			}
 		});
 	},
 	
