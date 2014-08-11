@@ -1263,6 +1263,7 @@ Split = {
 		
 		$($("#fancy_box_save_draw").find("p")[0]).off('click');
 		$($("#fancy_box_save_draw").find("p")[0]).on('click', function(e) {
+			$(".extraLeyenda").find("div[idCapa]").attr("idCapa", "");
 			$($("#fancy_box_save_draw").find("p")[1]).trigger("click");
 			$(".petaniaInfoCatalogo").show();
 			if($(".infoCatalogo").css('right').indexOf("-") == 0){

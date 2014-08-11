@@ -537,6 +537,7 @@ function eventosCatalogo(){
 						url: 'index.php/draw/getDrawList/' + idCapa, 
 						dataType: "json",
 						success: function(response) {
+							$("#geometryVector").find(".title3").text("HISTORIAS (" + response.length + ")")
 							for(var i=0; i<response.length; i++){
 								$("#geometryVectorList").append("<p idDraw='" + response[i].id_draw + "' tipo= '" + response[i].tipo + "' comentario='" + response[i].comentario +"'>" + response[i].titulo + "</p>");
 							}
@@ -548,7 +549,7 @@ function eventosCatalogo(){
 					    			$("#commentsVector img").attr("src", "application/views/img/ERO_icon_punto.png");
 						    	}else if(tipo == "linea"){
 						    		$("#commentsVector img").attr("src", "application/views/img/ERO_icon_linea.png");
-						    	}else{
+						    	}else if(tipo == "poligono"){
 						    		$("#commentsVector img").attr("src", "application/views/img/ERO_icon_poligono.png");
 		    					}
 								$("#commentsVector h1").text($(this).text());
@@ -665,7 +666,7 @@ function eventosCatalogo(){
 		        success: function(response) {
 		        	$("#fancy_box_form_save_draw").find("select").children().remove();
 		        	for(var i=0; i<response.length; i++){
-			    		$("#addHistoryForm select").append("<option value='" + response[i].id_category + "'>" + response[i].title + "</option>");
+			    		$("#addHistoryForm select").append("<option value='" + response[i].id_category + "' " + ($(".extraLeyenda").find("div[idCapa]").attr("idCapa") == response[i].id_category ?  'selected' : '') + ">" + response[i].title + "</option>");
 			    	}
 			    }
 		});
