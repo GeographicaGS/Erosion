@@ -84,37 +84,40 @@ Split = {
 		    Split.__mapRight.refreshLayers();
 		});
 		
+		Split.__mapLeft.getMap().sync(Split.__mapRight.getMap());
+		Split.__mapRight.getMap().sync(Split.__mapLeft.getMap());
+
 		/* Splits event controls */
-		this.__mapLeft.getMap().on("drag", function() {			
-			Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
-		});
+		// this.__mapLeft.getMap().on("drag", function() {			
+		// 	Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
+		// });
 
 		this.__mapLeft.getMap().on("dragend", function() {
 			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
 			Split.__mapLeft.drawPanoramio();
-			// Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
+			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
 			Split.__mapRight.drawPanoramio();
 		});
 		
-		this.__mapRight.getMap().on("drag", function() {
-			Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
-		});
+		// this.__mapRight.getMap().on("drag", function() {
+		// 	Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
+		// });
 		
 		this.__mapRight.getMap().on("dragend", function() {
 			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
 			Split.__mapLeft.drawPanoramio();
-			// Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
+			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
 			Split.__mapRight.drawPanoramio();
 		});
 
 		this.__mapLeft.getMap().on("zoomend", function() {
-			Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
+			// Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
 			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
 			Split.__mapLeft.drawPanoramio();
 		});
 
 		this.__mapRight.getMap().on("zoomend", function() {
-			Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
+			// Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
 			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
 			Split.__mapRight.drawPanoramio();
 		});
@@ -991,15 +994,20 @@ Split = {
 		
 		if (Split.syncEnable){
 			$("img.sync").attr("title","Desynchronize maps");
-			if (Split.__currentMasterMap == Split.__mapLeft){
-				Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
-			}
-			else{
-				Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
-			}
+			Split.__mapLeft.getMap().sync(Split.__mapRight.getMap());
+			Split.__mapRight.getMap().sync(Split.__mapLeft.getMap());
+			// $("img.sync").attr("title","Desynchronize maps");
+			// if (Split.__currentMasterMap == Split.__mapLeft){
+			// 	Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
+			// }
+			// else{
+			// 	Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
+			// }
 		}
 		else{
 			$("img.sync").attr("title","Synchronize maps");
+			Split.__mapLeft.getMap().unsync(Split.__mapRight.getMap());
+			Split.__mapRight.getMap().unsync(Split.__mapLeft.getMap());
 		}
 	},
 	/* show/hide layer interface*/
