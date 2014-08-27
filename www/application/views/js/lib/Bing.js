@@ -87,6 +87,7 @@ L.BingLayer = L.TileLayer.extend({
 		if (this._url === null || !this._map) return;
 		this._update_attribution();
 		L.TileLayer.prototype._update.apply(this, []);
+		this.bringToBack();
 	},
 
 	_update_attribution: function() {
