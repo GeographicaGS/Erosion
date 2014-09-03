@@ -553,7 +553,7 @@ function eventosCatalogo(){
 						    		$("#commentsVector img").attr("src", "application/views/img/ERO_icon_poligono.png");
 		    					}
 								$("#commentsVector h1").text($(this).text());
-								$("#commentsVector h2").text($(this).attr("comentario"));
+								$("#commentsVector h2").html($(this).attr("comentario"));
 								$.ajax({
 									url: 'index.php/draw/getBoundingBox/' + idDraw, 
 									dataType: "json",
