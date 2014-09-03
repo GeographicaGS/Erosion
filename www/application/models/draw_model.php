@@ -64,7 +64,7 @@ class Draw_model extends CI_Model{
 
 	public function getDrawListByCategory($id_category){
 		$sql = "SELECT id_draw, titulo, tipo, regexp_replace(comentario, '\n|\r', '<br>', 'g') as comentario FROM public.draw
-				where id_category=? ORDER BY fecha";
+				where id_category=? ORDER BY fecha DESC";
 		
 		return $this->db->query($sql,array($id_category))->result();
 	}

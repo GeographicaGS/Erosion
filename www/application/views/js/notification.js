@@ -56,15 +56,29 @@ function drawNotifications() {
     		        			// showFancyVectorInfo(response[i], null);
     		        			// break;
                                 var idCategory = response[i].properties.id_category;
-                                $(".family_content li").find("div[idCapa='" + idCategory + "'][tipo='vectorial']").closest("li").trigger('click');
-                                $("#fancy_select_panel").css({"top":event.pageY, "left":event.pageX});
-                                $("#fancy_select_panel").show(300);
-                                $(".panelSelect").unbind().bind( "click", function(){                                    
-                                    $("#geometryVectorList").find("p[idDraw='" + id_draw + "']").trigger("click");
-                                    var panel = $(this).attr("panel");
-                                    Split.addLayer(null,"vectorial", null, response,panel);
-                                    navigate(0);  
-                                });
+                                $(".family_content li").find("div[idCapa='" + idCategory + "'][tipo='vectorial']").closest("li").trigger('click')
+                                if(!Split.__mapLeft.containLayer(response[i].properties.id_category,"vectorial") || Split.__mapRight.containLayer(id_draw,"vectorial")){
+                                    $("#fancy_select_panel").css({"top":event.pageY, "left":event.pageX});
+                                    $("#fancy_select_panel").show(300);
+                                    $(".panelSelect").unbind().bind( "click", function(){                                    
+                                        $("#geometryVectorList").find("p[idDraw='" + id_draw + "']").trigger("click");
+                                        var panel = $(this).attr("panel");
+                                        Split.addLayer(null,"vectorial", null, response,panel);
+                                        navigate(0);  
+                                    });
+                                }else{
+                                    // while($.active != 0){
+                                       var time = setTimeout(
+                                          function() 
+                                          {
+                                            if($.active == 0){
+                                                $("#geometryVectorList").find("p[idDraw='" + id_draw + "']").trigger("click");
+                                                navigate(0);
+                                                clearInterval(time);
+                                            }
+                                          }, 100);
+                                    // }
+                                }
     		        		}
     		        	}
     		        	// navigate(0);

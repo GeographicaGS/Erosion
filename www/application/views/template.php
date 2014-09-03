@@ -131,7 +131,7 @@
 		<div class="clear"></div>
 	</div>	
 	<nav class="fleft">
-		<a href="javascript:navigate(0)" target="_blank">
+		<a href="javascript:navigate(0)">
 			EL PROYECTO
 		</a>
 <!-- 		<a href="javascript:navigate(1)"> -->
@@ -458,21 +458,21 @@
 	<div class="divSelectPanel">
 		<div class="panelSelect" panel="2">
 			<div class="fright">
-				<p>al panel izquierdo</p>
+				<p>Al panel izquierdo</p>
 				<img src="<?= get_img("ERO_icon_panel_izquierdo.png")?>" />
 			</div>
 		</div>
 		<div class="clear"></div>
 		<div class="panelSelect" panel="1">
 			<div class="fright">
-				<p>al panel derecho</p>
+				<p>Al panel derecho</p>
 				<img src="<?= get_img("ERO_icon_panel_derecho.png")?>" />
 			</div>
 		</div>
 		<div class="clear"></div>
 		<div class="panelSelect" panel="3">
 			<div class="fright">
-				<p>a ambos paneles</p>
+				<p>A ambos paneles</p>
 				<img src="<?= get_img("ERO_icon_panel_ambos.png")?>" />
 			</div>
 		</div>

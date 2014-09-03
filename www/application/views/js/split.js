@@ -1120,13 +1120,6 @@ Split = {
 		var gsLayerLeft;
 		var gsLayerRight;
 
-		if(!$("#panel_right .layer_panel").hasClass("close")){
-			this.toggleLayersInterface(this.RIGHT);
-		}
-		if(!$("#panel_left .layer_panel").hasClass("close")){
-			this.toggleLayersInterface(this.LEFT);
-		}
-
 		if(visible == undefined){
 			visible = true;
 		}
@@ -1189,6 +1182,15 @@ Split = {
 			this.__mapLeft.addLayer(gsLayerLeft);
 			gsLayerLeft.setVisibility(visible,Split.__mapLeft.getMap(),null)
 			gsLayerLeft.layer.setOpacity != null ? gsLayerLeft.layer.setOpacity(opacity):"";
+		}
+
+		if(!$("#panel_right .layer_panel").hasClass("close")){
+			this.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
+			// this.toggleLayersInterface(this.RIGHT);
+		}
+		if(!$("#panel_left .layer_panel").hasClass("close")){
+			this.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
+			// this.toggleLayersInterface(this.LEFT);
 		}
 
 	},

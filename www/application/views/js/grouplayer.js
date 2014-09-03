@@ -46,7 +46,7 @@ function GroupLayer(opts){
 					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
 						html += "<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>";
 					}else{
-						html += "<img class='opacity' style='margin-left: -11px;' src=''>";
+						html += "<img class='opacity' style='margin-left: -9px; visibility:hidden' src=''>";
 					}
 //					if(l.leyenda){
 						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Leyenda' id_layer='" + x + "'>";
