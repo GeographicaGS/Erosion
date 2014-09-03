@@ -127,7 +127,7 @@ class Draw extends MY_Controller
 		$data["user"] = $this->session->userdata('name') . " " . $this->session->userdata('surname');
 		
 		$this->draw_model->saveComent($data);
-		
+		$data["comentario"] = nl2br($data["comentario"]);
 		
 		$notification["id_draw"] = $id_draw;
 		$notification["id_user"] = $this->session->userdata('id_user');
