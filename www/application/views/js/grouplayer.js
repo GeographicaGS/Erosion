@@ -687,6 +687,18 @@ function GroupLayer(opts){
 		this.bbox = this.map.getBounds().getSouthWest().lng + "/" + this.map.getBounds().getSouthWest().lat + "/"
 					+ this.map.getBounds().getNorthEast().lng + "/" + this.map.getBounds().getNorthEast().lat;
 	};
+
+	this.containLayer = function(id, type){
+		if(type == "vectorial"){
+			type = "geoJson";
+		}
+		for(i=0; i<this.layers.length; i++){
+			if(this.layers[i].id == id && this.layers[i].tipo == type){
+				return true;
+			}
+		}
+		return false;
+	};
 	/****************************************/
 	/********** MEMBERS  ********************/
 	/****************************************/

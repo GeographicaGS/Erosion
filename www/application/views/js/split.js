@@ -1179,13 +1179,13 @@ Split = {
 			return null;
 		}
 		
-		if(panel==1 || panel==3){
+		if((panel==1 || panel==3) && !this.__mapRight.containLayer(capa != null? capa.id : geoJson[0].properties.id_category ,tipo)){
 			this.__mapRight.addLayer(gsLayerRight);
 			gsLayerRight.setVisibility(visible,Split.__mapRight.getMap(),null)
 			gsLayerRight.layer.setOpacity != null ? gsLayerRight.layer.setOpacity(opacity): "";
 
 		}
-		if(panel==2 || panel==3){
+		if((panel==2 || panel==3 ) && !this.__mapLeft.containLayer(capa != null? capa.id : geoJson[0].properties.id_category ,tipo)){
 			this.__mapLeft.addLayer(gsLayerLeft);
 			gsLayerLeft.setVisibility(visible,Split.__mapLeft.getMap(),null)
 			gsLayerLeft.layer.setOpacity != null ? gsLayerLeft.layer.setOpacity(opacity):"";
