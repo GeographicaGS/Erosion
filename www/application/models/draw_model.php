@@ -39,7 +39,7 @@ class Draw_model extends CI_Model{
 	}
 	
 	public function getComents($id_draw){
-		$sql = "SELECT dc.comentario, dc.fecha, u.name, u.surname FROM public.draw_coment dc
+		$sql = "SELECT regexp_replace(dc.comentario, '\n|\r', '<br>', 'g') as comentario, dc.fecha, u.name, u.surname FROM public.draw_coment dc
 				LEFT JOIN public.user u on u.id_user = dc.id_user
 				where dc.id_draw=? ORDER BY dc.id_coment";
 		
@@ -63,7 +63,7 @@ class Draw_model extends CI_Model{
 	}
 
 	public function getDrawListByCategory($id_category){
-		$sql = "SELECT id_draw, titulo, tipo, comentario FROM public.draw
+		$sql = "SELECT id_draw, titulo, tipo, regexp_replace(comentario, '\n|\r', '<br>') as comentario FROM public.draw
 				where id_category=? ORDER BY fecha";
 		
 		return $this->db->query($sql,array($id_category))->result();

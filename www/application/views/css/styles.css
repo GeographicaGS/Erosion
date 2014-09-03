@@ -356,6 +356,17 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 	background-color: #666;
 }
 
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+	.ui-slider .ui-slider-handle {
+		height: 55px;
+		width: 18px;
+		background: none;
+		background-color: #666;
+	}
+}
+
 .ui-slider-horizontal .ui-slider-handle {
 /* 	top: -0.6em; */
 }
@@ -1434,6 +1445,8 @@ img.tiposCapas{
 	margin: auto;
 	border-left: 1px solid #cccccc;
 	border-right: 1px solid #cccccc;
+	height: 100%;
+	overflow: auto;
 }
 
 #actividad h1{
@@ -1520,6 +1533,10 @@ img.tiposCapas{
 	top: 30%;
 } 
 
+.leaflet-top.leaflet-left{
+	z-index: 1003;
+}
+
 .streetButtonLeft{
 	position: absolute;
 	top: 13;
@@ -1579,6 +1596,10 @@ img.tiposCapas{
 	margin: 10px;
 	font-size: 13px;
 	float: left;
+}
+
+#commentsVector h1{
+	cursor: pointer;
 }
 
 #commentsVector h2{
@@ -1689,4 +1710,13 @@ img.tiposCapas{
 
 .leaflet-map-pane svg{
 	z-index: 100;
+}
+
+
+.prueba{
+	position: fixed;
+	top: 50%;
+	background: none;
+	border: none;
+	left: 43%;
 }

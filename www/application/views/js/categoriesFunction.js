@@ -78,7 +78,7 @@ function drawCategories() {
 						html += "<li style='border-top: 1px solid #ccc;'>" + 
 						"<p class='ellipsis' title='"+ response[y].title + "'>" + response[y].title + "</p>" +
 						// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
-						"<span style='display:none;'></span>"
+						"<span style='display:none;'>" + (response[y].descripcion != null ?  response[y].descripcion : "Lorem ipsum dolor sit amet, consectetur adipiscing elit.") + "</span>"
 						;
 					
 						html+= "<div idCapa='"+ response[y].id_category +"' tipo='vectorial' class='fleft fright' style='margin-top:8px;'><span class='tiposCapas plus mr'>CAPA VECTORIAL</span></div>";
@@ -608,6 +608,10 @@ function eventosCatalogo(){
 													"<div style='border-top: 1px solid #cccccc;width: 100%;'></div>");
 										}
 									}
+								});
+
+								$("#commentsVector h1").unbind().bind("click", function() {
+									$("#geometryVectorList").find("p[idDraw='" + idDraw + "']").trigger('click');
 								});
 
 								$(".addComentButton").unbind().bind("click", function() {

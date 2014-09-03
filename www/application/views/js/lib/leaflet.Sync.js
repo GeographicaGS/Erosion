@@ -80,23 +80,46 @@
                 }
             });
 
-            originalMap.on('drag zoomend', function () {
-                originalMap._syncMaps.forEach(function (toSync) {
-                    toSync.setView(originalMap.getCenter(), originalMap.getZoom(), {
-                        animate: false,
-                        reset: false
+            // var delay = (function(){
+            //   var timer = 0;
+            //   return function(callback, ms){
+            //     clearTimeout (timer);
+            //     timer = setTimeout(callback, ms);
+            //   };
+            // })();
+
+            // originalMap.on('drag zoomend', function () {
+            //     // delay(function(){
+            //         originalMap._syncMaps.forEach(function (toSync) {
+            //             toSync.setView(originalMap.getCenter(), originalMap.getZoom(), {
+            //                 animate: false,
+            //                 reset: false
+            //             });
+            //         });
+            //     // }, 1000 );
+
+            // }, this);
+
+            originalMap.on('drag', function () {
+                
+                    originalMap._syncMaps.forEach(function (toSync) {
+                        toSync.setView(originalMap.getCenter(), originalMap.getZoom(), {
+                            animate: false,
+                            reset: false
+                        });
                     });
-                });
+                
+
             }, this);
 
-            originalMap.dragging._draggable._updatePosition = function () {
-                L.Draggable.prototype._updatePosition.call(this);
-                var self = this;
-                originalMap._syncMaps.forEach(function (toSync) {
-                    L.DomUtil.setPosition(toSync.dragging._draggable._element, self._newPos);
-                    toSync.fire('moveend');
-                });
-            };
+            // originalMap.dragging._draggable._updatePosition = function () {
+            //     L.Draggable.prototype._updatePosition.call(this);
+            //     var self = this;
+            //     originalMap._syncMaps.forEach(function (toSync) {
+            //         L.DomUtil.setPosition(toSync.dragging._draggable._element, self._newPos);
+            //         toSync.fire('moveend');
+            //     });
+            // };
         }
     });
 })();

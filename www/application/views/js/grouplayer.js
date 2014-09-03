@@ -87,7 +87,7 @@ function GroupLayer(opts){
 				var l = self.layers[id_layer];
 				l.layer.setOpacity(ui.value/100);
 			}
-		});
+		}).draggable();
 		
 		$panel.find("ul").sortable({
 //			out: function(event, ui) {
@@ -125,18 +125,30 @@ function GroupLayer(opts){
 		
 		$panel.find("li > img.opacity").click(function(){
 			var $opacity_panel = $(this).siblings(".opacity_panel");
-			var $li = $(this).parent(); 
-			if ($opacity_panel.is(":visible")){
-//				$li.height($li.height() - $opacity_panel.outerHeight());
-				$li.animate({"height": $li.height() - $opacity_panel.outerHeight()});
-				$opacity_panel.slideUp();
-				$li.css("border-bottom","1px solid #ccc");
-			}
-			else{
-//				$li.height($li.height() + $opacity_panel.outerHeight());
-				$li.animate({"height": $li.height() + $opacity_panel.outerHeight()});
-				$opacity_panel.slideDown();
-				$li.css("border-bottom","none");
+			if(navigator.userAgent.match(/iPad/i) == null){
+				var $li = $(this).parent(); 
+				if ($opacity_panel.is(":visible")){
+					$li.animate({"height": $li.height() - $opacity_panel.outerHeight()});
+					$opacity_panel.slideUp();
+					$li.css("border-bottom","1px solid #ccc");
+				}
+				else{
+					$li.animate({"height": $li.height() + $opacity_panel.outerHeight()});
+					$opacity_panel.slideDown();
+					$li.css("border-bottom","none");
+				}
+			}else{
+				if ($opacity_panel.is(":visible")){
+					$opacity_panel.hide();
+					$opacity_panel.find(".opacity_label").show();
+				}else{
+					$(".opacity_panel").hide();
+					$opacity_panel.find(".opacity_label").hide();
+					$opacity_panel.show();
+					$opacity_panel.addClass('prueba');
+					$opacity_panel.find(".slider").height(50);
+					$opacity_panel.find(".slider").width(150);
+				}
 			}
 			
 		});
@@ -717,11 +729,13 @@ function GroupLayer(opts){
 		gTerrain = new L.Google('TERRAIN'),
 		gRoad = new L.Google('ROADMAP'),
 		bingSatellite =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {type: "AerialWithLabels", maxZoom:20}),
-		bingRoad =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {type: "Road", maxZoom:20});
+		bingRoad =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {type: "Road", maxZoom:20},
+		openStreetMap =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'})
+		);
 	
-//	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-//	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-//	}).addTo(map);
+	// L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+	//     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+	// }).addTo(map);
 	
 	this.map.addLayer(gSatellite);
 	
@@ -883,7 +897,8 @@ function GroupLayer(opts){
 						 'Google relieve': gTerrain,
 						 'Google callejero' : gRoad,
 						 'Bing satélite' : bingSatellite,
-						 'Bing callejero' : bingRoad
+						 'Bing callejero' : bingRoad,
+						 // 'OpenStreetMap' : openStreetMap
 					 },null,{position: position}).addTo(this.map);
 	
 	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));

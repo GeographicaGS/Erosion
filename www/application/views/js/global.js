@@ -91,15 +91,11 @@ function onLocationFoundRight(e) {
 function navigate(section) {
 	var ancho = $("#container").width() + 100;
 
-	
 	if(section != sectionActual){
 		if(sectionActual == 0){
 			$("#tool_bar").hide();
-//			$("#proyecto").css({"position": "relative"});
-//			$("#proyecto").animate({"right": ancho},500);
 			$("#proyecto").hide();
 		}else if(sectionActual == 1){
-//			$("#catalogo").slideUp(300)
 			$("#catalogo").hide()
 		}else{
 			$("#actividad").hide()
@@ -109,17 +105,11 @@ function navigate(section) {
 	
 		if(section == 0){
 			$("#tool_bar").show();
-//			$("#proyecto").animate({"right":"0"},500,function(){
-//				$("#proyecto").css({"position": "initial"});
-//				$("#tool_bar").show();
-//			});
 			$("#proyecto").show();
 		}else if(section == 1){
-//			$("#catalogo").slideDown(400);
 			$("#catalogo").show();
 		}else{
 			drawNotifications();
-//			$("#actividad").slideDown(400);
 			$("#actividad").show();
 		}
 	}

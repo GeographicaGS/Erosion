@@ -143,7 +143,6 @@ class Draw extends MY_Controller
 	
 	public function getDrawsComents($id_draw){
 		$data["result"] = $this->draw_model->getComents($id_draw);
-	
 		echo json_encode($data);
 	}
 	

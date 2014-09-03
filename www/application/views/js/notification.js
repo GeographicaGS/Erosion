@@ -34,7 +34,7 @@ function drawNotifications() {
 													"<div style='border-top: 1px solid #cccccc;width: 100%;'></div>");
         	}
         	
-        	$(".drawNotification").unbind("click").on("click",function(){
+        	$(".drawNotification").unbind("click").on("click",function(event){
 //        		$.ajax({
 //    		        url: 'index.php/draw/getDraw/' + $(this).attr("idCategory"), 
 //    		        dataType: "json",
@@ -51,14 +51,24 @@ function drawNotifications() {
     		        url: 'index.php/draw/getDraws/' + $(this).attr("idCategory"), 
     		        dataType: "json",
     		        success: function(response) {
-    		        	var layerAux = Split.addLayer(null,"vectorial", null, response,3);  
     		        	for(var i=0; i<response.length; i++){
     		        		if(response[i].properties.id == id_draw){
-    		        			showFancyVectorInfo(response[i], null);
-    		        			break;
+    		        			// showFancyVectorInfo(response[i], null);
+    		        			// break;
+                                var idCategory = response[i].properties.id_category;
+                                $(".family_content li").find("div[idCapa='" + idCategory + "'][tipo='vectorial']").closest("li").trigger('click');
+                                $("#fancy_select_panel").css({"top":event.pageY, "left":event.pageX});
+                                $("#fancy_select_panel").show(300);
+                                $(".panelSelect").unbind().bind( "click", function(){                                    
+                                    $("#geometryVectorList").find("p[idDraw='" + id_draw + "']").trigger("click");
+                                    var panel = $(this).attr("panel");
+                                    Split.addLayer(null,"vectorial", null, response,panel);
+                                    navigate(0);  
+                                });
     		        		}
     		        	}
-    		        	navigate(0);}
+    		        	// navigate(0);
+                    }
     			});
         		
         	});
