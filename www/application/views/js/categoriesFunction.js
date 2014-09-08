@@ -747,10 +747,11 @@ function getHtmlCategories(categories, index) {
 					
 					"<ul class='family_content' style='display:none;padding-left:" + index*10 +"px'>";
 						
-						for(var y=0; y<categories[i].layers.length; y++){
-							if(categories[i].hasOwnProperty("categories")){
+						if(categories[i].hasOwnProperty("categories")){
 								html += getHtmlCategories(categories[i].categories, index+1);
-							}
+						}
+
+						for(var y=0; y<categories[i].layers.length; y++){
 							html += "<li idCapa='" + categories[i].layers[y].id + "' style='border-top: 1px solid #ccc;'>" + 
 								"<p class='ellipsis' title='"+ categories[i].layers[y].title + "'>" + categories[i].layers[y].title + "</p>" +
 								"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>" +
