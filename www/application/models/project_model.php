@@ -12,6 +12,10 @@ class Project_model extends CI_Model{
 		
 		return $this->db->query($sql,array($titulo))->row();
 	}
+
+	public function deleteProject($titulo){
+		$this->db->delete("project", array('titulo' => $titulo));
+	}
 	
 	public function createProject($data){
 		$this->db->insert('public.project', $data); 

@@ -89,6 +89,20 @@ class Project extends MY_Controller
 	{
 		echo json_encode($this->project_model->getInformationProject(urldecode($id_project)));
 	}
+
+	public function deleteProyect($idProyect){
+		// echo urldecode($idProyect);
+		is_logged();
+		if($this->session->userdata('is_admin') == "t"){
+			$this->project_model->deleteProject(urldecode($idProyect));
+		}
+		else{
+			$project = $this->project_model->getProject(urldecode($idProyect));
+			if($project->id_user == $this->session->userdata("id_user")){
+				$this->project_model->deleteProject(urldecode($idProyect));
+			}
+		}
+	}
 	
 	
 } 

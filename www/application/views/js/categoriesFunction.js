@@ -465,6 +465,21 @@ function eventosCatalogo(){
 		}
 		
 	});	
+
+	$(".deleteProyect").unbind().bind( "click", function(event){
+		var project = $(".extraLeyenda").find("div[idproject]").attr("idProject");
+		showConfirmDialog(function(){
+			$.ajax({
+				url: 'index.php/project/deleteProyect/' + encodeURIComponent(project), 
+					success: function(response) {
+						Split.removeAllLayers();
+						drawCategories();
+						$(".infoCatalogo .petaniaInfoCatalogo").trigger("click")
+						$(".infoCatalogo .petaniaInfoCatalogo").hide()
+					}
+			});           
+		},"¿Desea borrar el proyecto seleccionado?");
+	});
 	
 	$("body").unbind().bind( "click", function(){
 		$("#fancy_select_panel").hide(300);
@@ -472,6 +487,11 @@ function eventosCatalogo(){
 	
 	$(".family_content li").unbind().bind( "click", function(){
 		//Restauro vistas
+		if($(".seccion.active").attr("idSection") == 4){
+			$(".deleteProyect").show();
+		}else{
+			$(".deleteProyect").hide();
+		}
 		$("#commentsVector").hide();
 		$("#geometryVector").hide();
 		$("#addHistoryForm").hide();

@@ -277,6 +277,7 @@
 	<div class="infoCatalogo">
 		<div class="cuerpoInfoCatalogo">
 			<p class="id" style="display:none;" title=""></p>
+			<p class='deleteProyect'>Eliminar proyecto</p>
 			<p class="title1" title=""></p>
 			<p class="title2"></p>
 			<div class="extraLeyenda">

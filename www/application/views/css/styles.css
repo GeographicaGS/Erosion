@@ -1732,6 +1732,17 @@ img.tiposCapas{
 	cursor: pointer;
 }
 
+.deleteProyect{
+	float: right;
+	padding-top: 6px;
+	margin-right: 10px;
+	color: #013e88;
+	text-decoration: underline;
+	border-bottom: 1px solid #dcdcdc;
+	line-height: 29px;
+	cursor: pointer;
+}
+
 
 .leaflet-map-pane svg{
 	z-index: 100;
