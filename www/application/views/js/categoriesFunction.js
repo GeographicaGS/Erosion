@@ -539,27 +539,65 @@ function eventosCatalogo(){
 						success: function(response) {
 							$("#geometryVector").find(".title3").text("HISTORIAS (" + response.length + ")")
 							for(var i=0; i<response.length; i++){
-								$("#geometryVectorList").append("<p idDraw='" + response[i].id_draw + "' tipo= '" + response[i].tipo + "' comentario='" + response[i].comentario +"'>" + response[i].titulo + "</p>");
+								$("#geometryVectorList").append("<img title='Eliminar historia' class='deleteHistory' idUser='" + response[i].id_user +"' src='application/views/img/MED_icon_delete.png'> <p idDraw='" + response[i].id_draw + "' tipo= '" + response[i].tipo + "' comentario='" + response[i].comentario +"' idUser='" + response[i].id_user + "'>" + response[i].titulo + "</p>");
 							}
+							$(".deleteHistory").unbind().bind("click", function(event) {
+								var idDrawtoDelte = $(this).next().attr("idDraw");
+								var aux = $(this);
+								showConfirmDialog(function(){
+									$.ajax({
+										url: 'index.php/draw/deteleDraw/' + idDrawtoDelte,
+											success: function(response) {
+												removeGeometryFromLayer(Split.__mapLeft, idCapa, idDrawtoDelte);
+												removeGeometryFromLayer(Split.__mapRight, idCapa, idDrawtoDelte);
+												aux.next().remove();
+												aux.remove();
+										    }
+									});           
+								},"¿Desea borrar la historia seleccionada?");
+							});
 							$("#geometryVectorList p").unbind().bind("click", function(event) {
 								var tipo = $(this).attr("tipo");
 								var idDraw = $(this).attr("idDraw");
 								$(".addCommentInput").val("");
+								
+								$(".deleteGeometry").remove();
+								if(tipo == "marker" || tipo == "linea" || tipo == "poligono"){
+									$("#deleteGeometry").append("<p class='deleteGeometry' idUser=''>Eliminar geometría</p>");
+									$(".deleteGeometry").attr("idUser", $(this).attr("idUser"));
+									$(".deleteGeometry").unbind().bind("click", function(event) {
+										showConfirmDialog(function(){
+											$.ajax({
+									        	url: 'index.php/draw/deteleGeom/' + idDraw,
+										        success: function(response) {
+										        	removeGeometryFromLayer(Split.__mapLeft, idCapa, idDraw);
+													removeGeometryFromLayer(Split.__mapRight, idCapa, idDraw);
+													$(".deleteGeometry").remove();
+													$("#commentsVector img").attr("src", "");
+										        }
+									        });           
+										    },"¿Desea borrar la geometría seleccionada? <br><br> Esta accción eliminará la geometría del mapa pero mantendrá la historia y sus comentarios");
+									});
+								}
+
 								if(tipo == "marker"){
 					    			$("#commentsVector img").attr("src", "application/views/img/ERO_icon_punto.png");
 						    	}else if(tipo == "linea"){
 						    		$("#commentsVector img").attr("src", "application/views/img/ERO_icon_linea.png");
 						    	}else if(tipo == "poligono"){
 						    		$("#commentsVector img").attr("src", "application/views/img/ERO_icon_poligono.png");
+		    					}else{
+		    						$("#commentsVector img").attr("src", "");
 		    					}
 								$("#commentsVector h1").text($(this).text());
 								$("#commentsVector h2").html($(this).attr("comentario"));
+								updatedState();
 								$.ajax({
 									url: 'index.php/draw/getBoundingBox/' + idDraw, 
 									dataType: "json",
 									success: function(response) {
-										var loadLeft = searchCapaVectorial(Split.__mapLeft, idCapa);
-										var loadRight = searchCapaVectorial(Split.__mapRight, idCapa);
+										var loadLeft = existCapaVectorial(Split.__mapLeft, idCapa);
+										var loadRight = existCapaVectorial(Split.__mapRight, idCapa);
 										if(!loadLeft && !loadRight){
 											$(".cuerpoInfoCatalogo").find(".tiposCapas").trigger("click");
 											$("#fancy_select_panel").css({"top":$(".cuerpoInfoCatalogo").find(".tiposCapas").offset().top +20, "left":$(".cuerpoInfoCatalogo").find(".tiposCapas").offset().left+20});
@@ -602,11 +640,14 @@ function eventosCatalogo(){
 											$("#commentsVectorVectorList").append("<p class='size11'>" +
 														"<span class='userComentTable'>" + response.result[i].name + " " + response.result[i].surname +"</span>" +
 														"<span class='pl5' style='font-weight: normal;'>" + response.result[i].fecha + "</span>" +
+														"<span class='deleteComment' idComment='" + response.result[i].id_coment + "' idUser='" + response.result[i].id_user + "''>Eliminar</span>" +
 														"</br>" +
 														response.result[i].comentario +
 													"</p>" +
 													"<div style='border-top: 1px solid #cccccc;width: 100%;'></div>");
 										}
+										deleteCommentEvent();
+										updatedState();
 									}
 								});
 
@@ -625,18 +666,19 @@ function eventosCatalogo(){
 					        		        	$("#commentsVectorVectorList").append("<p class='size11'>" +
 																					"<span class='userComentTable'>" + response.user +"</span>" +
 																					"<span class='pl5' style='font-weight: normal;'>" + response.fecha + "</span>" +
+																					"<span class='deleteComment' idComment='" + response.id_coment + "' idUser='" + idUser + "''>Eliminar</span>" +
 																					"</br>" +
 																					response.comentario +
 																				"</p>" +
 																				"<div style='border-top: 1px solid #cccccc;width: 100%;'></div>");
-					        		        	
+
+					        		        	deleteCommentEvent();
 					        		        	 $(".addCommentInput").val("");
 					        		        	 $(".cuerpoInfoCatalogo").scrollTop($(".cuerpoInfoCatalogo").outerHeight())
 					        		        }
 					        			});
 									}
 								});
-
 							});       		        	
 						}
 					});
@@ -789,11 +831,43 @@ function getHtmlCategories(categories, index) {
 	return html;
 }
 
-function searchCapaVectorial(map, idCapa){
+function existCapaVectorial(map, idCapa){
 	for(var i=0; i<map.layers.length; i++){
 		if(map.layers[i].tipo == "geoJson" && map.layers[i].id == idCapa){
 			return true;
 		}
 	}
 	return false;
+}
+
+function removeGeometryFromLayer(map, idCapa, idDraw){
+	for(var i=0; i<map.layers.length; i++){
+		if(map.layers[i].tipo == "geoJson" && map.layers[i].id == idCapa){
+			var layers = map.layers[i].layer._layers;
+			for(var key in layers){
+				if(layers[key].feature.properties.id == idDraw){
+					var a = 9;
+					map.getMap().removeLayer(layers[key]);
+					delete layers[key];
+					break;
+				}
+			}
+		}
+	}
+}
+
+function deleteCommentEvent(){
+	$(".deleteComment").unbind().bind("click", function() {
+		var idComment = $(this).attr("idComment");
+		var comment = $(this).parent();
+		showConfirmDialog(function(){
+		$.ajax({
+        	url: 'index.php/draw/deteleComent/' + idComment,
+	        success: function(response) {
+	        	comment.next().remove();
+				comment.remove();
+	        }
+        });           
+	    },"¿Desea borrar el comentario seleccionado?");
+	});
 }

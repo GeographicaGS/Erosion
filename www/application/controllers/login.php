@@ -29,7 +29,9 @@ class Login extends MY_Controller
       		$this->session->set_userdata("is_admin",$user->is_admin);
       		$this->session->set_userdata("logged_status",LOGGED_STATUS_IN);
       		
-			echo $user->name . " " . $user->surname;
+			$data["user"] = $this->session->userdata("name") . " " .  $this->session->userdata("surname");
+			$data["id"] = $this->session->userdata("id_user");
+			echo json_encode($data);
 		}
 		else{
 			$this->session->sess_destroy();
@@ -46,7 +48,9 @@ class Login extends MY_Controller
 	
 	function isLoged(){
 		if(is_logged()){
-			echo $this->session->userdata("name") . " " .  $this->session->userdata("surname");
+			$data["user"] = $this->session->userdata("name") . " " .  $this->session->userdata("surname");
+			$data["id"] = $this->session->userdata("id_user");
+			echo json_encode($data);
 		}
 	}
 	

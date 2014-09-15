@@ -1,18 +1,21 @@
 var isLoged = false;
 var isAdmin = false;
+var idUser = -1;
 var sectionActual = 0;
 var markerLocationLeft;
 var markerLocationRight;
 
 $.ajax({
     url: 'index.php/login/isLoged',
+    dataType: "json",
     success: function(response) {
     	if(response != "Access forbidden"){
     		$(".acceder").hide();
     		$("#closeSesion").show();
     		$(".loginDiv").fadeOut();
-    		$("#closeSesion").text(response);
+    		$("#closeSesion").text(response.user);
     		isLoged = true;
+    		idUser = response.id;
     		$.ajax({
     		    url: 'index.php/login/isAdmin',
     		    success: function(response) {
@@ -26,6 +29,25 @@ $.ajax({
     	}
     }
 });
+
+//Esta función elimina o añade links de borrado en la distintas secciones 
+function updatedState(){
+	if(isAdmin){
+		$(".deleteComment").show();
+		$(".deleteGeometry").show();
+		$(".deleteHistory").show();
+	}else{
+		$(".deleteComment").hide();
+		$(".deleteGeometry").hide();
+		$(".deleteHistory").hide();
+		if(isLoged){
+			$(".deleteComment[idUser ='" + idUser + "']").show();
+			$(".deleteGeometry[idUser ='" + idUser + "']").show();
+			$(".deleteHistory[idUser ='" + idUser + "']").show();
+		}
+	}
+
+}
 
 function getImg(s){
 	return base_url + "application/views/img/" + s;
@@ -232,4 +254,32 @@ function createDrawLocal() {
 				}
 			}
 		};
+}
+
+
+function showConfirmDialog(accept,text)
+{
+	fnConfirm = function()
+	{
+		$.fancybox.close();
+		accept();
+	}
+
+	fnCancel = function()
+	{
+		$.fancybox.close();
+	}
+
+	var html = "<div>" +
+				"<p align='center' style='font-size: 14px; color: #013e88; margin-bottom: 40px;'>" + text + "</p>" +
+				"<input class='genericButton fright' type='button' value='Cancelar' onclick='fnCancel()''>" +
+				"<input class='genericButton fright' type='button' value='Confirmar' onclick='fnConfirm()''>" +
+				"</div>";
+
+	$.fancybox($(html),{
+		'width':'400',
+		'height': 'auto',
+		 'autoDimensions':false,
+		 'autoSize':false,
+	});
 }

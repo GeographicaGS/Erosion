@@ -24,5 +24,9 @@ class Notification_model extends CI_Model{
 		$this->db->query($sql);
 	}
 
+	public function deleteNotificationByDraw($id_draw){
+		$this->db->delete("notification", array('id_draw' => $id_draw));
+	}
+
 }
 ?>

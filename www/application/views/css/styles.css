@@ -1707,6 +1707,31 @@ img.tiposCapas{
 	margin-top: 10px;
 }
 
+.deleteComment{
+	color: #013e88 !important;
+	text-decoration: underline;
+	margin-right: 10px;
+	cursor: pointer;
+	font-weight: normal !important;
+	float: right;
+}
+
+.deleteGeometry{
+	color: #013e88;
+	text-decoration: underline;
+	margin-right: 10px;
+	cursor: pointer;
+	float: right;
+}
+
+.deleteHistory{
+	float: left;
+	padding-top: 3px;
+	margin-left: 10px;
+	margin-right: 5px;
+	cursor: pointer;
+}
+
 
 .leaflet-map-pane svg{
 	z-index: 100;

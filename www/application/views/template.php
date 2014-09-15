@@ -303,6 +303,8 @@
 					<p class="goBack">Volver</p>
 					<div class="clear"></div>
 					<h2></h2>
+					<div id="deleteGeometry"></div>
+					<div class="clear"></div>
 					<p class="title3">COMENTARIOS</p>
 					<div id="commentsVectorVectorList" class="comentTable"></div>
 					<div style="position: absolute; right: 10px; left: 10px;">

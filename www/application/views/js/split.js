@@ -746,7 +746,7 @@ Split = {
 				    }
 				});
 				
-				$(".loginDiv").find("input[type='button']").bind( "click", function(){
+				$(".loginDiv").find("input[type='button']").unbind().bind( "click", function(){
 					var email = $(".loginDiv").find("input[type='text']");
 					var password = $(".loginDiv").find("input[type='password']");
 					var post = true;
@@ -764,18 +764,21 @@ Split = {
 					        url: 'index.php/login/getUser',
 					        type: 'post',
 					        data: $('form#form_login').serialize(),
+					        dataType: "json",
 					        success: function(response) {
-					        	if(response ==  "false"){
+					        	if(response ==  false){
 					        		$("#errorLogin").fadeIn();
 					        		isLoged = false;
 					        		isAdmin = false;
+					        		idUser = -1;
 					        		
 					        	}else{
 					        		$(".acceder").hide();
 					        		$("#closeSesion").show();
 					        		$(".loginDiv").fadeOut();
 					        		isLoged = true;
-					        		$("#closeSesion").text(response);
+					        		$("#closeSesion").text(response.user);
+					        		idUser = response.id;
 					        		$.ajax({
 					        		    url: 'index.php/login/isAdmin',
 					        		    success: function(response) {
@@ -784,6 +787,7 @@ Split = {
 					        		    	}else{
 					        		    		isAdmin = false;
 					        		    	}
+					        		    	updatedState();
 					        		    }
 					        		});
 					        		
@@ -814,6 +818,8 @@ Split = {
 					drawCategories();
 					isLoged = false;
 					isAdmin = false;
+					idUser = -1;
+					updatedState();
 		        }
 		    });
 		});

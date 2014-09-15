@@ -126,7 +126,7 @@ class Draw extends MY_Controller
 		$data["id_user"] = $this->session->userdata('id_user');
 		$data["user"] = $this->session->userdata('name') . " " . $this->session->userdata('surname');
 		
-		$this->draw_model->saveComent($data);
+		$data["id_coment"] = $this->draw_model->saveComent($data);
 		$data["comentario"] = nl2br($data["comentario"]);
 		
 		$notification["id_draw"] = $id_draw;
@@ -139,11 +139,54 @@ class Draw extends MY_Controller
 		
 		echo json_encode($data);
 	}
+
+	public function deteleComent($id_comment){
+		is_logged();
+		if($this->session->userdata('is_admin') == "t"){
+			$this->draw_model->deleteComment($id_comment);
+		}
+		else{
+			$comment = $this->draw_model->getComentById($id_comment);
+			if($comment->id_user == $this->session->userdata("id_user")){
+				$this->draw_model->deleteComment($id_comment);
+			}
+		}
+	}
 	
 	
 	public function getDrawsComents($id_draw){
 		$data["result"] = $this->draw_model->getComents($id_draw);
 		echo json_encode($data);
+	}
+
+	public function deteleDraw($idDraw){
+		is_logged();
+		if($this->session->userdata('is_admin') == "t"){
+			$this->notification_model->deleteNotificationByDraw($idDraw);
+			$this->draw_model->deleteCommentByDraw($idDraw);
+			$this->draw_model->deleteDraw($idDraw);
+		}
+		else{
+			$draw = $this->draw_model->getDraw($idDraw);
+			if($draw->id_user == $this->session->userdata("id_user")){
+				$this->notification_model->deleteNotificationByDraw($idDraw);
+				$this->draw_model->deleteCommentByDraw($idDraw);
+				$this->draw_model->deleteDraw($idDraw);
+			}
+		}
+	}
+
+	public function deteleGeom($idDraw){
+		is_logged();
+		if($this->session->userdata('is_admin') == "t"){
+			$this->draw_model->deleteGeom($idDraw);
+		}
+		else{
+			$draw = $this->draw_model->getDraw($idDraw);
+			if($draw->id_user == $this->session->userdata("id_user")){
+				$this->draw_model->deleteGeom($idDraw);
+			}
+		}
 	}
 	
 	public function changeCategorie($id_draw, $id_category){

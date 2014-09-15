@@ -22,7 +22,16 @@ class Draw_model extends CI_Model{
 				where d.id_draw=?";
 		return $this->db->query($sql,array($id_draw))->row();
 	}
-	
+
+	public function deleteDraw($id_draw){
+		$this->db->delete("draw", array('id_draw' => $id_draw));
+	}
+
+	public function deleteGeom($id_draw){
+		$sql = "UPDATE draw SET geom = null WHERE id_draw = ?";
+		
+		$this->db->query($sql,array($id_draw));
+	}
 	
 	public function getDrawsByCategory($id_category){
 		$sql = "SELECT d.id_draw, d.titulo, d.comentario, d.id_category, d.fecha, d.id_user, d.tipo, c.title, ST_AsGeoJSON(ST_Transform(geom, 4326)) FROM public.draw d
@@ -36,14 +45,29 @@ class Draw_model extends CI_Model{
 				VALUES('" . $data['id_draw'] . "','" . $data['comentario'] . "','" .  $data['fecha'] . "','" . $data['id_user'] . "')";
 		
 		$this->db->query($sql);
+		return $this->db->insert_id();
+	}
+
+	public function getComentById($id_comment){
+		$sql = "SELECT * from draw_coment where id_coment=?";
+
+		return $this->db->query($sql,array($id_comment))->row();
+	}
+
+	public function deleteComment($id_comment){
+		$this->db->delete("draw_coment", array('id_coment' => $id_comment));
 	}
 	
 	public function getComents($id_draw){
-		$sql = "SELECT regexp_replace(dc.comentario, '\n|\r', '<br>', 'g') as comentario, dc.fecha, u.name, u.surname FROM public.draw_coment dc
+		$sql = "SELECT regexp_replace(dc.comentario, '\n|\r', '<br>', 'g') as comentario, dc.fecha, u.name, u.surname, dc.id_user, dc.id_coment FROM public.draw_coment dc
 				LEFT JOIN public.user u on u.id_user = dc.id_user
 				where dc.id_draw=? ORDER BY dc.id_coment";
 		
 		return $this->db->query($sql,array($id_draw))->result();
+	}
+
+	public function deleteCommentByDraw($id_draw){
+		$this->db->delete("draw_coment", array('id_draw' => $id_draw));
 	}
 	
 	public function updateCategory($id_draw, $id_category){
@@ -63,7 +87,7 @@ class Draw_model extends CI_Model{
 	}
 
 	public function getDrawListByCategory($id_category){
-		$sql = "SELECT id_draw, titulo, tipo, regexp_replace(comentario, '\n|\r', '<br>', 'g') as comentario FROM public.draw
+		$sql = "SELECT id_draw, titulo, tipo, regexp_replace(comentario, '\n|\r', '<br>', 'g') as comentario, id_user FROM public.draw
 				where id_category=? ORDER BY fecha DESC";
 		
 		return $this->db->query($sql,array($id_category))->result();
