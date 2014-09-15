@@ -541,6 +541,7 @@ function eventosCatalogo(){
 							for(var i=0; i<response.length; i++){
 								$("#geometryVectorList").append("<img title='Eliminar historia' class='deleteHistory' idUser='" + response[i].id_user +"' src='application/views/img/MED_icon_delete.png'> <p idDraw='" + response[i].id_draw + "' tipo= '" + response[i].tipo + "' comentario='" + response[i].comentario +"' idUser='" + response[i].id_user + "'>" + response[i].titulo + "</p>");
 							}
+							updatedState();
 							$(".deleteHistory").unbind().bind("click", function(event) {
 								var idDrawtoDelte = $(this).next().attr("idDraw");
 								var aux = $(this);
