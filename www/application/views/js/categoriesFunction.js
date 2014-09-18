@@ -2,52 +2,6 @@ function drawCategories() {
 	
 	var html = "<ul class='families'>";
 	html += getHtmlCategories(categories,0);
-//	for(var i=0; i<categories.length; i++){
-//		html +=
-//					"<ul class='family_header' title='" + categories[i].title + "'>" +
-//						"<li class='ico_open_close'><img src='application/views/img/MED_icon_familia.png'></li>" +
-//						"<li class='name ellipsis'>" + categories[i].title + "</li>" +
-//						"<li class='n_elements'>(" + categories[i].layers.length + ")</li>" +
-//					"</ul>"+
-//					
-//					"<div class='clear'></div>"+
-//					
-//					"<ul class='family_content' style='display:none;'>";
-//						
-//						for(var y=0; y<categories[i].layers.length; y++){
-//						html += "<li idCapa='" + categories[i].layers[y].id + "' style='border-top: 1px solid #ccc;'>" + 
-//							"<p class='ellipsis' title='"+ categories[i].layers[y].title + "'>" + categories[i].layers[y].title + "</p>" +
-//							"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>" +
-//							"<span style='display:none;'>" + categories[i].layers[y].description + "</span>"
-//							;
-//							
-//							html += "<div class='listaTipos'>"
-//    							if((categories[i].layers[y].wms) && (categories[i].layers[y].wms.server) && (categories[i].layers[y].wms.name)){
-//    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wms' class='fleft fright'><span class='tiposCapas'>WMS</span></div>";
-//    							}
-//                        							
-//    							if((categories[i].layers[y].wmts) && (categories[i].layers[y].wmts.server) && (categories[i].layers[y].wmts.name)){
-//    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wmts' class='fleft fright'><span class='tiposCapas'>WMTS</span></div>";
-//    							}
-//                        							
-//    							if((categories[i].layers[y].tms) && (categories[i].layers[y].tms.server) && (categories[i].layers[y].tms.name)){
-//    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='tms' class='fleft fright'><span class='tiposCapas'>TILES</span></div>";
-//    								
-//    							}
-//                        							
-//    							if(categories[i].layers[y].simbolo){
-//    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='simbolo' class='fleft fright'><span class='tiposCapas'>Símbolos</span></div>";
-//    							}
-//							html += "</div>"
-//							html+= "<div class='clear'></div>" + 
-//						"</li>";
-//						}
-//
-//					html += "</ul>"+
-//					
-//				"<div class='clear'></div>" + 
-//				"</li>";
-//	}
 	
 	$("#capasCatalogo").html(html);
 
@@ -168,6 +122,9 @@ function drawCategories() {
         		html += "</ul></div>";
         		$("#publicProyectCatalogo").html(html);
         		eventosCatalogo();
+        		if(defaultProject){
+        			$(".contenidoCatalogo").find("div[idProject='" + defaultProject + "']").find(".tiposCapas").trigger("click")
+        		}
         }
 	});
 	
@@ -373,6 +330,13 @@ function eventosCatalogo(){
 		        	var capasLeft = JSON.parse(capas.left);
 		        	var capasRight = JSON.parse(capas.right);
 		        	
+		        	if(capas.hasOwnProperty('leftState')){
+		        		Split.__mapLeft.getMap().setView(L.latLng(capas.leftState.lat,capas.leftState.lng),capas.leftState.zoom);
+		        	}
+		        	if(capas.hasOwnProperty('rightState')){
+		        		Split.__mapRight.getMap().setView(L.latLng(capas.rightState.lat,capas.rightState.lng),capas.rightState.zoom);
+		        	}
+		        	
 		        	
 		        	Split.__mapRight.project = project;
 		        	Split.__mapLeft.project = project;
@@ -479,6 +443,17 @@ function eventosCatalogo(){
 					}
 			});           
 		},"¿Desea borrar el proyecto seleccionado?");
+	});
+
+	$(".defaultProject").unbind().bind( "click", function(event){
+		var project = $(".extraLeyenda").find("div[idproject]").attr("idProject");
+		$.ajax({
+			url: 'index.php/project/defaultProyect/' + encodeURIComponent(project), 
+				success: function(response) {
+					defaultProject = null;
+					drawCategories();
+				}
+		});
 	});
 	
 	$("body").unbind().bind( "click", function(){

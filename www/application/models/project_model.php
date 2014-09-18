@@ -32,6 +32,11 @@ class Project_model extends CI_Model{
 				LEFT JOIN public.user u on p.id_user = u.id_user where p.id_user=? ORDER BY p.titulo";
 		return $this->db->query($sql,array($idUser))->result();
 	}
+
+	public function getDefaultProject(){
+		$sql = "SELECT titulo, capas FROM public.project where is_default";
+		return $this->db->query($sql)->row();
+	}
 	
 	
 	public function getLayersProject($idProject){
@@ -51,6 +56,14 @@ class Project_model extends CI_Model{
 		$sql = "SELECT descripcion, is_public FROM public.project where titulo=?";
 	
 		return $this->db->query($sql,array($idProject))->row();
+	}
+
+	public function defaultProject($titulo){
+		$sql = "UPDATE project SET is_default=false";
+		$this->db->query($sql);
+
+		$sql = "UPDATE project SET is_default=true, is_public=true where titulo=?";
+		$this->db->query($sql,array($titulo));
 	}
 	
 	

@@ -48,6 +48,7 @@
 <script src="<?= get_js("lib/html5shiv.js")?>"></script>
 <![endif]-->
 
+<script type="text/javascript" src="<?= get_js("global.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("grouplayer.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("split.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("layers.js")?>"></script>
@@ -59,7 +60,6 @@
 <script type="text/javascript" src="<?= get_js("categories.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("categoriesFunction.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("notification.js")?>"></script>
-<script type="text/javascript" src="<?= get_js("global.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("lib/fancybox/jquery.fancybox.pack.js?v=2.1.3")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5")?>"></script>
@@ -93,7 +93,27 @@
 		
 		resize();
 		$("img.sync").click(Split.sync);
-		Split.initialize();
+		$.ajax({
+        	url: 'index.php/project/getDefaultProject',
+        	dataType: 'json',
+	        success: function(response) {
+	        	if(response.length != 0){
+		        	var capas = JSON.parse(response.capas);
+		        	defaultProject = response.titulo;
+		        	if(capas.hasOwnProperty('leftState')){
+		        		Split.iniLatLeft = capas.leftState.lat
+		        		Split.iniLngLeft = capas.leftState.lng
+		        		Split.iniZoomLeft = capas.leftState.zoom
+			        }
+			        if(capas.hasOwnProperty('rightState')){
+			        	Split.iniLatRight = capas.rightState.lat
+		        		Split.iniLngRight = capas.rightState.lng
+		        		Split.iniZoomRight = capas.rightState.zoom
+			       	}
+		        }
+	        	Split.initialize();
+	        }
+        });
 		setTimeout(function(){
 			resize();
 		},300);
@@ -277,8 +297,11 @@
 	<div class="infoCatalogo">
 		<div class="cuerpoInfoCatalogo">
 			<p class="id" style="display:none;" title=""></p>
-			<p class='deleteProyect'>Eliminar proyecto</p>
+			<p class='deleteProyect'>Eliminar</p>
 			<p class="title1" title=""></p>
+			<div class="defaultProject">
+				Cargar por defecto
+			</div>
 			<p class="title2"></p>
 			<div class="extraLeyenda">
 				<img title="Añadir capa" class="botonAddImageLeyenda" src="application/views/img/ERO_icon_anadir_capa.png">
@@ -292,10 +315,10 @@
 				</div>
 
 				<div id="geometryVector">
+					<input class="addHistoryButton genericButton" type="button" value="Añadir historia">
 					<p class="title3 mt5">HISTORIAS</p>
 					<div id="geometryVectorList"></div>
 					<div class="separador" style="margin-top: 0px !important;"></div>
-					<input class="addHistoryButton genericButton" type="button" value="Añadir historia">
 				</div>
 
 				<div id="commentsVector" style="display:none">

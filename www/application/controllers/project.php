@@ -69,7 +69,7 @@ class Project extends MY_Controller
 		
 		
 	}
-	
+
 	public function getPublicProjects()
 	{
 		echo json_encode($this->project_model->getPublicProjects());
@@ -102,6 +102,17 @@ class Project extends MY_Controller
 				$this->project_model->deleteProject(urldecode($idProyect));
 			}
 		}
+	}
+
+	public function defaultProyect($idProyect){
+		is_logged();
+		if($this->session->userdata('is_admin') == "t"){
+			$this->project_model->defaultProject(urldecode($idProyect));
+		}	
+	}
+
+	public function getDefaultProject(){
+		echo json_encode($this->project_model->getDefaultProject());
 	}
 	
 	

@@ -809,6 +809,7 @@ and (max-device-width : 1024px) {
 	color: #666666;
 	font-size: 11px;
 	margin: 10px 10px 35px 10px;
+	display: flex;
 }
 
 .infoCatalogo .cuerpoInfoCatalogo .title3{
@@ -1649,7 +1650,7 @@ img.tiposCapas{
 
 .addHistoryButton{
 	margin: 10px;
-	float: right;
+	/*float: right;*/
 	padding-left: 15px;
 	padding-right: 15px;
 }
@@ -1741,6 +1742,13 @@ img.tiposCapas{
 	border-bottom: 1px solid #dcdcdc;
 	line-height: 29px;
 	cursor: pointer;
+}
+
+.defaultProject{
+	float: right;
+	margin-right: 10px;
+	margin-top: 5px;
+	color: #013e88;
 }
 
 

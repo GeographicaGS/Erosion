@@ -4,6 +4,7 @@ var idUser = -1;
 var sectionActual = 0;
 var markerLocationLeft;
 var markerLocationRight;
+var defaultProject = null;
 
 $.ajax({
     url: 'index.php/login/isLoged',
@@ -36,14 +37,17 @@ function updatedState(){
 		$(".deleteComment").show();
 		$(".deleteGeometry").show();
 		$(".deleteHistory").show();
+		$(".addHistoryButton").show();
 	}else{
 		$(".deleteComment").hide();
 		$(".deleteGeometry").hide();
 		$(".deleteHistory").hide();
+		$(".addHistoryButton").hide();
 		if(isLoged){
 			$(".deleteComment[idUser ='" + idUser + "']").show();
 			$(".deleteGeometry[idUser ='" + idUser + "']").show();
 			$(".deleteHistory[idUser ='" + idUser + "']").show();
+			$(".addHistoryButton").show();
 		}
 	}
 

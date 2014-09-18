@@ -1,8 +1,11 @@
 Split = {
 	layers: null,	
-	iniLat: 37.36455,
-	iniLng: -4.57645,	
-	iniZoom: 7,
+	iniLatLeft: 37.36455,
+	iniLngLeft: -4.57645,	
+	iniZoomLeft: 7,
+	iniLatRight: 37.36455,
+	iniLngRight: -4.57645,	
+	iniZoomRight: 7,
 	__mapLeft:null,
 	__mapRight: null,
 	__currentMasterMap: null,
@@ -13,12 +16,12 @@ Split = {
 	initialize: function(){
 		
 		// center the map
-		var startingCenter = new L.LatLng(this.iniLat, this.iniLng);		
+		// var startingCenter = new L.LatLng(this.iniLat, this.iniLng);		
 		
 		//create the left map's leaflet instance
 		var mapLeft = new L.Map('map_left', {
-			  center: startingCenter,
-			  zoom: this.iniZoom,
+			  center: new L.LatLng(this.iniLatLeft, this.iniLngLeft),
+			  zoom: this.iniZoomLeft,
 			  fadeAnimation: false,
 			//  crs: L.CRS.EPSG4326,
 			  zoomControl: false,
@@ -55,8 +58,8 @@ Split = {
 		
 		// create the right map's leaflet instance
 		var mapRight = new L.Map('map_right', {
-			  center: startingCenter,
-			  zoom: this.iniZoom,			  
+			  center: new L.LatLng(this.iniLatRight, this.iniLngRight),
+			  zoom: this.iniZoomRight,			  
 			  fadeAnimation: false,
 			  //crs: L.CRS.EPSG4326,
 			  zoomControl: false,
@@ -84,8 +87,13 @@ Split = {
 		    Split.__mapRight.refreshLayers();
 		});
 		
-		Split.__mapLeft.getMap().sync(Split.__mapRight.getMap());
-		Split.__mapRight.getMap().sync(Split.__mapLeft.getMap());
+		if(Split.iniZoomLeft == Split.iniZoomRight){
+			Split.__mapLeft.getMap().sync(Split.__mapRight.getMap());
+			Split.__mapRight.getMap().sync(Split.__mapLeft.getMap());
+		}else{
+			$("#panel_left img.sync").attr("src","application/views/img/MED_icon_enlazar_KO_left.png");
+			$("#panel_right img.sync").attr("src","application/views/img/MED_icon_enlazar_KO_right.png");
+		}
 
 		/* Splits event controls */
 		// this.__mapLeft.getMap().on("drag", function() {			
@@ -129,17 +137,10 @@ Split = {
 		this.__mapLeft.getMap().on('locationfound', onLocationFoundLeft);
 		this.__mapRight.getMap().locate({setView: false, maxZoom: 7});
 		this.__mapRight.getMap().on('locationfound', onLocationFoundRight);
-		
-		// setInterval(function() {
-		// 	self.__mapLeft.getMap().locate({setView: false, maxZoom: 7});
-		// 	self.__mapRight.getMap().locate({setView: false, maxZoom: 7});
-		// }, 10000);
-		
-		
-		
+				
 		drawCategories();
 		createDrawLocal();
-		
+
 		var editableLayers = new L.FeatureGroup();
 		Split.__mapLeft.getMap().addLayer(editableLayers);
 		var editableLayersRight = new L.FeatureGroup();
@@ -626,6 +627,8 @@ Split = {
 					    			var panels = {};
 					    			var leftPanel = Array();
 					    			var rightPanel = Array();
+					    			var leftState = {"lat":Split.__mapLeft.map.getCenter().lat, "lng":Split.__mapLeft.map.getCenter().lng, "zoom":Split.__mapLeft.map.getZoom()};
+					    			var rightState = {"lat":Split.__mapRight.map.getCenter().lat, "lng":Split.__mapRight.map.getCenter().lng, "zoom":Split.__mapRight.map.getZoom()};
 					    			for(var i=Split.__mapLeft.layers.length-1; i>=0; i--){
 					    				capas = {};
 					    				capas["id"] = Split.__mapLeft.layers[i].id;
@@ -642,7 +645,7 @@ Split = {
 					    				capas["opacity"] = Split.__mapRight.layers[i].layer.options.opacity;
 					    				rightPanel.push(capas); 
 					    			}
-					    			panels = { 'left':JSON.stringify(leftPanel),'right':JSON.stringify(rightPanel)};
+					    			panels = { 'left':JSON.stringify(leftPanel),'right':JSON.stringify(rightPanel), 'leftState':leftState, 'rightState':rightState};
 					    			
 					    			$.ajax({
 								        url: 'index.php/project/projectExist/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
