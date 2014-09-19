@@ -299,13 +299,11 @@
 			<p class="id" style="display:none;" title=""></p>
 			<p class='deleteProyect'>Eliminar</p>
 			<p class="title1" title=""></p>
-			<div class="defaultProject">
-				Cargar por defecto
-			</div>
 			<p class="title2"></p>
 			<div class="extraLeyenda">
 				<img title="Añadir capa" class="botonAddImageLeyenda" src="application/views/img/ERO_icon_anadir_capa.png">
 				<div class="listaTiposLeyenda"></div>
+				<a title="Establecer por defecto" href="" class="defaultProject"></a>
 				<div class="clear"></div>
 				<div class="separador"></div>
 				<p class="title3">LEYENDA</p>

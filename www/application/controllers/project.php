@@ -111,6 +111,13 @@ class Project extends MY_Controller
 		}	
 	}
 
+	public function removeDefaultProyect(){
+		is_logged();
+		if($this->session->userdata('is_admin') == "t"){
+			$this->project_model->removeDefaultProyect();
+		}	
+	}
+
 	public function getDefaultProject(){
 		echo json_encode($this->project_model->getDefaultProject());
 	}

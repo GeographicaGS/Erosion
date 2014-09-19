@@ -65,6 +65,11 @@ class Project_model extends CI_Model{
 		$sql = "UPDATE project SET is_default=true, is_public=true where titulo=?";
 		$this->db->query($sql,array($titulo));
 	}
+
+	public function removeDefaultProyect(){
+		$sql = "UPDATE project SET is_default=false";
+		$this->db->query($sql);
+	}
 	
 	
 }

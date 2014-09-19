@@ -38,11 +38,13 @@ function updatedState(){
 		$(".deleteGeometry").show();
 		$(".deleteHistory").show();
 		$(".addHistoryButton").show();
+		$(".defaultProject").show();
 	}else{
 		$(".deleteComment").hide();
 		$(".deleteGeometry").hide();
 		$(".deleteHistory").hide();
 		$(".addHistoryButton").hide();
+		$(".defaultProject").hide();
 		if(isLoged){
 			$(".deleteComment[idUser ='" + idUser + "']").show();
 			$(".deleteGeometry[idUser ='" + idUser + "']").show();

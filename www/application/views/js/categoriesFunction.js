@@ -1,4 +1,4 @@
-function drawCategories() {
+function drawCategories(unLoadDefaultProject) {
 	
 	var html = "<ul class='families'>";
 	html += getHtmlCategories(categories,0);
@@ -65,7 +65,7 @@ function drawCategories() {
             		
             		for(var y=0; y<response.length; y++){
             			html += "<li style='border-top: 1px solid #ccc;'>" + 
-        				"<p class='ellipsis' title='"+ response[y].titulo + "'>" + response[y].titulo + "</p>" +
+        				"<p class='ellipsis " + ((defaultProject && defaultProject == response[y].titulo) ? 'default':'') + "' title='"+ ((defaultProject && defaultProject == response[y].titulo) ? response[y].titulo + ' - Establecido por defecto':response[y].titulo) + "'>" + response[y].titulo + "</p>" +
         				// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
         				"<span style='display:none;'>" + response[y].descripcion + "</span>"
         				;
@@ -103,8 +103,7 @@ function drawCategories() {
         		
         		for(var y=0; y<response.length; y++){
         			html += "<li style='border-top: 1px solid #ccc;'>" + 
-    				"<p class='ellipsis' title='"+ response[y].titulo + "'>" + response[y].titulo + "</p>" +
-    				// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>" +
+    				"<p class='ellipsis " + ((defaultProject && defaultProject == response[y].titulo) ? 'default':'') + "' title='"+ ((defaultProject && defaultProject == response[y].titulo) ? response[y].titulo + ' - Establecido por defecto':response[y].titulo) + "'>" + response[y].titulo + "</p>" +
     				"<span style='display:none;'>" + response[y].descripcion + "</span>"	
     				;
         			
@@ -122,7 +121,7 @@ function drawCategories() {
         		html += "</ul></div>";
         		$("#publicProyectCatalogo").html(html);
         		eventosCatalogo();
-        		if(defaultProject){
+        		if(defaultProject && !unLoadDefaultProject){
         			$(".contenidoCatalogo").find("div[idProject='" + defaultProject + "']").find(".tiposCapas").trigger("click")
         		}
         }
@@ -321,7 +320,6 @@ function eventosCatalogo(){
 			
 			Split.removeAllLayers();
 			var project = $(this).parent().attr("idproject");
-			
 			$.ajax({
 		        url: 'index.php/project/getLayersProject/' + encodeURIComponent(project), 
 		        dataType: "json",
@@ -446,14 +444,30 @@ function eventosCatalogo(){
 	});
 
 	$(".defaultProject").unbind().bind( "click", function(event){
-		var project = $(".extraLeyenda").find("div[idproject]").attr("idProject");
-		$.ajax({
-			url: 'index.php/project/defaultProyect/' + encodeURIComponent(project), 
+		var self = $(this);
+		if($(this).hasClass('active')){
+			$.ajax({
+				url: 'index.php/project/removeDefaultProyect', 
 				success: function(response) {
+					self.removeClass('active');
+					$(".defaultProject").prop("title", "Establecer por defecto");
 					defaultProject = null;
-					drawCategories();
 				}
-		});
+			});
+
+		}else{
+			var project = $(".extraLeyenda").find("div[idproject]").attr("idProject");
+			$.ajax({
+				url: 'index.php/project/defaultProyect/' + encodeURIComponent(project), 
+					success: function(response) {
+						drawCategories(true);
+						self.addClass('active');
+						$(".defaultProject").prop("title", "Establecido por defecto");
+						defaultProject = project;
+					}
+			});
+		}
+		return false;
 	});
 	
 	$("body").unbind().bind( "click", function(){
@@ -483,6 +497,23 @@ function eventosCatalogo(){
 			
 			$(".cuerpoInfoCatalogo").find(".title1").text($(this).find("p").text());
 			$(".cuerpoInfoCatalogo").find(".title1").prop('title', $(this).find("p").text());
+			
+			//Si es un proyecto compruebo el estado del botón de proyecto por defecto
+			if(isAdmin){
+				$(".defaultProject").show();
+				if(defaultProject && defaultProject == $(this).find("p").text()){
+					$(".defaultProject").addClass('active');
+					$(".defaultProject").prop("title", "Establecido por defecto");
+				}else{
+					$(".defaultProject").removeClass('active');
+					$(".defaultProject").prop("title", "Establecer por defecto");
+				}
+
+			}else{
+				$(".defaultProject").hide();
+			}
+			
+
 			$(".cuerpoInfoCatalogo").find(".title2").text($($(this).find("span")[0]).text());
 			
 			$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");

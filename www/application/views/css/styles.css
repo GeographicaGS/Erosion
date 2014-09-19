@@ -752,6 +752,16 @@ and (max-device-width : 1024px) {
 	margin-left: 20px;
 }
 
+.family_content li p.default:BEFORE{
+	float: left;
+	position: relative;
+	top: -2px;
+	left: -7px;
+	margin-right: -5px;
+	content: url("../img/ERO_icon_proyecto_def_on.png");	
+}
+
+
 .infoCatalogo{
 	width:30%;
 	min-width: 15%;
@@ -1744,13 +1754,16 @@ img.tiposCapas{
 	cursor: pointer;
 }
 
-.defaultProject{
-	float: right;
-	margin-right: 10px;
-	margin-top: 5px;
-	color: #013e88;
+.defaultProject:after{
+	position: relative;
+	top: 4px;
+	content: url("../img/ERO_icon_proyecto_def_off.png");	
 }
 
+
+.defaultProject.active:after{
+	content: url("../img/ERO_icon_proyecto_def_on.png");		
+}
 
 .leaflet-map-pane svg{
 	z-index: 100;
