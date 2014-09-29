@@ -499,7 +499,7 @@ function eventosCatalogo(){
 			$(".cuerpoInfoCatalogo").find(".title1").prop('title', $(this).find("p").text());
 			
 			//Si es un proyecto compruebo el estado del botón de proyecto por defecto
-			if(isAdmin){
+			if(isAdmin && ($(this).find("div[idProject]").length > 0)){
 				$(".defaultProject").show();
 				if(defaultProject && defaultProject == $(this).find("p").text()){
 					$(".defaultProject").addClass('active');

@@ -38,7 +38,9 @@ function updatedState(){
 		$(".deleteGeometry").show();
 		$(".deleteHistory").show();
 		$(".addHistoryButton").show();
-		$(".defaultProject").show();
+		if($(".extraLeyenda").find("div[tipo='proyecto']").length > 0){
+			$(".defaultProject").show();
+		}
 	}else{
 		$(".deleteComment").hide();
 		$(".deleteGeometry").hide();

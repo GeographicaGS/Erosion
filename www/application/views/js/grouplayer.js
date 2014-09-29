@@ -364,6 +364,12 @@ function GroupLayer(opts){
 						    				
 						    				
 						    				//Relleno el panel de la leyenda
+						    				$(".deleteProyect").hide();
+						    				$(".defaultProject").hide();
+						    				$("#commentsVector").hide();
+						    				$("#geometryVector").hide();
+						    				$("#addHistoryForm").hide();
+						    				
 						    				$(".infoCatalogo .petaniaInfoCatalogo").show();
 						    				if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
 						    					$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
