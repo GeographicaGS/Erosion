@@ -616,12 +616,13 @@ var categories = [
             	                		layers:[
             	                		        {
 	            	            	        	   id: 100,
-	            	            	        	   title: "Base cartográfica del Instituto Geográfico Nacional",
-	            	            	        	   description: "Cartografía Base del Instituto Geográfico Nacional",
-	            	            	        	   wmts: {
+	            	            	        	   title: "Plazas turísticas regladas en el litoral andaluz",
+	            	            	        	   description: "Número de plazas turísticas regladas en el litoral andaluz para el año 2013 georreferenciada a nivel de portal.",
+	            	            	        	   wms: {
 	
-	            	       	        		   				server: "http://www.ign.es/wmts/ign-base",
-	            	       	        		   				name: "IGNBaseTodo"
+	            	       	        		   				server: "http://zidane.fgh.us.es:8080/geoserver/wms?",
+	            	       	        		   				name: "p_hoteles",
+                                                                              simple_tile:true
 	            	            	        	   }
             	                		        },
             	                			]

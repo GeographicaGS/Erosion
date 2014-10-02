@@ -240,6 +240,10 @@ function GroupLayer(opts){
 			
 			event.stopPropagation();
 		});
+
+		$panel.find(".toogleLayer").unbind().on("click",function(){
+			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"),$(this).is(":checked"));
+		});
 		
 		$panel.find(".add_layer").click(function(){
 			$.fancybox($("#service_fancy_box_data").html(), {

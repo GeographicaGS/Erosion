@@ -43,6 +43,7 @@
 <script type="text/javascript" src="<?= get_js("lib/leaflet-wmts.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/jquery-ui-1.10.3.custom.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet.Sync.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/singleTile.js")?>"></script>
 
 <!--[if lt IE 9]>
 <script src="<?= get_js("lib/html5shiv.js")?>"></script>

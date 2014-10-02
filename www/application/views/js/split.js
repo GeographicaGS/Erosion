@@ -1140,6 +1140,10 @@ Split = {
 		if(tipo == "wms"){
 			gsLayerLeft = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
 			gsLayerRight = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			if(capa.wms.hasOwnProperty("simple_tile") && capa.wms.simple_tile){
+				gsLayerLeft.simpleLayer = true;
+				gsLayerRight.simpleLayer = true;
+			}
 			
 		}else if(tipo == "wmts"){
 			gsLayerLeft = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
