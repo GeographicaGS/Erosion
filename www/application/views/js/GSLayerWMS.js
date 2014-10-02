@@ -7,6 +7,7 @@ function GSLayerWMS(id,title, url, name, leyenda){
 	this.layer = null;
 	this.tipo = "wms";
 	this.leyenda = leyenda;
+	this.version = "1.1.1";
 	
 	this.setVisibility = function(visibility, map, z_index){
 		
@@ -15,6 +16,7 @@ function GSLayerWMS(id,title, url, name, leyenda){
 								layers: this.name,
 								format: 'image/png',
 								transparent: true,
+								version: this.version,
 							});	
 		}
 		

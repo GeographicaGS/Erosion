@@ -288,7 +288,8 @@ function GroupLayer(opts){
 			    	$("input[type='button']").on("click",function(){
 			    		var select = $(this).parent().find("select").val()
 			    		var server = $($(this).parent().find("input[type='text']")[0]).val();
-			    		var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS";
+			    		// var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?VERSION=1.3.0&REQUEST=GetCapabilities&SERVICE=WMS";
+			    		var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?REQUEST=GetCapabilities&SERVICE=WMS";
 			    		var name = $($(this).parent().find("input[type='text']")[1]).val();
 			    		var selfBoton = this;
 			    		
@@ -310,6 +311,7 @@ function GroupLayer(opts){
 							    						'<li class="close" style="background-color: rgb(236, 237, 239);">';
 							    		
 				    		        	var layerPadre = $(xml).find("Layer")[0];
+				    		        	var version = $(xml).find("WMT_MS_Capabilities").attr("version");
 							    		$(xml).find("Layer").slice(1).each(function(){
 							    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
 							    				html +='<ul class="family_content" style="display: block;">' +
@@ -349,10 +351,12 @@ function GroupLayer(opts){
 					    				
 					    				$(selfBoton).parent().find(".tiposCapas").on("click",function(){
 					    					var title = $($(this).parent().parent().find("span")[0]).text();
-					    					var url = $(".urlServicioWms").val().replace("?VERSION=1.1.1&REQUEST=GetCapabilities&SERVICE=WMS", "");
+					    					var url = $(".urlServicioWms").val().replace("?REQUEST=GetCapabilities&SERVICE=WMS", "");
 					    					var layer = $(this).parent().attr("nombreCapa");
 					    					var leyenda = url.replace("/gwc/service", "");
-					    					self.addLayer(new GSLayerWMS(-1,title, url, layer, leyenda));
+					    					var wmsLayer = new GSLayerWMS(-1,title, url, layer, leyenda);
+					    					wmsLayer.version = version;
+					    					self.addLayer(wmsLayer);
 					    					
 					    					$.fancybox.close();
 						    				if(!$("#panel_right .layer_panel").hasClass("close")){
@@ -378,7 +382,7 @@ function GroupLayer(opts){
 						    				$(".cuerpoInfoCatalogo").find(".title1").prop('title', title);
 						    				$(".cuerpoInfoCatalogo").find(".title2").text("");
 						    				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
-						    				var legendUrl = leyenda.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+						    				var legendUrl = leyenda.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=" + version + "&REQUEST=GetLegendGraphic&"
 						    				+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer;
 						    				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
 						    				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
