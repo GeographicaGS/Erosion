@@ -311,7 +311,7 @@ function GroupLayer(opts){
 							    						'<li class="close" style="background-color: rgb(236, 237, 239);">';
 							    		
 				    		        	var layerPadre = $(xml).find("Layer")[0];
-				    		        	var version = $(xml).find("WMT_MS_Capabilities").attr("version");
+				    		        	var version = $($(xml).find("*")[0]).attr("version");
 							    		$(xml).find("Layer").slice(1).each(function(){
 							    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
 							    				html +='<ul class="family_content" style="display: block;">' +
@@ -350,7 +350,7 @@ function GroupLayer(opts){
 					    				
 					    				
 					    				$(selfBoton).parent().find(".tiposCapas").on("click",function(){
-					    					var title = $($(this).parent().parent().find("span")[0]).text();
+					    					var title = $(this).parent().parent().find("p").text();
 					    					var url = $(".urlServicioWms").val().replace("?REQUEST=GetCapabilities&SERVICE=WMS", "");
 					    					var layer = $(this).parent().attr("nombreCapa");
 					    					var leyenda = url.replace("/gwc/service", "");
