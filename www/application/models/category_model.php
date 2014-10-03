@@ -16,7 +16,7 @@ class Category_model extends CI_Model{
 
 	public function getCategoriesWithData(){
 		
-		$sql = "SELECT * FROM public.category c WHERE EXISTS(SELECT d.id_category FROM draw d WHERE c.id_category = d.id_category);";
+		$sql = "SELECT *, (SELECT count(*) FROM draw d WHERE c.id_category = d.id_category) as numDraws FROM public.category c order by c.title";
 		
 		return $this->db->query($sql)->result();
 	}

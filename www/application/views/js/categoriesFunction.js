@@ -29,7 +29,7 @@ function drawCategories(unLoadDefaultProject) {
         	var html = "<ul class='family_content'>";
 					
 					for(var y=0; y<response.length; y++){
-						html += "<li style='border-top: 1px solid #ccc;'>" + 
+						html += "<li style='border-top: 1px solid #ccc; " + (parseInt(response[y].numdraws) == 0 ? 'display:none;' : '') + "'>" + 
 						"<p class='ellipsis' title='"+ response[y].title + "'>" + response[y].title + "</p>" +
 						// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
 						"<span style='display:none;'>" + (response[y].descripcion != null ?  response[y].descripcion : "Lorem ipsum dolor sit amet, consectetur adipiscing elit.") + "</span>"
@@ -579,6 +579,11 @@ function eventosCatalogo(){
 												removeGeometryFromLayer(Split.__mapRight, idCapa, idDrawtoDelte);
 												aux.next().remove();
 												aux.remove();
+												var numDraw = parseInt($("#geometryVector").find(".title3").text().split("(")[1].replace(")","")) -1;
+												$("#geometryVector").find(".title3").text("HISTORIAS (" + numDraw + ")")
+												if(numDraw == 0){
+													drawCategories(true);
+												}
 										    }
 									});           
 								},"¿Desea borrar la historia seleccionada?");
@@ -762,7 +767,9 @@ function eventosCatalogo(){
 					data: "puntos=" + (latlng != null ? JSON.stringify(latlng): "") + "&type=" + $("#typeHistory").val() + "&" + "&titulo=" + $("#addHistoryForm input[type='text']").val() + "&comentario=" + $(".addCommentHistory").val() + "&categoria=" + $("#addHistoryForm select").val(),
 					type: "POST",
 					success: function(response) {
-						$(".contenidoCatalogo").find("div[idCapa='" + $("#addHistoryForm select").val() + "'][tipo='vectorial']").parent().trigger("click");
+						var htmlCategory = $(".contenidoCatalogo").find("div[idCapa='" + $("#addHistoryForm select").val() + "'][tipo='vectorial']").parent();
+						htmlCategory.show();
+						htmlCategory.trigger("click");
 
 						if(latlng != null){
 							//Borro la geomatría y refresco la categoría
