@@ -752,6 +752,7 @@ function GroupLayer(opts){
 	
 	
 	var gSatellite = new L.Google('SATELLITE'),
+		noMap = new L.Google('SATELLITE'),
 		gTerrain = new L.Google('TERRAIN'),
 		gRoad = new L.Google('ROADMAP'),
 		bingSatellite =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {type: "AerialWithLabels", maxZoom:20}),
@@ -917,6 +918,9 @@ function GroupLayer(opts){
 		format: 'image/png'
 	});
 	
+	noMap.options.opacity = 0
+	noMap.options.mapOptions.backgroundColor = "black";
+	
 	L.control.layers(
 					 {
 						 'Google satélite':gSatellite,
@@ -924,8 +928,11 @@ function GroupLayer(opts){
 						 'Google callejero' : gRoad,
 						 'Bing satélite' : bingSatellite,
 						 'Bing callejero' : bingRoad,
+						 'Sin mapa base':noMap,
 						 // 'OpenStreetMap' : openStreetMap
 					 },null,{position: position}).addTo(this.map);
+
+	// noMap.setOpacity(0)
 	
 	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));
 	
@@ -1024,6 +1031,13 @@ function GroupLayer(opts){
 		var HEIGHT = map.getSize().y;
 		var X = map.layerPointToContainerPoint(e.layerPoint).x;
 		var Y = map.layerPointToContainerPoint(e.layerPoint).y;
+		// var bds = map.getBounds();
+	 //    var sz = map.getSize();
+	 //    var w = bds.getNorthEast().lng - bds.getSouthWest().lng;
+	 //    var h = bds.getNorthEast().lat - bds.getSouthWest().lat;
+	 //    var X= (((e.latlng.lng - bds.getSouthWest().lng) / w) * sz.x).toFixed(0);
+	 //    var Y = (((bds.getNorthEast().lat - e.latlng.lat) / h) * sz.y).toFixed(0);
+
 		    
 		var layers = null;   
 		var server = null;
