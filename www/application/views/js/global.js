@@ -92,9 +92,9 @@ function showInfoFancybox(text) {
 			}
 			$.fancybox.update();
         },
-        onUpdate: function () {
-        	$.fancybox.update();
-        }
+  //       onUpdate: function () {
+  //       	$.fancybox.update();
+  //       }
 	}).trigger('click');
 }
 

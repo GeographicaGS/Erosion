@@ -1026,11 +1026,16 @@ function GroupLayer(opts){
 		var map = this.getMap();
 		var latlngStr = '(' + e.latlng.lat.toFixed(3) + ', ' + e.latlng.lng.toFixed(3) + ')';
 		    
-		var BBOX = map.getBounds().toBBoxString();
+		// var BBOX = map.getBounds().toBBoxString();
+		var aux = L.CRS.EPSG3857.project(map.getBounds()._southWest)
+		var BBOX = aux.x + "," + aux.y + ","
+		aux = L.CRS.EPSG3857.project(map.getBounds()._northEast)
+		BBOX += aux.x + "," + aux.y
 		var WIDTH = map.getSize().x;
 		var HEIGHT = map.getSize().y;
 		var X = map.layerPointToContainerPoint(e.layerPoint).x;
 		var Y = map.layerPointToContainerPoint(e.layerPoint).y;
+
 		// var bds = map.getBounds();
 	 //    var sz = map.getSize();
 	 //    var w = bds.getNorthEast().lng - bds.getSouthWest().lng;
@@ -1060,7 +1065,7 @@ function GroupLayer(opts){
 			return;
 		}
 		
-		var request = server + '?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=' +layers+'&QUERY_LAYERS='+layers+'&STYLES=&BBOX='+BBOX+'&FEATURE_COUNT=5&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&FORMAT=image%2Fpng&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A4326&X='+X+'&Y='+Y;
+		var request = server + '?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=' +layers+'&QUERY_LAYERS='+layers+'&STYLES=&BBOX='+BBOX+'&FEATURE_COUNT=5&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&FORMAT=image%2Fpng&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A3857&X='+X+'&Y='+Y;
 		request = request.replace("wmts","wms");
 	    
 		var obj = this;
