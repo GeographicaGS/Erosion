@@ -1082,7 +1082,7 @@ function GroupLayer(opts){
 		        		// data  = data.replace("<a", "<a target='_blank'")
 		        		// $("#container_feature_info").html(data);
 		        		// if($.trim($($.parseXML(data)).find("body").html()).length != 0){
-		        		if(data.indexOf("body") > 0){
+		        		if(data.substring(data.indexOf('<body>') + 6,data.indexOf('</body>')).trim().length > 0){
 		        			$("#container_feature_info").html(data);
 		        		}else{
 		        			$("#container_feature_info").html("No hay información sobre este punto");
