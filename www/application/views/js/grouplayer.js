@@ -1079,13 +1079,14 @@ function GroupLayer(opts){
 		        		obj.featureInfo(e,requestIdx+1);
 		        	}
 		        	else{
-		        		data  = data.replace("<a", "<a target='_blank'")
-		        		$("#container_feature_info").html(data);
+		        		// data  = data.replace("<a", "<a target='_blank'")
+		        		// $("#container_feature_info").html(data);
 		        		// if($.trim($($.parseXML(data)).find("body").html()).length != 0){
-		        		// 	$("#container_feature_info").html(data);
-		        		// }else{
-		        		// 	$("#container_feature_info").html("No hay información sobre este punto");
-		        		// }
+		        		if(data.indexOf("body") > 0){
+		        			$("#container_feature_info").html(data);
+		        		}else{
+		        			$("#container_feature_info").html("No hay información sobre este punto");
+		        		}
 		        	}
 	        	}catch (ex){
 	        		$("#container_feature_info").html("No hay información sobre este punto");
