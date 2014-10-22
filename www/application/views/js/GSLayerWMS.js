@@ -17,7 +17,7 @@ function GSLayerWMS(id,title, url, name, leyenda){
 				this.layer =  L.tileLayer.wms(this.url, {
 								layers: this.name,
 								format: 'image/png',
-								transparent: false,
+								transparent: true,
 								version: this.version,
 				});
 			}
@@ -25,7 +25,7 @@ function GSLayerWMS(id,title, url, name, leyenda){
 				this.layer =  new L.SingleTileWMSLayer(this.url, {
 								layers: this.name,
 								format: 'image/png',
-								transparent: false,
+								transparent: true,
 								version: this.version,
 								zIndex:z_index,
 							});
