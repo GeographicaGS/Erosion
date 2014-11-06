@@ -556,7 +556,7 @@ function eventosCatalogo(){
 
 				//Para el caso de los vectoriales
 				if($($(this).find("div[idcapa]")[0]).attr("tipo") == "vectorial"){
-					aux.append("<p id='kmlAll'>Exportar a kml</p>")
+					aux.append('<img id="kmlAll" class="mb5" title="Exportar toda la categoria a kml" src="application/views/img/ERO_icon_kml.png">')
 					$(".extraLeyenda").children(".title3, .divLeyenda").hide();
 					$("#geometryVector").show();
 					$("#geometryVectorList").html("");
@@ -603,7 +603,7 @@ function eventosCatalogo(){
 								$(".deleteGeometry").remove();
 								$("#kmlExport").remove()
 								if(tipo == "marker" || tipo == "linea" || tipo == "poligono"){
-									$("#deleteGeometry").append("<p class='deleteGeometry' idUser=''>Eliminar geometría</p><p id='kmlExport' idUser=''>Exportar a kml</p>");
+									$("#deleteGeometry").append("<p class='deleteGeometry' idUser=''>Eliminar geometría</p><p id='kmlExport' idUser='' title='Exportar geometría a kml'>Exportar a kml</p>");
 									$(".deleteGeometry").attr("idUser", $(this).attr("idUser"));
 									$(".deleteGeometry").unbind().bind("click", function(event) {
 										showConfirmDialog(function(){
