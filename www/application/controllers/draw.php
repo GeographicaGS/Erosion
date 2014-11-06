@@ -207,5 +207,92 @@ class Draw extends MY_Controller
 		
 		echo "true";
 	}
+
+	public function getKml($id_draw){
+		$draw = $this->draw_model->getKml($id_draw);
+		
+		$kml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+         . "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\""
+         . " xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">";
+
+	   	$kml .= "<Document>";
+	   	$kml .= "<Placemark>";
+	   	$kml .= $draw->kml;
+	   	// $kml .= "<name>Document.kml</name>";
+	   	// $kml .= drawStyles($id);
+		// $kml .= getLayerKml($query,$styles);
+		$kml .= "</Placemark>";
+	   	$kml .=	"</Document></kml>";
+		
+	   	header('Content-Disposition: attachment; filename="' . $draw->titulo . '.kml"');
+		// header('Content-Type: application/xml; charset=utf-8'); 
+		// header('Content-Type: text/plain');
+		header('Content-type: application/vnd.google-earth.kml+xml');
+		header('Content-Length: ' . strlen($kml));
+		header('Connection: close');
+
+		echo $kml;
+	}
+
+	public function getAllKml($id_category){
+		$draws = $this->draw_model->getAllKml($id_category);
+		$kml = "";
+		if($draws){
+			$kml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+	         . "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\""
+	         . " xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">";
+
+		   	$kml .= "<Document>";
+		   	foreach ($draws as $draw) {
+		   		$kml .= "<Placemark>";
+		   		$kml .= $draw->kml;
+				$kml .= "</Placemark>";
+			}
+		   	$kml .=	"</Document></kml>";
+			
+		   	header('Content-Disposition: attachment; filename="' . $draw->title . '.kml"');
+		}
+
+		else{
+			header('Content-Disposition: attachment; filename="No existen geometrías"');
+		}
+
+		header('Content-type: application/vnd.google-earth.kml+xml');
+		header('Content-Length: ' . strlen($kml));
+		header('Connection: close');
+		echo $kml;
+	}
+
+	public function createKml($type, $coordinates){
+
+		$kml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+         . "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\""
+         . " xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">";
+
+	   	$kml .= "<Document>";
+	   	$kml .= "<Placemark>";
+	   	// $kml .= $draw->kml;
+	   	if($type == "Polyline")
+	   	{
+	   		$kml .= "<LineString><coordinates>" . urldecode($coordinates) . "</coordinates></LineString>";
+	   	}
+	   	else if($type == "Polygon"){
+	   		$kml .= "<Polygon><outerBoundaryIs><LinearRing><coordinates>" . urldecode($coordinates) . "</coordinates></LinearRing></outerBoundaryIs></Polygon>";
+	   	}
+	   	else{
+
+	   		$kml .= "<Point><coordinates>" . urldecode($coordinates) . "</coordinates></Point>";
+	   	}
+
+		$kml .= "</Placemark>";
+	   	$kml .=	"</Document></kml>";
+		
+	   	header('Content-Disposition: attachment; filename="layer.kml"');
+		header('Content-type: application/vnd.google-earth.kml+xml');
+		header('Content-Length: ' . strlen($kml));
+		header('Connection: close');
+
+		echo $kml;
+	}
 } 
 ?>

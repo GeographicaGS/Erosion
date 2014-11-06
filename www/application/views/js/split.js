@@ -34,7 +34,7 @@ Split = {
 		
 		// add zoom control to map left
 		var zoomControl = new L.Control.Zoom({
-			position : 'bottomright'
+			position : 'bottomleft'
 		});		
 		zoomControl.addTo(mapLeft);
 		
@@ -70,7 +70,7 @@ Split = {
 		
 		// add zoom control to left map
 		zoomControl = new L.Control.Zoom({
-			position : 'bottomleft'
+			position : 'bottomright'
 		});
 		zoomControl.addTo(mapRight);		
 		
@@ -1272,9 +1272,10 @@ Split = {
 	showFancySaveDraw: function(e, type,xClick,yClick){
 		$("#fancy_box_save_draw").css({"top":yClick, "left":xClick});
 		$("#fancy_box_save_draw").show();
-		$("#fancy_box_save_draw").animate({"width": 198},300);
-		$($("#fancy_box_save_draw").find("p")[0]).fadeIn(600);
-		$($("#fancy_box_save_draw").find("p")[1]).fadeIn(600);
+		$("#fancy_box_save_draw").animate({"width": 294},300);
+		$($("#fancy_box_save_draw").find(".fancySave")).fadeIn(600);
+		$($("#fancy_box_save_draw").find(".fancyKml")).fadeIn(600);
+		$($("#fancy_box_save_draw").find(".fancyCancel")).fadeIn(600);
 		$($("#fancy_box_save_draw").find("img")).fadeIn(600);
 		
 		var latlng;
@@ -1283,11 +1284,13 @@ Split = {
 		}else{
 			latlng = e.layer._latlngs
 		}
+
+		var type = e.layerType
 		
-		$($("#fancy_box_save_draw").find("p")[0]).off('click');
-		$($("#fancy_box_save_draw").find("p")[0]).on('click', function(e) {
+		$($("#fancy_box_save_draw").find(".fancySave")).off('click');
+		$($("#fancy_box_save_draw").find(".fancySave")).on('click', function(e) {
 			$(".extraLeyenda").find("div[idCapa]").attr("idCapa", "");
-			$($("#fancy_box_save_draw").find("p")[1]).trigger("click");
+			$($("#fancy_box_save_draw").find(".fancyCancel")).trigger("click");
 			$(".petaniaInfoCatalogo").show();
 			if($(".infoCatalogo").css('right').indexOf("-") == 0){
 				$(".petaniaInfoCatalogo").trigger("click");
@@ -1404,10 +1407,17 @@ Split = {
 
 		});
 		
-		$($("#fancy_box_save_draw").find("p")[1]).off("click");
-		$($("#fancy_box_save_draw").find("p")[1]).on('click', function(e) {
-			$($("#fancy_box_save_draw").find("p")[0]).fadeOut(200);
-			$($("#fancy_box_save_draw").find("p")[1]).fadeOut(200);
+
+		$($("#fancy_box_save_draw").find(".fancyKml")).off("click");
+		$($("#fancy_box_save_draw").find(".fancyKml")).on('click', function(e) {
+			$($("#fancy_box_save_draw").find(".fancyCancel")).trigger("click");
+			downloadKml(type,latlng);
+		});
+
+		$($("#fancy_box_save_draw").find(".fancyCancel")).off("click");
+		$($("#fancy_box_save_draw").find(".fancyCancel")).on('click', function(e) {
+			$($("#fancy_box_save_draw").find(".fancySave")).fadeOut(200);
+			$($("#fancy_box_save_draw").find(".fancyCancel")).fadeOut(200);
 			$($("#fancy_box_save_draw").find("img")).fadeOut(200);
 			$("#fancy_box_save_draw").animate({"width": 0},300);
 			$("#fancy_box_save_draw").hide(400);
@@ -1418,8 +1428,8 @@ Split = {
 		$($("#fancy_box_save_draw").find("img")).on('click', function(e) {
 			Split.__mapLeft.getMap().removeLayer(layer);
 			Split.__mapRight.getMap().removeLayer(layer);
-			$($("#fancy_box_save_draw").find("p")[0]).fadeOut(200);
-			$($("#fancy_box_save_draw").find("p")[1]).fadeOut(200);
+			$($("#fancy_box_save_draw").find(".fancySave")).fadeOut(200);
+			$($("#fancy_box_save_draw").find(".fancyCancel")).fadeOut(200);
 			$($("#fancy_box_save_draw").find("img")).fadeOut(200);
 			$("#fancy_box_save_draw").animate({"width": 0},300);
 			$("#fancy_box_save_draw").hide(400);
@@ -1435,28 +1445,46 @@ Split = {
 	showFancyDontSaveDraw: function(e,xClick,yClick){
 		$("#fancy_box_dont_save_draw").css({"top":yClick, "left":xClick});
 		$("#fancy_box_dont_save_draw").show();
-		$("#fancy_box_dont_save_draw").animate({"width": 52},300);
-		$($("#fancy_box_dont_save_draw").find("p")[0]).fadeIn(600);
-		$($("#fancy_box_dont_save_draw").find("p")[1]).fadeIn(600);
+		$("#fancy_box_dont_save_draw").animate({"width": 148},300);
+		$($("#fancy_box_dont_save_draw").find(".fancyOk")).fadeIn(600);
+		$($("#fancy_box_dont_save_draw").find(".fancyKml")).fadeIn(600);
+		// $($("#fancy_box_dont_save_draw").find("p")[1]).fadeIn(600);
 		$($("#fancy_box_dont_save_draw").find("img")).fadeIn(600);
 	
 		
-		$($("#fancy_box_dont_save_draw").find("p")).off("click");
-		$($("#fancy_box_dont_save_draw").find("p")).on('click', function(e) {
-			$($("#fancy_box_dont_save_draw").find("p")[0]).fadeOut(200);
-			$($("#fancy_box_dont_save_draw").find("p")[1]).fadeOut(200);
+		$($("#fancy_box_dont_save_draw").find(".fancyOk")).off("click");
+		$($("#fancy_box_dont_save_draw").find(".fancyOk")).on('click', function(e) {
+			$($("#fancy_box_dont_save_draw").find(".fancyOk")).fadeOut(200);
+			// $($("#fancy_box_dont_save_draw").find("p")[1]).fadeOut(200);
 			$($("#fancy_box_dont_save_draw").find("img")).fadeOut(200);
 			$("#fancy_box_dont_save_draw").animate({"width": 0},300);
 			$("#fancy_box_dont_save_draw").hide(400);
 		});
 		
 		var layer = e.layer;
+
+		var latlng;
+		if(e.layer._latlng){
+			latlng = e.layer._latlng;
+		}else{
+			latlng = e.layer._latlngs
+		}
+
+		var type = e.layerType
+
+		$($("#fancy_box_dont_save_draw").find(".fancyKml")).off("click");
+		$($("#fancy_box_dont_save_draw").find(".fancyKml")).on('click', function(e) {
+			$($("#fancy_box_dont_save_draw").find(".fancyOk")).trigger("click");
+			downloadKml(type,latlng);
+		});
+		
+
 		$($("#fancy_box_dont_save_draw").find("img")).off('click');
 		$($("#fancy_box_dont_save_draw").find("img")).on('click', function(e) {
 			Split.__mapLeft.getMap().removeLayer(layer);
 			Split.__mapRight.getMap().removeLayer(layer);
-			$($("#fancy_box_dont_save_draw").find("p")[0]).fadeOut(200);
-			$($("#fancy_box_dont_save_draw").find("p")[1]).fadeOut(200);
+			$($("#fancy_box_dont_save_draw").find(".fancyOk")).fadeOut(200);
+			// $($("#fancy_box_dont_save_draw").find("p")[1]).fadeOut(200);
 			$($("#fancy_box_dont_save_draw").find("img")).fadeOut(200);
 			$("#fancy_box_dont_save_draw").animate({"width": 0},300);
 			$("#fancy_box_dont_save_draw").hide(400);

@@ -291,3 +291,22 @@ function showConfirmDialog(accept,text)
 		 'autoSize':false,
 	});
 }
+
+function downloadKml(type,latlng){
+	var coordinates = "";
+
+	if(type == "marker"){
+		coordinates += latlng.lng + "," + latlng.lat + " ";
+
+	}else{
+		for(var i=0; i<latlng.length; i++){
+			coordinates += latlng[i].lng + "," + latlng[i].lat + " ";
+		}
+
+		if(type=="polygon"){
+			coordinates += latlng[0].lng + "," + latlng[0].lat + " ";
+		}
+	}
+
+	window.location.href = 'index.php/draw/createKml/' + type.charAt(0).toUpperCase() + type.slice(1) + "/" + encodeURIComponent(coordinates)
+}

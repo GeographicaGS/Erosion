@@ -1,6 +1,7 @@
 www/application/config/config.php
 www/application/config/database.php
 www/application/config/erosion.php
+www/application/views/js/categories.js
 www/.htaccess
 .buildpath
 .settings

@@ -125,7 +125,7 @@ footer p.fund{
 }
 img.toggle{
 	position:absolute;
-	top:90px;
+	top:70px;
 	z-index:4;
 	cursor:pointer;
 }
@@ -430,7 +430,7 @@ and (max-device-width : 1024px) {
 	color: #013e88;
 	margin-top: 40px;
 	min-width: 300px;
-	z-index: 1002;
+	z-index: 1003;
 }
 
 #catalogo{
@@ -773,7 +773,7 @@ and (max-device-width : 1024px) {
 	border: 1px solid #b9b9b9;
 	border-right: none;
 	border-radius: 2px 0px 0px 2px;
-	z-index: 2;
+	z-index: 1002;
 	cursor: col-resize;
 }
 .infoCatalogo .cuerpoInfoCatalogo{
@@ -1411,14 +1411,13 @@ img.tiposCapas{
 	display: none;
 }
 
-.miniFancy .fancySave{
+.miniFancy .fancySave, .fancyKml, .fancyOk{
 	color: #0363aa;
 	font-weight: bold;
 	padding-top: 6px;
 	margin-left: 5px;
 	border-right: 1px solid black;
 	height: 19px;
-	margin-right: 5px;
 	padding-right: 5px;
 	cursor: pointer;
 	display: none;
@@ -1432,13 +1431,18 @@ img.tiposCapas{
 	height: 19px;
 	padding-right: 5px;
 	margin-right: 5px;
+	margin-left: 5px;
 	display: none;
 }
 
-.miniFancy img{
+.miniFancy img, #fancy_box_dont_save_draw img{
 	margin-top: 4px;
 	display: none;
 	cursor: pointer;
+}
+
+#fancy_box_dont_save_draw img{
+	margin-left: 5px;
 }
 
 
@@ -1726,12 +1730,26 @@ img.tiposCapas{
 	float: right;
 }
 
-.deleteGeometry{
+.deleteGeometry, #kmlExport{
 	color: #013e88;
 	text-decoration: underline;
 	margin-right: 10px;
 	cursor: pointer;
 	float: right;
+}
+
+
+#kmlAll{
+	color: #013e88;
+	text-decoration: underline;
+	margin-right: 10px;
+	cursor: pointer;
+	padding-top: 7px;
+}
+
+.deleteGeometry{
+	border-left: 1px solid;
+	padding-left: 10px;
 }
 
 .deleteHistory{

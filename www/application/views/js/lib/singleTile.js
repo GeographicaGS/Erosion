@@ -77,6 +77,12 @@ L.SingleTileWMSLayer = L.ImageOverlay.extend({
         $(this._image).css({"z-index":zIndex});
     },
 
+    setOpacity: function (opacity) {
+        this.options.opacity = opacity;
+        $(this._imageSwap).css({"opacity":this.options.opacity});
+        $(this._image).css({"opacity":this.options.opacity});
+    }, 
+
     _onViewReset: function () {
         this._futureBounds = this._map.getBounds();
         var map = this._map;
@@ -94,6 +100,8 @@ L.SingleTileWMSLayer = L.ImageOverlay.extend({
         this.wmsParams.height = size.y;
         var imageSrc = url + L.Util.getParamString(this.wmsParams, url) + "&bbox=" + bbox;
         this.swapImage(imageSrc, this._futureBounds);
+        $(this._imageSwap).css({"opacity":this.options.opacity})
+        $(this._image).css({"opacity":this.options.opacity});
     },
 
 
@@ -118,10 +126,10 @@ L.SingleTileWMSLayer = L.ImageOverlay.extend({
 
     _onZoomAnim: function(){
         if (this._imageSwap){
-            this._imageSwap.style.visibility = 'hidden';
+            // this._imageSwap.style.visibility = 'hidden';
         }
         if (this._image){
-            this._image.style.visibility = 'hidden';
+            // this._image.style.visibility = 'hidden';
         }
     },
     _onSwapImageLoad:function () {

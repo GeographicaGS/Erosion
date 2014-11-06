@@ -484,6 +484,7 @@ function eventosCatalogo(){
 		$("#commentsVector").hide();
 		$("#geometryVector").hide();
 		$("#addHistoryForm").hide();
+		$("#kmlAll").remove();
 		$(".botonAddImageLeyenda").show();
 		$(".extraLeyenda").children(".title3, .divLeyenda").show();
 
@@ -555,10 +556,16 @@ function eventosCatalogo(){
 
 				//Para el caso de los vectoriales
 				if($($(this).find("div[idcapa]")[0]).attr("tipo") == "vectorial"){
+					aux.append("<p id='kmlAll'>Exportar a kml</p>")
 					$(".extraLeyenda").children(".title3, .divLeyenda").hide();
 					$("#geometryVector").show();
 					$("#geometryVectorList").html("");
 					var idCapa = $($(this).find("div[idcapa]")[0]).attr("idcapa");
+
+					$("#kmlAll").unbind().bind("click", function() {
+						window.location.href = 'index.php/draw/getAllKml/' + idCapa
+					});
+
 					$.ajax({
 						url: 'index.php/draw/getDrawList/' + idCapa, 
 						dataType: "json",
@@ -594,8 +601,9 @@ function eventosCatalogo(){
 								$(".addCommentInput").val("");
 								
 								$(".deleteGeometry").remove();
+								$("#kmlExport").remove()
 								if(tipo == "marker" || tipo == "linea" || tipo == "poligono"){
-									$("#deleteGeometry").append("<p class='deleteGeometry' idUser=''>Eliminar geometría</p>");
+									$("#deleteGeometry").append("<p class='deleteGeometry' idUser=''>Eliminar geometría</p><p id='kmlExport' idUser=''>Exportar a kml</p>");
 									$(".deleteGeometry").attr("idUser", $(this).attr("idUser"));
 									$(".deleteGeometry").unbind().bind("click", function(event) {
 										showConfirmDialog(function(){
@@ -605,10 +613,15 @@ function eventosCatalogo(){
 										        	removeGeometryFromLayer(Split.__mapLeft, idCapa, idDraw);
 													removeGeometryFromLayer(Split.__mapRight, idCapa, idDraw);
 													$(".deleteGeometry").remove();
+													$("#kmlExport").remove()
 													$("#commentsVector img").attr("src", "");
 										        }
 									        });           
 										    },"¿Desea borrar la geometría seleccionada? <br><br> Esta accción eliminará la geometría del mapa pero mantendrá la historia y sus comentarios");
+									});
+
+									$("#kmlExport").unbind().bind("click", function(event) {
+										window.location.href = 'index.php/draw/getKml/' + idDraw
 									});
 								}
 

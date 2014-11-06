@@ -101,5 +101,21 @@ class Draw_model extends CI_Model{
 		
 		return $this->db->query($sql,array($id_draw))->row();
 	}
+
+	public function getKml($id_draw){
+		$sql = "select titulo, ST_AsKML(geom) as kml
+				FROM public.draw
+				where id_draw=?";
+
+		return $this->db->query($sql,array($id_draw))->row();
+	}
+
+	public function getAllKml($id_category){
+		$sql = "SELECT titulo, title, ST_AsKML(geom) as kml FROM public.draw d
+				LEFT JOIN public.category c on d.id_category = c.id_category  
+				where d.id_category=? and geom is not null";
+
+		return $this->db->query($sql,array($id_category))->result();
+	}
 }
 ?>

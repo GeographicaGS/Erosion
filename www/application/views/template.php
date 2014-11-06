@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>Erosión</title>
+<title></title>
 <meta charset="UTF-8" >
 <meta name="Author" content="Geographica.gs">
 <meta name="keywords" content="Geographica" />
@@ -73,6 +73,7 @@
 
 	$(window).ready(function(){
 		
+		$("title").text(TITLE)
 		
 		$("a#info_fancybox").fancybox({
 			"hideOnContentClick" : true,
@@ -398,12 +399,14 @@
 
 <div id="fancy_box_save_draw" class="miniFancy">
 		<p class="fleft fancySave">Guardar geometría</p>
+		<p class="fleft fancyKml">Exportar a KML</p>
 		<p class="fancyCancel">Cancelar</p>
 		<img title="borrar" src="<?= get_img("MED_icon_papelera_panel.png")?>" >
 </div>
 
 <div id="fancy_box_dont_save_draw" class="miniFancy">
-		<p class="fleft fancySave">ok</p>
+		<p class="fleft fancyOk">ok</p>
+		<p class="fleft fancyKml">Exportar a KML</p>
 		<img title="borrar" src="<?= get_img("MED_icon_papelera_panel.png")?>" >
 </div>
 
@@ -441,7 +444,7 @@
 			<option>WMTS</option>
 			<option>TMS</option>
 		</select>
-		<input type="text" value="url"/>
+		<input type="text" placeholder="url"/>
 		<input class="input_fancy" style="display: none;" type="text" value="Título de la capa" />
 		<div class="clear"></div>
 		<input type="button" value="Explorar servicio" />

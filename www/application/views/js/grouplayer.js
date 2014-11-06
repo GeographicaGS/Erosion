@@ -360,6 +360,7 @@ function GroupLayer(opts){
 					    					var leyenda = url.replace("/gwc/service", "");
 					    					var wmsLayer = new GSLayerWMS(-1,title, url, layer, leyenda);
 					    					wmsLayer.version = version;
+					    					wmsLayer.simpleLayer = true;
 					    					self.addLayer(wmsLayer);
 					    					
 					    					$.fancybox.close();
@@ -443,11 +444,11 @@ function GroupLayer(opts){
 			    		}
 			    	});
 			    	
-			    	$("input[type='text']").on("click",function(){
-//			    		if($(this).val() == "url" || $(this).val() == "Título de la capa"){
-			    			$(this).val("");
-//			    		}
-			    	});
+// 			    	$("input[type='text']").on("click",function(){
+// //			    		if($(this).val() == "url" || $(this).val() == "Título de la capa"){
+// 			    			$(this).val("");
+// //			    		}
+// 			    	});
 			    }
 			});
 		});
@@ -1085,7 +1086,11 @@ function GroupLayer(opts){
 		        		if(data.substring(data.indexOf('<body>') + 6,data.indexOf('</body>')).trim().length > 0){
 		        			$("#container_feature_info").html(data);
 		        		}else{
-		        			$("#container_feature_info").html("No hay información sobre este punto");
+		        			if(requestIdx < obj.layers.length){
+		        				obj.featureInfo(e,requestIdx+1);
+		        			}else{
+		        				$("#container_feature_info").html("No hay información sobre este punto");
+		        			}
 		        		}
 		        	}
 	        	}catch (ex){
