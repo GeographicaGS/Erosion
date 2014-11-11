@@ -582,11 +582,11 @@
 					<img src="<?= get_img("ERO_logo_EU.png")?>" />
 				</a>
 
-				<a href="http://www.juntadeandalucia.es/fomentoyvivienda" target="_blank" class="fleft" > 
+				<a style="margin-left: 20px;margin-right: 10px;margin-top: -8px;" href="http://www.juntadeandalucia.es/fomentoyvivienda" target="_blank" class="fleft" > 
 					<img src="<?= get_img("ERO_logo_JA-Vivienda.png")?>" />
 				</a>
 
-				<a href="http://www.gis-and-coast.org/index.php" target="_blank" class="fleft" > 
+				<a style="width: 150px;" href="http://www.gis-and-coast.org/index.php" target="_blank" class="fleft" > 
 					<img src="<?= get_img("ERO_logo.png")?>" />
 				</a>
 
