@@ -179,6 +179,12 @@
 					echo "CLIENTES Y VISORES WEB<br/>
 							Información espacial del<br/>
 							medio litoral y marino.";
+
+				}else if(strpos($_SERVER["HTTP_HOST"],"vivienda.gis-and-coast.org")){
+					
+					echo "GEORREFERENCIACIÓN<br/>
+							CARACTERIZACIÓN ESTADÍSTICA Y<br/>
+							ESTRATEGIAS DE DIFUSIÓN DEL ESPACIO RESIDENCIAL.";
 				}
 				else{
 					echo "Espacialización y difusión web de variables demográficas, <br/>
@@ -569,7 +575,23 @@
 				<img style="width: 150px;" class="fleft" src="<?= get_img("ERO_logo.png")?>" />	
 				<p class="logoGisText fleft mr20">Research Group</p>	
 			</div>			
-					
+				
+		<?}else if(strpos($_SERVER["HTTP_HOST"],"vivienda.gis-and-coast.org")){?>
+			<div class="fleft mt20">
+				<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" > 
+					<img src="<?= get_img("ERO_logo_EU.png")?>" />
+				</a>
+
+				<a href="http://www.juntadeandalucia.es/fomentoyvivienda" target="_blank" class="fleft" > 
+					<img src="<?= get_img("ERO_logo_JA-Vivienda.png")?>" />
+				</a>
+
+				<a href="http://www.gis-and-coast.org/index.php" target="_blank" class="fleft" > 
+					<img src="<?= get_img("ERO_logo.png")?>" />
+				</a>
+
+			</div>
+
 		<?}else{?>
  			<div class="fleft mt20">
 	 			<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" > 
