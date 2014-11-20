@@ -44,7 +44,7 @@ class Draw extends MY_Controller
 		$notification["fecha"] = $data["fecha"];
 		$notification["tipo"] = 0;
 	
-		if($data["tipo"] == "marker" || $data["tipo"] == "linea" || $data["tipo"] == "poligono")
+		if($data["tipo"] == "marker" || $data["tipo"] == "polyline" || $data["tipo"] == "polygon")
 		{
 			$geom = "ST_GeomFromEWKT('SRID=4326;";
 			$arrayPuntos = "";
@@ -55,7 +55,7 @@ class Draw extends MY_Controller
 					$notification["titulo"] = "ha añadido un nuevo punto:";
 				}
 				$arrayPuntos = rtrim($arrayPuntos, ",");
-				if($data["tipo"] == "linea"){
+				if($data["tipo"] == "polyline"){
 					$geom .= "LINESTRING(" . $arrayPuntos . ")";
 					$notification["titulo"] = "ha añadido un nueva línea:";
 				}else{
