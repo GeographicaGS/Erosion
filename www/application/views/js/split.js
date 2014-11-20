@@ -131,7 +131,7 @@ Split = {
 			Split.__mapRight.drawPanoramio();
 		});
 
-		this.activateZoomStart();
+		// this.activateZoomStart();
 
 		// (this.__mapLeft.getMap(), this.__mapRight.getMap()).on("zoomend", function() {
 		// 	alert("");

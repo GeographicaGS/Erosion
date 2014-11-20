@@ -1204,7 +1204,8 @@ img.tiposCapas{
 	border-left: 1px solid #999;
 	border-right: 1px solid #999;
 	left: 50%;;
-	margin-left: -126px;
+	/*margin-left: -126px;*/
+	margin-left: -95px;
 	z-index: 2;
 }
 
@@ -1220,11 +1221,13 @@ img.tiposCapas{
 #tool_bar #go_back {
 	background: url("../img/ERO_herramienta_punto_off.png");
 	-webkit-transform: rotate(45deg);
+	display: none;
 }
 
 #tool_bar #go_forward {
 	background: url("../img/ERO_herramienta_punto_off.png");
 	-webkit-transform: rotate(45deg);
+	display: none;
 }
 
 #tool_bar #ctrl_marker_drawer {
