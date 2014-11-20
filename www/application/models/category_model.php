@@ -9,7 +9,7 @@ class Category_model extends CI_Model{
 	
 	public function getCategories(){
 		
-		$sql = "SELECT * FROM public.category";
+		$sql = "SELECT * FROM public.category order by title";
 		
 		return $this->db->query($sql)->result();
 	}
