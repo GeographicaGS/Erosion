@@ -5,6 +5,10 @@ var sectionActual = 0;
 var markerLocationLeft;
 var markerLocationRight;
 var defaultProject = null;
+var navigationLeftArray = [];
+var navigationLeftPosition = 0;
+var navigationRightArray = [];
+var navigationRightPosition = 0;
 
 $.ajax({
     url: 'index.php/login/isLoged',

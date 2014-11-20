@@ -185,6 +185,12 @@
 					echo "GEORREFERENCIACIÓN<br/>
 							CARACTERIZACIÓN ESTADÍSTICA Y<br/>
 							ESTRATEGIAS DE DIFUSIÓN DEL ESPACIO RESIDENCIAL.";
+
+				}else if(strpos($_SERVER["HTTP_HOST"],"gestioncosteraymarina.gis-and-coast.org")){
+					
+					echo "Curso de experto universitario en herramientas SIG e Internet<br/>
+							para la gestión integrada de áreas costeras, planificación espacial marina<br/>
+							y participación pública.";
 				}
 				else{
 					echo "Espacialización y difusión web de variables demográficas, <br/>
@@ -250,6 +256,8 @@
 		
 		
 		<div id="tool_bar">
+			<div title="Dibujar marcador" id="go_back"></div>
+			<div title="Dibujar marcador" id="go_forward"></div>
 			<div title="Dibujar marcador" id="ctrl_marker_drawer"></div>
 			<div title="Dibujar línea" id="ctrl_line_drawer"></div>
 			<div title="Dibujar polígono" id="ctrl_rectangle_drawer"></div>
@@ -590,6 +598,18 @@
 					<img style="width: 150px;" src="<?= get_img("ERO_logo.png")?>" />
 				</a>
 
+			</div>
+
+			
+
+		<?}else if(strpos($_SERVER["HTTP_HOST"],"gestioncosteraymarina.gis-and-coast.org")){?>
+			<div class="fleft mt20">¡
+				<a href="http://www.mineco.gob.es/" target="_blank" class="fleft" >
+					<img style="height: 55px;" src="<?= get_img("unia_logo.png")?>" />
+				</a>
+				<a href="http://www.gis-and-coast.org/index.php" target="_blank" class="fleft" > 
+					<img style="width: 150px;" src="<?= get_img("ERO_logo.png")?>" />
+				</a>
 			</div>
 
 		<?}else{?>

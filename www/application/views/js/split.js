@@ -124,11 +124,19 @@ Split = {
 			Split.__mapLeft.drawPanoramio();
 		});
 
+
 		this.__mapRight.getMap().on("zoomend", function() {
 			// Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
 			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
 			Split.__mapRight.drawPanoramio();
 		});
+
+		this.activateZoomStart();
+
+		// (this.__mapLeft.getMap(), this.__mapRight.getMap()).on("zoomend", function() {
+		// 	alert("");
+		// });
+
 		
 		this.__currentMasterMap = this.__mapLeft;
 		
@@ -454,7 +462,17 @@ Split = {
 		    // Update db to save latest changes.
 		});
 		
-		
+		$("#go_back").click(function(e){
+			if(navigationLeftPosition > 0 && navigationRightPosition > 0){
+				Split.__mapLeft.getMap().off("zoomstart")
+				Split.__mapRight.getMap().off("zoomstart")
+				navigationLeftPosition -- ;
+				navigationRightPosition -- ;
+				Split.__mapLeft.getMap().setView(navigationLeftArray[navigationLeftPosition].position,navigationLeftArray[navigationLeftPosition].zoom);
+				Split.__mapRight.getMap().setView(navigationRightArray[navigationRightPosition].position,navigationRightArray[navigationRightPosition].zoom);
+				Split.activateZoomStart();
+			}
+		});
 		
 		$("#ctrl_feature_info").click(function(){
 			
@@ -1489,6 +1507,37 @@ Split = {
 			$("#fancy_box_dont_save_draw").animate({"width": 0},300);
 			$("#fancy_box_dont_save_draw").hide(400);
 		});
+	},
+
+	activateZoomStart:function(){
+		setTimeout(function() {
+			Split.__mapLeft.getMap().on("zoomstart", function() {
+
+				if(navigationLeftPosition  == 0 || navigationLeftArray[navigationLeftPosition-1].zoom != Split.__mapLeft.getMap().getZoom()){
+					navigationLeftArray[navigationLeftPosition] = ({"position":Split.__mapLeft.getMap().getCenter(), "zoom":Split.__mapLeft.getMap().getZoom()});
+					navigationLeftPosition ++;
+					if(!Split.syncEnable){
+						navigationRightArray[navigationRightPosition] = ({"position":Split.__mapRight.getMap().getCenter(), "zoom":Split.__mapRight.getMap().getZoom()});
+						navigationRightPosition ++;
+					}
+				}
+
+			});
+
+			Split.__mapRight.getMap().on("zoomstart", function() {
+
+				if(navigationRightPosition  == 0 || navigationRightArray[navigationRightPosition-1].zoom != Split.__mapRight.getMap().getZoom()){
+					navigationRightArray[navigationRightPosition] = ({"position":Split.__mapRight.getMap().getCenter(), "zoom":Split.__mapRight.getMap().getZoom()});
+					navigationRightPosition ++;
+					if(!Split.syncEnable){
+						navigationLeftArray[navigationLeftPosition] = ({"position":Split.__mapLeft.getMap().getCenter(), "zoom":Split.__mapLeft.getMap().getZoom()});
+						navigationLeftPosition ++;
+					}
+				}
+				
+			});
+
+		}, 100);
 	}
 	
 }
