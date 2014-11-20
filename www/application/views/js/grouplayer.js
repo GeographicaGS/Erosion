@@ -571,7 +571,7 @@ function GroupLayer(opts){
 					    //     value : data.photos[i].photo_file_url,
 					    // });
 
-						var marker = L.marker([data.photos[i].latitude, data.photos[i].longitude], {icon: new L.icon({iconUrl: 'application/views/img/ERO_icon_map_panoramio.png'}),value : data.photos[i].photo_file_url});
+						var marker = L.marker([data.photos[i].latitude, data.photos[i].longitude], {icon: new L.icon({iconUrl: 'application/views/img/ERO_icon_map_panoramio.png', zIndexOffset:1000}),value : data.photos[i].photo_file_url});
 		        		marker.on('click', function(){
 		        			showInfoFancybox("<img style='height:" + $("#panel_left").outerHeight() + "' src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
 		        		});
