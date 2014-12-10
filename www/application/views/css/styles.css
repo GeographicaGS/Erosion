@@ -430,7 +430,7 @@ and (max-device-width : 1024px) {
 	color: #013e88;
 	margin-top: 40px;
 	min-width: 300px;
-	z-index: 1003;
+	/*z-index: 1003;*/
 }
 
 #catalogo{
@@ -557,6 +557,7 @@ and (max-device-width : 1024px) {
 	border-left: none;
 	border-radius: 0px 2px 2px 0px;
 	display: none;
+	z-index: 1003;
 }
 
 .catalogo .cuerpoCatalogo .cabecera{
@@ -608,6 +609,7 @@ and (max-device-width : 1024px) {
 	border-radius: 2px;
 	border-radius: 0px 2px 2px 0px;
 	cursor: pointer;
+	z-index: 1002;
 }
 .catalogo .petaniaCatalogo img{ 	
 	padding: 8px;
@@ -773,7 +775,7 @@ and (max-device-width : 1024px) {
 	border: 1px solid #b9b9b9;
 	border-right: none;
 	border-radius: 2px 0px 0px 2px;
-	z-index: 1002;
+	/*z-index: 1002;*/
 	cursor: col-resize;
 }
 .infoCatalogo .cuerpoInfoCatalogo{
@@ -790,6 +792,7 @@ and (max-device-width : 1024px) {
 	overflow-x: hidden;
 	overflow-y: auto;
 	cursor: initial;
+	z-index: 1003;
 
 /*	resize: horizontal;
 	overflow: auto;
@@ -900,6 +903,7 @@ and (max-device-width : 1024px) {
 	border-radius: 2px 0px 0px 2px;
 	cursor: pointer;
 	display: none;
+	z-index: 1002;
 }
 .infoCatalogo .petaniaInfoCatalogo img{ 	
 	padding: 9px;
@@ -1575,7 +1579,7 @@ img.tiposCapas{
 	top: 30%;
 } 
 
-.leaflet-top.leaflet-left{
+.leaflet-top.leaflet-left, .leaflet-top.leaflet-right{
 	z-index: 1003;
 }
 
