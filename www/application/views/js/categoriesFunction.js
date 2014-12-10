@@ -833,9 +833,13 @@ function getHtmlCategories(categories, index) {
 		html +=
 					"<ul class='family_header' style='padding-left:" + index*10 +"px' title='" + categories[i].title + "'>" +
 						"<li class='ico_open_close'><img style='vertical-align: top;' src='application/views/img/MED_icon_familia.png'></li>" +
-						"<li class='name ellipsis'>" + categories[i].title + "</li>" +
-						"<li class='n_elements'>(" + categories[i].layers.length + ")</li>" +
-					"</ul>"+
+						"<li class='name ellipsis'>" + categories[i].title + "</li>";
+
+		if(categories[i].layers.length > 0){
+			html +=		"<li class='n_elements'>(" + categories[i].layers.length + ")</li>";
+		}
+		
+		html +=			"</ul>"+
 					
 					"<div class='clear'></div>"+
 					
