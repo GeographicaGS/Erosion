@@ -314,7 +314,11 @@
 		<div class="cuerpoInfoCatalogo">
 			<p class="id" style="display:none;" title=""></p>
 			<p class='deleteProyect'>Eliminar</p>
-			<p class="title1" title=""></p>
+			<div class="head">
+				<p class="title1" title=""></p>
+				<a href="" target="_blank" class="moreInfo">Más información</a>
+			</div>
+			<div class="clear"></div>
 			<p class="title2"></p>
 			<div class="extraLeyenda">
 				<img title="Añadir capa" class="botonAddImageLeyenda" src="application/views/img/ERO_icon_anadir_capa.png">

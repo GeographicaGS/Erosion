@@ -487,6 +487,7 @@ function eventosCatalogo(){
 		$("#kmlAll").remove();
 		$(".botonAddImageLeyenda").show();
 		$(".extraLeyenda").children(".title3, .divLeyenda").show();
+		$(".moreInfo").hide();
 
 
 		if($(this).parent().hasClass("family_content")){
@@ -497,6 +498,10 @@ function eventosCatalogo(){
 			
 			
 			$(".cuerpoInfoCatalogo").find(".title1").text($(this).find("p").text());
+			if($(this).find(".moreInfo").length > 0){
+				$(".infoCatalogo .cuerpoInfoCatalogo .moreInfo").attr("href",$(this).find(".moreInfo").attr("href"));
+				$(".infoCatalogo .cuerpoInfoCatalogo .moreInfo").show();
+			}
 			$(".cuerpoInfoCatalogo").find(".title1").prop('title', $(this).find("p").text());
 			
 			//Si es un proyecto compruebo el estado del botón de proyecto por defecto
@@ -846,6 +851,10 @@ function getHtmlCategories(categories, index) {
 								"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>" +
 								"<span style='display:none;'>" + categories[i].layers[y].description + "</span>"
 								;
+
+								if(categories[i].layers[y].info){
+	    							html += "<a href='" + categories[i].layers[y].info + "' target='_blank' class='moreInfo' style='display:none;'>Más información</a>"
+	    						}
 								
 								html += "<div class='listaTipos mt'>"
 	    							if((categories[i].layers[y].wms) && (categories[i].layers[y].wms.server) && (categories[i].layers[y].wms.name)){
@@ -864,6 +873,7 @@ function getHtmlCategories(categories, index) {
 	    							if(categories[i].layers[y].simbolo){
 	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='simbolo' class='fleft fright'><span class='tiposCapas'>Símbolos</span></div>";
 	    							}
+
 								html += "</div>"
 								html+= "<div class='clear'></div>" + 
 							"</li>";

@@ -796,17 +796,32 @@ and (max-device-width : 1024px) {
 	-webkit-transform: rotate(-180deg);*/
 }
 
+.infoCatalogo .cuerpoInfoCatalogo .head{
+	border-bottom: 1px solid #dcdcdc;
+	min-height: 34px;
+	margin-left: 10px;
+	margin-right: 10px;
+	display: flex;
+}
+
 .infoCatalogo .cuerpoInfoCatalogo .title1{
 	font-size: 14px;
 	color: #013e88;
 	line-height: 20px;
-	margin-left: 10px;
-	margin-right: 10px;
-	border-bottom: 1px solid #dcdcdc; 
-	display: flex;
+	flex: 1;
 	margin-top: 10px;
 	padding-bottom: 5px;
+	float: left;
 }
+
+.infoCatalogo .cuerpoInfoCatalogo .moreInfo{
+	float: right;
+	font-size: 11px;
+	color: #013e88;
+	margin-top: 14px;
+	display: none;
+}
+
 
 .infoCatalogo .cuerpoInfoCatalogo .title1:BEFORE{
 	content: url("../img/ERO_icon_elemento-final.png");
