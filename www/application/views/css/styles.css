@@ -1799,6 +1799,18 @@ img.tiposCapas{
 	z-index: 100;
 }
 
+.leaflet-control-scale{
+	position: absolute;
+}
+
+.leaflet-left .leaflet-control-scale{
+	bottom: 25px;
+}
+
+.leaflet-right .leaflet-control-scale{
+	bottom: 5px;
+	right: -5px;
+}
 
 .prueba{
 	position: fixed;
@@ -1807,3 +1819,4 @@ img.tiposCapas{
 	border: none;
 	left: 43%;
 }
+
