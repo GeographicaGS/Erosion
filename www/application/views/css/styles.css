@@ -1237,18 +1237,6 @@ img.tiposCapas{
 	margin-left: 2px;
 }
 
-#tool_bar #go_back {
-	background: url("../img/ERO_herramienta_punto_off.png");
-	-webkit-transform: rotate(45deg);
-	display: none;
-}
-
-#tool_bar #go_forward {
-	background: url("../img/ERO_herramienta_punto_off.png");
-	-webkit-transform: rotate(45deg);
-	display: none;
-}
-
 #tool_bar #ctrl_marker_drawer {
 	background: url("../img/ERO_herramienta_punto_off.png");
 }

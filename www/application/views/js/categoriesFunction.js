@@ -126,173 +126,7 @@ function drawCategories(unLoadDefaultProject) {
         		}
         }
 	});
-	
-	$(".petaniaCatalogo").unbind().bind( "click", function(){
-		if($(".cuerpoCatalogo").is(":visible")){
-			var left;
-			if($(".catalogo").outerWidth() > 311){
-				left = "-30.1%";
-			}else{
-				left = "-311px";
-			}
-			$(".catalogo").animate({"left":left},function(){
-				$(".cuerpoCatalogo").hide();
-				$(".petaniaCatalogo").find("img").attr("src",$(".petaniaCatalogo").find("img").attr("src").replace("ERO_icon_pestana_catalogo.png","ERO_icon_pestana_catalogo_off.png"));
-			});
-			
-		}else{
-			$(".cuerpoCatalogo").show();
-			$(".catalogo").animate({"left":""});
-			$(".petaniaCatalogo").find("img").attr("src",$(".petaniaCatalogo").find("img").attr("src").replace("ERO_icon_pestana_catalogo_off.png","ERO_icon_pestana_catalogo.png"));
-		}
-	});
-	
-	$(".petaniaInfoCatalogo").unbind().bind( "click", function(e){
-		if($(".cuerpoInfoCatalogo").is(":visible")){
-			$(".infoCatalogo").animate({"right": "-" + $(".infoCatalogo").outerWidth() + "px"},function(){
-				$(".cuerpoInfoCatalogo").hide();
-				$(".petaniaInfoCatalogo").find("img").attr("src",$(".petaniaInfoCatalogo").find("img").attr("src").replace("ERO_icon_pestana_info.png","ERO_icon_pestana_info_off.png"));
-			});
-			
-		}else{
-			$(".cuerpoInfoCatalogo").show();
-			$(".infoCatalogo").animate({"right":""});
-			$(".petaniaInfoCatalogo").find("img").attr("src",$(".petaniaInfoCatalogo").find("img").attr("src").replace("ERO_icon_pestana_info_off.png","ERO_icon_pestana_info.png"));
-		}
-		e.stopPropagation();
-	});
-
-	//Menú de información resizable
-	// $(".cuerpoInfoCatalogo").on('click', function(e) {
-	// 	$("#fancy_select_panel").hide(300);
-	// 	e.stopPropagation();
-	// });
-
-	$(".cuerpoInfoCatalogo").mousedown(function(e) {
-		e.stopPropagation();
-	}).mouseup(function(e) {
-		e.stopPropagation();
-	});
-	
-	$(".petaniaInfoCatalogo").mousedown(function(e) {
-		e.stopPropagation();
-	}).mouseup(function(e) {
-		e.stopPropagation();
-	});
-
-	$(".infoCatalogo").mousedown(function() {
-		$(".cuerpoInfoCatalogo, #container").css({"cursor":"col-resize"});
-		$(".cuerpoInfoCatalogo, #container").mousemove(function(e) {
-			$(".infoCatalogo").outerWidth($("#proyecto").outerWidth() - e.originalEvent.clientX);
-		});
-	});
-
-	$("#container, .cuerpoInfoCatalogo, header, footer").mouseup(function(e) {
-		$(".cuerpoInfoCatalogo, #container").css({"cursor":""});
-		$(".cuerpoInfoCatalogo, #container").off("mousemove");
-		if($(this).hasClass("cuerpoInfoCatalogo")){
-			$("#fancy_select_panel").hide(300);
-			e.stopPropagation();
-		}
-	});
-
-	//Fin menú de información resizable
-
-	$(".catalogo .cuerpoCatalogo .cabecera .seccion").unbind().bind( "click", function(){
-		$(".catalogo .cuerpoCatalogo .cabecera .seccion").removeClass("active");
-		$(this).addClass("active");
-		$(".catalogueSection").hide();
-		$("div[idSection=" + $(this).attr("idSection") + "]").show();
-	});
-	
-	$(".botonAddImage").unbind().bind( "hover", function(){
-		var lista = $(this).siblings(".listaTipos");
-		var aux;
-		
-		if($(lista).is(":visible")){
-			aux = $(lista).parent().outerWidth() - $(this).outerWidth() - 40;
-			$(this).siblings("p").css({"width":aux});
-			lista.hide();
-		}else{
-			aux = $(lista).parent().outerWidth() - $(lista).siblings("p").outerWidth() - $(this).outerWidth()-40;
-			if($(this).siblings("p").width() > aux){
-				$(this).siblings("p").css({"width":$(this).siblings("p").outerWidth() + aux - lista.outerWidth()});
-			}
-			lista.show();
-		}
-	});
-	
-	$(".listaTipos").unbind().bind( "hover", function(){
-		var aux;
-		if($(this).is(":visible")){
-			$(this).hide();
-			aux = $(this).parent().outerWidth() - $(this).outerWidth() - 40;
-			$(this).siblings("p").css({"width":aux});
-		}else{
-			aux = $(this).parent().outerWidth() - $(this).siblings("p").outerWidth() - $(this).parent().find(".botonAddImage").outerWidth()-40;
-			if($(this).siblings("p").width() > aux){
-				$(this).siblings("p").css({"width":$(this).siblings("p").outerWidth() + aux - $(this).outerWidth()});
-			}
-			$(this).show();
-		}
-	});
-	
-
-		
-	$(".family_header").unbind().bind( "click", function(){
-//		for(var i=0; i<$(".name").length; i++){
-//			if(!$($(".name")[i]).is(":visible")){
-//				$($(".name")[i]).css({"font-weight":"normal"});
-//			}
-//		}
-		if($(this).next().next().is(":visible")){
-//			$(this).find(".name").css({"font-weight":"normal"})
-			$(this).next().next().slideUp();
-			$($(this).find("img")[0]).attr("src", "application/views/img/MED_icon_familia.png")
-//			$(this).parent().css({"background-color":"white"});
-		}else if($(this).next().next().find("li").length > 0){
-//			$(this).find(".name").css({"font-weight":"bold"})
-			$(this).next().next().slideDown();
-			$($(this).find("img")[0]).attr("src", "application/views/img/MED_icon_cerrar_capas.png")
-//			if($(this).attr('tipo') && $(this).attr('tipo') == 'project'){
-//				$(this).parent().css({"background-color":"#e5eff6"});
-//			}else{
-//				$(this).parent().css({"background-color":"#ecedef"});
-//			}
-		}
-	});
-	
 };
-
-
-
-function coloreaEtiquetas(e){
-	if($(e).is("img")){
-		$(e).parent().prev().find("span").css({"cssText":"color:white !important"});
-		$(e).parent().prev().find("span").css({"background-color":"#ff6600"});
-		$(e).attr("src", "application/views/img/ERO_icon_link_gris.png");
-		$(e).css({"background-color":"#ff6600", "border-left":"1px solid white"});
-		
-	}else{
-		$(e).css({"cssText":"color:white !important", "background-color":"#ff6600"});
-		$(e).parent().next().find("img").css({"background-color":"#ff6600", "border-left":"1px solid white"});
-		$(e).parent().next().find("img").attr("src", "application/views/img/ERO_icon_link_gris.png");
-	}
-}
-
-function desColoreaEtiquetas(e){
-	if($(e).is("img")){
-		$(e).parent().prev().find("span").css({"cssText":"color:#ff6600 !important"});
-		$(e).parent().prev().find("span").css({"background-color":"white"});
-		$(e).attr("src", "application/views/img/ERO_icon_link_naranja.png");
-		$(e).css({"background-color":"white", "border-left":"1px solid #ff6600"});
-		
-	}else{
-		$(e).css({"cssText":"color:#ff6600 !important", "background-color":"white"});
-		$(e).parent().next().find("img").css({"background-color":"white", "border-left":"1px solid #ff6600"});
-		$(e).parent().next().find("img").attr("src", "application/views/img/ERO_icon_link_naranja.png");
-	}
-}
 	
 function buscarCapa(id, categories){
 	for(var i=0; i<categories.length; i++){
@@ -348,7 +182,6 @@ function eventosCatalogo(){
                 		        dataType: "json",
                 		        success: function(response) {
                 		        	Split.addLayer(null,"vectorial", null, response,1,capasRight[i].visible);  
-                		        	//navigate(0);
                 		        }
                 			});
 		        			
@@ -359,7 +192,6 @@ function eventosCatalogo(){
                 				leyenda = capa.wms.server;
                 			}
                 			Split.addLayer(capa,capasRight[i].tipo, leyenda, null,1, capasRight[i].visible, capasRight[i].opacity);
-                			//navigate(0);
 		        		}
 		        	}
 		        	
@@ -371,7 +203,6 @@ function eventosCatalogo(){
                 		        dataType: "json",
                 		        success: function(response) {
                 		        	Split.addLayer(null,"vectorial", null, response,2, capasLeft[i].visible);  
-                		        	//navigate(0);
                 		        }
                 			});
 		        			
@@ -382,7 +213,6 @@ function eventosCatalogo(){
                 				leyenda = capa.wms.server;
                 			}
                 			Split.addLayer(capa,capasLeft[i].tipo, leyenda, null,2, capasLeft[i].visible, capasLeft[i].opacity);
-                			//navigate(0);
 		        		}
 		        	}
 		        	
@@ -405,7 +235,6 @@ function eventosCatalogo(){
         		        dataType: "json",
         		        success: function(response) {
         		        	Split.addLayer(null,tipo, null, response,panel);  
-        		        	//navigate(0);
         		        }
         			});
         		}
@@ -419,7 +248,6 @@ function eventosCatalogo(){
         				leyenda = capa.wms.server;
         			}
         			Split.addLayer(capa,tipo, leyenda, null,panel);
-        			//navigate(0);
         		}
     		});
     		
@@ -428,52 +256,6 @@ function eventosCatalogo(){
 		
 	});	
 
-	$(".deleteProyect").unbind().bind( "click", function(event){
-		var project = $(".extraLeyenda").find("div[idproject]").attr("idProject");
-		showConfirmDialog(function(){
-			$.ajax({
-				url: 'index.php/project/deleteProyect/' + encodeURIComponent(project), 
-					success: function(response) {
-						Split.removeAllLayers();
-						drawCategories();
-						$(".infoCatalogo .petaniaInfoCatalogo").trigger("click")
-						$(".infoCatalogo .petaniaInfoCatalogo").hide()
-					}
-			});           
-		},"¿Desea borrar el proyecto seleccionado?");
-	});
-
-	$(".defaultProject").unbind().bind( "click", function(event){
-		var self = $(this);
-		if($(this).hasClass('active')){
-			$.ajax({
-				url: 'index.php/project/removeDefaultProyect', 
-				success: function(response) {
-					self.removeClass('active');
-					$(".defaultProject").prop("title", "Establecer por defecto");
-					defaultProject = null;
-				}
-			});
-
-		}else{
-			var project = $(".extraLeyenda").find("div[idproject]").attr("idProject");
-			$.ajax({
-				url: 'index.php/project/defaultProyect/' + encodeURIComponent(project), 
-					success: function(response) {
-						drawCategories(true);
-						self.addClass('active');
-						$(".defaultProject").prop("title", "Establecido por defecto");
-						defaultProject = project;
-					}
-			});
-		}
-		return false;
-	});
-	
-	$("body").unbind().bind( "click", function(){
-		$("#fancy_select_panel").hide(300);
-	});
-	
 	$(".family_content li").unbind().bind( "click", function(){
 		//Restauro vistas
 		if($(".seccion.active").attr("idSection") == 4){
@@ -492,10 +274,6 @@ function eventosCatalogo(){
 
 		if($(this).parent().hasClass("family_content")){
 			$(".infoCatalogo .petaniaInfoCatalogo").show();
-			// if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
-			// 	$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
-			// }
-			
 			
 			$(".cuerpoInfoCatalogo").find(".title1").text($(this).find("p").text());
 			if($(this).find(".moreInfo").length > 0){
@@ -739,91 +517,6 @@ function eventosCatalogo(){
 		}
 	});
 
-	$(".goBack").unbind().bind("click", function() {
-		$("#commentsVector").hide();
-		$("#addHistoryForm").hide();
-		$("#geometryVector").show()
-	});
-
-	$(".addHistoryButton").unbind().bind("click", function(event, latlng) {
-		$("#geometryVector").hide();
-		$("#addHistoryForm input[type='text']").val("");
-		$(".addCommentHistory").val("");
-		$("#addHistoryForm").show();
-		$("#addHistoryForm input[type='text']").removeClass("errorBorder");
-		$(".addCommentHistory").removeClass("errorBorder");
-		$("#typeHistory").val("Historia");
-		$("#addHistoryForm").find(".goBack").show();
-
-		// Cargo las categorias
-		$("#addHistoryForm select").html("");
-		$.ajax({
-		        url: 'index.php/draw/getCategories', dataType: "json",
-		        success: function(response) {
-		        	$("#fancy_box_form_save_draw").find("select").children().remove();
-		        	for(var i=0; i<response.length; i++){
-			    		$("#addHistoryForm select").append("<option value='" + response[i].id_category + "' " + ($(".extraLeyenda").find("div[idCapa]").attr("idCapa") == response[i].id_category ?  'selected' : '') + ">" + response[i].title + "</option>");
-			    	}
-			    }
-		});
-
-		$(".saveHistoryButton").unbind().bind("click", function() {
-			$("#addHistoryForm input[type='text']").removeClass("errorBorder");
-			$(".addCommentHistory").removeClass("errorBorder");
-			var guardar = true;
-			if($("#addHistoryForm input[type='text']").val() == ""){
-				$("#addHistoryForm input[type='text']").addClass("errorBorder");
-				guardar = false;
-			}
-			if($(".addCommentHistory").val() == ""){
-				$(".addCommentHistory").addClass("errorBorder");
-				guardar = false;
-			}
-			if(guardar){
-				$.ajax({
-					url: 'index.php/draw/saveDraw',
-					data: "puntos=" + (latlng != null ? JSON.stringify(latlng): "") + "&type=" + $("#typeHistory").val() + "&" + "&titulo=" + $("#addHistoryForm input[type='text']").val() + "&comentario=" + $(".addCommentHistory").val() + "&categoria=" + $("#addHistoryForm select").val(),
-					type: "POST",
-					success: function(response) {
-						var htmlCategory = $(".contenidoCatalogo").find("div[idCapa='" + $("#addHistoryForm select").val() + "'][tipo='vectorial']").parent();
-						htmlCategory.show();
-						htmlCategory.trigger("click");
-
-						if(latlng != null){
-							//Borro la geomatría y refresco la categoría
-							$.each(Split.__mapLeft.getMap()._layers, function(key){
-								if((Split.__mapLeft.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlng, latlng)) || (Split.__mapLeft.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlngs, latlng))){
-									Split.__mapLeft.getMap().removeLayer(Split.__mapLeft.getMap()._layers[key]);
-									return true;
-								}
-							});
-									        	
-							$.each(Split.__mapRight.getMap()._layers, function(key){
-								if((Split.__mapRight.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlng, latlng)) || (Split.__mapRight.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlngs, latlng))){
-									Split.__mapRight.getMap().removeLayer(Split.__mapRight.getMap()._layers[key]);
-									return true;
-								}
-							});
-
-							// REFRESCAR CATEGORIA EN EL MAPA, TENGO QUE BORRARLA SI ESTÁ CARGADA Y VOLVERLA A CARGAR
-							Split.__mapLeft.removeLayer($("#addHistoryForm select option:selected").text(), "geoJson");
-							Split.__mapRight.removeLayer($("#addHistoryForm select option:selected").text(), "geoJson");
-							$.ajax({
-								url: 'index.php/draw/getDraws/' + $("#addHistoryForm select").val(), 
-								dataType: "json",
-								success: function(response) {
-									Split.addLayer(null,"vectorial", null, response,3);  
-								}
-							});
-						}
-
-					}
-				});
-			}
-		});
-
-	});
-
 }
 
 function getHtmlCategories(categories, index) {
@@ -915,20 +608,4 @@ function removeGeometryFromLayer(map, idCapa, idDraw){
 			}
 		}
 	}
-}
-
-function deleteCommentEvent(){
-	$(".deleteComment").unbind().bind("click", function() {
-		var idComment = $(this).attr("idComment");
-		var comment = $(this).parent();
-		showConfirmDialog(function(){
-		$.ajax({
-        	url: 'index.php/draw/deteleComent/' + idComment,
-	        success: function(response) {
-	        	comment.next().remove();
-				comment.remove();
-	        }
-        });           
-	    },"¿Desea borrar el comentario seleccionado?");
-	});
 }

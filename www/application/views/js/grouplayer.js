@@ -17,7 +17,6 @@ function GroupLayer(opts){
 	}
 	
 	this.getHTMLLayersPanel = function(){
-//		var html = "<li>Erosión en deltas mediterráneos</li>";
 		var html = "";
 		
 		//Añado la capa de  Panoramio
@@ -31,8 +30,7 @@ function GroupLayer(opts){
 		html += "<ul>"
 		for(x in this.layers){
 			var l =  this.layers[x];
-//			var lattr = l.visible ? "checked" : ""; 
-//			var lstyle = l.visible ? "color:black" : "";
+
 			var lattr = "checked"; 
 			var lstyle = "color:black";
 					
@@ -62,9 +60,7 @@ function GroupLayer(opts){
 			
 		}
 		html += "</ul>"
-		
-		
-//		html += "<li style='background: none; cursor: initial;' class='disableSortable' onclick='navigate(1)'><a class='addCatalog' href='#'>+ Añadir capas del <strong>Catálogo</strong></a></li>";
+
 		html += "<li style='background: none; cursor: initial;' class='disableSortable' ><a class='add_layer' href='#'>+ Añadir capas de un servicio externo</a></li>"; 
 		return html;		
 	};
@@ -154,35 +150,6 @@ function GroupLayer(opts){
 		});
 		
 		$panel.find("li > img.legend").click(function(){
-			// var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
-			// var $container = $(self.map.getContainer()).parent();
-			// var $el = self.__getLegendContainer();
-			// $el.hide(); //Para que aparezca de forma animada
-			// var dibjuarLeyenda = true;
-			
-			// $el.find("h4").find("p").text($(this).parent().attr("title"))
-			
-			// var legendUrl = self.layers[id_layer].leyenda.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
-			// +"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
-			
-			// $el.find(".co_legend").html("<img src='" + legendUrl +"'/>");
-			
-			// //Si esta leyenda ya se esta mostrando la elimino
-			// var leyendas = $container.find(".flotable_legend");
-			// for(var i=0; i<leyendas.length; i++){
-			// 	if($(leyendas[i]).find("h4").find("p").text() == $el.find("h4").find("p").text()){
-					
-			// 		$(leyendas[i]).fadeOut(function () {
-			// 			$(this).remove();
-			// 		});
-			// 		dibjuarLeyenda = false;
-			// 		break;
-			// 	}	
-			// }
-			// if(dibjuarLeyenda){
-			// 	self.__addLegendDOM($container,$el);
-			// 	$el.fadeIn(); //Para que aparezca de forma animada
-			// }
 			
 			var id_layer = $(this).parent().find("input").attr("id_layer");
 			var id_capa = $(this).parent().find("input").attr("idCapa");
@@ -193,25 +160,6 @@ function GroupLayer(opts){
 			}
 
 			$("div[idCapa='" + id_capa + "'][tipo='" + tipo +"']").trigger("click");
-
-
-			// $(".cuerpoInfoCatalogo").find(".id").text(id_layer);
-			// $(".cuerpoInfoCatalogo").find(".title1").text(self.layers[id_layer].title);
-			// $(".cuerpoInfoCatalogo").find(".title1").prop('title', self.layers[id_layer].title);
-			// $(".cuerpoInfoCatalogo").find(".title2").text("");
-			// $(".extraLeyenda").show();
-			// $(".botonAddImageLeyenda").hide();
-			// $(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
-			// $(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
-			// $(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
-			// if(self.layers[id_layer].tipo == "wms"){
-			// 	var legendUrl = self.layers[id_layer].url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
-			// 	+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
-			// 	$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
-			// 	$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
-			// }
-			
-			
 		});
 		
 		$panel.find("li > img.remove").click(function(){
@@ -254,9 +202,6 @@ function GroupLayer(opts){
 			    "visibility":"hidden",
 			    'closeBtn' : false,
 			    "openEffect" : "elastic",		   
-//			    'openSpeed' : 500,
-//			    'closeEffect' : "elastic",
-//			    'closeSpeed' : 500,
 			    'scrolling'   : 'no',
 			    helpers : {
 			        overlay : {
@@ -395,11 +340,6 @@ function GroupLayer(opts){
 						    				$(".extraLeyenda").show();
 						    				$(".botonAddImageLeyenda").hide();
 						    				
-						    				
-						    				
-						    				
-						    				
-						    				
 					    				});
 			    		        	}else{
 			    		        		$(selfBoton).val("Servicio no encontrado");
@@ -443,41 +383,9 @@ function GroupLayer(opts){
 			    			}
 			    		}
 			    	});
-			    	
-// 			    	$("input[type='text']").on("click",function(){
-// //			    		if($(this).val() == "url" || $(this).val() == "Título de la capa"){
-// 			    			$(this).val("");
-// //			    		}
-// 			    	});
 			    }
 			});
 		});
-		
-		// $(".layerTree").unbind().on("click",function(){
-		// 	var id_layer = $(this).find("input").attr("id_layer");
-		// 	if(self.layers[id_layer].id != -1){
-		// 		$(".family_content").find("li[idCapa=" + self.layers[id_layer].id + "]").trigger("click");
-		// 	}else{
-		// 		$(".infoCatalogo .petaniaInfoCatalogo").show();
-		// 		if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
-		// 			$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
-		// 		}
-		// 		$(".cuerpoInfoCatalogo").find(".title1").text(self.layers[id_layer].title);
-		// 		$(".cuerpoInfoCatalogo").find(".title1").prop('title', self.layers[id_layer].title);
-		// 		$(".cuerpoInfoCatalogo").find(".title2").text("");
-		// 		$(".extraLeyenda").show();
-		// 		$(".botonAddImageLeyenda").hide();
-		// 		$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
-		// 		$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
-		// 		$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
-		// 		if(self.layers[id_layer].tipo == "wms"){
-		// 			var legendUrl = self.layers[id_layer].url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
-		// 			+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + self.layers[id_layer].name;
-		// 			$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
-		// 			$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
-		// 		}
-		// 	}
-		// });
 		
 		$panel.find(".panoramio").unbind().on("click",function(){
 			if($(this).find("input[type='checkbox']").is(":checked")){
@@ -493,16 +401,6 @@ function GroupLayer(opts){
 			 
 		});
 		
-		// if(this.getMap().getZoom() >= 11){
-		// 	$panel.find(".panoramio").find("input[type='checkbox']").prop("disabled",false);
-		// 	if(self.mostrarPanoramios){
-		// 		$panel.find(".panoramio").find("input[type='checkbox']").prop("checked",true);
-		// 	}
-		// }else{
-		// 	$panel.find(".panoramio").find("input[type='checkbox']").prop("disabled",true);
-		// 	$panel.find(".panoramio").find("input[type='checkbox']").prop("checked",false);
-		// }
-
 	};
 
 	this.refreshPanoramioCheck = function(check){
@@ -527,49 +425,12 @@ function GroupLayer(opts){
 				type: "POST",
 				dataType: "json",
 		        success: function(data) {
-		   //      	var markers = Array();
-		   //      	for(var i=0; i<data.photos.length; i++){
-		   //      		var greenIcon = L.icon({
-		   //      		    iconUrl: data.photos[i].photo_file_url,
-		   //      		});
-		       //  		var marker = new L.CircleMarker([data.photos[i].latitude, data.photos[i].longitude], {
-					    //     radius: 5,
-					    //     fillColor: '#FF6600',
-					    //     color: '#FF6600',
-					    //     opacity: 1,
-					    //     fillOpacity: 1,
-					    //     weight: 1,
-					    //     clickable: true,
-					    //     value : data.photos[i].photo_file_url,
-					    // });
-		       //  		marker.on('click', function(){
-		       //  			showInfoFancybox("<img id='prueba' src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
-		       //  		});
-		        		
-		   //      		markers.push(marker);
-		   //      	}
-		   //      	if(self.__panoramios){
-					// 	self.getMap().removeLayer(self.__panoramios);
-					// }
-		   //      	self.__panoramios = L.layerGroup(markers);
-		   //      	self.__panoramios.addTo(self.getMap());
-
+		   
 		   			if(self.__panoramios){
 						self.getMap().removeLayer(self.__panoramios);
 					}
 		   			self.__panoramios = new L.MarkerClusterGroup();
 		   			for(var i=0; i<data.photos.length; i++){
-
-		   				// var marker = new L.CircleMarker([data.photos[i].latitude, data.photos[i].longitude], {
-					    //     radius: 5,
-					    //     fillColor: '#FF6600',
-					    //     color: '#FF6600',
-					    //     opacity: 1,
-					    //     fillOpacity: 1,
-					    //     weight: 1,
-					    //     clickable: true,
-					    //     value : data.photos[i].photo_file_url,
-					    // });
 
 						var marker = L.marker([data.photos[i].latitude, data.photos[i].longitude], {icon: new L.icon({iconUrl: 'application/views/img/ERO_icon_map_panoramio.png', zIndexOffset:1000}),value : data.photos[i].photo_file_url});
 		        		marker.on('click', function(){
@@ -588,21 +449,6 @@ function GroupLayer(opts){
 			}
 		}
 	};
-	
-	// this.refreshPanoramioStatus = function(check){
-	// 	if($(check).length > 0){
-	// 		if(this.getMap().getZoom() >= 11){
-	// 			$(check).find("input[type='checkbox']").prop("disabled",false);
-				
-	// 		}else{
-	// 			$(check).find("input[type='checkbox']").prop("disabled",true);
-	// 			$(check).find("input[type='checkbox']").prop("checked",false)
-	// 			this.mostrarPanoramios = false;
-	// 		}
-	// 	}
-	// };
-	
-	
 	
 	/* Toogle a given layer*/
 	this.toogleLayer = function(id_layer,checked){
@@ -681,16 +527,7 @@ function GroupLayer(opts){
 	this.__refreshLayer = function(l){
 		// refresh BBOX
 		this.__refreshBBOX();
-		
-//		if (l.visible){
-//			this.__refreshLayerClosure(this,l);
-//		}
-//		else{
-//			if (l.points){
-//				// layer not visible, let's remove it from the map
-//				l.points.clearLayers();
-//			}
-//		}	
+			
 		if (l.visible){
 			l.setVisibility(true, this.map);
 		}else{
@@ -727,30 +564,7 @@ function GroupLayer(opts){
 	this.mostrarPanoramios = false;
 	this.capaPanoramios = false;
 	this.callejero = new L.GoogleStreet();
-	
-	//initialize context layers
-	//this.ctxLayers = [];
-	//var controlCtxLayers = {};
-	//for(x in opts.ctxLayers){
-	//	var ctx = opts.ctxLayers[x];
-	//	this.ctxLayers[x] = new L.tileLayer.wms(ctx.server, {
-	//	    layers: ctx.layers,
-	//	    format: 'image/png',
-	//	    transparent: true	    
-	//	});
-	//	controlCtxLayers[ctx.title] = this.ctxLayers[x];
-	//	
-	//	// add the layer group to map
-	//	if (ctx.visible){
-	//		//this.map.addLayer(this.ctxLayers[x]);	
-	//		this.ctxLayers[x].addTo(this.map);
-	//	}			
-	//}
-	//
-	//// create a layer group with all the context layers
-	//this.ctxLayerGroup = new L.layerGroup(this.ctxLayers);
-	//
-	
+	this.layers = new Array();
 	
 	var gSatellite = new L.Google('SATELLITE'),
 		noMap = new L.Google('SATELLITE'),
@@ -761,166 +575,12 @@ function GroupLayer(opts){
 		openStreetMap =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'})
 		);
 	
-	// L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-	//     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-	// }).addTo(map);
-	
-	this.map.addLayer(gSatellite);
-	
-	var orto56 = L.tileLayer('http://www.erosion.geographica.gs/tileado/00-orto56-result/{z}/{x}/{y}.png',{tms: true});
-	var position = this.father == Split.LEFT ?  'topleft' : 'topright';
-	
-	var din_linea09 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
-		layers: 'linea_09',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var din_linea77 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
-		layers: 'linea_77',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var din_linea56 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
-		layers: 'linea_56',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var din_tasa56_77 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
-		layers: 'Tasas_1956_1977',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var din_tasa77_09 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
-		layers: 'Tasas_1977_2009',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var din_tasa56_09 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/dinamica_litoral", {
-		layers: 'Tasas_1956_2009',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var cvi1 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
-		layers: 'CVI_CoastalVulnerabilityIndex',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var cvi2 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
-		layers: 'CVI_geomorfologia',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	
-	var cvi3 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
-		layers: 'CVI_topografia',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var cvi4 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
-		layers: 'CVI_nivel_mar',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var cvi5 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
-		layers: 'CVI_oleaje_significante',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var cvi6 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
-		layers: 'CVI_rango_mareal',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var cvi7 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/cvi", {
-		layers: 'CVI_erosion',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	
-	var ufis = L.tileLayer.wms("http://193.147.172.37/cgi-bin/unidades_fisiograficas", {
-		layers: 'unidades_fisiograficas_nv5',
-		format: 'image/png',
-		transparent: true,
-	});
-	
-	var ufis2 = L.tileLayer.wms("http://193.147.172.37/cgi-bin/unidades_fisiograficas", {
-		layers: 'unidades_fisiograficas_nv5',
-		format: 'image/png',
-		transparent: true,
-		opacity : 0.5
-	});
-	
-	var matrixIds3857= new Array(22);
-    for (var i= 0; i<22; i++) {
-        matrixIds3857[i]= {
-            identifier    : "" + i,
-            topLeftCorner : new L.LatLng(20037508,-20037508)
-        };
-    }
-
-
-	//var wmts = new L.TileLayer.WMTS("http://wxs.ign.fr/6081235680374936929/geoportail/wmts",           {
-	//	layer: 'GEOGRAPHICALGRIDSYSTEMS.MAPS',
-	//	style: 'normal',
-	//	tilematrixSet: "PM",
-	//	matrixIds: matrixIds3857,
-	//	format: 'image/jpeg'
-	//});
-	
-	var matrixIds = new Array(26);
-    for (var i=0; i<26; ++i) {
-        //matrixIds[i] = "EPSG:900913:" + i;
-		matrixIds[i]= {
-            identifier    : "EPSG:900913:" + i,
-            topLeftCorner : new L.LatLng(20037508,-20037508)
-        };
-		
-    }
-
-//    var MTNbase = new OpenLayers.Layer.WMTS({
-//        name: "Mapa base de Espa&#241a",
-//        url: "http://www.ign.es/wmts/ign-base",
-//		layer: "IGNBaseTodo",
-//        matrixSet: "EPSG:900913",
-//        matrixIds: matrixIds,
-//        style: "default",	
-//        format: "image/png",
-//        opacity: 1,
-//        isBaseLayer: true,
-//		visibility: false
-//    });
-	
-	var wmts = new L.TileLayer.WMTS("http://www.ign.es/wmts/ign-base",           {
-		layer: 'IGNBaseTodo',
-		style: 'default',
-		tilematrixSet: "EPSG:900913",
-		matrixIds: matrixIds,
-		format: 'image/png'
-	});
-	
-	var wmts2 = new L.TileLayer.WMTS("http://zidane.fgh.us.es:8080/geoserver/gwc/service/wmts",           {
-		layer: 'litoral:CVI_wmts',
-		style: 'default',
-		tilematrixSet: "EPSG:900913",
-		matrixIds: matrixIds,
-		format: 'image/png'
-	});
-	
 	noMap.options.opacity = 0
 	noMap.options.mapOptions.backgroundColor = "black";
+	
+	this.map.addLayer(gSatellite);
+
+	var position = this.father == Split.LEFT ?  'topleft' : 'topright';
 	
 	L.control.layers(
 					 {
@@ -933,49 +593,14 @@ function GroupLayer(opts){
 						 // 'OpenStreetMap' : openStreetMap
 					 },null,{position: position}).addTo(this.map);
 
-	// noMap.setOpacity(0)
-	
-	//this.map.addControl(new L.Control.Layers( {'Google Satellite':gSatellite, 'Google Terrain': gTerrain}, {}));
-	
-	//initializate layers
-	this.layers = new Array();
-	
-	// let's initialize all layers
-	for(x in opts.layers){
-	
-		var l =  opts.layers[x];
-		
-		this.layers.push({
-			id: l.id,
-			json: 	null,
-			visible: l.visible,
-			priority: l.priority,
-			type: l.type,
-			baseRetriever: l.baseRetriever,
-			valueFactor: l.valueFactor,
-			title: l.title,
-			source: l.source,
-			color1: l.color1,
-			color2: l.color2,
-			points: null
-		});
-	}
-	
 	this.refreshLayers();
 	
 	
 	this.addLayer = function(gsLayer){
-		// var add = true;
 		
-		// for(var i=0; i<this.layers.length; i++){
-		// 	if(this.layers[i].title == gsLayer.title){
-		// 		add = false;
-		// 	}
-		// }
-		// if(add){
-			this.layers.unshift(gsLayer);
-			gsLayer.setVisibility(true, this.map, this.layers.length);
-		// }
+		this.layers.unshift(gsLayer);
+		gsLayer.setVisibility(true, this.map, this.layers.length);
+		
 	};
 	
 	this.removeLayer = function(title, tipo){
@@ -1007,7 +632,6 @@ function GroupLayer(opts){
 	
 		$el.css("left",($container.width() / 2 ) - $el.width());
 		$el.css("top",($container.height() / 2 ) - ($el.height() / 2));
-//		$el.css("top",$container.height() - $el.height() - 10 - (($(".flotable_legend").length - 1)  * $el.height() + 10));
 					
 		$el.find(".close").click(function(){
 			$el.fadeOut(function () {
@@ -1036,14 +660,6 @@ function GroupLayer(opts){
 		var HEIGHT = map.getSize().y;
 		var X = map.layerPointToContainerPoint(e.layerPoint).x;
 		var Y = map.layerPointToContainerPoint(e.layerPoint).y;
-
-		// var bds = map.getBounds();
-	 //    var sz = map.getSize();
-	 //    var w = bds.getNorthEast().lng - bds.getSouthWest().lng;
-	 //    var h = bds.getNorthEast().lat - bds.getSouthWest().lat;
-	 //    var X= (((e.latlng.lng - bds.getSouthWest().lng) / w) * sz.x).toFixed(0);
-	 //    var Y = (((bds.getNorthEast().lat - e.latlng.lat) / h) * sz.y).toFixed(0);
-
 		    
 		var layers = null;   
 		var server = null;
@@ -1080,9 +696,6 @@ function GroupLayer(opts){
 		        		obj.featureInfo(e,requestIdx+1);
 		        	}
 		        	else{
-		        		// data  = data.replace("<a", "<a target='_blank'")
-		        		// $("#container_feature_info").html(data);
-		        		// if($.trim($($.parseXML(data)).find("body").html()).length != 0){
 		        		if(data.substring(data.indexOf('<body>') + 6,data.indexOf('</body>')).trim().length > 0){
 		        			$("#container_feature_info").html(data);
 		        		}else{
@@ -1095,7 +708,6 @@ function GroupLayer(opts){
 		        	}
 	        	}catch (ex){
 	        		$("#container_feature_info").html("No hay información sobre este punto");
-//	        		$.fancybox.cclose();
 	        	}
 	        	$.fancybox.update();	
 	        },
@@ -1105,8 +717,4 @@ function GroupLayer(opts){
 	    });
 		
 	};
-}
-
-function onClick(data) {
-   var a = 9;
 }

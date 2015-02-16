@@ -35,16 +35,7 @@ function drawNotifications() {
         	}
         	
         	$(".drawNotification").unbind("click").on("click",function(event){
-//        		$.ajax({
-//    		        url: 'index.php/draw/getDraw/' + $(this).attr("idCategory"), 
-//    		        dataType: "json",
-//    		        success: function(response) {
-////    		        	var gSLayerGeoJson = new GSLayerGeoJson(response.properties.titulo, response, null);
-////    		        	Split.__mapLeft.addLayer(gSLayerGeoJson);
-////    		        	navigate(0);
-//    		        }
-//    			});
-        		
+
         		var id_draw = $(this).attr("idDraw");
         		
         		$.ajax({
@@ -53,8 +44,6 @@ function drawNotifications() {
     		        success: function(response) {
     		        	for(var i=0; i<response.length; i++){
     		        		if(response[i].properties.id == id_draw){
-    		        			// showFancyVectorInfo(response[i], null);
-    		        			// break;
                                 var idCategory = response[i].properties.id_category;
                                 $(".family_content li").find("div[idCapa='" + idCategory + "'][tipo='vectorial']").closest("li").trigger('click')
                                 if(!Split.__mapLeft.containLayer(response[i].properties.id_category,"vectorial") || Split.__mapRight.containLayer(id_draw,"vectorial")){
@@ -77,11 +66,9 @@ function drawNotifications() {
                                                 clearInterval(time);
                                             }
                                           }, 100);
-                                    // }
                                 }
     		        		}
     		        	}
-    		        	// navigate(0);
                     }
     			});
         		

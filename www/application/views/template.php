@@ -13,9 +13,11 @@
 <link rel="stylesheet" href="<?= get_js("lib/leaflet-0.5/leaflet.css")?>" />
 <link rel="stylesheet" href="<?= get_js("lib/leaflet.draw/leaflet.draw.css")?>" />
 
-<link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/jquery.fancybox.css?v=2.1.3")?>"/>
-<link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5")?>"/>
-<link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-thumbs.css?v=1.0.7")?>"/>
+<link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/jquery.fancybox.css")?>"/>
+<link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-buttons.css")?>"/>
+<link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/fancybox/helpers/jquery.fancybox-thumbs.css")?>"/>
+
+
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/ui-lightness/jquery-ui-1.10.3.custom.min.css")?>"/>
 		
 <!-- <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script> -->
@@ -28,7 +30,7 @@
 <link rel="stylesheet" type="text/css" href="<?= get_css("MarkerCluster.Default.css")?>?v1.0" />
 
 
-<script type="text/javascript" src="<?= get_js("lib/jquery-1.8.2.min.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/jquery-2.1.3.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet-0.5/leaflet.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet.markercluster.js")?>"></script>
 
@@ -45,14 +47,10 @@
 <script type="text/javascript" src="<?= get_js("lib/leaflet.Sync.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/singleTile.js")?>"></script>
 
-<!--[if lt IE 9]>
-<script src="<?= get_js("lib/html5shiv.js")?>"></script>
-<![endif]-->
-
 <script type="text/javascript" src="<?= get_js("global.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("grouplayer.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("split.js")?>"></script>
-<script type="text/javascript" src="<?= get_js("layers.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("access.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("GSLayerWMS.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("GSLayerWMTS.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("GSLayerTMS.js")?>"></script>
@@ -60,12 +58,14 @@
 <script type="text/javascript" src="<?= get_js("GSLayerSimbolo.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("categories.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("categoriesFunction.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("categoryPanel.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("infoPanel.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("notification.js")?>"></script>
 
-<script type="text/javascript" src="<?= get_js("lib/fancybox/jquery.fancybox.pack.js?v=2.1.3")?>"></script>
-<script type="text/javascript" src="<?= get_js("lib/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5")?>"></script>
-<script type="text/javascript" src="<?= get_js("lib/fancybox/helpers/jquery.fancybox-media.js?v=1.0.5")?>"></script>
-<script type="text/javascript" src="<?= get_js("lib/fancybox/helpers/jquery.fancybox-thumbs.js?v=1.0.7")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/fancybox/jquery.fancybox.pack.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/fancybox/helpers/jquery.fancybox-buttons.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/fancybox/helpers/jquery.fancybox-media.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/fancybox/helpers/jquery.fancybox-thumbs.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("lib/jquery.ui.touch-punch.min.js")?>"></script>
 
@@ -116,6 +116,9 @@
 	        	Split.initialize();
 	        }
         });
+
+		Access.initialize();
+
 		setTimeout(function(){
 			resize();
 		},300);
@@ -256,8 +259,6 @@
 		
 		
 		<div id="tool_bar">
-			<div title="Dibujar marcador" id="go_back"></div>
-			<div title="Dibujar marcador" id="go_forward"></div>
 			<div title="Dibujar marcador" id="ctrl_marker_drawer"></div>
 			<div title="Dibujar línea" id="ctrl_line_drawer"></div>
 			<div title="Dibujar polígono" id="ctrl_rectangle_drawer"></div>

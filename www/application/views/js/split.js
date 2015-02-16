@@ -29,9 +29,6 @@ Split = {
 			  maxZoom:20
 		});
 		
-		
-		
-		
 		// add zoom control to map left
 		var zoomControl = new L.Control.Zoom({
 			position : 'bottomleft'
@@ -43,20 +40,13 @@ Split = {
 		//let's create the GroupLayer object with the instance of mapLeft		
 		var opts = {
 				map: mapLeft,
-				layers: layers,
-				father:this.LEFT,
-				ctxLayers: ctxLayers
+				father:this.LEFT
 		}		
 		this.__mapLeft = new GroupLayer(opts);	
 		
 		mapLeft.on('moveend', function(e) {
 		    Split.__mapLeft.refreshLayers();
 		});
-		
-		/* Only for debug purpose
-		mapLeft.on('click', function(e) {
-		    console.log(e.latlng);
-		});*/
 		
 		// create the right map's leaflet instance
 		var mapRight = new L.Map('map_right', {
@@ -81,9 +71,7 @@ Split = {
 		//let's create the GroupLayer object with the instance of mapRightt
 		opts = {
 				map: mapRight,
-				layers: layers,
 				father:this.RIGHT,
-				ctxLayers: ctxLayers
 		}
 		this.__mapRight = new GroupLayer(opts);
 		
@@ -99,21 +87,12 @@ Split = {
 			$("#panel_right img.sync").attr("src","application/views/img/MED_icon_enlazar_KO_right.png");
 		}
 
-		/* Splits event controls */
-		// this.__mapLeft.getMap().on("drag", function() {			
-		// 	Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
-		// });
-
 		this.__mapLeft.getMap().on("dragend", function() {
 			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
 			Split.__mapLeft.drawPanoramio();
 			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
 			Split.__mapRight.drawPanoramio();
 		});
-		
-		// this.__mapRight.getMap().on("drag", function() {
-		// 	Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
-		// });
 		
 		this.__mapRight.getMap().on("dragend", function() {
 			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
@@ -123,25 +102,16 @@ Split = {
 		});
 
 		this.__mapLeft.getMap().on("zoomend", function() {
-			// Split.mapMover(Split.__mapLeft.getMap(), Split.__mapRight.getMap());
 			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
 			Split.__mapLeft.drawPanoramio();
 		});
 
 
 		this.__mapRight.getMap().on("zoomend", function() {
-			// Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
 			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
 			Split.__mapRight.drawPanoramio();
 		});
 
-		// this.activateZoomStart();
-
-		// (this.__mapLeft.getMap(), this.__mapRight.getMap()).on("zoomend", function() {
-		// 	alert("");
-		// });
-
-		
 		this.__currentMasterMap = this.__mapLeft;
 		
 		var self = this;
@@ -151,6 +121,8 @@ Split = {
 		this.__mapRight.getMap().on('locationfound', onLocationFoundRight);
 				
 		drawCategories();
+		categoryPanelEvents();
+		infoPanelEvents();
 		createDrawLocal();
 
 		var editableLayers = new L.FeatureGroup();
@@ -168,7 +140,6 @@ Split = {
 		    			opacity: 0.8,
 		
 		            },
-//		            showLength: true
 		        },
 		        polygon: {
 		            allowIntersection: false,
@@ -183,18 +154,9 @@ Split = {
 		        },
 		        circle: false,
 		        rectangle:false,
-//		        rectangle: {
-//		            shapeOptions: {
-//		                clickable: false
-//		            }
-//		        },
-//		        marker: {
-//		            icon: new MyCustomMarker()
-//		        }
 		    },
 		    edit: {
 		        featureGroup: editableLayers,
-//		        remove: false
 		    }
 		};
 		
@@ -466,18 +428,6 @@ Split = {
 		    // Update db to save latest changes.
 		});
 		
-		$("#go_back").click(function(e){
-			if(navigationLeftPosition > 0 && navigationRightPosition > 0){
-				Split.__mapLeft.getMap().off("zoomstart")
-				Split.__mapRight.getMap().off("zoomstart")
-				navigationLeftPosition -- ;
-				navigationRightPosition -- ;
-				Split.__mapLeft.getMap().setView(navigationLeftArray[navigationLeftPosition].position,navigationLeftArray[navigationLeftPosition].zoom);
-				Split.__mapRight.getMap().setView(navigationRightArray[navigationRightPosition].position,navigationRightArray[navigationRightPosition].zoom);
-				Split.activateZoomStart();
-			}
-		});
-		
 		$("#ctrl_feature_info").click(function(){
 			
 			if ($(this).hasClass("enable")) { 
@@ -743,113 +693,6 @@ Split = {
 			}
 		});
 		
-		
-		
-		$(".acceder").click(function(){
-			if($(".loginDiv").is(":visible")){
-				$(".loginDiv").fadeOut();
-//				$($(".loginDiv").find("input[type='text']")).val("Correo electrónico");
-				$($(".loginDiv").find("input[type='text']")).removeClass("errorBorder");
-//				$($(".loginDiv").find("input[type='password']")).val("Contraseña");
-				$($(".loginDiv").find("input[type='password']")).removeClass("errorBorder");
-				$(".loginDiv").find("input[type='text'],input[type='password']").css({"color":""});
-				$("#errorLogin").hide();
-				
-			}else{
-				$(".loginDiv").fadeIn();
-				$(".loginDiv").find("input[type='text']").focus();
-				$(".loginDiv").find("input[type='text'],input[type='password']").bind( "click", function(){
-//					if($(".loginDiv").find("input[type='text']").val() == "Correo electrónico"){
-//						$(".loginDiv").find("input[type='text'],input[type='password']").val("");
-//						$(".loginDiv").find("input[type='text'],input[type='password']").css({"color":"black"});
-//					}
-				});
-				
-				$(document).unbind().bind("keypress", function(e) {
-				    if($(".loginDiv").is(":visible") && e.which == 13) {
-				    	$(".loginDiv").find("input[type='button']").trigger("click");
-				    }
-				});
-				
-				$(".loginDiv").find("input[type='button']").unbind().bind( "click", function(){
-					var email = $(".loginDiv").find("input[type='text']");
-					var password = $(".loginDiv").find("input[type='password']");
-					var post = true;
-					if($(email).val() == "" || $(email).val() == "Correo electrónico"){
-						post = false;
-						$(email).addClass("errorBorder");
-					}
-					if($(password).val() == ""){
-						post = false;
-						$(password).addClass("errorBorder");
-					}
-					
-					if(post){
-						$.ajax({
-					        url: 'index.php/login/getUser',
-					        type: 'post',
-					        data: $('form#form_login').serialize(),
-					        dataType: "json",
-					        success: function(response) {
-					        	if(response ==  false){
-					        		$("#errorLogin").fadeIn();
-					        		isLoged = false;
-					        		isAdmin = false;
-					        		idUser = -1;
-					        		
-					        	}else{
-					        		$(".acceder").hide();
-					        		$("#closeSesion").show();
-					        		$(".loginDiv").fadeOut();
-					        		isLoged = true;
-					        		$("#closeSesion").text(response.user);
-					        		idUser = response.id;
-					        		$.ajax({
-					        		    url: 'index.php/login/isAdmin',
-					        		    success: function(response) {
-					        		    	if(response == 1){
-					        		    		isAdmin = true;
-					        		    	}else{
-					        		    		isAdmin = false;
-					        		    	}
-					        		    	updatedState();
-					        		    }
-					        		});
-					        		
-					        	}
-					        	drawCategories();
-					        }
-					    });
-					}
-				});
-				
-			}
-		});
-
-		$(".closeLogin").bind( "click", function(){
-			$(".acceder").trigger("click");
-		});
-		
-		$("#closeSesion").bind( "click", function(){
-			$.ajax({
-		        url: 'index.php/login/logout',
-		        type: 'post',
-		        data: $('form#form_login').serialize(),
-		        success: function(response) {
-		        	$("#closeSesion").hide();
-					$(".acceder").show();
-					$(".loginDiv").find("input[type='text']").val("");
-					$(".loginDiv").find("input[type='password']").val("");
-					drawCategories();
-					isLoged = false;
-					isAdmin = false;
-					idUser = -1;
-					updatedState();
-		        }
-		    });
-		});
-		
-	
 		$(".streetButtonLeft,.streetButtonRight").on('click', function() {
 			var map;
 			var mapHtml;
