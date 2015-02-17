@@ -8,20 +8,20 @@ function GSLayerTMS(id,title, url, name, leyenda, isGoogle){
 	this.tipo = "tms";
 	this.leyenda = leyenda;
 	this.isGoogle = isGoogle;
-	
-	this.setVisibility = function(visibility, map, z_index){
-		
-		if(this.layer == null){
-			this.layer =  L.tileLayer(this.server + this.name + '/{z}/{x}/{y}.png',{tms: this.isGoogle ? false:true});
+}
+
+
+GSLayerTMS.prototype.setVisibility = function(visibility, map, z_index){
+	if(this.layer == null){
+		this.layer =  L.tileLayer(this.server + this.name + '/{z}/{x}/{y}.png',{tms: this.isGoogle ? false:true});
+	}
+	this.visible = visibility;
+	if(this.visible){
+		this.layer.addTo(map);
+		if(z_index){
+			this.layer.setZIndex(z_index);
 		}
-		this.visible = visibility;
-		if(this.visible){
-			this.layer.addTo(map);
-			if(z_index){
-				this.layer.setZIndex(z_index);
-			}
-		}else{
-			map.removeLayer(this.layer);
-		}
-	};
+	}else{
+		map.removeLayer(this.layer);
+	}
 }

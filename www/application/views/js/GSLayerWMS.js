@@ -9,37 +9,36 @@ function GSLayerWMS(id,title, url, name, leyenda){
 	this.leyenda = leyenda;
 	this.version = "1.1.1";
 	this.simpleLayer = false;
-	
-	this.setVisibility = function(visibility, map, z_index){
-		
-		if(this.layer == null){
-			if(!this.simpleLayer){
-				this.layer =  L.tileLayer.wms(this.url, {
-								layers: this.name,
-								format: 'image/png',
-								transparent: true,
-								version: this.version,
-				});
-			}
-			else{
-				this.layer =  new L.SingleTileWMSLayer(this.url, {
-								layers: this.name,
-								format: 'image/png',
-								transparent: true,
-								version: this.version,
-								zIndex:z_index,
-							});
-			}
-		}
-		
-		this.visible = visibility;
-		if(this.visible){
-			this.layer.addTo(map);
-			if(z_index){
-				this.layer.setZIndex(z_index);
-			}
-		}else{
-			map.removeLayer(this.layer);
-		}
-	};
 }
+
+GSLayerWMS.prototype.setVisibility = function(visibility, map, z_index){
+	if(this.layer == null){
+		if(!this.simpleLayer){
+			this.layer =  L.tileLayer.wms(this.url, {
+							layers: this.name,
+							format: 'image/png',
+							transparent: true,
+							version: this.version,
+			});
+		}
+		else{
+			this.layer =  new L.SingleTileWMSLayer(this.url, {
+							layers: this.name,
+							format: 'image/png',
+							transparent: true,
+							version: this.version,
+							zIndex:z_index,
+						});
+		}
+	}
+	
+	this.visible = visibility;
+	if(this.visible){
+		this.layer.addTo(map);
+		if(z_index){
+			this.layer.setZIndex(z_index);
+		}
+	}else{
+		map.removeLayer(this.layer);
+	}
+};

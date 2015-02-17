@@ -86,20 +86,13 @@ function GroupLayer(opts){
 		}).draggable();
 		
 		$panel.find("ul").sortable({
-//			out: function(event, ui) {
-//				var leftGap = 70;					
-//				if ((ui.position.left + leftGap) < 0 ){
-//					var id_layer = $(ui.item).find("input").attr("id_layer");
-//					obj.removeLayer(id_layer);
-//				}
-//			},
+
 			start: function( event, ui ) {
 				$(ui.item).css("background-color","#f2f7fb");
 			},
 			stop: function( event, ui ) {
 				$(ui.item).css("background-color","#fff");
 				var id_layer = $(ui.item).find("input").attr("id_layer");
-//				var idx = obj.findLayerIdxById(id_layer);
 				var l = self.layers[id_layer];
 				self.layers.splice(id_layer,1);
 				var new_idx = $(ui.item).index();
@@ -189,7 +182,7 @@ function GroupLayer(opts){
 			event.stopPropagation();
 		});
 
-		$panel.find(".toogleLayer").unbind().on("click",function(){
+		$panel.find(".toogleLayer").click(function(){
 			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"),$(this).is(":checked"));
 		});
 		
@@ -218,7 +211,6 @@ function GroupLayer(opts){
 			    				$(this).parent().find(".info_fancy_service").slideUp();
 			    				$(this).parent().find(".tabla_fancy_service").slideDown();
 			    			}else{
-//			    				$(this).parent().find(".info_fancy_service").show();
 			    				$(this).parent().find(".info_fancy_service").slideDown()
 			    			}
 			    			
@@ -237,7 +229,6 @@ function GroupLayer(opts){
 			    	$("input[type='button']").on("click",function(){
 			    		var select = $(this).parent().find("select").val()
 			    		var server = $($(this).parent().find("input[type='text']")[0]).val();
-			    		// var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?VERSION=1.3.0&REQUEST=GetCapabilities&SERVICE=WMS";
 			    		var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?REQUEST=GetCapabilities&SERVICE=WMS";
 			    		var name = $($(this).parent().find("input[type='text']")[1]).val();
 			    		var selfBoton = this;
@@ -265,18 +256,12 @@ function GroupLayer(opts){
 							    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
 							    				html +='<ul class="family_content" style="display: block;">' +
 				    							'<li style="border-top: 1px dotted #ccc; height:auto;">' +
-//				    								'<img style="margin-left: 0px" src="application/views/img/MED_icon_layer.png">' +
 				    								'<p class="fleft mb">' + $(this).find("Title").text() + '</p>' +
-//				    								'<img style="margin-top:0px;" src="application/views/img/MED_icon_add_layer.png">' +
-//				    								'<p class="fleft" style="font-size:11px; clear: none; margin-left: 0px;">AÑADIR A CAPAS:</p>' +
 				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '" class="ml fleft mt">' +
 				    									'<span class="tiposCapas">WMS</span>' +
 				    								'</div>' +
 				    								'<div class="clear"></div>'+
 				    								'<span style="font-size:11px; margin-left:40px; display:flex; line-height:36px;">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</span>' +
-//				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '">' +
-//				    									'<img class="tiposCapas" src="application/views/img/ERO_icon_link_naranja.png">' +
-//				    								'</div>' +
 				    								'<div class="clear"></div>' +
 				    							'</li>' +
 		    								'</ul>';
@@ -404,7 +389,6 @@ function GroupLayer(opts){
 	};
 
 	this.refreshPanoramioCheck = function(check){
-		// if($(check).length > 0){
 			if(this.getMap().getZoom() >= 11){
 				$(check).find("input[type='checkbox']").prop("disabled",false);
 				
@@ -413,7 +397,6 @@ function GroupLayer(opts){
 				$(check).find("input[type='checkbox']").prop("checked",false)
 				this.mostrarPanoramios = false;
 			}
-		// }
 	};
 	
 	this.drawPanoramio = function(){

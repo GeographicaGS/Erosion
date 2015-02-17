@@ -20,7 +20,6 @@
 
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/ui-lightness/jquery-ui-1.10.3.custom.min.css")?>"/>
 		
-<!-- <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script> -->
 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBv2LS8Lqu53wYmtgxztWVBTEpLdMWIzHQ&sensor=false"></script>
 
 <link rel="stylesheet" type="text/css" href="<?= get_css("layout.css")?>" />
@@ -57,9 +56,10 @@
 <script type="text/javascript" src="<?= get_js("GSLayerGeoJson.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("GSLayerSimbolo.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("categories.js")?>"></script>
-<script type="text/javascript" src="<?= get_js("categoriesFunction.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("drawCategoryPanel.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("categoryPanel.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("infoPanel.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("toolbar.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("notification.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("lib/fancybox/jquery.fancybox.pack.js")?>"></script>
@@ -118,6 +118,7 @@
         });
 
 		Access.initialize();
+		Toolbar.initialize();
 
 		setTimeout(function(){
 			resize();
@@ -340,7 +341,7 @@
 					<div class="separador" style="margin-top: 0px !important;"></div>
 				</div>
 
-				<div id="commentsVector" style="display:none">
+				<div id="commentsVector" idDraw='' style="display:none">
 					<img src=""/>
 					<h1></h1>
 					<p class="goBack">Volver</p>
@@ -502,6 +503,7 @@
 
 
 <div id="fancy_select_panel">
+	<div idCapa="" tipo= "" style="display:none"></div>
 	<div class="divSelectPanel">
 		<div class="panelSelect" panel="2">
 			<div class="fright">

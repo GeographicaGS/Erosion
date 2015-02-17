@@ -5,10 +5,6 @@ var sectionActual = 0;
 var markerLocationLeft;
 var markerLocationRight;
 var defaultProject = null;
-var navigationLeftArray = [];
-var navigationLeftPosition = 0;
-var navigationRightArray = [];
-var navigationRightPosition = 0;
 
 $.ajax({
     url: 'index.php/login/isLoged',
@@ -313,4 +309,12 @@ function downloadKml(type,latlng){
 	}
 
 	window.location.href = 'index.php/draw/createKml/' + type.charAt(0).toUpperCase() + type.slice(1) + "/" + encodeURIComponent(coordinates)
+}
+
+function showFancySelectPanel(x,y,idCapa,tipo){
+	$("#fancy_select_panel div[idCapa]").attr("idCapa",idCapa);
+	$("#fancy_select_panel div[idCapa]").attr("tipo",tipo);
+	$("#fancy_select_panel").css({"top":x, "left":y});
+	$("#fancy_select_panel").show(300);
+	event.stopPropagation();
 }

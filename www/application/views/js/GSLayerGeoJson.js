@@ -11,26 +11,25 @@ function GSLayerGeoJson(id,title, geoJson, leyenda){
 	this.layer = null;
 	this.tipo = "geoJson";
 	this.leyenda = leyenda;
+}
+
+GSLayerGeoJson.prototype.setVisibility = function(visibility, map, z_index){
+	if(this.layer == null){
+		this.layer =  L.geoJson(this.geoJson, {
+								onEachFeature: onEachFeatureGeoJson,
+		    					style: myStyle
+		    				});	
+	}
 	
-	this.setVisibility = function(visibility, map, z_index){
-		
-		if(this.layer == null){
-			this.layer =  L.geoJson(geoJson, {
-									onEachFeature: onEachFeatureGeoJson,
-			    					style: myStyle
-			    				});	
+	this.visible = visibility;
+	if(this.visible){
+		this.layer.addTo(map);
+		if(z_index){
+			this.layer.setZIndex(z_index);
 		}
-		
-		this.visible = visibility;
-		if(this.visible){
-			this.layer.addTo(map);
-			if(z_index){
-				this.layer.setZIndex(z_index);
-			}
-		}else{
-			map.removeLayer(this.layer);
-		}
-	};
+	}else{
+		map.removeLayer(this.layer);
+	}
 }
 
 

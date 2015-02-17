@@ -15,13 +15,13 @@ Access = {
 				$(".loginDiv").find("input[type='text'],input[type='password']").bind( "click", function(){
 				});
 				
-				$(document).unbind().bind("keypress", function(e) {
+				$(document).keypress(function(e) {
 				    if($(".loginDiv").is(":visible") && e.which == 13) {
 				    	$(".loginDiv").find("input[type='button']").trigger("click");
 				    }
 				});
 				
-				$(".loginDiv").find("input[type='button']").unbind().bind( "click", function(){
+				$(".loginDiv").find("input[type='button']").click(function(){
 					var email = $(".loginDiv").find("input[type='text']");
 					var password = $(".loginDiv").find("input[type='password']");
 					var post = true;
@@ -102,6 +102,33 @@ Access = {
 		$("body").click(function(){
 			$("#fancy_select_panel").hide(300);
 		});
+
+		$("#fancy_select_panel .panelSelect").click(function(){
+			var panel = $(this).attr("panel");
+			var idCapa = $("#fancy_select_panel div[idCapa]").attr("idCapa");
+			var tipo = $("#fancy_select_panel div[idCapa]").attr("tipo");
+			if(tipo == "vectorial"){
+				$.ajax({
+			        url: 'index.php/draw/getDraws/' + idCapa, 
+			        dataType: "json",
+			        success: function(response) {
+			        	Split.addLayer(null,tipo, null, response,panel);  
+			        }
+				});
+			}
+			else if(tipo == "panoramio"){
+				Split.addLayer("null","panoramio",null,null,panel,null)
+
+			}else{
+				capa = buscarCapa(idCapa, categories);
+				leyenda = null;
+				if(capa.wms){
+					leyenda = capa.wms.server;
+				}
+				Split.addLayer(capa,tipo, leyenda, null,panel);
+			}
+		});
+
 
 	}
 }

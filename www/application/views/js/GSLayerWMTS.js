@@ -16,27 +16,26 @@ function GSLayerWMTS(id,title, url, name, leyenda){
 	this.layer = null;
 	this.tipo = "wmts";
 	this.leyenda = leyenda;
+}
+
+GSLayerWMTS.prototype.setVisibility = function(visibility, map, z_index){
+	if(this.layer == null){
+		this.layer =  L.tileLayer.wmts(this.url,{
+						layer: this.name,
+						style: 'default',
+						tilematrixSet: "EPSG:900913",
+						matrixIds: matrixIds,
+						format: 'image/png'
+					});	
+	}
 	
-	this.setVisibility = function(visibility, map, z_index){
-		
-		if(this.layer == null){
-			this.layer =  L.tileLayer.wmts(this.url,{
-							layer: this.name,
-							style: 'default',
-							tilematrixSet: "EPSG:900913",
-							matrixIds: matrixIds,
-							format: 'image/png'
-						});	
+	this.visible = visibility;
+	if(this.visible){
+		this.layer.addTo(map);
+		if(z_index){
+			this.layer.setZIndex(z_index);
 		}
-		
-		this.visible = visibility;
-		if(this.visible){
-			this.layer.addTo(map);
-			if(z_index){
-				this.layer.setZIndex(z_index);
-			}
-		}else{
-			map.removeLayer(this.layer);
-		}
-	};
+	}else{
+		map.removeLayer(this.layer);
+	}
 }

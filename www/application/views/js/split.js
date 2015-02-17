@@ -13,10 +13,15 @@ Split = {
 	LEFT: 0,
 	RIGHT: 1,
 	syncEnable : true,
+	
+	drawMakerLeft:null,
+	drawMarkerRight:null,
+	drawLineLeft:null,
+	drawLineRight:null,
+	drawPolygonLeft:null,
+	drawPolygonRight:null,
+	
 	initialize: function(){
-		
-		// center the map
-		// var startingCenter = new L.LatLng(this.iniLat, this.iniLng);		
 		
 		//create the left map's leaflet instance
 		var mapLeft = new L.Map('map_left', {
@@ -169,12 +174,12 @@ Split = {
 		var drawControlRight = new L.Control.Draw(optionsRight);
 		Split.__mapRight.getMap().addControl(drawControlRight);
 		
-		var drawMakerLeft = new L.Draw.Marker(Split.__mapLeft.getMap());
-		var drawMarkerRight = new L.Draw.Marker(Split.__mapRight.getMap());
-		var drawLineLeft = new L.Draw.Polyline(Split.__mapLeft.getMap(), options.draw.polyline);
-		var drawLineRight = new L.Draw.Polyline(Split.__mapRight.getMap(), optionsRight.draw.polyline);
-		var drawPolygonLeft = new L.Draw.Polygon(Split.__mapLeft.getMap(), options.draw.polygon);
-		var drawPolygonRight = new L.Draw.Polygon(Split.__mapRight.getMap(), optionsRight.draw.polygon);
+		Split.drawMakerLeft = new L.Draw.Marker(Split.__mapLeft.getMap());
+		Split.drawMarkerRight = new L.Draw.Marker(Split.__mapRight.getMap());
+		Split.drawLineLeft = new L.Draw.Polyline(Split.__mapLeft.getMap(), options.draw.polyline);
+		Split.drawLineRight = new L.Draw.Polyline(Split.__mapRight.getMap(), optionsRight.draw.polyline);
+		Split.drawPolygonLeft = new L.Draw.Polygon(Split.__mapLeft.getMap(), options.draw.polygon);
+		Split.drawPolygonRight = new L.Draw.Polygon(Split.__mapRight.getMap(), optionsRight.draw.polygon);
 		
 		
 		var editLeft = new L.EditToolbar.Edit(Split.__mapLeft.getMap(), {
@@ -303,7 +308,7 @@ Split = {
 		    Split.__mapLeft.getMap().off("mousemove");
 		    Split.__mapRight.getMap().off("click");
 		    Split.__mapRight.getMap().off("mousemove");
-		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+		    Split.disableAllDrawTools();
 		    
 		    
 		    if(isLoged){
@@ -375,7 +380,7 @@ Split = {
 		    Split.__mapRight.getMap().off("mousemove");
 		    Split.__mapLeft.getMap().off("click");
 		    Split.__mapLeft.getMap().off("mousemove");
-		    Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
+		    Split.disableAllDrawTools();
 		  
 		    if(isLoged){
 		    	Split.showFancySaveDraw(e, type, xClick,yClick);
@@ -427,355 +432,7 @@ Split = {
 		Split.__mapLeft.getMap().on('draw:deleted', function () {
 		    // Update db to save latest changes.
 		});
-		
-		$("#ctrl_feature_info").click(function(){
-			
-			if ($(this).hasClass("enable")) { 
-				$(this).removeClass("enable");
-				Split.deActivateFeatureInfo()
-			}
-			else{
-				Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
-				$(this).addClass("enable");				
-				Split.activateFeatureInfo()
-			}
-		});
-		
-		$("#ctrl_marker_drawer").click(function(){
-			
-			if ($(this).hasClass("enable")) { 
-				$(this).removeClass("enable");
-				drawMakerLeft.disable();
-				drawMarkerRight.disable();
-				
-			}
-			else{
-				Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
-				$(this).addClass("enable");
-				type = "marker";
-				drawMakerLeft.enable();
-				drawMarkerRight.enable();
-			}
-		});
-		
-		$("#ctrl_line_drawer").click(function(){
-			if ($(this).hasClass("enable")) { 
-				$(this).removeClass("enable");
-				drawLineLeft.disable();
-				drawLineRight.disable();
-			}
-			else{
-				Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
-				$(this).addClass("enable");
-				drawLineLeft.enable();
-				drawLineRight.enable();
-				type = "linea";
-			}
-		});
-		
-		$("#ctrl_rectangle_drawer").click(function(){
-			if ($(this).hasClass("enable")) { 
-				$(this).removeClass("enable");
-				drawPolygonLeft.disable();
-				drawPolygonRight.disable();
-			}
-			else{
-				Split.disableAllDrawTools(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight);
-				$(this).addClass("enable");				
-				drawPolygonLeft.enable();
-				drawPolygonRight.enable();
-				type = "poligono";
-				arrayLatlng = new Array();
-			}
-		});
-		
-		
-		$("#ctrl_location").click(function(){
-			if ($(this).hasClass("enable")) { 
-				$(this).removeClass("enable");
-				Split.__mapLeft.getMap().removeLayer(markerLocationLeft);
-				Split.__mapRight.getMap().removeLayer(markerLocationRight);
-			}
-			else{
-				$(this).addClass("enable");
-				markerLocationLeft.addTo(Split.__mapLeft.getMap());
-				markerLocationRight.addTo(Split.__mapRight.getMap())
-			}
-		});
-		
-		
-		$("#ctrl_add_project").click(function(){
-			if(isLoged){
-				if ($(this).hasClass("enable")) { 
-					$(this).removeClass("enable");
-					
-				}
-				else{
-					$(this).addClass("enable");
-					$.fancybox($("#project_fancy"), {
-						'width':'660',
-						"height": "auto",
-					    'autoDimensions':false,
-					    'autoSize':false,
-					    "visibility":"hidden",
-					    'closeBtn' : false,
-					    "openEffect" : "elastic",		   
-					    'scrolling'   : 'no',
-					    helpers : {
-					        overlay : {
-					            	css : {
-					            		'background' : 'none',
-					            		'border-radius' : '0',
-					            	}
-					        }
-					    },
-					    afterShow: function () {
-					    	if(isAdmin){
-					    		$("#divIsPublic").show();
-					    	}else{
-					    		$("input[name='isPublic']").attr('checked', false);
-					    		$("#divIsPublic").hide();
-					    	}
-					    	$("input[name='tituloProyecto']").click(function(){
-					    		if($(this).val() == "Título"){
-					    			$(this).val("");
-					    		}
-					    	});
-					    	
-					    	$("input[name='descripcionProyecto']").click(function(){
-					    		if($(this).val() == "Descripción"){
-					    			$(this).val("");
-					    		}
-					    	});
-					    	
-					    	$("h2").on("click",function(){
-					    		$.fancybox.close();
-					    	});
-					    	
-					    	var to;
-					    	$("input[name='tituloProyecto']").on("keyup",function(){
-					    		clearTimeout(to);
-					    	       to = setTimeout(function(){
-					    	    	   $.ajax({
-									        url: 'index.php/project/getInformationProject/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
-									        dataType: "json",
-									        success: function(response) {
-									        	
-									        	if(response.length != 0){
-									        		$("input[name='descripcionProyecto']").val(response.descripcion);
-									        		if(response.is_public == "t"){
-									        			$("input[name='isPublic']").attr('checked', true);
-									        		}else{
-									        			$("input[name='isPublic']").attr('checked', false);
-									        		}
-									        	}
-									        }
-					    	    	   });
-					    	       }, 500);
-					    	});
-					    	
-					    	
-					    	$("input[name='saveProject']").on("click",function(){
-					    		var enviar = true;
-					    		$("input[name='tituloProyecto']").css({"border":"1px solid #001232"});
-					    		$("input[name='descripcionProyecto']").css({"border":"1px solid #001232"});
-					    		$("#errorNoCapas").hide();
-					    		if($("input[name='tituloProyecto']").val() == "" || $("input[name='tituloProyecto']").val() == "Título"){
-					    			
-					    			$("input[name='tituloProyecto']").css({"border":"1px solid red"});
-					    			enviar = false;
-					    		} 
-					    		if($("input[name='descripcionProyecto']").val() == '' || $("input[name='descripcionProyecto']").val() == 'Descripción'){
-					    			$("input[name='descripcionProyecto']").css({"border":"1px solid red"});
-					    			enviar = false;
-					    		}
-					    		
-					    		if(Split.__mapRight.layers.length == 0 && Split.__mapLeft.layers.length == 0){
-					    			$("#errorNoCapas").show();
-					    			enviar = false;
-					    		}
-					    		
-					    		if(enviar){
-					    			var panels = {};
-					    			var leftPanel = Array();
-					    			var rightPanel = Array();
-					    			var leftState = {"lat":Split.__mapLeft.map.getCenter().lat, "lng":Split.__mapLeft.map.getCenter().lng, "zoom":Split.__mapLeft.map.getZoom()};
-					    			var rightState = {"lat":Split.__mapRight.map.getCenter().lat, "lng":Split.__mapRight.map.getCenter().lng, "zoom":Split.__mapRight.map.getZoom()};
-					    			for(var i=Split.__mapLeft.layers.length-1; i>=0; i--){
-					    				capas = {};
-					    				capas["id"] = Split.__mapLeft.layers[i].id;
-					    				capas["tipo"] = Split.__mapLeft.layers[i].tipo;
-					    				capas["visible"] = Split.__mapLeft.layers[i].visible;
-					    				capas["opacity"] = Split.__mapLeft.layers[i].layer.options.opacity;
-					    				leftPanel.push(capas); 
-					    			}
-					    			for(var i=Split.__mapRight.layers.length-1; i>=0; i--){
-					    				capas = {};
-					    				capas["id"] = Split.__mapRight.layers[i].id;
-					    				capas["tipo"] = Split.__mapRight.layers[i].tipo;
-					    				capas["visible"] = Split.__mapRight.layers[i].visible;
-					    				capas["opacity"] = Split.__mapRight.layers[i].layer.options.opacity;
-					    				rightPanel.push(capas); 
-					    			}
-					    			panels = { 'left':JSON.stringify(leftPanel),'right':JSON.stringify(rightPanel), 'leftState':leftState, 'rightState':rightState};
-					    			
-					    			$.ajax({
-								        url: 'index.php/project/projectExist/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
-								        success: function(response) {
-								        	if(response ==  "true"){
-								        		$("input[name='saveProject']").hide();
-								        		$("#errorProjectOwner").hide();
-								        		$("#projectExist").show();
-								        		
-								        		
-								        		$("#aceptSaveProject").click(function(){
-								        			$.ajax({
-												        url: 'index.php/project/updateProject',
-												        data: "titulo=" +  $("input[name='tituloProyecto']").val() + "&descripcion=" + $("input[name='descripcionProyecto']").val() + "&" + "&public=" + ($("input[name='isPublic']").is(":checked") ? "1":"0") + "&panels=" + JSON.stringify(panels),
-												        type: "POST",
-												        success: function(response) {
-												        	if(response == "0"){
-												        		$( "#cancelSaveProject" ).trigger( "click" );
-												        		$("#errorProjectOwner").show();
-												        	}else{
-												        		$("#projectExist").hide();
-											        			$("input[name='saveProject']").show();
-													        	$.fancybox.close();
-													        	drawCategories();
-												        	}
-												        }
-										    		});
-								        		});
-								        		
-								        		$("#cancelSaveProject").click(function(){
-								        			$("#projectExist").hide();
-								        			$("#errorProjectOwner").hide();
-								        			$("input[name='saveProject']").show();
-								        		});
-								        		
-								        	}else{
-								    			$.ajax({
-											        url: 'index.php/project/createProject',
-											        data: "titulo=" +  $("input[name='tituloProyecto']").val() + "&descripcion=" + $("input[name='descripcionProyecto']").val() + "&" + "&public=" + ($("input[name='isPublic']").is(":checked") ? "1":"0") + "&panels=" + JSON.stringify(panels),
-											        type: "POST",
-											        success: function(response) {
-											        	drawCategories();
-											        	$.fancybox.close();
-											        }
-									    		});
-								        	}
-								        }
-						    		});
-					    			
-					    			
-					    		}
-					    	
-					    	});
-					    	
-					    },
-					    
-					    afterClose:function () {
-					    	$("#ctrl_add_project").removeClass("enable");
-					    	$("input[name='tituloProyecto']").val("Título");
-				        	$("input[name='descripcionProyecto']").val("Descripción");
-				        	$("#errorNoCapas").hide();
-				        	$("input[name='isPublic']").attr('checked', false);
-				        	$("#divIsPublic").hide();
-					    },
-					    
-					});
-					
-				}
-			}else{
-				if(!$(".loginDiv").is(":visible")){
-    				$(".acceder").trigger("click")
-    			}
-			}
-		});
-		
-		$(".streetButtonLeft,.streetButtonRight").on('click', function() {
-			var map;
-			var mapHtml;
-			var capaHtml;
-			var panelHtml;
-			var closeStreet;
 
-			if($(this).hasClass("streetButtonLeft")){
-				map = Split.__mapLeft;
-				mapHtml = $("#map_left");
-				capaHtml = $("#capaLeft");
-				panelHtml = $("#panel_left");
-				closeStreet = $(".closeStreetLeft");
-			}else{
-				map = Split.__mapRight;
-				mapHtml = $("#map_right");
-				capaHtml = $("#capaRight");
-				panelHtml = $("#panel_right");
-				closeStreet = $(".closeStreetRight");
-			}
-			
-			if($(this).hasClass("active")){
-				$(this).removeClass("active");
-				map.getMap().removeLayer(map.callejero);
-				mapHtml.css({"cursor":"-webkit-grab"});
-			}else{
-				$(this).addClass("active");
-				map.getMap().addLayer(map.callejero);
-				mapHtml.css({"cursor":"pointer"});
-
-			var self = $(this);
-			map.getMap().on('click', function(e) {
-				var service = new google.maps.StreetViewService();			
-				service.getPanoramaByLocation(e.latlng, (map.getMap().getZoom()>11? 50:2000), function(result, status) {
-				    if (status == google.maps.StreetViewStatus.OK) {
-				    	mapHtml.hide();
-				    	$(".catalogo").hide();
-				    	capaHtml.hide();
-				    	self.hide();
-				    	self.trigger("click");
-				    	closeStreet.show();
-						panelHtml.append("<object width='100%' height='100%' data='https://maps.google.es/maps/sv?cbll=" + result.location.latLng.lat() + "," + result.location.latLng.lng() + "'></object>");
-					}		
-				 });
-			});
-
-
-
-
-			}
-		});
-
-		$(".closeStreetLeft,.closeStreetRight").on('click', function() {
-			var map;
-			var mapHtml;
-			var capaHtml;
-			var panelHtml;
-			var street;
-
-
-			if($(this).hasClass("closeStreetLeft")){
-				map = Split.__mapLeft;
-				mapHtml = $("#map_left");
-				capaHtml = $("#capaLeft");
-				panelHtml = $("#panel_left");
-				street = $(".streetButtonLeft");
-			}else{
-				map = Split.__mapRight;
-				mapHtml = $("#map_right");
-				capaHtml = $("#capaRight");
-				panelHtml = $("#panel_right");
-				street = $(".streetButtonRight");
-			}
-			map.getMap().off("click");
-			mapHtml.show();
-			$(".catalogo").show();
-			capaHtml.show();
-			street.show();
-			$(this).hide();
-			panelHtml.find("object").remove();
-
-		});
-		
 		this.__mapLeft.getMap().touchZoom.disable();
 		this.__mapRight.getMap().touchZoom.disable();
 	},
@@ -1052,14 +709,14 @@ Split = {
 		
 		if((panel==1 || panel==3) && !this.__mapRight.containLayer(capa != null? capa.id : geoJson[0].properties.id_category ,tipo)){
 			this.__mapRight.addLayer(gsLayerRight);
-			gsLayerRight.setVisibility(visible,Split.__mapRight.getMap(),null)
-			gsLayerRight.layer.setOpacity != null ? gsLayerRight.layer.setOpacity(opacity): "";
+			gsLayerRight.setVisibility(visible,Split.__mapRight.getMap(),null);
+			(gsLayerRight.layer != null && gsLayerRight.layer.setOpacity != null) ? gsLayerRight.layer.setOpacity(opacity): "";
 
 		}
-		if((panel==2 || panel==3 ) && !this.__mapLeft.containLayer(capa != null? capa.id : geoJson[0].properties.id_category ,tipo)){
+		if((panel==2 || panel==3 ) && !this.__mapLeft.containLayer(capa != null ? capa.id : geoJson[0].properties.id_category ,tipo)){
 			this.__mapLeft.addLayer(gsLayerLeft);
-			gsLayerLeft.setVisibility(visible,Split.__mapLeft.getMap(),null)
-			gsLayerLeft.layer.setOpacity != null ? gsLayerLeft.layer.setOpacity(opacity):"";
+			gsLayerLeft.setVisibility(visible,Split.__mapLeft.getMap(),null);
+			(gsLayerLeft.layer != null && gsLayerLeft.layer.setOpacity != null) ? gsLayerLeft.layer.setOpacity(opacity):"";
 		}
 
 		if(!$("#panel_right .layer_panel").hasClass("close")){
@@ -1119,19 +776,19 @@ Split = {
 		$("#map_left,#map_right").removeClass("cursor_info");
 	},
 	
-	disableAllDrawTools: function(drawMakerLeft,drawMarkerRight,drawLineLeft,drawLineRight,drawPolygonLeft,drawPolygonRight){
+	disableAllDrawTools: function(){
 		$("#ctrl_feature_info").removeClass("enable");
 		$("#ctrl_marker_drawer").removeClass("enable");
 	    $("#ctrl_line_drawer").removeClass("enable");
 	    $("#ctrl_rectangle_drawer").removeClass("enable");
 	    
 	    Split.deActivateFeatureInfo()
-	    drawMakerLeft.disable();
-	    drawMarkerRight.disable();
-	    drawLineLeft.disable();
-	    drawLineRight.disable();
-	    drawPolygonLeft.disable();
-	    drawPolygonRight.disable();
+	    Split.drawMakerLeft.disable();
+	    Split.drawMarkerRight.disable();
+	    Split.drawLineLeft.disable();
+	    Split.drawLineRight.disable();
+	    Split.drawPolygonLeft.disable();
+	    Split.drawPolygonRight.disable();
 	},
 	
 	showFancySaveDraw: function(e, type,xClick,yClick){
@@ -1167,109 +824,6 @@ Split = {
 			$(".addHistoryButton").trigger("click", [latlng]);
 			$("#addHistoryForm").find(".goBack").hide();
 			$("#typeHistory").val(type);
-
-			
-			// $.ajax({
-		 //        url: 'index.php/draw/getCategories', dataType: "json",
-		 //        success: function(response) {
-		 //        	$("#fancy_box_form_save_draw").find("select").children().remove();
-		 //        	for(var i=0; i<response.length; i++){
-			//     		$("#fancy_box_form_save_draw").find("select").append("<option value='" + response[i].id_category + "'>" + response[i].title + "</option>");
-			//     	}
-		        	
-		 //        	$.fancybox($("#fancy_box_form_save_draw").html(), {
-			// 			'width':'638',
-			// 			"height": "190",
-			// 		    'autoDimensions':false,
-			// 		    'autoSize':false,
-			// 		    "visibility":"hidden",
-			// 		    'closeBtn' : false,
-			// 		    "openEffect" : "elastic",		   
-			// 		    'scrolling'   : 'no',
-			// 		    helpers : {
-			// 		        overlay : {
-			// 		            	css : {
-			// 		            		'background' : 'none',
-			// 		            		'border-radius' : '0',
-			// 		            	}
-			// 		        }
-			// 		    },
-			// 		    afterShow: function () {
-			// 		    	$("h2").on("click",function(){
-			// 		    		$.fancybox.close();
-			// 		    	});
-					    	
-			// 		    	$(".fancybox-inner").find("input[type='text']").on("click",function(){
-			// 		    		$(this).val("");
-			// 		    	});
-					    	
-			// 		    	$("input[type='button']").off('click');
-			// 		    	$("input[type='button']").on("click",function(){
-					    		
-			// 		    		var titulo = $(".fancybox-inner").find("input[type='text']")[0];
-			// 			    	var comentario = $(".fancybox-inner").find("input[type='text']")[1];
-			// 			    	var categoria = $($(".fancybox-inner").find("select")).val();
-			// 			    	var nombreCategoria = $($(".fancybox-inner").find("select option:selected")).text();
-			// 		    		var enviar = true;
-					    		
-			// 		    		if($(titulo).val() == "" || $(titulo).val() == "Título"){
-			// 		    			enviar = false;
-			// 		    			$(titulo).addClass("errorBorder");
-			// 		    		}
-			// 		    		if($(comentario).val() == "" || $(comentario).val() == "Comentario"){
-			// 		    			enviar = false;
-			// 		    			$(comentario).addClass("errorBorder");
-			// 		    		}
-			// 		    		if(enviar){
-			// 		    			$.ajax({
-			// 					        url: 'index.php/draw/saveDraw',
-			// 					        data: "puntos=" + JSON.stringify(latlng) + "&type=" + type + "&" + "&titulo=" + $(titulo).val() + "&comentario=" + $(comentario).val() + "&categoria=" + categoria,
-			// 					        type: "POST",
-			// 					        success: function(response) {
-			// 					        	$.fancybox.close();
-			// 					        	$($("#fancy_box_save_draw").find("p")[1]).trigger( "click" );
-								        	
-			// 					        	$.each(Split.__mapLeft.getMap()._layers, function(key){
-			// 					        	    if((Split.__mapLeft.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlng, latlng)) || (Split.__mapLeft.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapLeft.getMap()._layers[key]._latlngs, latlng))){
-			// 					        	    	Split.__mapLeft.getMap().removeLayer(Split.__mapLeft.getMap()._layers[key]);
-			// 					        	    	return true;
-			// 					        	    }
-			// 					        	});
-								        	
-			// 					        	$.each(Split.__mapRight.getMap()._layers, function(key){
-			// 					        	    if((Split.__mapRight.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlng, latlng)) || (Split.__mapRight.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlngs, latlng))){
-			// 					        	    	Split.__mapRight.getMap().removeLayer(Split.__mapRight.getMap()._layers[key]);
-			// 					        	    	return true;
-			// 					        	    }
-			// 					        	});
-								        	
-			// 					        	$.ajax({
-			// 			        		        url: 'index.php/draw/getDraws/' + categoria, 
-			// 			        		        dataType: "json",
-			// 			        		        success: function(response) {
-			// 			        		        	for(var i=0; i<Split.__mapLeft.layers.length; i++){
-			// 			        		        		if(Split.__mapLeft.layers[i].title == nombreCategoria){
-			// 			        		        			Split.__mapLeft.removeLayer(Split.__mapLeft.layers[i].title, "geoJson");
-			// 			        		        		}
-			// 			        		        	}
-			// 			        		        	for(var i=0; i<Split.__mapRight.layers.length; i++){
-			// 			        		        		if(Split.__mapRight.layers[i].title == nombreCategoria){
-			// 			        		        			Split.__mapRight.removeLayer(Split.__mapRight.layers[i].title, "geoJson");
-			// 			        		        		}
-			// 			        		        	}
-			// 			        		        	Split.addLayer(null,"vectorial", null, response,3);  
-			// 			        		        }
-			// 			        			});
-								        	
-			// 					        }
-			// 			    		});
-			// 		    		}
-			// 		    	});
-			// 		    }
-			// 		});
-		 //        }
-		 //    });
-
 		});
 		
 
@@ -1355,36 +909,4 @@ Split = {
 			$("#fancy_box_dont_save_draw").hide(400);
 		});
 	},
-
-	activateZoomStart:function(){
-		setTimeout(function() {
-			Split.__mapLeft.getMap().on("zoomstart", function() {
-
-				if(navigationLeftPosition  == 0 || navigationLeftArray[navigationLeftPosition-1].zoom != Split.__mapLeft.getMap().getZoom()){
-					navigationLeftArray[navigationLeftPosition] = ({"position":Split.__mapLeft.getMap().getCenter(), "zoom":Split.__mapLeft.getMap().getZoom()});
-					navigationLeftPosition ++;
-					if(!Split.syncEnable){
-						navigationRightArray[navigationRightPosition] = ({"position":Split.__mapRight.getMap().getCenter(), "zoom":Split.__mapRight.getMap().getZoom()});
-						navigationRightPosition ++;
-					}
-				}
-
-			});
-
-			Split.__mapRight.getMap().on("zoomstart", function() {
-
-				if(navigationRightPosition  == 0 || navigationRightArray[navigationRightPosition-1].zoom != Split.__mapRight.getMap().getZoom()){
-					navigationRightArray[navigationRightPosition] = ({"position":Split.__mapRight.getMap().getCenter(), "zoom":Split.__mapRight.getMap().getZoom()});
-					navigationRightPosition ++;
-					if(!Split.syncEnable){
-						navigationLeftArray[navigationLeftPosition] = ({"position":Split.__mapLeft.getMap().getCenter(), "zoom":Split.__mapLeft.getMap().getZoom()});
-						navigationLeftPosition ++;
-					}
-				}
-				
-			});
-
-		}, 100);
-	}
-	
 }
