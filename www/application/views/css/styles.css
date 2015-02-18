@@ -1069,6 +1069,25 @@ img.tiposCapas{
 	cursor: pointer;
 }
 
+.serviceFancy p{
+	width: 566px;
+}
+
+.serviceFancy li{
+	margin-bottom: 10px;
+	border-top: 1px dotted #ccc; 
+	height:auto;
+}
+
+.serviceFancy .description{
+	margin-right: 10px;
+	font-size:11px; 
+	margin-left:40px; 
+	display:flex; 
+	line-height:18px;
+	width: 566px;
+}
+
 .cargadoServicio{
 	background-image: url(../img/MED_spinner.gif);
 	background-repeat: no-repeat;

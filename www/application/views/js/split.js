@@ -549,8 +549,6 @@ Split = {
 			if ($panel.hasClass("close")){
 				
 				$("#capaLeft").animate({"width":'319px'});
-//				$("#capaLeft").css("width","319px");
-//				$("#capaLeft").css("border-top-left-radius","0px");
 				$("#capaLeft").css("border-top","2px solid #888");
 				
 				$panel.hide();
@@ -562,12 +560,10 @@ Split = {
 			else{
 				
 				$("#capaLeft").animate({"width":'40px'});
-//				$("#capaLeft").css("width","Auto");
-//				$("#capaLeft").css("border-top-left-radius","5px");
 				$("#capaLeft").css("border-top","1px solid #888");
 				
 				$panel.addClass("close");
-				$panel.html("");
+				$panel.children().remove();
 				$("#panel_left .layer_ctrl").removeClass("open");
 			}
 		}
@@ -577,8 +573,6 @@ Split = {
 			if ($panel.hasClass("close")){
 				
 				$("#capaRight").animate({"width":'319px'});
-//				$("#capaRight").css("width","319px");
-//				$("#capaRight").css("border-top-left-radius","0px");
 				$("#capaRight").css("border-top","2px solid #888");
 				
 				$panel.hide();
@@ -591,11 +585,10 @@ Split = {
 				
 				$("#capaRight").animate({"width":'40px'});
 				$("#capaRight").css("width","Auto");
-//				$("#capaRight").css("border-top-left-radius","5px");
 				$("#capaRight").css("border-top","1px solid #888");
 				
 				$panel.addClass("close");
-				$panel.html("");
+				$panel.children().remove();
 				$("#panel_right .layer_ctrl").removeClass("open");
 			}
 		}

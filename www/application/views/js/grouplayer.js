@@ -186,6 +186,7 @@ function GroupLayer(opts){
 			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"),$(this).is(":checked"));
 		});
 		
+		//Fancybox de servicios
 		$panel.find(".add_layer").click(function(){
 			$.fancybox($("#service_fancy_box_data").html(), {
 				'width':'660',
@@ -194,7 +195,7 @@ function GroupLayer(opts){
 			    'autoSize':false,
 			    "visibility":"hidden",
 			    'closeBtn' : false,
-			    "openEffect" : "elastic",		   
+			    "openEffect" : "fade",		   
 			    'scrolling'   : 'no',
 			    helpers : {
 			        overlay : {
@@ -205,8 +206,8 @@ function GroupLayer(opts){
 			        }
 			    },
 			    afterShow: function () {
-			    	$("select").on("change",function(){
-			    		if($(this).val() == "WMS"){
+			    	$("select").change(function(){
+			    		if($(this).val() == "WMS" || $(this).val() == "WMTS"){
 			    			if($(this).parent().find(".tabla_fancy_service").children().length > 0){
 			    				$(this).parent().find(".info_fancy_service").slideUp();
 			    				$(this).parent().find(".tabla_fancy_service").slideDown();
@@ -229,13 +230,13 @@ function GroupLayer(opts){
 			    	$("input[type='button']").on("click",function(){
 			    		var select = $(this).parent().find("select").val()
 			    		var server = $($(this).parent().find("input[type='text']")[0]).val();
-			    		var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?REQUEST=GetCapabilities&SERVICE=WMS";
+			    		var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?REQUEST=GetCapabilities&SERVICE=" + select;
 			    		var name = $($(this).parent().find("input[type='text']")[1]).val();
 			    		var selfBoton = this;
 			    		
 			    		$(".urlServicioWms").val(serverWms);
 			    		
-			    		if(select == "WMS" && server != "" && server != "url"){
+			    		if((select == "WMS" || select == "WMTS") && server != "" && server != "url"){
 			    			$(this).val("Cargando...");
 				    		$(this).addClass("cargadoServicio");
 			    			url = serverWms
@@ -254,14 +255,20 @@ function GroupLayer(opts){
 				    		        	var version = $($(xml).find("*")[0]).attr("version");
 							    		$(xml).find("Layer").slice(1).each(function(){
 							    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
+							    				var keyLayerName;
+							    				if(select == "WMS"){
+							    					keyLayerName = "Name"
+							    				}else{
+							    					keyLayerName = "Identifier"
+							    				}
 							    				html +='<ul class="family_content" style="display: block;">' +
-				    							'<li style="border-top: 1px dotted #ccc; height:auto;">' +
-				    								'<p class="fleft mb">' + $(this).find("Title").text() + '</p>' +
-				    								'<div nombreCapa="' + $($(this).find("Name")[0]).text() + '" class="ml fleft mt">' +
-				    									'<span class="tiposCapas">WMS</span>' +
+				    							'<li>' +
+				    								'<p class="fleft mb ellipsis">' + $(this).find("Title").text() + '</p>' +
+				    								'<div nombreCapa="' + $($(this).find(keyLayerName)[0]).text() + '" class="ml fleft mt">' +
+				    									'<span class="tiposCapas">' + select +'</span>' +
 				    								'</div>' +
 				    								'<div class="clear"></div>'+
-				    								'<span style="font-size:11px; margin-left:40px; display:flex; line-height:36px;">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</span>' +
+				    								'<span class="description">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</span>' +
 				    								'<div class="clear"></div>' +
 				    							'</li>' +
 		    								'</ul>';
@@ -283,17 +290,23 @@ function GroupLayer(opts){
 					    				});
 					    				
 					    				
-					    				$(selfBoton).parent().find(".tiposCapas").on("click",function(){
+					    				$(selfBoton).parent().find(".tiposCapas").click(function(){
 					    					var title = $(this).parent().parent().find("p").text();
-					    					var url = $(".urlServicioWms").val().replace("?REQUEST=GetCapabilities&SERVICE=WMS", "");
+					    					var url = $(".urlServicioWms").val().replace("?REQUEST=GetCapabilities&SERVICE=" + select, "");
 					    					var layer = $(this).parent().attr("nombreCapa");
 					    					var leyenda = url.replace("/gwc/service", "");
-					    					var wmsLayer = new GSLayerWMS(-1,title, url, layer, leyenda);
-					    					wmsLayer.version = version;
-					    					wmsLayer.simpleLayer = true;
-					    					self.addLayer(wmsLayer);
+					    					if(select == "WMS"){
+					    						var wmsLayer = new GSLayerWMS(-1,title, url, layer, leyenda);
+					    						wmsLayer.version = version;
+					    						wmsLayer.simpleLayer = true;
+					    						self.addLayer(wmsLayer);
+					    					}else{
+					    						var wmtsLayer = new GSLayerWMTS(-1,title, url, layer, leyenda);
+					    						self.addLayer(wmtsLayer);
+					    					}
 					    					
-					    					$.fancybox.close();
+					    					
+					    					// $.fancybox.close();
 						    				if(!$("#panel_right .layer_panel").hasClass("close")){
 						    					Split.toggleLayersInterface(Split.RIGHT);
 						    				}
@@ -371,6 +384,8 @@ function GroupLayer(opts){
 			    }
 			});
 		});
+
+		//Fin fancybox de servicios
 		
 		$panel.find(".panoramio").unbind().on("click",function(){
 			if($(this).find("input[type='checkbox']").is(":checked")){
