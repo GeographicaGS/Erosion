@@ -108,49 +108,8 @@ function categoryPanelEvents(){
 		        	Split.__mapRight.project = project;
 		        	Split.__mapLeft.project = project;
 		        	
-		        	
-		        	for(var i=0; i<capasRight.length; i++){
-		        		if(capasRight[i].tipo == "geoJson"){
-		        			
-		        			$.ajax({
-                		        url: 'index.php/draw/getDraws/' + capasRight[i].id, 
-                		        dataType: "json",
-                		        success: function(response) {
-                		        	Split.addLayer(null,"vectorial", null, response,1,capasRight[i].visible);  
-                		        }
-                			});
-		        			
-		        		}else{
-		        			var capa = buscarCapa(capasRight[i].id, categories);
-                			leyenda = null;
-                			if(capa.wms){
-                				leyenda = capa.wms.server;
-                			}
-                			Split.addLayer(capa,capasRight[i].tipo, leyenda, null,1, capasRight[i].visible, capasRight[i].opacity);
-		        		}
-		        	}
-		        	
-		        	for(var i=0; i<capasLeft.length; i++){
-		        		if(capasLeft[i].tipo == "geoJson"){
-		        			
-		        			$.ajax({
-                		        url: 'index.php/draw/getDraws/' + capasLeft[i].id, 
-                		        dataType: "json",
-                		        success: function(response) {
-                		        	Split.addLayer(null,"vectorial", null, response,2, capasLeft[i].visible);  
-                		        }
-                			});
-		        			
-		        		}else{
-		        			var capa = buscarCapa(capasLeft[i].id, categories);
-                			leyenda = null;
-                			if(capa.wms){
-                				leyenda = capa.wms.server;
-                			}
-                			Split.addLayer(capa,capasLeft[i].tipo, leyenda, null,2, capasLeft[i].visible, capasLeft[i].opacity);
-		        		}
-		        	}
-		        	
+		        	addLayerFromProyect(capasRight,1);
+		        	addLayerFromProyect(capasLeft,2);
 		        }
 			});
 
@@ -159,4 +118,42 @@ function categoryPanelEvents(){
 		}
 		
 	});	
+}
+
+function addLayerFromProyect(layers, panel){
+	for(var i=0; i<layers.length; i++){
+		if(layers[i].tipo == "geoJson"){
+			
+			$.ajax({
+		        url: 'index.php/draw/getDraws/' + layers[i].id, 
+		        dataType: "json",
+		        success: function(response) {
+		        	Split.addLayer(null,"vectorial", null, response,panel,layers[i].visible);  
+		        }
+			});
+			
+		}else{
+			var capa = {};
+			//Si la capa viene de un servicio externo
+			if(layers[i].id == -1){
+				capa["id"] = layers[i].id;
+				capa["tipo"] = layers[i].tipo;
+				capa["visible"] = layers[i].visible;
+				capa["opacity"] = layers[i].opacity;
+				capa[layers[i].tipo] = {"server":layers[i].url, "name":layers[i].name};
+				capa["title"] = layers[i].title
+
+			}else{
+				capa = buscarCapa(layers[i].id, categories);
+			}
+			
+
+			leyenda = null;
+			if(capa.wms){
+				leyenda = capa.wms.server;
+			}
+
+			Split.addLayer(capa,layers[i].tipo, leyenda, null,panel, layers[i].visible, layers[i].opacity);
+		}
+	}
 }

@@ -92,7 +92,7 @@ Toolbar ={
 					    'autoSize':false,
 					    "visibility":"hidden",
 					    'closeBtn' : false,
-					    "openEffect" : "elastic",		   
+					    "openEffect" : "fade",		   
 					    'scrolling'   : 'no',
 					    helpers : {
 					        overlay : {
@@ -102,159 +102,36 @@ Toolbar ={
 					            	}
 					        }
 					    },
-					    afterShow: function () {
+					    beforeShow: function () {
+					    	$("input[name='tituloProyecto']").val("");
+					    	$("input[name='descripcionProyecto']").val("");
+					    	$("input[name='isPublic']").attr('checked', false);
+					    	$("#ctrl_add_project").removeClass("enable");
+				        	$("#errorNoCapas").hide();
+				        	$("#divIsPublic").hide();
+
 					    	if(isAdmin){
 					    		$("#divIsPublic").show();
 					    	}else{
 					    		$("input[name='isPublic']").attr('checked', false);
 					    		$("#divIsPublic").hide();
 					    	}
-					    	$("input[name='tituloProyecto']").click(function(){
-					    		if($(this).val() == "Título"){
-					    			$(this).val("");
-					    		}
-					    	});
+					    	// $("input[name='tituloProyecto']").click(function(){
+					    	// 	if($(this).val() == "Título"){
+					    	// 		$(this).val("");
+					    	// 	}
+					    	// });
 					    	
-					    	$("input[name='descripcionProyecto']").click(function(){
-					    		if($(this).val() == "Descripción"){
-					    			$(this).val("");
-					    		}
-					    	});
-					    	
-					    	$("h2").on("click",function(){
-					    		$.fancybox.close();
-					    	});
-					    	
-					    	var to;
-					    	$("input[name='tituloProyecto']").on("keyup",function(){
-					    		clearTimeout(to);
-					    	       to = setTimeout(function(){
-					    	    	   $.ajax({
-									        url: 'index.php/project/getInformationProject/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
-									        dataType: "json",
-									        success: function(response) {
-									        	
-									        	if(response.length != 0){
-									        		$("input[name='descripcionProyecto']").val(response.descripcion);
-									        		if(response.is_public == "t"){
-									        			$("input[name='isPublic']").attr('checked', true);
-									        		}else{
-									        			$("input[name='isPublic']").attr('checked', false);
-									        		}
-									        	}
-									        }
-					    	    	   });
-					    	       }, 500);
-					    	});
-					    	
-					    	
-					    	$("input[name='saveProject']").on("click",function(){
-					    		var enviar = true;
-					    		$("input[name='tituloProyecto']").css({"border":"1px solid #001232"});
-					    		$("input[name='descripcionProyecto']").css({"border":"1px solid #001232"});
-					    		$("#errorNoCapas").hide();
-					    		if($("input[name='tituloProyecto']").val() == "" || $("input[name='tituloProyecto']").val() == "Título"){
-					    			
-					    			$("input[name='tituloProyecto']").css({"border":"1px solid red"});
-					    			enviar = false;
-					    		} 
-					    		if($("input[name='descripcionProyecto']").val() == '' || $("input[name='descripcionProyecto']").val() == 'Descripción'){
-					    			$("input[name='descripcionProyecto']").css({"border":"1px solid red"});
-					    			enviar = false;
-					    		}
-					    		
-					    		if(Split.__mapRight.layers.length == 0 && Split.__mapLeft.layers.length == 0){
-					    			$("#errorNoCapas").show();
-					    			enviar = false;
-					    		}
-					    		
-					    		if(enviar){
-					    			var panels = {};
-					    			var leftPanel = Array();
-					    			var rightPanel = Array();
-					    			var leftState = {"lat":Split.__mapLeft.map.getCenter().lat, "lng":Split.__mapLeft.map.getCenter().lng, "zoom":Split.__mapLeft.map.getZoom()};
-					    			var rightState = {"lat":Split.__mapRight.map.getCenter().lat, "lng":Split.__mapRight.map.getCenter().lng, "zoom":Split.__mapRight.map.getZoom()};
-					    			for(var i=Split.__mapLeft.layers.length-1; i>=0; i--){
-					    				capas = {};
-					    				capas["id"] = Split.__mapLeft.layers[i].id;
-					    				capas["tipo"] = Split.__mapLeft.layers[i].tipo;
-					    				capas["visible"] = Split.__mapLeft.layers[i].visible;
-					    				capas["opacity"] = Split.__mapLeft.layers[i].layer.options.opacity;
-					    				leftPanel.push(capas); 
-					    			}
-					    			for(var i=Split.__mapRight.layers.length-1; i>=0; i--){
-					    				capas = {};
-					    				capas["id"] = Split.__mapRight.layers[i].id;
-					    				capas["tipo"] = Split.__mapRight.layers[i].tipo;
-					    				capas["visible"] = Split.__mapRight.layers[i].visible;
-					    				capas["opacity"] = Split.__mapRight.layers[i].layer.options.opacity;
-					    				rightPanel.push(capas); 
-					    			}
-					    			panels = { 'left':JSON.stringify(leftPanel),'right':JSON.stringify(rightPanel), 'leftState':leftState, 'rightState':rightState};
-					    			
-					    			$.ajax({
-								        url: 'index.php/project/projectExist/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
-								        success: function(response) {
-								        	if(response ==  "true"){
-								        		$("input[name='saveProject']").hide();
-								        		$("#errorProjectOwner").hide();
-								        		$("#projectExist").show();
-								        		
-								        		
-								        		$("#aceptSaveProject").click(function(){
-								        			$.ajax({
-												        url: 'index.php/project/updateProject',
-												        data: "titulo=" +  $("input[name='tituloProyecto']").val() + "&descripcion=" + $("input[name='descripcionProyecto']").val() + "&" + "&public=" + ($("input[name='isPublic']").is(":checked") ? "1":"0") + "&panels=" + JSON.stringify(panels),
-												        type: "POST",
-												        success: function(response) {
-												        	if(response == "0"){
-												        		$( "#cancelSaveProject" ).trigger( "click" );
-												        		$("#errorProjectOwner").show();
-												        	}else{
-												        		$("#projectExist").hide();
-											        			$("input[name='saveProject']").show();
-													        	$.fancybox.close();
-													        	drawCategories();
-												        	}
-												        }
-										    		});
-								        		});
-								        		
-								        		$("#cancelSaveProject").click(function(){
-								        			$("#projectExist").hide();
-								        			$("#errorProjectOwner").hide();
-								        			$("input[name='saveProject']").show();
-								        		});
-								        		
-								        	}else{
-								    			$.ajax({
-											        url: 'index.php/project/createProject',
-											        data: "titulo=" +  $("input[name='tituloProyecto']").val() + "&descripcion=" + $("input[name='descripcionProyecto']").val() + "&" + "&public=" + ($("input[name='isPublic']").is(":checked") ? "1":"0") + "&panels=" + JSON.stringify(panels),
-											        type: "POST",
-											        success: function(response) {
-											        	drawCategories();
-											        	$.fancybox.close();
-											        }
-									    		});
-								        	}
-								        }
-						    		});
-					    			
-					    			
-					    		}
-					    	
-					    	});
-					    	
+					    	// $("input[name='descripcionProyecto']").click(function(){
+					    	// 	if($(this).val() == "Descripción"){
+					    	// 		$(this).val("");
+					    	// 	}
+					    	// });					    	
 					    },
 					    
-					    afterClose:function () {
-					    	$("#ctrl_add_project").removeClass("enable");
-					    	$("input[name='tituloProyecto']").val("Título");
-				        	$("input[name='descripcionProyecto']").val("Descripción");
-				        	$("#errorNoCapas").hide();
-				        	$("input[name='isPublic']").attr('checked', false);
-				        	$("#divIsPublic").hide();
-					    },
+					    // afterClose:function () {
+					    	
+					    // },
 					    
 					});
 					
@@ -265,6 +142,114 @@ Toolbar ={
     			}
 			}
 		});
+
+		var to;
+    	$("input[name='tituloProyecto']").keyup(function(){
+    		clearTimeout(to);
+    	       to = setTimeout(function(){
+    	    	   $.ajax({
+				        url: 'index.php/project/getInformationProject/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
+				        dataType: "json",
+				        success: function(response) {
+				        	
+				        	if(response.length != 0){
+				        		$("input[name='descripcionProyecto']").val(response.descripcion);
+				        		if(response.is_public == "t"){
+				        			$("input[name='isPublic']").attr('checked', true);
+				        		}else{
+				        			$("input[name='isPublic']").attr('checked', false);
+				        		}
+				        	}
+				        }
+    	    	   });
+    	       }, 500);
+    	});
+
+		$("input[name='saveProject']").click(function(){
+    		var enviar = true;
+    		$("input[name='tituloProyecto']").css({"border":"1px solid #001232"});
+    		$("input[name='descripcionProyecto']").css({"border":"1px solid #001232"});
+    		$("#errorNoCapas").hide();
+    		if($("input[name='tituloProyecto']").val() == "" || $("input[name='tituloProyecto']").val() == "Título"){
+    			
+    			$("input[name='tituloProyecto']").css({"border":"1px solid red"});
+    			enviar = false;
+    		} 
+    		if($("input[name='descripcionProyecto']").val() == '' || $("input[name='descripcionProyecto']").val() == 'Descripción'){
+    			$("input[name='descripcionProyecto']").css({"border":"1px solid red"});
+    			enviar = false;
+    		}
+    		
+    		if(Split.__mapRight.layers.length == 0 && Split.__mapLeft.layers.length == 0){
+    			$("#errorNoCapas").show();
+    			enviar = false;
+    		}
+    		
+    		if(enviar){
+    			var panels = {};
+    			var leftState = {"lat":Split.__mapLeft.map.getCenter().lat, "lng":Split.__mapLeft.map.getCenter().lng, "zoom":Split.__mapLeft.map.getZoom()};
+    			var rightState = {"lat":Split.__mapRight.map.getCenter().lat, "lng":Split.__mapRight.map.getCenter().lng, "zoom":Split.__mapRight.map.getZoom()};
+    			var leftPanel = (Toolbar._createJsonFromLayer(Split.__mapLeft.layers));
+    			var rightPanel = (Toolbar._createJsonFromLayer(Split.__mapRight.layers))  
+    			panels = { 'left':JSON.stringify(leftPanel),'right':JSON.stringify(rightPanel), 'leftState':leftState, 'rightState':rightState};
+    			
+    			$.ajax({
+			        url: 'index.php/project/projectExist/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
+			        success: function(response) {
+			        	if(response ==  "true"){
+			        		$("input[name='saveProject']").hide();
+			        		$("#errorProjectOwner").hide();
+			        		$("#projectExist").show();
+			        		
+			        		
+			        		$("#aceptSaveProject").click(function(){
+			        			$.ajax({
+							        url: 'index.php/project/updateProject',
+							        data: "titulo=" +  $("input[name='tituloProyecto']").val() + "&descripcion=" + $("input[name='descripcionProyecto']").val() + "&" + "&public=" + ($("input[name='isPublic']").is(":checked") ? "1":"0") + "&panels=" + JSON.stringify(panels),
+							        type: "POST",
+							        success: function(response) {
+							        	if(response == "0"){
+							        		$( "#cancelSaveProject" ).trigger( "click" );
+							        		$("#errorProjectOwner").show();
+							        	}else{
+							        		$("#projectExist").hide();
+						        			$("input[name='saveProject']").show();
+								        	$.fancybox.close();
+								        	drawCategories();
+							        	}
+							        }
+					    		});
+			        		});
+			        		
+			        		$("#cancelSaveProject").click(function(){
+			        			$("#projectExist").hide();
+			        			$("#errorProjectOwner").hide();
+			        			$("input[name='saveProject']").show();
+			        		});
+			        		
+			        	}else{
+			    			$.ajax({
+						        url: 'index.php/project/createProject',
+						        data: "titulo=" +  $("input[name='tituloProyecto']").val() + "&descripcion=" + $("input[name='descripcionProyecto']").val() + "&" + "&public=" + ($("input[name='isPublic']").is(":checked") ? "1":"0") + "&panels=" + JSON.stringify(panels),
+						        type: "POST",
+						        success: function(response) {
+						        	drawCategories();
+						        	$.fancybox.close();
+						        }
+				    		});
+			        	}
+			        }
+	    		});
+    			
+    			
+    		}
+    	
+    	});
+
+		$("#project_fancy h2").click(function(){
+			$.fancybox.close();
+		});
+
 		
 		$(".streetButtonLeft,.streetButtonRight").click(function() {
 			var map;
@@ -348,5 +333,23 @@ Toolbar ={
 			panelHtml.find("object").remove();
 
 		});
+	},
+
+	_createJsonFromLayer: function(layers){
+		var panel = Array();
+		for(var i=layers.length-1; i>=0; i--){
+			capas = {};
+			capas["id"] = layers[i].id;
+			capas["tipo"] = layers[i].tipo;
+			capas["visible"] = layers[i].visible;
+			capas["opacity"] = layers[i].layer.options.opacity;
+			if(capas["id"] == -1){
+				capas["url"] = layers[i].url;
+				capas["title"] = layers[i].title
+				capas["name"] = layers[i].name 
+			}
+			panel.push(capas); 
+		}
+		return panel;
 	}
 }

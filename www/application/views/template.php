@@ -436,11 +436,11 @@
 		<h1>Proyecto</h1>
 		<h2>Cerrar</h2>
 		<div class="clear"></div>
-		<input name='tituloProyecto'  class="fleft" style="width: 545px; background: #ecedef;" type="text" value="Título">
+		<input name='tituloProyecto'  class="fleft" style="width: 545px; background: #ecedef;" type="text" value="" placeholder="Título">
 		<div id="divIsPublic" class="fright" style="display:none; margin-top: 28px; font-size: 14px;color: #666666; margin-right: 30px;">
 			<input name="isPublic" type="checkbox" /><label>Público</label>
 		</div>
-		<input name='descripcionProyecto' style="width: 620px; background: #ecedef;" type="text" value="Descripción">
+		<input name='descripcionProyecto' style="width: 620px; background: #ecedef;" type="text" value="" placeholder="Descripción">
 		<p id="errorNoCapas" style="display:none; text-align: center; margin-top: 15px; color: red;">No ha cargado ninguna capa en ninguno de los mapas</p>
 		<p id="errorProjectOwner" style="display:none; text-align: center; margin-top: 15px; color: red;">Usted no es propietario de este proyecto y no puede sobreescribirlo</p>
 		<input name="saveProject" class="mt20" style="width: 620px;" type="button" value="Guardar proyecto">
