@@ -140,7 +140,7 @@ function addLayerFromProyect(layers, panel){
 				capa["tipo"] = layers[i].tipo;
 				capa["visible"] = layers[i].visible;
 				capa["opacity"] = layers[i].opacity;
-				capa[layers[i].tipo] = {"server":layers[i].url, "name":layers[i].name};
+				capa[layers[i].tipo] = {"server":layers[i].url, "name":layers[i].name, "simple_tile":true};
 				capa["title"] = layers[i].title
 
 			}else{
