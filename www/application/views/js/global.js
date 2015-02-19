@@ -79,7 +79,7 @@ function showInfoFancybox(text) {
 		"height": "auto",
 		'autoDimensions':true,
 	    'autoSize':true,
-		"openEffect" : "elastic",
+		"openEffect" : "fade",
 		'openSpeed' : 500,
 		'helpers' : {
 		  overlay : {

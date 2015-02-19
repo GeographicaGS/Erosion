@@ -1838,11 +1838,31 @@ img.tiposCapas{
 	right: -5px;
 }
 
-.prueba{
-	position: fixed;
-	top: 50%;
-	background: none;
-	border: none;
-	left: 43%;
+.leaflet-overlay-pane{
+	position: relative;
+}
+
+.leaflet-marker-pane{
+	position: relative;
+}
+
+.leaflet-bottom.leaflet-left .leaflet-control-zoom-display{
+	left: 0px;
+}
+
+.leaflet-bottom.leaflet-right .leaflet-control-zoom-display{
+	right: 0px;
+}
+
+.leaflet-control-zoom-display {
+	position: absolute;
+	top: 60px;
+    width: 26px;
+	height: 22px;
+	text-align: center;
+	font: bold 12px/20px Tahoma, Verdana, sans-serif;
+	padding-top: 4px;
+	background-color: white;
+	border-radius: 4px;
 }
 

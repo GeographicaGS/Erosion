@@ -45,6 +45,7 @@
 <script type="text/javascript" src="<?= get_js("lib/jquery-ui-1.10.3.custom.min.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/leaflet.Sync.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/singleTile.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/L.Control.ZoomDisplay.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("global.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("grouplayer.js")?>"></script>
@@ -163,9 +164,9 @@
 <!-- 		<a href="javascript:navigate(1)"> -->
 <!-- 			CATÁLOGO -->
 <!-- 		</a> -->
-		<a href="javascript:navigate(2)">
+		<!-- <a href="javascript:navigate(2)">
 			ACTIVIDAD
-		</a>
+		</a> -->
 	</nav>
 	
 	<div class="fright">
@@ -386,14 +387,14 @@
 		<div id="categories"></div>
 	</div>
 	
-	<div id="actividad" style="display: none;" >
+	<!-- <div id="actividad" style="display: none;" >
 		<div class="tablaActividad">
 			<h1>Actividad reciente</h1>
 			
 			<div class="comentTable" style="max-height: none;background-color: white;"></div>
 		
 		</div>
-	</div>
+	</div> -->
 	
 	<div class="clear"></div>
 </div>

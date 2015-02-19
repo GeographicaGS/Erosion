@@ -430,9 +430,9 @@ function GroupLayer(opts){
 		   			self.__panoramios = new L.MarkerClusterGroup();
 		   			for(var i=0; i<data.photos.length; i++){
 
-						var marker = L.marker([data.photos[i].latitude, data.photos[i].longitude], {icon: new L.icon({iconUrl: 'application/views/img/ERO_icon_map_panoramio.png', zIndexOffset:1000}),value : data.photos[i].photo_file_url});
+						var marker = L.marker([data.photos[i].latitude, data.photos[i].longitude], {icon: new L.icon({iconUrl: 'application/views/img/ERO_icon_map_panoramio.png', zIndexOffset:1000}),value : data.photos[i].photo_file_url, date:data.photos[i].upload_date});
 		        		marker.on('click', function(){
-		        			showInfoFancybox("<img style='height:" + $("#panel_left").outerHeight() + "' src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
+		        			showInfoFancybox("<span style='position: absolute;right: 10px;bottom: 10px;color: white;'>" + this.options.date +"</span><img style='height:" + $("#panel_left").outerHeight() + "' src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
 		        		});
 
 		   				self.__panoramios.addLayer(marker);

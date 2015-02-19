@@ -41,6 +41,11 @@ Split = {
 		zoomControl.addTo(mapLeft);
 
 		L.control.scale({position:"bottomleft"}).addTo(mapLeft);
+
+		var zoomDisplay = new L.Control.ZoomDisplay({
+			position : 'bottomleft'
+		});
+        mapLeft.addControl(zoomDisplay);
 		
 		//let's create the GroupLayer object with the instance of mapLeft		
 		var opts = {
@@ -70,6 +75,11 @@ Split = {
 			position : 'bottomright'
 		});
 		zoomControl.addTo(mapRight);
+
+		zoomDisplay = new L.Control.ZoomDisplay({
+			position : 'bottomright'
+		});
+        mapRight.addControl(zoomDisplay);
 
 		L.control.scale({position:"bottomright"}).addTo(mapRight);	
 		
