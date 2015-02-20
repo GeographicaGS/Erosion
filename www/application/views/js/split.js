@@ -127,6 +127,9 @@ Split = {
 			Split.__mapRight.drawPanoramio();
 		});
 
+		this.__mapRight.getMap().on('zoomanim', debounce(Split.__mapRight.getMap()._onZoomTransitionEnd, 250,false));
+		this.__mapLeft.getMap().on('zoomanim', debounce(Split.__mapLeft.getMap()._onZoomTransitionEnd, 250,false));
+
 		this.__currentMasterMap = this.__mapLeft;
 		
 		var self = this;

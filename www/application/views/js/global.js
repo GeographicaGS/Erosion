@@ -86,15 +86,22 @@ function showInfoFancybox(text) {
 		    css : { 'overflow' : 'auto' }
 		  }
 		},
+
+		beforeShow: function () {
+			$(".fancybox-skin").css('visibility', 'hidden');
+		},
+
 		afterShow: function () {
 			if($('#container_feature_info').text() == "No hay información sobre este punto"){
 				$('.fancybox-outer').height("15");
 			}
 			$.fancybox.update();
         },
-  //       onUpdate: function () {
-  //       	$.fancybox.update();
-  //       }
+        onUpdate: function () {
+        	$(".fancybox-skin").hide();
+        	$(".fancybox-skin").css('visibility', 'visible');
+        	$(".fancybox-skin").fadeIn();
+        }
 	}).trigger('click');
 }
 
@@ -318,3 +325,18 @@ function showFancySelectPanel(x,y,idCapa,tipo){
 	$("#fancy_select_panel").show(300);
 	event.stopPropagation();
 }
+
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
