@@ -321,6 +321,14 @@ ul.layer_panel > li > img.opacity, ul.layer_panel > ul > li > img.opacity {
 	line-height: 23px;
 }
 
+.layer_panel .layerTree{
+	background-color: #fff;
+}
+
+.layer_panel .layerTree.active{
+	background-color: red;
+}
+
 .opacity_panel {
 	height: 25px;
 	background: #f1f1f1 url("../img/MED_back_opacity.png") repeat-x top left;

@@ -91,7 +91,7 @@ function GroupLayer(opts){
 				$(ui.item).css("background-color","#f2f7fb");
 			},
 			stop: function( event, ui ) {
-				$(ui.item).css("background-color","#fff");
+				// $(ui.item).css("background-color","#fff");
 				var id_layer = $(ui.item).find("input").attr("id_layer");
 				var l = self.layers[id_layer];
 				self.layers.splice(id_layer,1);
@@ -107,6 +107,18 @@ function GroupLayer(opts){
 					$(checks[i]).attr("id_layer",i);
 				}
 			}
+		});
+
+		$panel.find(".layerTree span").click(function(){
+			$(this).closest(".layerTree").toggleClass("active");
+			var id_layer = $(this).parent().find("input").attr("id_layer");
+			self.getMap().on("click",function(e){
+				showInfoFancybox("<div id='container_feature_info'>" + "Cargando..." + "</div>");
+				self.featureInfo(e,id_layer)
+			});
+
+
+			// self.featureInfo(e,id_capa);
 		});
 		
 		$panel.disableSelection();
@@ -663,14 +675,21 @@ function GroupLayer(opts){
 		var server = null;
 		var requestIdx = null;
 		
-		for (var i=id;i<this.layers.length;i++){
-			var l = this.layers[i];
-			if (l.visible && l.layer.options.opacity>0){
-				server = l.url;
-				layers = l.name;
-				requestIdx = i;
-				break;
-			}
+		// for (var i=id;i<this.layers.length;i++){
+		// 	var l = this.layers[i];
+		// 	if (l.visible && l.layer.options.opacity>0){
+		// 		server = l.url;
+		// 		layers = l.name;
+		// 		requestIdx = i;
+		// 		break;
+		// 	}
+		// }
+
+		var l = this.layers[id];
+		if (l.visible && l.layer.options.opacity>0){
+			server = l.url;
+			layers = l.name;
+			requestIdx = i;
 		}
 		
 		if (layers==null || server==null || requestIdx==null)
@@ -691,14 +710,14 @@ function GroupLayer(opts){
 	        success: function(data) {
 	        	try {
 		        	if (!data || data.indexOf("LayerNotQueryable")!=-1){
-		        		obj.featureInfo(e,requestIdx+1);
+		        		// obj.featureInfo(e,requestIdx+1);
 		        	}
 		        	else{
 		        		if(data.substring(data.indexOf('<body>') + 6,data.indexOf('</body>')).trim().length > 0){
 		        			$("#container_feature_info").html(data);
 		        		}else{
 		        			if(requestIdx < obj.layers.length){
-		        				obj.featureInfo(e,requestIdx+1);
+		        				// obj.featureInfo(e,requestIdx+1);
 		        			}else{
 		        				$("#container_feature_info").html("No hay información sobre este punto");
 		        			}
@@ -710,7 +729,7 @@ function GroupLayer(opts){
 	        	$.fancybox.update();	
 	        },
 	        error: function(){	        	
-	        	obj.featureInfo(e,requestIdx+1);
+	        	// obj.featureInfo(e,requestIdx+1);
 	        }
 	    });
 		
