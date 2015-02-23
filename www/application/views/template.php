@@ -266,6 +266,8 @@
 			<div title="Dibujar polígono" id="ctrl_rectangle_drawer"></div>
 			<div title="Obtener información" id="ctrl_feature_info"></div>
 			<div title="Guardar proyecto" id="ctrl_add_project"></div>
+			<!-- <div title="Panoramio" id="ctrl_panoramio"></div>
+			<div title="Street View" id="ctrl_streetView"></div> -->
 			<div title="Mostrar mi ubicación" id="ctrl_location" class="enable"></div>
 		</div>
 		

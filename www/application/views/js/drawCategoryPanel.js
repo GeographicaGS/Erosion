@@ -6,20 +6,20 @@ function drawCategories(unLoadDefaultProject) {
 	$("#capasCatalogo").html(html);
 
 
-	$(".families").append("	<ul class='family_header' style='padding-left:0px' title='SERVICIOS DE TERCEROS'> "+
-								"<li class='ico_open_close'><img style='vertical-align: top;' src='application/views/img/MED_icon_familia.png'></li>"+
-								"<li class='name ellipsis'>SERVICIOS DE TERCEROS</li>"+
-								"<li class='n_elements'>(1)</li>"+
-							"</ul>"+
-							"<div class='clear'></div>"+
-							"<ul class='family_content' style='padding-left: 0px; display:none;'>"+
-								"<li idcapa='60' style='border-top: 1px solid #ccc;'>"+
-									"<p class='ellipsis' title='Panoramio'>Panoramio</p>"+
-									"<div class='fleft fright mr' style='margin-top:8px;' tipo='panoramio'>"+
-										"<span class='tiposCapas plus'>PANORAMIO</span></div></div><div class='clear'>"+
-									"</div>"+
-								"</li>"+
-							"</ul>");
+	// $(".families").append("	<ul class='family_header' style='padding-left:0px' title='SERVICIOS DE TERCEROS'> "+
+	// 							"<li class='ico_open_close'><img style='vertical-align: top;' src='application/views/img/MED_icon_familia.png'></li>"+
+	// 							"<li class='name ellipsis'>SERVICIOS DE TERCEROS</li>"+
+	// 							"<li class='n_elements'>(1)</li>"+
+	// 						"</ul>"+
+	// 						"<div class='clear'></div>"+
+	// 						"<ul class='family_content' style='padding-left: 0px; display:none;'>"+
+	// 							"<li idcapa='60' style='border-top: 1px solid #ccc;'>"+
+	// 								"<p class='ellipsis' title='Panoramio'>Panoramio</p>"+
+	// 								"<div class='fleft fright mr' style='margin-top:8px;' tipo='panoramio'>"+
+	// 									"<span class='tiposCapas plus'>PANORAMIO</span></div></div><div class='clear'>"+
+	// 								"</div>"+
+	// 							"</li>"+
+	// 						"</ul>");
 
 	
 	
@@ -132,7 +132,9 @@ function buscarCapa(id, categories){
 	for(var i=0; i<categories.length; i++){
 		for(var y=0; y<categories[i].layers.length; y++){
 			if(categories[i].layers[y].id==id){
-				return categories[i].layers[y];
+				//Devuelvo el objeto clonado para poder utilizarlo en otras partes de la aplicación sin que me modifique
+				//el catálogo
+				return JSON.parse(JSON.stringify(categories[i].layers[y]));
 			}
 		}
 		if(categories[i].hasOwnProperty("categories")){

@@ -1,6 +1,7 @@
-function GSLayerTMS(id,title, url, name, leyenda, isGoogle){
+function GSLayerTMS(id,title, url, name, leyenda, isGoogle, alternativeTitle){
 	this.id = id;
 	this.title = title;
+	this.alternativeTitle = alternativeTitle;
 	this.server = url;
 	this.name = name;
 	this.visible = true;

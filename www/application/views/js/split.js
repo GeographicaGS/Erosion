@@ -666,25 +666,25 @@ Split = {
 		}
 		
 		if(tipo == "wms"){
-			gsLayerLeft = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
-			gsLayerRight = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerLeft = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle);
+			gsLayerRight = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyendam, capa.alternativeTitle);
 			if(capa.wms.hasOwnProperty("simple_tile") && capa.wms.simple_tile){
 				gsLayerLeft.simpleLayer = true;
 				gsLayerRight.simpleLayer = true;
 			}
 			
 		}else if(tipo == "wmts"){
-			gsLayerLeft = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
-			gsLayerRight = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda);
+			gsLayerLeft = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle);
+			gsLayerRight = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle);
 		
 		}else if(tipo == "tms"){
-			gsLayerLeft = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google);
-			gsLayerRight = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google);
+			gsLayerLeft = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google, capa.alternativeTitle);
+			gsLayerRight = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google, capa.alternativeTitle);
 		
 		}else if(tipo == "simbolo"){
 			
-			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [43,41,39,37,35,33,31,29,27,25,23,21,19,17,15,13,11,9,7,5,3,1]);
-			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [43,41,39,37,35,33,31,29,27,25,23,21,19,17,15,13,11,9,7,5,3,1]);
+			gsLayerLeft = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [43,41,39,37,35,33,31,29,27,25,23,21,19,17,15,13,11,9,7,5,3,1], capa.alternativeTitle);
+			gsLayerRight = new GSLayerSimbolo(capa.id, capa.title, capa.simbolo.umbral, capa.simbolo.colorUmbralPositivo, capa.simbolo.colorUmbralNegativo, capa.simbolo.radioMin, capa.simbolo.radioMax, [43,41,39,37,35,33,31,29,27,25,23,21,19,17,15,13,11,9,7,5,3,1], capa.alternativeTitle);
 		}
 		
 		else if(geoJson && geoJson.length > 0){
@@ -696,14 +696,18 @@ Split = {
 			if(panel == 1){
 				Split.__mapRight.capaPanoramios = true;
 				Split.__mapRight.mostrarPanoramios = true;
+				this.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
 			}else if(panel == 2){
 				Split.__mapLeft.capaPanoramios = true;
         		Split.__mapLeft.mostrarPanoramios = true;
+        		this.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
 			}else{
 				Split.__mapRight.mostrarPanoramios = true;
 				Split.__mapLeft.mostrarPanoramios = true;
 				Split.__mapRight.capaPanoramios = true;
 				Split.__mapLeft.capaPanoramios = true;
+				this.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
+				this.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
         	}
     	  	Split.__mapLeft.drawPanoramio();
 	    	Split.__mapRight.drawPanoramio();
@@ -713,13 +717,13 @@ Split = {
 			return null;
 		}
 		
-		if((panel==1 || panel==3) && !this.__mapRight.containLayer(capa != null? capa.id : geoJson[0].properties.id_category ,tipo)){
+		if((panel==1 || panel==3) && !this.__mapRight.containLayer(capa != null? capa.id : geoJson[0].properties.id_category ,tipo, capa.alternativeTitle)){
 			this.__mapRight.addLayer(gsLayerRight);
 			gsLayerRight.setVisibility(visible,Split.__mapRight.getMap(),null);
 			(gsLayerRight.layer != null && gsLayerRight.layer.setOpacity != null) ? gsLayerRight.layer.setOpacity(opacity): "";
 
 		}
-		if((panel==2 || panel==3 ) && !this.__mapLeft.containLayer(capa != null ? capa.id : geoJson[0].properties.id_category ,tipo)){
+		if((panel==2 || panel==3 ) && !this.__mapLeft.containLayer(capa != null ? capa.id : geoJson[0].properties.id_category ,tipo, capa.alternativeTitle)){
 			this.__mapLeft.addLayer(gsLayerLeft);
 			gsLayerLeft.setVisibility(visible,Split.__mapLeft.getMap(),null);
 			(gsLayerLeft.layer != null && gsLayerLeft.layer.setOpacity != null) ? gsLayerLeft.layer.setOpacity(opacity):"";
@@ -727,11 +731,9 @@ Split = {
 
 		if(!$("#panel_right .layer_panel").hasClass("close")){
 			this.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
-			// this.toggleLayersInterface(this.RIGHT);
 		}
 		if(!$("#panel_left .layer_panel").hasClass("close")){
 			this.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
-			// this.toggleLayersInterface(this.LEFT);
 		}
 
 	},

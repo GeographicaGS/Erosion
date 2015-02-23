@@ -1,6 +1,7 @@
-function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegativo, radioMin, radioMax, zoomGroup){
+function GSLayerSimbolo(id, title, umbral, colorUmbralPositivo, colorUmbralNegativo, radioMin, radioMax, zoomGroup, alternativeTitle){
 	this.id = id;
 	this.title = title;
+	this.alternativeTitle = alternativeTitle;
 	this.visible = true;
 	this.tipo = "simbolo";
 	this.layer = null;

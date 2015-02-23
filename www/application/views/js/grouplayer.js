@@ -20,10 +20,10 @@ function GroupLayer(opts){
 		var html = "";
 		
 		//Añado la capa de  Panoramio
-		if(this.capaPanoramios){
-			html += "<li class='panoramio disableSortable' style='cursor:pointer' title='Panoramio'><img class='remove' src='application/views/img/MED_icon_papelera_panel.png'/><input id_layer='panoramio' type='checkbox' "+ (this.getMap().getZoom()>=11? '' : 'disabled') + " " + (this.mostrarPanoramios && this.getMap().getZoom()>=11 ? 'checked':'') + " class='toogleLayer'/> <span class='ellipsis'>Panoramio (visble a partir de zoom 11)</span></li>";
-		}
-		
+		// if(this.capaPanoramios){
+		// 	html += "<li class='panoramio disableSortable' style='cursor:pointer' title='Panoramio'><img class='remove' src='application/views/img/MED_icon_papelera_panel.png'/><input id_layer='panoramio' type='checkbox' "+ (this.getMap().getZoom()>=11? '' : 'disabled') + " " + (this.mostrarPanoramios && this.getMap().getZoom()>=11 ? 'checked':'') + " class='toogleLayer'/> <span class='ellipsis'>Panoramio (visble a partir de zoom 11)</span></li>";
+		// }
+
 		if(this.project){
 			html += "<li style='background: none; cursor: initial;' class='disableSortable'><img style='float:left; padding-right: 10px; padding-left: 0;' src='application/views/img/ERO_icon_proyecto.png'><strong class='ellipsis' title='" + this.project + "' style='display: block; padding-top: 5px;'>" + this.project + "</strong></li>";
 		}
@@ -49,7 +49,7 @@ function GroupLayer(opts){
 //					if(l.leyenda){
 						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Leyenda' id_layer='" + x + "'>";
 //					}
-					html += "<span class='ellipsis'>"+l.title+"</span>";
+					html += "<span contenteditable='false' class='ellipsis'>"+ (l.alternativeTitle ? l.alternativeTitle:l.title) +"</span>";
 					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
 						html += "<div class='opacity_panel' style='display: none;'>" +
 						"<span class='opacity_label'>Opacity " + (l.layer.options.opacity * 100).toFixed(0) +" %</span>" +
@@ -86,6 +86,7 @@ function GroupLayer(opts){
 		}).draggable();
 		
 		$panel.find("ul").sortable({
+			cancel: 'span',
 
 			start: function( event, ui ) {
 				$(ui.item).css("background-color","#f2f7fb");
@@ -110,17 +111,41 @@ function GroupLayer(opts){
 		});
 
 		$panel.find(".layerTree span").click(function(){
-			$(this).closest(".layerTree").toggleClass("active");
-			var id_layer = $(this).parent().find("input").attr("id_layer");
-			self.getMap().on("click",function(e){
-				showInfoFancybox("<div id='container_feature_info'>" + "Cargando..." + "</div>");
-				self.featureInfo(e,id_layer)
-			});
+			$(self.getMap()._container).removeClass("cursor_info");
+			self.getMap().off("click");
+			var layer = $(this).closest(".layerTree");
+			if(layer.hasClass("active")){
+				layer.removeClass("active");
 
+			}else{
 
+				$(this).closest(".layer_panel").find(".layerTree").each(function() {
+					$(this).removeClass("active");
+				});	
+				layer.addClass("active");
+				$(self.getMap()._container).addClass("cursor_info");
+				var id_layer = $(this).parent().find("input").attr("id_layer");
+				self.getMap().on("click",function(e){
+					showInfoFancybox("<div id='container_feature_info'>" + "Cargando..." + "</div>");
+					self.featureInfo(e,id_layer)
+				});
+			}
 			// self.featureInfo(e,id_capa);
 		});
-		
+
+		$panel.find(".layerTree span").dblclick(function(){
+			if($(this).siblings("input").attr("tipo") != "vectorial"){
+				$(this).attr('contentEditable',true);
+				this.focus();
+			}
+		}).blur(
+	        function() {
+	            if($(this).siblings("input").attr("tipo") != "vectorial"){
+	            	$(this).attr('contentEditable', false);
+	            	self.layers[$(this).siblings("input").attr("id_layer")].alternativeTitle = $(this).text();
+	            }
+	        });
+
 		$panel.disableSelection();
 		$panel.sortable({ cancel: '.disableSortable' });
 		
@@ -180,6 +205,11 @@ function GroupLayer(opts){
 				for(var i=0;i<self.layers.length;i++){
 					self.layers[i].layer.setZIndex(self.layers.length-i);
 				}
+				
+				if($(this).closest(".layerTree").hasClass("active")){
+					$(self.getMap()._container).removeClass("cursor_info");
+					self.getMap().off("click");
+				}
 			}
 
 			$(this).parent().animate({"width":'0px'}, function(){
@@ -200,7 +230,7 @@ function GroupLayer(opts){
 		
 		//Fancybox de servicios
 		$panel.find(".add_layer").click(function(){
-			$.fancybox($("#service_fancy_box_data").html(), {
+			$.fancybox($("#service_fancy_box_data"), {
 				'width':'660',
 				"height": "auto",
 			    'autoDimensions':false,
@@ -217,159 +247,118 @@ function GroupLayer(opts){
 			            	}
 			        }
 			    },
-			    afterShow: function () {
-			    	$("select").change(function(){
-			    		if($(this).val() == "WMS" || $(this).val() == "WMTS"){
-			    			if($(this).parent().find(".tabla_fancy_service").children().length > 0){
-			    				$(this).parent().find(".info_fancy_service").slideUp();
-			    				$(this).parent().find(".tabla_fancy_service").slideDown();
-			    			}else{
-			    				$(this).parent().find(".info_fancy_service").slideDown()
-			    			}
-			    			
-			    			$(this).parent().find(".input_fancy").hide();
-			    			$(this).parent().find("input[type='button']").val("Explorar servicio");
-			    		}else{
-			    			$(this).parent().find(".info_fancy_service").slideDown()
-			    			$(this).parent().find(".input_fancy").fadeIn(700);
-			    			$(this).parent().find(".tabla_fancy_service").slideUp();
-			    			$(this).parent().find("input[type='button']").val("Añadir directamente al panel de capas");
-			    		}
-			    	});
-			    	$("h2").on("click",function(){
-			    		$.fancybox.close();
-			    	});
-			    	$("input[type='button']").on("click",function(){
-			    		var select = $(this).parent().find("select").val()
-			    		var server = $($(this).parent().find("input[type='text']")[0]).val();
-			    		var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?REQUEST=GetCapabilities&SERVICE=" + select;
-			    		var name = $($(this).parent().find("input[type='text']")[1]).val();
-			    		var selfBoton = this;
-			    		
-			    		$(".urlServicioWms").val(serverWms);
-			    		
-			    		if((select == "WMS" || select == "WMTS") && server != "" && server != "url"){
-			    			$(this).val("Cargando...");
-				    		$(this).addClass("cargadoServicio");
-			    			url = serverWms
-			    			$.ajax({
-			    				url : "application/views/proxy.php",
-			    				data: { "url": url},
-			    				dataType: 'xml',
-			    				type: "POST",			
-			    		        success: function(xml) {
-			    		        	var sistemasErroneos = false;
-			    		        	if(xml){
-				    		        	var html = '<ul class="families" style="padding-top:0px;">' +
-							    						'<li class="close" style="background-color: rgb(236, 237, 239);">';
-							    		
-				    		        	var layerPadre = $(xml).find("Layer")[0];
-				    		        	var version = $($(xml).find("*")[0]).attr("version");
-							    		$(xml).find("Layer").slice(1).each(function(){
-							    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
-							    				var keyLayerName;
-							    				if(select == "WMS"){
-							    					keyLayerName = "Name"
-							    				}else{
-							    					keyLayerName = "Identifier"
-							    				}
-							    				html +='<ul class="family_content" style="display: block;">' +
-				    							'<li>' +
-				    								'<p class="fleft mb ellipsis">' + $(this).find("Title").text() + '</p>' +
-				    								'<div nombreCapa="' + $($(this).find(keyLayerName)[0]).text() + '" class="ml fleft mt">' +
-				    									'<span class="tiposCapas">' + select +'</span>' +
-				    								'</div>' +
-				    								'<div class="clear"></div>'+
-				    								'<span class="description">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</span>' +
-				    								'<div class="clear"></div>' +
-				    							'</li>' +
-		    								'</ul>';
-							    				
-							    			}else{
-							    				sistemasErroneos = true;
-							    			}
-				    		        	});
-							    		html +=	'</li></ul>';
-							    		$(selfBoton).parent().find(".tabla_fancy_service").html(html);
-							    		$(selfBoton).parent().find(".info_fancy_service").hide();						    		
-					    				$(selfBoton).parent().find(".tabla_fancy_service").slideDown(function(){
-					    				$.fancybox.update();
-					    				if(sistemasErroneos){
-					    					$(selfBoton).val("El servicio contiene capas con un sistema de referencia no soportado");
-					    				}else{
-					    					$(selfBoton).val("Explorar servicio");
-					    				}
-					    				});
-					    				
-					    				
-					    				$(selfBoton).parent().find(".tiposCapas").click(function(){
-					    					var title = $(this).parent().parent().find("p").text();
-					    					var url = $(".urlServicioWms").val().replace("?REQUEST=GetCapabilities&SERVICE=" + select, "");
-					    					var layer = $(this).parent().attr("nombreCapa");
-					    					var leyenda = url.replace("/gwc/service", "");
-					    					if(select == "WMS"){
-					    						var wmsLayer = new GSLayerWMS(-1,title, url, layer, leyenda);
-					    						wmsLayer.version = version;
-					    						wmsLayer.simpleLayer = true;
-					    						self.addLayer(wmsLayer);
-					    					}else{
-					    						var wmtsLayer = new GSLayerWMTS(-1,title, url, layer, leyenda);
-					    						self.addLayer(wmtsLayer);
-					    					}
-					    					
-					    					
-					    					// $.fancybox.close();
-						    				if(!$("#panel_right .layer_panel").hasClass("close")){
-						    					Split.toggleLayersInterface(Split.RIGHT);
-						    				}
-						    				if(!$("#panel_left .layer_panel").hasClass("close")){
-						    					Split.toggleLayersInterface(Split.LEFT);
-						    				}
-						    				
-						    				
-						    				//Relleno el panel de la leyenda
-						    				$(".deleteProyect").hide();
-						    				$(".defaultProject").hide();
-						    				$("#commentsVector").hide();
-						    				$("#geometryVector").hide();
-						    				$("#addHistoryForm").hide();
-						    				
-						    				$(".infoCatalogo .petaniaInfoCatalogo").show();
-						    				if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
-						    					$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
-						    				}
-						    				$(".cuerpoInfoCatalogo").find(".title1").text(title);
-						    				$(".cuerpoInfoCatalogo").find(".title1").prop('title', title);
-						    				$(".cuerpoInfoCatalogo").find(".title2").text("");
-						    				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
-						    				var legendUrl = leyenda.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=" + version + "&REQUEST=GetLegendGraphic&"
-						    				+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer;
-						    				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
-						    				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
-						    				
-						    				$(".extraLeyenda").show();
-						    				$(".botonAddImageLeyenda").hide();
-						    				
-					    				});
-			    		        	}else{
-			    		        		$(selfBoton).val("Servicio no encontrado");
-			    		        	}
-			    		        	$(selfBoton).removeClass("cargadoServicio");
-			    		        },
-			    		        error: function(){
-			    		        	$(selfBoton).removeClass("cargadoServicio");
-			    		        	$(selfBoton).val("Servicio no encontrado");
-			    		        }
-			    		    });
-			    			
-			    		}else{
-			    			if(server != "" && server != "url" && name != "" && name != "Título de la capa"){
-			    				if(select == "WMTS"){
-			    					self.addLayer(new GSLayerWMTS(-1,name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
-			    				}else{
-			    					self.addLayer(new GSLayerTMS(-1,name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
-			    				}
-			    				$.fancybox.close();
+			    // afterShow: function () {
+			    	
+			    // }
+			});
+		});
+
+		$("#service_fancy_box_data select").unbind().change(function(){
+    		if($(this).val() == "WMS" || $(this).val() == "WMTS"){
+    			if($(this).parent().find(".tabla_fancy_service").children().length > 0){
+    				$(this).parent().find(".info_fancy_service").slideUp();
+    				$(this).parent().find(".tabla_fancy_service").slideDown();
+    			}else{
+    				$(this).parent().find(".info_fancy_service").slideDown()
+    			}
+    			
+    			$(this).parent().find(".input_fancy").hide();
+    			$(this).parent().find("input[type='button']").val("Explorar servicio");
+    		}else{
+    			$(this).parent().find(".info_fancy_service").slideDown()
+    			$(this).parent().find(".input_fancy").fadeIn(700);
+    			$(this).parent().find(".tabla_fancy_service").slideUp();
+    			$(this).parent().find("input[type='button']").val("Añadir directamente al panel de capas");
+    		}
+    	});
+
+    	$("#service_fancy_box_data h2").unbind().click(function(){
+    		$.fancybox.close();
+    	});
+
+    	$("#service_fancy_box_data input[type='button']").unbind().click(function(){
+    		var select = $(this).parent().find("select").val()
+    		var server = $($(this).parent().find("input[type='text']")[0]).val();
+    		var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?REQUEST=GetCapabilities&SERVICE=" + select;
+    		var name = $($(this).parent().find("input[type='text']")[1]).val();
+    		var selfBoton = this;
+    		
+    		$(".urlServicioWms").val(serverWms);
+    		
+    		if((select == "WMS" || select == "WMTS") && server != "" && server != "url"){
+    			$(this).val("Cargando...");
+	    		$(this).addClass("cargadoServicio");
+    			url = serverWms
+    			$.ajax({
+    				url : "application/views/proxy.php",
+    				data: { "url": url},
+    				dataType: 'xml',
+    				type: "POST",			
+    		        success: function(xml) {
+    		        	var sistemasErroneos = false;
+    		        	if(xml){
+	    		        	var html = '<ul class="families" style="padding-top:0px;">' +
+				    						'<li class="close" style="background-color: rgb(236, 237, 239);">';
+				    		
+	    		        	var layerPadre = $(xml).find("Layer")[0];
+	    		        	var version = $($(xml).find("*")[0]).attr("version");
+				    		// $(xml).find("Layer").slice(1).each(function(){
+				    		$(xml).find("Layer").each(function(){
+				    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
+				    				var keyLayerName;
+				    				if(select == "WMS"){
+				    					keyLayerName = "Name"
+				    				}else{
+				    					keyLayerName = "Identifier"
+				    				}
+				    				if($($(this).find(keyLayerName)[0]).text().length > 0){
+						    				html +='<ul class="family_content" style="display: block;">' +
+			    							'<li>' +
+			    								'<p class="fleft mb ellipsis">' + $(this).find("Title").text() + '</p>' +
+			    								'<div nombreCapa="' + $($(this).find(keyLayerName)[0]).text() + '" class="ml fleft mt">' +
+			    									'<span class="tiposCapas">' + select +'</span>' +
+			    								'</div>' +
+			    								'<div class="clear"></div>'+
+			    								'<span class="description">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</span>' +
+			    								'<div class="clear"></div>' +
+			    							'</li>' +
+										'</ul>';
+									}
+				    				
+				    			}else{
+				    				sistemasErroneos = true;
+				    			}
+	    		        	});
+				    		html +=	'</li></ul>';
+				    		$(selfBoton).parent().find(".tabla_fancy_service").html(html);
+				    		$(selfBoton).parent().find(".info_fancy_service").hide();						    		
+		    				$(selfBoton).parent().find(".tabla_fancy_service").slideDown(function(){
+		    				$.fancybox.update();
+		    				if(sistemasErroneos){
+		    					$(selfBoton).val("El servicio contiene capas con un sistema de referencia no soportado");
+		    				}else{
+		    					$(selfBoton).val("Explorar servicio");
+		    				}
+		    				});
+		    				
+		    				
+		    				$(selfBoton).parent().find(".tiposCapas").click(function(){
+		    					var title = $(this).parent().parent().find("p").text();
+		    					var url = $(".urlServicioWms").val().replace("?REQUEST=GetCapabilities&SERVICE=" + select, "");
+		    					var layer = $(this).parent().attr("nombreCapa");
+		    					var leyenda = url.replace("/gwc/service", "");
+		    					if(select == "WMS"){
+		    						var wmsLayer = new GSLayerWMS(-1,title, url, layer, leyenda);
+		    						wmsLayer.version = version;
+		    						wmsLayer.simpleLayer = true;
+		    						self.addLayer(wmsLayer);
+		    					}else{
+		    						var wmtsLayer = new GSLayerWMTS(-1,title, url, layer, leyenda);
+		    						self.addLayer(wmtsLayer);
+		    					}
+		    					
+		    					
+		    					// $.fancybox.close();
 			    				if(!$("#panel_right .layer_panel").hasClass("close")){
 			    					Split.toggleLayersInterface(Split.RIGHT);
 			    				}
@@ -377,29 +366,77 @@ function GroupLayer(opts){
 			    					Split.toggleLayersInterface(Split.LEFT);
 			    				}
 			    				
+			    				
 			    				//Relleno el panel de la leyenda
+			    				$(".deleteProyect").hide();
+			    				$(".defaultProject").hide();
+			    				$("#commentsVector").hide();
+			    				$("#geometryVector").hide();
+			    				$("#addHistoryForm").hide();
+			    				
 			    				$(".infoCatalogo .petaniaInfoCatalogo").show();
 			    				if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
 			    					$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
 			    				}
-			    				$(".cuerpoInfoCatalogo").find(".title1").text(name);
-			    				$(".cuerpoInfoCatalogo").find(".title1").prop('title', name);
+			    				$(".cuerpoInfoCatalogo").find(".title1").text(title);
+			    				$(".cuerpoInfoCatalogo").find(".title1").prop('title', title);
 			    				$(".cuerpoInfoCatalogo").find(".title2").text("");
-			    				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
-			    				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
 			    				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
-			    				$(".extraLeyenda").hide();
+			    				var legendUrl = leyenda.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=" + version + "&REQUEST=GetLegendGraphic&"
+			    				+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer;
+			    				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
+			    				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
 			    				
-			    			}
-			    		}
-			    	});
-			    }
-			});
-		});
+			    				$(".extraLeyenda").show();
+			    				$(".botonAddImageLeyenda").hide();
+			    				
+		    				});
+    		        	}else{
+    		        		$(selfBoton).val("Servicio no encontrado");
+    		        	}
+    		        	$(selfBoton).removeClass("cargadoServicio");
+    		        },
+    		        error: function(){
+    		        	$(selfBoton).removeClass("cargadoServicio");
+    		        	$(selfBoton).val("Servicio no encontrado");
+    		        }
+    		    });
+    			
+    		}else{
+    			if(server != "" && server != "url" && name != "" && name != "Título de la capa"){
+    				if(select == "WMTS"){
+    					self.addLayer(new GSLayerWMTS(-1,name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
+    				}else{
+    					self.addLayer(new GSLayerTMS(-1,name, (server.lastIndexOf("/") == server.length-1)? server:(server+"/"), name, null));
+    				}
+    				$.fancybox.close();
+    				if(!$("#panel_right .layer_panel").hasClass("close")){
+    					Split.toggleLayersInterface(Split.RIGHT);
+    				}
+    				if(!$("#panel_left .layer_panel").hasClass("close")){
+    					Split.toggleLayersInterface(Split.LEFT);
+    				}
+    				
+    				//Relleno el panel de la leyenda
+    				$(".infoCatalogo .petaniaInfoCatalogo").show();
+    				if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
+    					$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
+    				}
+    				$(".cuerpoInfoCatalogo").find(".title1").text(name);
+    				$(".cuerpoInfoCatalogo").find(".title1").prop('title', name);
+    				$(".cuerpoInfoCatalogo").find(".title2").text("");
+    				$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
+    				$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
+    				$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
+    				$(".extraLeyenda").hide();
+    				
+    			}
+    		}
+    	});
 
 		//Fin fancybox de servicios
 		
-		$panel.find(".panoramio").unbind().on("click",function(){
+		$panel.find(".panoramio").unbind().click(function(){
 			if($(this).find("input[type='checkbox']").is(":checked")){
 				self.mostrarPanoramios = true;
 				self.drawPanoramio();
@@ -550,13 +587,15 @@ function GroupLayer(opts){
 					+ this.map.getBounds().getNorthEast().lng + "/" + this.map.getBounds().getNorthEast().lat;
 	};
 
-	this.containLayer = function(id, type){
+	this.containLayer = function(id, type, alternativeTitle){
 		if(type == "vectorial"){
 			type = "geoJson";
 		}
 		for(i=0; i<this.layers.length; i++){
 			if(this.layers[i].id == id && this.layers[i].tipo == type){
-				return true;
+				if(this.layers[i].alternativeTitle == alternativeTitle){
+					return true;
+				}
 			}
 		}
 		return false;
@@ -716,11 +755,12 @@ function GroupLayer(opts){
 		        		if(data.substring(data.indexOf('<body>') + 6,data.indexOf('</body>')).trim().length > 0){
 		        			$("#container_feature_info").html(data);
 		        		}else{
-		        			if(requestIdx < obj.layers.length){
-		        				// obj.featureInfo(e,requestIdx+1);
-		        			}else{
-		        				$("#container_feature_info").html("No hay información sobre este punto");
-		        			}
+		        			// if(requestIdx < obj.layers.length){
+		        			// 	// obj.featureInfo(e,requestIdx+1);
+		        			// }else{
+		        			// 	$("#container_feature_info").html("No hay información sobre este punto");
+		        			// }
+		        			$("#container_feature_info").html("No hay información sobre este punto");
 		        		}
 		        	}
 	        	}catch (ex){

@@ -147,6 +147,9 @@ function addLayerFromProyect(layers, panel){
 				capa = buscarCapa(layers[i].id, categories);
 			}
 			
+			if(layers[i].alternativeTitle ){
+				capa["alternativeTitle"] = layers[i].alternativeTitle ;
+			}
 
 			leyenda = null;
 			if(capa.wms){

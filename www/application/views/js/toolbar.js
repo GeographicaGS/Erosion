@@ -75,6 +75,14 @@ Toolbar ={
 				markerLocationRight.addTo(Split.__mapRight.getMap())
 			}
 		});
+
+		// $("#ctrl_panoramio").click(function(e){
+		// 	showFancySelectPanel(event.pageY,event.pageX,undefined,"panoramio");
+		// });
+
+		// $("#ctrl_streetView").click(function(e){
+		// 	showFancySelectPanel(event.pageY,event.pageX,undefined,"streetView");
+		// });
 		
 		
 		$("#ctrl_add_project").click(function(){
@@ -347,6 +355,9 @@ Toolbar ={
 				capas["url"] = layers[i].url;
 				capas["title"] = layers[i].title
 				capas["name"] = layers[i].name 
+			}
+			if(layers[i].alternativeTitle ){
+				capas["alternativeTitle"] = layers[i].alternativeTitle ;
 			}
 			panel.push(capas); 
 		}
