@@ -142,6 +142,7 @@ Split = {
 		categoryPanelEvents();
 		infoPanelEvents();
 		createDrawLocal();
+		sectionEvent();
 
 		var editableLayers = new L.FeatureGroup();
 		Split.__mapLeft.getMap().addLayer(editableLayers);
@@ -666,20 +667,20 @@ Split = {
 		}
 		
 		if(tipo == "wms"){
-			gsLayerLeft = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle);
-			gsLayerRight = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyendam, capa.alternativeTitle);
+			gsLayerLeft = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle, capa.description);
+			gsLayerRight = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle, capa.description);
 			if(capa.wms.hasOwnProperty("simple_tile") && capa.wms.simple_tile){
 				gsLayerLeft.simpleLayer = true;
 				gsLayerRight.simpleLayer = true;
 			}
 			
 		}else if(tipo == "wmts"){
-			gsLayerLeft = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle);
-			gsLayerRight = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle);
+			gsLayerLeft = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle, capa.description);
+			gsLayerRight = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle, capa.description);
 		
 		}else if(tipo == "tms"){
-			gsLayerLeft = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google, capa.alternativeTitle);
-			gsLayerRight = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google, capa.alternativeTitle);
+			gsLayerLeft = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google, capa.alternativeTitle, capa.description);
+			gsLayerRight = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google, capa.alternativeTitle, capa.description);
 		
 		}else if(tipo == "simbolo"){
 			

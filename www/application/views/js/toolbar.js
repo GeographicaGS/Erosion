@@ -353,8 +353,9 @@ Toolbar ={
 			capas["opacity"] = layers[i].layer.options.opacity;
 			if(capas["id"] == -1){
 				capas["url"] = layers[i].url;
-				capas["title"] = layers[i].title
-				capas["name"] = layers[i].name 
+				capas["title"] = layers[i].title;
+				capas["name"] = layers[i].name;
+				capas["description"] = layers[i].description;
 			}
 			if(layers[i].alternativeTitle ){
 				capas["alternativeTitle"] = layers[i].alternativeTitle ;

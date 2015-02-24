@@ -49,12 +49,11 @@ header{
 	margin-bottom:2px;
 }
 
-header nav a{
+header nav .mainNav{
 	float: left;
 	background: url("../img/MED_separador_cab2.png") no-repeat top right;
 	line-height: 72px;
 	height: 72px;
-	color: #becbdc;
 	font-size: 11px;
 	text-decoration: none;
 	padding-left: 10px;
@@ -62,8 +61,50 @@ header nav a{
 	text-shadow: #013e88 0px -1px 0px;
 }
 
-header nav a:HOVER{
+header nav a{
+	color: #becbdc;
+}
+
+header nav ul{
+	float: left;
+	background: url("../img/MED_separador_cab2.png") no-repeat top right;
+	line-height: 40px;
+	height: 72px;
+	color: #becbdc;
+	font-size: 11px;
+	text-decoration: none;
+	padding-left: 10px;
+	padding-right: 12px;
+	position: relative;
+	z-index: 1;
+}
+
+header nav .subsection{
+	float: none;
+	position: absolute;
+	left: -12px;
+	background:none;
+	display: none;
+}
+header nav .subsection li{
+	border-top: 1px solid #58687e;
+}
+
+header nav a:HOVER, header nav ul li:HOVER{
 	color: white;
+}
+
+header nav ul li{
+	background-color: #2d384f;
+	padding-left: 10px;
+	padding-right: 12px;
+	cursor: pointer;
+	/*display: none;*/
+}
+
+header nav ul li:FIRST-CHILD{
+	margin-top: 16px;
+	/*display: block;*/
 }
 
 header .left{
@@ -694,39 +735,39 @@ and (max-device-width : 1024px) {
 }
 
 #publicProyectCatalogo  .family_content li p{
-	max-width: 65%;
+	max-width: 60%;
 }
 
 @media (max-width: 1600px) {
 	#publicProyectCatalogo  .family_content li p{
-		max-width: 55%;
+		max-width: 50%;
 	}
 }
 
 @media (max-width: 1250px) {
 	#publicProyectCatalogo  .family_content li p{
-		max-width: 42%;
+		max-width: 38%;
 	}
 }
 
 #myProyectCatalogo  .family_content li p{
-	max-width: 65%;
+	max-width: 60%;
 }
 
 @media (max-width: 1600px) {
 	#myProyectCatalogo  .family_content li p{
-		max-width: 55%;
+		max-width: 50%;
 	}
 }
 
 @media (max-width: 1250px) {
 	#myProyectCatalogo  .family_content li p{
-		max-width: 42%;
+		max-width: 38%;
 	}
 }
 
 #usuariosCatalogo  .family_content li p{
-	max-width: 65%;
+	max-width: 60%;
 }
 
 @media (max-width: 1600px) {
@@ -737,7 +778,7 @@ and (max-device-width : 1024px) {
 
 @media (max-width: 1250px) {
 	#usuariosCatalogo  .family_content li p{
-		max-width: 39%;
+		max-width: 38%;
 	}
 }
 
@@ -1078,7 +1119,7 @@ img.tiposCapas{
 }
 
 .serviceFancy p{
-	width: 566px;
+	width: 550px;
 }
 
 .serviceFancy li{
@@ -1249,7 +1290,7 @@ img.tiposCapas{
 	border-bottom: 1px solid #999;
 	border-left: 1px solid #999;
 	border-right: 1px solid #999;
-	left: 50%;;
+	left: 51%;;
 	/*margin-left: -126px;*/
 	margin-left: -95px;
 	z-index: 2;

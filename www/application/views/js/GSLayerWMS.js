@@ -1,4 +1,4 @@
-function GSLayerWMS(id,title, url, name, leyenda, alternativeTitle){
+function GSLayerWMS(id,title, url, name, leyenda, alternativeTitle, description){
 	this.id = id;
 	this.title = title;
 	this.alternativeTitle = alternativeTitle;
@@ -10,6 +10,7 @@ function GSLayerWMS(id,title, url, name, leyenda, alternativeTitle){
 	this.leyenda = leyenda;
 	this.version = "1.1.1";
 	this.simpleLayer = false;
+	this.description = description;
 }
 
 GSLayerWMS.prototype.setVisibility = function(visibility, map, z_index){

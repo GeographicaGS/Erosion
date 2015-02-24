@@ -7,7 +7,7 @@ for (var i=0; i<26; ++i) {
 		
 }
 
-function GSLayerWMTS(id,title, url, name, leyenda, alternativeTitle){
+function GSLayerWMTS(id,title, url, name, leyenda, alternativeTitle, description){
 	this.id = id;
 	this.title = title;
 	this.alternativeTitle = alternativeTitle;
@@ -17,6 +17,7 @@ function GSLayerWMTS(id,title, url, name, leyenda, alternativeTitle){
 	this.layer = null;
 	this.tipo = "wmts";
 	this.leyenda = leyenda;
+	this.description = description;
 }
 
 GSLayerWMTS.prototype.setVisibility = function(visibility, map, z_index){
