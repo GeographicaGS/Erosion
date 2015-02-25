@@ -1,4 +1,22 @@
 function categoryPanelEvents(){
+
+	//Mostrar y ocultar herramientas
+	$(".toolsFlange").click(function(){
+		if($(".toolsBody").is(":visible")){
+			var left = "-235px";
+			$(".tools").animate({"left":left},function(){
+				$(".toolsBody").hide();
+				$(".toolsFlange").find("img").attr("src",$(".toolsFlange").find("img").attr("src").replace("ERO_icon_herramientas.png","ERO_icon_herramientas_close.png"));
+			});
+			$(".toolsBody").parent().css({'z-index':''});
+			
+		}else{
+			$(".toolsBody").show();
+			$(".tools").animate({"left":""});
+			$(".toolsFlange").find("img").attr("src",$(".toolsFlange").find("img").attr("src").replace("ERO_icon_herramientas_close.png","ERO_icon_herramientas.png"));
+			$(".toolsBody").parent().css({'z-index':'1003'});
+		}
+	});
 	
 	//Mostrar y ocultar catálogo
 	$(".petaniaCatalogo").click(function(){

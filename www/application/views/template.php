@@ -63,6 +63,7 @@
 <script type="text/javascript" src="<?= get_js("toolbar.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("sections.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("sectionsEvent.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("tools.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("notification.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("lib/fancybox/jquery.fancybox.pack.js")?>"></script>
@@ -122,6 +123,7 @@
 
 		Access.initialize();
 		Toolbar.initialize();
+		Tools.initialize();
 
 		setTimeout(function(){
 			resize();
@@ -268,9 +270,6 @@
 			<div title="Dibujar polígono" id="ctrl_rectangle_drawer"></div>
 			<!-- <div title="Obtener información" id="ctrl_feature_info"></div> -->
 			<div title="Guardar proyecto" id="ctrl_add_project"></div>
-			<!-- <div title="Panoramio" id="ctrl_panoramio"></div>
-			<div title="Street View" id="ctrl_streetView"></div> -->
-			<div title="Mostrar mi ubicación" id="ctrl_location" class="enable"></div>
 		</div>
 		
 		
@@ -295,6 +294,38 @@
 			<img class="streetButtonRight" title="Activar Google Street" src="<?= get_img("POR_button_360_OFF.png")?>" >
 
 		</div>
+	</div>
+
+	<div class="tools">
+		<div class="toolsBody">
+			<table>
+				<thead>
+					<tr>
+						<th>Herramientas</th>
+						<th><img src="<?= get_img("ERO_icon_panel_izquierdo.png")?>" ></th>
+						<th><img src="<?= get_img("ERO_icon_panel_derecho.png")?>" ></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="locationTool">
+						<td>Mi ubicación</td>
+						<td><input panel="1" type="checkbox"/></td>
+						<td><input panel="2" type="checkbox"/></td>
+					</tr>
+					<tr class="panoramioTool">
+						<td>Panoramio</td>
+						<td><input panel="1" type="checkbox"/></td>
+						<td><input panel="2" type="checkbox"/></td>
+					</tr>
+					<tr class="streetTool">
+						<td>Street View</td>
+						<td><input panel="1" type="checkbox"/></td>
+						<td><input panel="2" type="checkbox"/></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="toolsFlange"><img class="" src="<?= get_img("ERO_icon_herramientas_close.png")?>"/></div>
 	</div>
 	
 	<div class="catalogo">

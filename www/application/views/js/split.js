@@ -104,41 +104,12 @@ Split = {
 			$("#panel_right img.sync").attr("src","application/views/img/MED_icon_enlazar_KO_right.png");
 		}
 
-		this.__mapLeft.getMap().on("dragend", function() {
-			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
-			Split.__mapLeft.drawPanoramio();
-			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
-			Split.__mapRight.drawPanoramio();
-		});
-		
-		this.__mapRight.getMap().on("dragend", function() {
-			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
-			Split.__mapLeft.drawPanoramio();
-			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
-			Split.__mapRight.drawPanoramio();
-		});
-
-		this.__mapLeft.getMap().on("zoomend", function() {
-			Split.__mapLeft.refreshPanoramioCheck($("#panel_left").find(".panoramio"));
-			Split.__mapLeft.drawPanoramio();
-		});
-
-
-		this.__mapRight.getMap().on("zoomend", function() {
-			Split.__mapRight.refreshPanoramioCheck($("#panel_right").find(".panoramio"));
-			Split.__mapRight.drawPanoramio();
-		});
-
 		this.__mapRight.getMap().on('zoomanim', debounce(Split.__mapRight.getMap()._onZoomTransitionEnd, 250,false));
 		this.__mapLeft.getMap().on('zoomanim', debounce(Split.__mapLeft.getMap()._onZoomTransitionEnd, 250,false));
 
 		this.__currentMasterMap = this.__mapLeft;
 		
 		var self = this;
-		this.__mapLeft.getMap().locate({setView: false, maxZoom: 7});
-		this.__mapLeft.getMap().on('locationfound', onLocationFoundLeft);
-		this.__mapRight.getMap().locate({setView: false, maxZoom: 7});
-		this.__mapRight.getMap().on('locationfound', onLocationFoundRight);
 				
 		drawCategories();
 		categoryPanelEvents();

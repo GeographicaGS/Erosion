@@ -63,28 +63,6 @@ Toolbar ={
 		});
 		
 		
-		$("#ctrl_location").click(function(){
-			if ($(this).hasClass("enable")) { 
-				$(this).removeClass("enable");
-				Split.__mapLeft.getMap().removeLayer(markerLocationLeft);
-				Split.__mapRight.getMap().removeLayer(markerLocationRight);
-			}
-			else{
-				$(this).addClass("enable");
-				markerLocationLeft.addTo(Split.__mapLeft.getMap());
-				markerLocationRight.addTo(Split.__mapRight.getMap())
-			}
-		});
-
-		// $("#ctrl_panoramio").click(function(e){
-		// 	showFancySelectPanel(event.pageY,event.pageX,undefined,"panoramio");
-		// });
-
-		// $("#ctrl_streetView").click(function(e){
-		// 	showFancySelectPanel(event.pageY,event.pageX,undefined,"streetView");
-		// });
-		
-		
 		$("#ctrl_add_project").click(function(){
 			if(isLoged){
 				if ($(this).hasClass("enable")) { 

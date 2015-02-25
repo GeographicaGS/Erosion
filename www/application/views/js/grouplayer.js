@@ -410,70 +410,9 @@ function GroupLayer(opts){
     			}
     		}
     	});
-
 		//Fin fancybox de servicios
-		
-		$panel.find(".panoramio").unbind().click(function(){
-			if($(this).find("input[type='checkbox']").is(":checked")){
-				self.mostrarPanoramios = true;
-				self.drawPanoramio();
-			}else{
-				self.mostrarPanoramios = false;
-				if(self.__panoramios){
-					self.getMap().removeLayer(self.__panoramios);
-				}
-			}
-			 
-			 
-		});
-		
 	};
 
-	this.refreshPanoramioCheck = function(check){
-			if(this.getMap().getZoom() >= 11){
-				$(check).find("input[type='checkbox']").prop("disabled",false);
-				
-			}else{
-				$(check).find("input[type='checkbox']").prop("disabled",true);
-				$(check).find("input[type='checkbox']").prop("checked",false)
-				this.mostrarPanoramios = false;
-			}
-	};
-	
-	this.drawPanoramio = function(){
-		var self = this;
-		if(this.getMap().getZoom() >= 11 && self.mostrarPanoramios){
-			$.ajax({
-				url : "application/views/proxy.php",
-				data: { "url": "http://www.panoramio.com/map/get_panoramas.php?order=public&set=full&from=0&to=200&minx=" + this.getMap().getBounds()._southWest.lng + "&miny=" + this.getMap().getBounds()._southWest.lat + "&maxx=" + this.getMap().getBounds()._northEast.lng + "&maxy=" + this.getMap().getBounds()._northEast.lat + "&size=mini_square&mapfilter=true"},
-				type: "POST",
-				dataType: "json",
-		        success: function(data) {
-		   
-		   			if(self.__panoramios){
-						self.getMap().removeLayer(self.__panoramios);
-					}
-		   			self.__panoramios = new L.MarkerClusterGroup();
-		   			for(var i=0; i<data.photos.length; i++){
-
-						var marker = L.marker([data.photos[i].latitude, data.photos[i].longitude], {icon: new L.icon({iconUrl: 'application/views/img/ERO_icon_map_panoramio.png', zIndexOffset:1000}),value : data.photos[i].photo_file_url, date:data.photos[i].upload_date});
-		        		marker.on('click', function(){
-		        			showInfoFancybox("<span style='position: absolute;right: 10px;bottom: 10px;color: white;'>" + this.options.date +"</span><img style='height:" + $("#panel_left").outerHeight() + "' src='" + this.options.value.replace("mini_square","large").replace("mw2.google.com/mw-panoramio","static.panoramio.com") + "'/>");
-		        		});
-
-		   				self.__panoramios.addLayer(marker);
-		   			}
-		   			self.getMap().addLayer(self.__panoramios);
-		        }
-		    });
-		}else{
-			if(self.__panoramios){
-				self.getMap().removeLayer(self.__panoramios);
-				self.mostrarPanoramios = false;
-			}
-		}
-	};
-	
 	/* Toogle a given layer*/
 	this.toogleLayer = function(id_layer,checked){
 		// get the layer
@@ -586,8 +525,6 @@ function GroupLayer(opts){
 	this.project = null;
 	this.__layerHistogram = null;
 	this.__active = true;
-	this.__panoramios = null;
-	this.mostrarPanoramios = false;
 	this.capaPanoramios = false;
 	this.callejero = new L.GoogleStreet();
 	this.layers = new Array();

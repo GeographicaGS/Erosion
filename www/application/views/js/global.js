@@ -109,22 +109,6 @@ function showDevMsg(){
 	showInfoFancybox("<br/><br/>Funcionalidad en desarrollo");
 }
 
-function onLocationFoundLeft(e) {
-	if(markerLocationLeft){
-		this.removeLayer(markerLocationLeft);
-	}
-	markerLocationLeft = L.marker(e.latlng);
-	markerLocationLeft.addTo(this).bindPopup("Esta es tu posición:</br>Latitud: " +  e.latlng.lat + "<br>Longitud: " + e.latlng.lng).closePopup();
-}
-
-function onLocationFoundRight(e) {
-	if(markerLocationRight){
-		this.removeLayer(markerLocationRight);
-	}
-	markerLocationRight = L.marker(e.latlng);
-	markerLocationRight.addTo(this).bindPopup("Esta es tu posición:</br>Latitud: " +  e.latlng.lat + "<br>Longitud: " + e.latlng.lng).closePopup();
-}
-
 function navigate(section) {
 	var ancho = $("#container").width() + 100;
 

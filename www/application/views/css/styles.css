@@ -454,6 +454,7 @@ and (max-device-width : 1024px) {
 	border-right:1px solid #1f2c47;
 	height:100%;
 	float:left;
+	padding-left: 15px;
 }
 .uni > * {
 	float:left;	
@@ -575,6 +576,105 @@ and (max-device-width : 1024px) {
 /* } */
 /* ////////////////////////////////////////////////////////////////////////////////// */
 
+.tools{
+	width: 234px;
+	left: -235px;	
+	background-color: #cccccc;
+	position: absolute;
+	height: 150px;
+	top: 142px;
+	border: 1px solid #b9b9b9;
+	border-left: none;
+	border-radius: 0px 2px 2px 0px;
+	z-index: 1003;
+}
+
+.tools .toolsFlange{
+	width: 35px;
+	height: 35px;
+	background-color: #cccccc;
+	position: absolute;
+	right: 0;
+	margin-right: -35px;
+	top: 40px;
+	border-radius: 2px;
+	border-radius: 0px 2px 2px 0px;
+	cursor: pointer;
+	z-index: 1002;
+}
+
+.tools .toolsFlange img {
+	padding: 10px;
+}
+
+.tools .toolsBody {
+	background-color: white;
+	position: absolute;
+	top: 2px;
+	bottom: 2px;
+	left: 0px;
+	right: 2px;
+	border: 1px solid #b9b9b9;
+	border-left: none;
+	border-radius: 0px 2px 2px 0px;
+	display: none;
+	z-index: 1003;
+}
+
+.tools .toolsBody table{
+	width: 100%;
+	border-collapse: collapse;
+	color: #013e88;
+	height: 100%;
+}
+
+.tools .toolsBody table thead{
+	border-bottom: 1px solid #013e88;
+	font-size: 14px;
+	font-weight: bold;
+	line-height: 36px;
+}
+
+.tools .toolsBody table thead th{
+	font-weight: bold;
+	text-align: center;
+}
+
+.tools .toolsBody table th:FIRST-CHILD, .tools .toolsBody table td:FIRST-CHILD{
+	padding-left: 15px;
+	text-align: left;
+}
+
+.tools .toolsBody table td{
+	border:1px solid #dcdcdc;
+	text-align: center;
+}
+
+.tools .toolsBody table tbody{
+	font-size: 11px;
+}
+
+.locationTool td:FIRST-CHILD:before{
+	content: url("../img/ERO_herramienta_gps.png");
+	position: relative;
+	top: 3px;
+	margin-right: 10px;
+}
+
+.panoramioTool td:FIRST-CHILD:before{
+	content: url("../img/ERO_herramienta_panoramio.png");
+	position: relative;
+	top: 3px;
+	margin-right: 10px;
+}
+
+.streetTool td:FIRST-CHILD:before{
+	content: url("../img/ERO_herramienta_streetview.png");
+	position: relative;
+	top: 3px;
+	margin-right: 10px;
+}
+
 .catalogo{
 	width: 30%;
 	left: -30.1%;
@@ -582,7 +682,7 @@ and (max-device-width : 1024px) {
 	background-color: #cccccc;
 	position: absolute;
 	bottom: 162px;
-	top: 102px;
+	top: 142px;
 	border: 1px solid #b9b9b9;
 	border-left: none;
 	border-radius: 0px 2px 2px 0px;
@@ -1657,7 +1757,7 @@ img.tiposCapas{
 } 
 
 .leaflet-top.leaflet-left, .leaflet-top.leaflet-right{
-	z-index: 1003;
+	z-index: 1004;
 }
 
 .streetButtonLeft{
