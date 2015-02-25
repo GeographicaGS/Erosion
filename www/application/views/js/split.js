@@ -20,6 +20,8 @@ Split = {
 	drawLineRight:null,
 	drawPolygonLeft:null,
 	drawPolygonRight:null,
+	type:null,
+	arrayLatlng:null,
 	
 	initialize: function(){
 		
@@ -204,8 +206,6 @@ Split = {
 		var  latlng ;
 		var polyline;
 		var poligono;
-		var type;
-		var arrayLatlng;
 		var xClick;
 		var yClick;
 			
@@ -233,20 +233,20 @@ Split = {
 					if(polyline){
 						Split.__mapRight.getMap().removeLayer(polyline);
 					}
-					if(type == "linea"){
+					if(Split.type == "linea"){
 						polyline._latlngs[polyline._latlngs.length-1] = e.latlng;
 						polyline.addTo(Split.__mapRight.getMap());
 					}
 				});
-				if(type =="poligono"){
+				if(Split.type =="poligono"){
 					if(poligono){
 						Split.__mapRight.getMap().removeLayer(poligono);
 					}
-					if(arrayLatlng.length == 0){
-						arrayLatlng.push(latlng);
+					if(Split.arrayLatlng.length == 0){
+						Split.arrayLatlng.push(latlng);
 					}
-					arrayLatlng.push(e.latlng);
-					poligono = L.polygon(arrayLatlng, options.draw.polygon.shapeOptions).addTo(Split.__mapRight.getMap());
+					Split.arrayLatlng.push(e.latlng);
+					poligono = L.polygon(Split.arrayLatlng, options.draw.polygon.shapeOptions).addTo(Split.__mapRight.getMap());
 				}
 			});
 		});
@@ -274,20 +274,20 @@ Split = {
 					if(polyline){
 						Split.__mapLeft.getMap().removeLayer(polyline);
 					}
-					if(type == "linea"){
+					if(Split.type == "linea"){
 						polyline._latlngs[polyline._latlngs.length-1] = e.latlng;
 						polyline.addTo(Split.__mapLeft	.getMap());
 					}
 				});
-				if(type =="poligono"){
+				if(Split.type =="poligono"){
 					if(poligono){
 						Split.__mapLeft.getMap().removeLayer(poligono);
 					}
-					if(arrayLatlng.length == 0){
-						arrayLatlng.push(latlng);
+					if(Split.arrayLatlng.length == 0){
+						Split.arrayLatlng.push(latlng);
 					}
-					arrayLatlng.push(e.latlng);
-					poligono = L.polygon(arrayLatlng, optionsRight.draw.polygon.shapeOptions).addTo(Split.__mapLeft.getMap());
+					Split.arrayLatlng.push(e.latlng);
+					poligono = L.polygon(Split.arrayLatlng, optionsRight.draw.polygon.shapeOptions).addTo(Split.__mapLeft.getMap());
 				}
 			});
 		});
@@ -296,7 +296,7 @@ Split = {
 		Split.__mapLeft.getMap().on('draw:created', function (e) {
 			var aux = new Object();
 			
-		    if (type == 'marker') {
+		    if (Split.type == 'marker') {
 		    	var layerAux = e.layer;
 		    	try{
 		    		xClick= event.x; 
@@ -311,7 +311,7 @@ Split = {
 		    	 aux.layer = markerAux;
 		    	markerAux.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type, e.originalEvent.clientX,e.originalEvent.clientY);
+				    	Split.showFancySaveDraw(aux, Split.type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
@@ -326,7 +326,7 @@ Split = {
 		    
 		    
 		    if(isLoged){
-		    	Split.showFancySaveDraw(e, type, xClick,yClick);
+		    	Split.showFancySaveDraw(e, Split.type, xClick,yClick);
 		    	
 		    }else{
 		    	Split.showFancyDontSaveDraw(e,xClick,yClick);
@@ -335,33 +335,33 @@ Split = {
 		    e.layer.off('click');
 		    e.layer.on('click', function (event) {
 		    	if(isLoged){
-			    	Split.showFancySaveDraw(e, type, event.originalEvent.clientX,event.originalEvent.clientY);
+			    	Split.showFancySaveDraw(e, Split.type, event.originalEvent.clientX,event.originalEvent.clientY);
 			    }else{
 			    	Split.showFancyDontSaveDraw(e,event.originalEvent.clientX,event.originalEvent.clientY);
 			    }
 			});
 		    
 		    
-		    if(type == "linea"){
+		    if(Split.type == "linea"){
 		    	polyline._latlngs.pop();
 			    polyline.redraw();
 		    	polyline.off('click');
 			    aux.layer = polyline;
 			    polyline.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type, e.originalEvent.clientX,e.originalEvent.clientY);
+				    	Split.showFancySaveDraw(aux, Split.type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
 				});
-		    }else if(type =="poligono"){
+		    }else if(Split.type =="poligono"){
 		    	poligono._latlngs = e.layer._latlngs;
 		    	poligono.redraw();
 		    	poligono.off('click');
 		    	aux.layer = poligono;
 		    	poligono.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type, e.originalEvent.clientX,e.originalEvent.clientY);
+				    	Split.showFancySaveDraw(aux, Split.type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
@@ -375,7 +375,7 @@ Split = {
 		Split.__mapRight.getMap().on('draw:created', function (e) {
 			var aux = new Object();
 			
-		    if (type == 'marker') {
+		    if (Split.type == 'marker') {
 		    	xClick= Split.__mapRight.getMap().latLngToLayerPoint(e.layer.getLatLng()).x+$("#map_left").outerWidth(); 
 		    	yClick= Split.__mapRight.getMap().latLngToLayerPoint(e.layer.getLatLng()).y+20;
 		    	var markerAux = L.marker(e.layer._latlng).addTo(Split.__mapLeft.getMap());
@@ -383,7 +383,7 @@ Split = {
 		    	aux.layer = markerAux;
 		    	markerAux.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type, e.originalEvent.clientX,e.originalEvent.clientY);
+				    	Split.showFancySaveDraw(aux, Split.type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
@@ -397,7 +397,7 @@ Split = {
 		    Split.disableAllDrawTools();
 		  
 		    if(isLoged){
-		    	Split.showFancySaveDraw(e, type, xClick,yClick);
+		    	Split.showFancySaveDraw(e, Split.type, xClick,yClick);
 		    	
 		    }else{
 		    	Split.showFancyDontSaveDraw(e,xClick,yClick);
@@ -406,32 +406,32 @@ Split = {
 		    e.layer.off('click');
 		    e.layer.on('click', function (event) {
 		    	if(isLoged){
-			    	Split.showFancySaveDraw(e, type, event.originalEvent.clientX,event.originalEvent.clientY);
+			    	Split.showFancySaveDraw(e, Split.type, event.originalEvent.clientX,event.originalEvent.clientY);
 			    }else{
 			    	Split.showFancyDontSaveDraw(e,event.originalEvent.clientX,event.originalEvent.clientY);
 			    }
 			});
 		    
-		    if(type == "linea"){
+		    if(Split.type == "linea"){
 		    	polyline._latlngs.pop();
 			    polyline.redraw();
 		    	polyline.off('click');
 			    aux.layer = polyline;
 			    polyline.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type, e.originalEvent.clientX,e.originalEvent.clientY);
+				    	Split.showFancySaveDraw(aux, Split.type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
 				});
-		    }else if(type =="poligono"){
+		    }else if(Split.type =="poligono"){
 		    	poligono._latlngs = e.layer._latlngs;
 		    	poligono.redraw();
 		    	poligono.off('click');
 		    	aux.layer = poligono;
 		    	poligono.on('click', function (e) {
 			    	if(isLoged){
-				    	Split.showFancySaveDraw(aux, type,e.originalEvent.clientX,e.originalEvent.clientY);
+				    	Split.showFancySaveDraw(aux, Split.type,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }
@@ -718,13 +718,13 @@ Split = {
 			return null;
 		}
 		
-		if((panel==1 || panel==3) && !this.__mapRight.containLayer(capa != null? capa.id : geoJson[0].properties.id_category ,tipo, capa.alternativeTitle)){
+		if((panel==1 || panel==3) && !this.__mapRight.containLayer(capa != null? capa.id : geoJson[0].properties.id_category ,tipo, capa != null ? capa.alternativeTitle:null)){
 			this.__mapRight.addLayer(gsLayerRight);
 			gsLayerRight.setVisibility(visible,Split.__mapRight.getMap(),null);
 			(gsLayerRight.layer != null && gsLayerRight.layer.setOpacity != null) ? gsLayerRight.layer.setOpacity(opacity): "";
 
 		}
-		if((panel==2 || panel==3 ) && !this.__mapLeft.containLayer(capa != null ? capa.id : geoJson[0].properties.id_category ,tipo, capa.alternativeTitle)){
+		if((panel==2 || panel==3 ) && !this.__mapLeft.containLayer(capa != null ? capa.id : geoJson[0].properties.id_category ,tipo, capa != null ? capa.alternativeTitle:null)){
 			this.__mapLeft.addLayer(gsLayerLeft);
 			gsLayerLeft.setVisibility(visible,Split.__mapLeft.getMap(),null);
 			(gsLayerLeft.layer != null && gsLayerLeft.layer.setOpacity != null) ? gsLayerLeft.layer.setOpacity(opacity):"";

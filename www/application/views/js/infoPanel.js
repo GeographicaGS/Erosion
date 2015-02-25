@@ -72,7 +72,7 @@ function infoPanelEvents(){
 			    }
 		});
 
-		$(".saveHistoryButton").click(function() {
+		$(".saveHistoryButton").unbind().click(function() {
 			$("#addHistoryForm input[type='text']").removeClass("errorBorder");
 			$(".addCommentHistory").removeClass("errorBorder");
 			var guardar = true;
@@ -137,6 +137,7 @@ function infoPanelEvents(){
 
 	$(".cuerpoInfoCatalogo").on( "click", '.deleteHistory' ,function(){
 		var idDrawtoDelte = $(this).next().attr("idDraw");
+		var idCapa = $(".infoCatalogo div[idCapa]").attr("idCapa");
 		console.log(idDrawtoDelte);
 		var aux = $(this);
 		showConfirmDialog(function(){
@@ -159,7 +160,7 @@ function infoPanelEvents(){
 
 	$(".cuerpoInfoCatalogo").on( "click", '.deleteGeometry' ,function(){
 		var idDraw = $(this).attr("idDraw");
-		console.log(idDraw);
+		var idCapa = $(".infoCatalogo div[idCapa]").attr("idCapa");
 		showConfirmDialog(function(){
 			$.ajax({
 	        	url: 'index.php/draw/deteleGeom/' + idDraw,
@@ -228,16 +229,16 @@ function infoPanelEvents(){
 		
 		$(".deleteGeometry").remove();
 		$("#kmlExport").remove()
-		if(tipo == "marker" || tipo == "linea" || tipo == "poligono"){
+		if(tipo == "marker" || tipo == "linea" || tipo == "polyline" || tipo == "poligono" || tipo == "polygon"){
 			$("#deleteGeometry").append("<p class='deleteGeometry' idDraw=" + idDraw + " idUser=''>Eliminar geometría</p><p id='kmlExport' idDraw=" + idDraw + " idUser='' title='Exportar geometría a kml'>Exportar a kml</p>");
 			$(".deleteGeometry").attr("idUser", $(this).attr("idUser"));
 		}
 
 		if(tipo == "marker"){
 			$("#commentsVector img").attr("src", "application/views/img/ERO_icon_punto.png");
-    	}else if(tipo == "linea"){
+    	}else if(tipo == "linea" || tipo == "polyline"){
     		$("#commentsVector img").attr("src", "application/views/img/ERO_icon_linea.png");
-    	}else if(tipo == "poligono"){
+    	}else if(tipo == "poligono" || tipo == "polygon"){
     		$("#commentsVector img").attr("src", "application/views/img/ERO_icon_poligono.png");
 		}else{
 			$("#commentsVector img").attr("src", "");
@@ -279,6 +280,8 @@ function infoPanelEvents(){
 					if(loadRight){
 						Split.__mapRight.getMap().fitBounds([[response.latmin, response.lngmin],[response.latmax, response.lngmax]])
 					}
+				}else{
+					$("#deleteGeometry").children().remove()
 				}
 			}
 		});

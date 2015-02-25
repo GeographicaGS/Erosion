@@ -86,7 +86,6 @@ function GroupLayer(opts){
 		}).draggable();
 		
 		$panel.find("ul").sortable({
-			cancel: 'span',
 
 			start: function( event, ui ) {
 				$(ui.item).css("background-color","#f2f7fb");

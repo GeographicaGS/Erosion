@@ -25,7 +25,7 @@ Toolbar ={
 			else{
 				Split.disableAllDrawTools();
 				$(this).addClass("enable");
-				type = "marker";
+				Split.type = "marker";
 				Split.drawMakerLeft.enable();
 				Split.drawMarkerRight.enable();
 			}
@@ -42,7 +42,7 @@ Toolbar ={
 				$(this).addClass("enable");
 				Split.drawLineLeft.enable();
 				Split.drawLineRight.enable();
-				type = "linea";
+				Split.type = "linea";
 			}
 		});
 		
@@ -57,8 +57,8 @@ Toolbar ={
 				$(this).addClass("enable");				
 				Split.drawPolygonLeft.enable();
 				Split.drawPolygonRight.enable();
-				type = "poligono";
-				arrayLatlng = new Array();
+				Split.type = "poligono";
+				Split.arrayLatlng = new Array();
 			}
 		});
 		
