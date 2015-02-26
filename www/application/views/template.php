@@ -8,6 +8,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
+  <link rel="shortcut icon" href="<?= get_img("favicon.png")?>" />
+
 <link rel="stylesheet" type="text/css" href="<?= get_css("reset.css")?>" />
 
 <link rel="stylesheet" href="<?= get_js("lib/leaflet-0.5/leaflet.css")?>" />
