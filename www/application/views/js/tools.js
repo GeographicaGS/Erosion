@@ -33,10 +33,10 @@ Tools = {
 				Tools.drawPanoramio(panel);
 			}else{
 				if(panel == 1){
-					Split.__mapLeft.getMap().off("dragend zoomend");
+					Split.__mapLeft.getMap().off("dragend");
 					Split.__mapLeft.getMap().removeLayer(Tools.panoramiosLeft);
 				}else{
-					Split.__mapRight.getMap().off("dragend zoomend");
+					Split.__mapRight.getMap().off("dragend");
 					Split.__mapRight.getMap().removeLayer(Tools.panoramiosRight);
 				}
 			}
@@ -126,7 +126,7 @@ Tools = {
 			type: "POST",
 			dataType: "json",
 	        success: function(data) {
-	        	map.off("dragend zoomend");
+	        	map.off("dragend");
 	        	if(panel == 1){
 	        		panoramios = Tools.panoramiosLeft;
 	        	}else{
@@ -154,7 +154,7 @@ Tools = {
 					$(".tools .panoramioTool input[panel=2]").prop('disabled', false);
 					Tools.panoramiosRight = panoramios;
 				}
-				map.on("dragend zoomend", function() {
+				map.on("dragend", function() {
 					Tools.drawPanoramio(panel);
 				});
 	        },
