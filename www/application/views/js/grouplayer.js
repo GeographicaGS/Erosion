@@ -47,7 +47,7 @@ function GroupLayer(opts){
 						html += "<img class='opacity' style='margin-left: -9px; visibility:hidden' src=''>";
 					}
 //					if(l.leyenda){
-						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='Leyenda' id_layer='" + x + "'>";
+						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='' id_layer='" + x + "'>";
 //					}
 					html += "<span contenteditable='false' class='ellipsis'>"+ (l.alternativeTitle ? l.alternativeTitle:l.title) +"</span>";
 					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
@@ -110,6 +110,9 @@ function GroupLayer(opts){
 		});
 
 		$panel.find(".layerTree span").click(function(){
+			//Por si están los features infos globales activos
+			$("#ctrl_feature_info ul li").removeClass("active");
+			
 			$(self.getMap()._container).removeClass("cursor_info");
 			self.getMap().off("click");
 			var layer = $(this).closest(".layerTree");

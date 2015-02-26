@@ -169,6 +169,7 @@ img.toggle{
 	top:70px;
 	z-index:4;
 	cursor:pointer;
+	z-index: 1;
 }
 
 img.sync{
@@ -1419,6 +1420,7 @@ img.tiposCapas{
 
 #tool_bar #ctrl_feature_info {
 	background: url("../img/ERO_herramienta_info_off.png");
+	display: none;
 }
 
 #tool_bar #ctrl_add_project {
@@ -1989,6 +1991,29 @@ img.tiposCapas{
 
 .defaultProject.active:after{
 	content: url("../img/ERO_icon_proyecto_def_on.png");		
+}
+
+#ctrl_feature_info ul{
+	width: auto;
+	float: right;
+	margin-right: 10px;
+	position: absolute;
+	top:34px;
+	background-color: #ccc;
+	display: none;
+}
+
+#ctrl_feature_info ul li{
+	padding: 10px;
+	background-color: #ccc;
+}
+
+/*#ctrl_feature_info ul li:HOVER{
+	background-color: #296EB0;
+}*/
+
+#ctrl_feature_info ul li.active{
+	background-color: #296EB0;	
 }
 
 .leaflet-map-pane svg{

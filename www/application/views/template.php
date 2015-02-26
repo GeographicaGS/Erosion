@@ -66,6 +66,8 @@
 <script type="text/javascript" src="<?= get_js("sections.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("sectionsEvent.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("tools.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("featureInfos.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("featureInfosEvent.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("notification.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("lib/fancybox/jquery.fancybox.pack.js")?>"></script>
@@ -126,6 +128,7 @@
 		Access.initialize();
 		Toolbar.initialize();
 		Tools.initialize();
+		funfeatureInfosEvent();
 
 		setTimeout(function(){
 			resize();
@@ -270,8 +273,11 @@
 			<div title="Dibujar marcador" id="ctrl_marker_drawer"></div>
 			<div title="Dibujar línea" id="ctrl_line_drawer"></div>
 			<div title="Dibujar polígono" id="ctrl_rectangle_drawer"></div>
-			<!-- <div title="Obtener información" id="ctrl_feature_info"></div> -->
+			<div title="Obtener información" id="ctrl_feature_info">
+			</div>
 			<div title="Guardar proyecto" id="ctrl_add_project"></div>
+		</div>
+			
 		</div>
 		
 		

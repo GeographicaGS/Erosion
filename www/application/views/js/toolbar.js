@@ -1,18 +1,18 @@
 Toolbar ={
 
 	initialize: function(){
-		$("#ctrl_feature_info").click(function(){
+		// $("#ctrl_feature_info").click(function(){
 			
-			if ($(this).hasClass("enable")) { 
-				$(this).removeClass("enable");
-				Split.deActivateFeatureInfo()
-			}
-			else{
-				Split.disableAllDrawTools();
-				$(this).addClass("enable");				
-				Split.activateFeatureInfo()
-			}
-		});
+		// 	if ($(this).hasClass("enable")) { 
+		// 		$(this).removeClass("enable");
+		// 		Split.deActivateFeatureInfo()
+		// 	}
+		// 	else{
+		// 		Split.disableAllDrawTools();
+		// 		$(this).addClass("enable");				
+		// 		Split.activateFeatureInfo()
+		// 	}
+		// });
 		
 		$("#ctrl_marker_drawer").click(function(){
 			
