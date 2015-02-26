@@ -42,14 +42,53 @@ Tools = {
 			}
 		});
 
-		// $(".tools .streetTool input[type=checkbox]").click(function(){
-		// 	var panel = $(this).attr("panel");
-		// 	if(panel == 1){
+		$(".tools .streetTool input[type=checkbox]").click(function(){
+			var panel = $(this).attr("panel");
+			if($(this).is(":checked")){
+				Tools.drawStreetView(panel);
 
-		// 	}else{
-				
-		// 	}
-		// });
+			}else{
+				if(panel == 1){
+					$(".closeStreetLeft").trigger("click");
+				}else{
+					$(".closeStreetRight").trigger("click");
+				}
+			}
+		});
+
+		$(".closeStreetLeft,.closeStreetRight").click(function() {
+			var map;
+			var mapHtml;
+			var capaHtml;
+			var panelHtml;
+			var street;
+
+			if($(this).hasClass("closeStreetLeft")){
+				map = Split.__mapLeft;
+				mapHtml = $("#map_left");
+				capaHtml = $("#capaLeft");
+				panelHtml = $("#panel_left");
+				street = $(".streetButtonLeft");
+				$(".tools .streetTool input[panel='1']").prop( "checked", false )
+			}else{
+				map = Split.__mapRight;
+				mapHtml = $("#map_right");
+				capaHtml = $("#capaRight");
+				panelHtml = $("#panel_right");
+				street = $(".streetButtonRight");
+				$(".tools .streetTool input[panel='2']").prop( "checked", false )
+			}
+			map.getMap().removeLayer(map.callejero);
+			mapHtml.css({"cursor":"-webkit-grab"});
+			map.getMap().off("click");
+			mapHtml.show();
+			$(".catalogo").show();
+			capaHtml.show();
+			street.show();
+			$(this).hide();
+			panelHtml.find("object").remove();
+
+		});
 	},
 
 	locationfoundLeft: function(e){
@@ -125,4 +164,39 @@ Tools = {
             }
    		});
 	},
+
+	drawStreetView: function(panel){
+		var map;
+		var mapHtml;
+		var capaHtml;
+		var panelHtml;
+		var closeStreet;
+		if(panel == 1){
+			map = Split.__mapLeft;
+			mapHtml = $("#map_left");
+			capaHtml = $("#capaLeft");
+			panelHtml = $("#panel_left");
+			closeStreet = $(".closeStreetLeft");
+		}else{
+			map = Split.__mapRight;
+			mapHtml = $("#map_right");
+			capaHtml = $("#capaRight");
+			panelHtml = $("#panel_right");
+			closeStreet = $(".closeStreetRight");
+		}
+		map.getMap().addLayer(map.callejero);
+		mapHtml.css({"cursor":"pointer"});
+		map.getMap().on('click', function(e) {
+			var service = new google.maps.StreetViewService();			
+			service.getPanoramaByLocation(e.latlng, (map.getMap().getZoom()>11? 50:2000), function(result, status) {
+			    if (status == google.maps.StreetViewStatus.OK) {
+			    	mapHtml.hide();
+			    	$(".catalogo").hide();
+			    	capaHtml.hide();
+			    	closeStreet.show();
+					panelHtml.append("<object width='100%' height='100%' data='https://maps.google.es/maps/sv?cbll=" + result.location.latLng.lat() + "," + result.location.latLng.lng() + "'></object>");
+				}		
+			 });
+		});
+	}
 }
