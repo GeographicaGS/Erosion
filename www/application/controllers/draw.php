@@ -16,14 +16,25 @@ class Draw extends MY_Controller
 
 	}
 	
-	public function getCategories()
+	public function getCategories($idProject)
 	{
-		echo json_encode($this->category_model->getCategories());	
+		$idProject = urldecode($idProject);
+		$result = $this->category_model->getCategories($idProject);
+		foreach ($result as &$json) {
+			$json->title = str_replace($idProject . "###","",$json->title);
+		}
+		echo json_encode($result);	
 	}
 
-	public function getCategoriesWithData()
+	public function getCategoriesWithData($idProject)
 	{
-		echo json_encode($this->category_model->getCategoriesWithData());	
+		$idProject = urldecode($idProject);
+		$result = $this->category_model->getCategoriesWithData($idProject);
+		foreach ($result as &$json) {
+			$json->title = str_replace($idProject . "###","",$json->title);
+
+		}
+		echo json_encode($result);
 	}
 	
 	public function saveDraw(){

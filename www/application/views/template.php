@@ -263,6 +263,7 @@
 
 
 			<input class="closeStreetLeft" type="button" value="Cerrar Street View"/>
+			<span class="scaleNumeric left"></span>
 		
 		</div>
 		
@@ -299,6 +300,8 @@
 			<ul class="layer_panel close"></ul>
 
 			<input class="closeStreetRight" type="button" value="Cerrar Street View"/>
+
+			<span class="scaleNumeric right"></span>
 
 		</div>
 	</div>
@@ -346,7 +349,9 @@
 				<div class="contenidoCatalogo">
 					<div idSection="1" id="capasCatalogo" class="catalogueSection"></div>
 					<div idSection="2" id="publicProyectCatalogo" class="catalogueSection" style="display:none;"></div>
-					<div idSection="3" id="usuariosCatalogo" class="catalogueSection" style="display:none;"></div>
+					<div idSection="3" id="usuariosCatalogo" class="catalogueSection" style="display:none;">
+						<span class='noCategories'>Debe cargar un proyecto para visualizar sus categorías<span>
+					</div>
 					<div idSection="4" id="myProyectCatalogo" class="catalogueSection" style="display:none;"></div>
 				</div>
 				

@@ -5,55 +5,6 @@ function drawCategories(unLoadDefaultProject) {
 	
 	$("#capasCatalogo").html(html);
 
-
-	// $(".families").append("	<ul class='family_header' style='padding-left:0px' title='SERVICIOS DE TERCEROS'> "+
-	// 							"<li class='ico_open_close'><img style='vertical-align: top;' src='application/views/img/MED_icon_familia.png'></li>"+
-	// 							"<li class='name ellipsis'>SERVICIOS DE TERCEROS</li>"+
-	// 							"<li class='n_elements'>(1)</li>"+
-	// 						"</ul>"+
-	// 						"<div class='clear'></div>"+
-	// 						"<ul class='family_content' style='padding-left: 0px; display:none;'>"+
-	// 							"<li idcapa='60' style='border-top: 1px solid #ccc;'>"+
-	// 								"<p class='ellipsis' title='Panoramio'>Panoramio</p>"+
-	// 								"<div class='fleft fright mr' style='margin-top:8px;' tipo='panoramio'>"+
-	// 									"<span class='tiposCapas plus'>PANORAMIO</span></div></div><div class='clear'>"+
-	// 								"</div>"+
-	// 							"</li>"+
-	// 						"</ul>");
-
-	
-	
-	$.ajax({
-        url: 'index.php/draw/getCategoriesWithData', dataType: "json",
-        success: function(response) {
-        	var html = "<ul class='family_content'>";
-					
-					for(var y=0; y<response.length; y++){
-						html += "<li style='border-top: 1px solid #ccc; " + (parseInt(response[y].numdraws) == 0 ? 'display:none;' : '') + "'>" + 
-						"<p class='ellipsis' title='"+ response[y].title + "'>" + response[y].title + "</p>" +
-						// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
-						"<span style='display:none;'>" + (response[y].descripcion != null ?  response[y].descripcion : "Lorem ipsum dolor sit amet, consectetur adipiscing elit.") + "</span>"
-						;
-					
-						html+= "<div idCapa='"+ response[y].id_category +"' tipo='vectorial' class='fleft fright' style='margin-top:8px;'><span class='tiposCapas plus mr'>CAPA VECTORIAL</span></div>";
-						
-						html += "</div>"
-							html+= "<div class='clear'></div>" + 
-						"</li>";
-					}
-
-        		html += "</ul>"+
-				
-				"<div class='clear'></div>" + 
-				"</li>";
-        		
-        	html += "</ul></div>";	
-        	
-        	$("#usuariosCatalogo").html(html);
-        	
-        }
-    });
-	
 	$.ajax({
 		url: 'index.php/project/getMyProjects', dataType: "json",
         success: function(response) {
@@ -127,6 +78,47 @@ function drawCategories(unLoadDefaultProject) {
         }
 	});
 };
+
+function drawCategoriesWithData(){
+	var idProject = Split.__mapLeft.project;
+	if(!idProject){
+		idProject = Split.__mapRight.project;
+	}
+	if(idProject){
+		$.ajax({
+	        url: 'index.php/draw/getCategoriesWithData/' + encodeURIComponent(idProject), dataType: "json",
+	        success: function(response) {
+	        	if(response.length > 0){
+	        		var html = "<ul class='family_content'>";
+					for(var y=0; y<response.length; y++){
+						html += "<li style='border-top: 1px solid #ccc; " + (parseInt(response[y].numdraws) == 0 ? 'display:none;' : '') + "'>" + 
+						"<p class='ellipsis' title='"+ response[y].title + "'>" + response[y].title + "</p>" +
+						// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
+						"<span style='display:none;'>" + (response[y].descripcion != null ?  response[y].descripcion : "Lorem ipsum dolor sit amet, consectetur adipiscing elit.") + "</span>"
+						;
+
+						html+= "<div idCapa='"+ response[y].id_category +"' tipo='vectorial' class='fleft fright' style='margin-top:8px;'><span class='tiposCapas plus mr'>CAPA VECTORIAL</span></div>";
+						
+						html += "</div>"
+							html+= "<div class='clear'></div>" + 
+						"</li>";
+					}
+
+					html += "</ul>"+
+
+					"<div class='clear'></div>" + 
+					"</li>";
+
+					html += "</ul></div>";	
+
+					$("#usuariosCatalogo").html(html);
+	        	}else{
+	        		$("#usuariosCatalogo").html("<span class='noCategories'>El proyecto seleccionado no cotiene ninguna categoría<span>");
+	        	}
+	        }
+	    });
+	}
+}
 	
 function buscarCapa(id, categories){
 	for(var i=0; i<categories.length; i++){

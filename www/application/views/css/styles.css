@@ -883,6 +883,13 @@ and (max-device-width : 1024px) {
 	}
 }
 
+#usuariosCatalogo .noCategories{
+	display: table-cell;
+	height: 75px;
+	vertical-align: middle;
+	padding-left: 10px;
+}
+
 
 
 .family_content li .botonAddImage{
@@ -2014,6 +2021,27 @@ img.tiposCapas{
 
 #ctrl_feature_info ul li.active{
 	background-color: #296EB0;	
+}
+
+.scaleNumeric{
+	background: rgba(255, 255, 255, 0.5);
+	border: 2px solid #777;
+	line-height: 1.1;
+	padding: 2px 5px 1px;
+	border-top: none;
+	font-size: 11px;
+}
+
+.scaleNumeric.left{
+	position: absolute;
+	bottom: 50px;
+	left: 5px;
+}
+
+.scaleNumeric.right{
+	position: absolute;
+	bottom: 50px;
+	right: 5px;
 }
 
 .leaflet-map-pane svg{

@@ -23,6 +23,19 @@ L.Control.ZoomDisplay = L.Control.extend({
     updateMapZoom: function (zoom) {
         if(typeof(zoom) === "undefined"){zoom = ""}
         this._container.innerHTML = zoom;
+        if($(this._container).parent().hasClass("leaflet-right") || $(this._container).parent().length == 0){
+            $(".scaleNumeric.right").text("1:" + this.zoom2scale(zoom));
+        }
+        if($(this._container).parent().hasClass("leaflet-left") || $(this._container).parent().length == 0){
+            $(".scaleNumeric.left").text("1:" + this.zoom2scale(zoom));
+        }
+    },
+
+    zoom2scale:function(zoom){
+        if(zoom<0){
+            return None
+        }
+        return Math.round(559082264.028/(Math.pow(2,zoom)));
     }
 });
 

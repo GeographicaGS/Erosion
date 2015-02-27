@@ -62,8 +62,14 @@ function infoPanelEvents(){
 
 		// Cargo las categorias
 		$("#addHistoryForm select").html("");
+
+		var idProject = Split.__mapLeft.project;
+		if(!idProject){
+			idProject = Split.__mapRight.project;
+		}
+
 		$.ajax({
-		        url: 'index.php/draw/getCategories', dataType: "json",
+		        url: 'index.php/draw/getCategories/' + encodeURIComponent(idProject), dataType: "json",
 		        success: function(response) {
 		        	$("#fancy_box_form_save_draw").find("select").children().remove();
 		        	for(var i=0; i<response.length; i++){
@@ -422,9 +428,17 @@ function infoPanelEvents(){
 					$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").append(aux);
 				}
 				var capa = buscarCapa($(this).attr("idCapa"),categories);
-				if(capa.wms){
-					var legendUrl = capa.wms.server.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
-					+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + capa.wms.name;
+				if(capa.wms || capa.wmts){
+					var legendUrl;
+					if(capa.wms){
+						legendUrl = capa.wms.server.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+									+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + capa.wms.name;
+					}else{
+						legendUrl = capa.wmts.server.replace("/gwc/service", "").replace("wmts", "wms") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
+									+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + capa.wmts.name;
+					}
+					
+
 					$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
 					$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
 				}

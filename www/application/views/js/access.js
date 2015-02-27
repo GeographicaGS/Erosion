@@ -124,6 +124,9 @@ Access = {
 				leyenda = null;
 				if(capa.wms){
 					leyenda = capa.wms.server;
+
+				}else if(capa.wmts){
+					leyenda = capa.wmts.server.replace("wmts","wms");					
 				}
 				Split.addLayer(capa,tipo, leyenda, null,panel);
 			}

@@ -128,6 +128,8 @@ function categoryPanelEvents(){
 		        	
 		        	addLayerFromProyect(capasRight,1);
 		        	addLayerFromProyect(capasLeft,2);
+
+		        	drawCategoriesWithData();
 		        }
 			});
 

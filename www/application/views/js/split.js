@@ -42,7 +42,7 @@ Split = {
 		});		
 		zoomControl.addTo(mapLeft);
 
-		L.control.scale({position:"bottomleft"}).addTo(mapLeft);
+		L.control.scale({position:"bottomleft", "imperial":false}).addTo(mapLeft);
 
 		var zoomDisplay = new L.Control.ZoomDisplay({
 			position : 'bottomleft'
@@ -83,7 +83,7 @@ Split = {
 		});
         mapRight.addControl(zoomDisplay);
 
-		L.control.scale({position:"bottomright"}).addTo(mapRight);	
+		L.control.scale({position:"bottomright", "imperial":false}).addTo(mapRight);	
 		
 		//let's create the GroupLayer object with the instance of mapRightt
 		opts = {
@@ -281,7 +281,7 @@ Split = {
 		    	markerAux.off('click');
 		    	 aux.layer = markerAux;
 		    	markerAux.on('click', function (e) {
-			    	if(isLoged){
+			    	if(isLoged && ($("#usuariosCatalogo .noCategories").length == 0)){
 				    	Split.showFancySaveDraw(aux, Split.type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
@@ -296,7 +296,7 @@ Split = {
 		    Split.disableAllDrawTools();
 		    
 		    
-		    if(isLoged){
+		    if(isLoged && ($("#usuariosCatalogo .noCategories").length == 0)){
 		    	Split.showFancySaveDraw(e, Split.type, xClick,yClick);
 		    	
 		    }else{
@@ -305,7 +305,7 @@ Split = {
 		    
 		    e.layer.off('click');
 		    e.layer.on('click', function (event) {
-		    	if(isLoged){
+		    	if(isLoged && ($("#usuariosCatalogo .noCategories").length == 0)){
 			    	Split.showFancySaveDraw(e, Split.type, event.originalEvent.clientX,event.originalEvent.clientY);
 			    }else{
 			    	Split.showFancyDontSaveDraw(e,event.originalEvent.clientX,event.originalEvent.clientY);
@@ -319,7 +319,7 @@ Split = {
 		    	polyline.off('click');
 			    aux.layer = polyline;
 			    polyline.on('click', function (e) {
-			    	if(isLoged){
+			    	if(isLoged && ($("#usuariosCatalogo .noCategories").length == 0)){
 				    	Split.showFancySaveDraw(aux, Split.type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
@@ -331,7 +331,7 @@ Split = {
 		    	poligono.off('click');
 		    	aux.layer = poligono;
 		    	poligono.on('click', function (e) {
-			    	if(isLoged){
+			    	if(isLoged && ($("#usuariosCatalogo .noCategories").length == 0)){
 				    	Split.showFancySaveDraw(aux, Split.type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
@@ -353,7 +353,7 @@ Split = {
 		    	markerAux.off('click');
 		    	aux.layer = markerAux;
 		    	markerAux.on('click', function (e) {
-			    	if(isLoged){
+			    	if(isLoged && ($("#usuariosCatalogo .noCategories").length == 0)){
 				    	Split.showFancySaveDraw(aux, Split.type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
@@ -367,7 +367,7 @@ Split = {
 		    Split.__mapLeft.getMap().off("mousemove");
 		    Split.disableAllDrawTools();
 		  
-		    if(isLoged){
+		    if(isLoged && ($("#usuariosCatalogo .noCategories").length == 0)){
 		    	Split.showFancySaveDraw(e, Split.type, xClick,yClick);
 		    	
 		    }else{
@@ -376,7 +376,7 @@ Split = {
 		    
 		    e.layer.off('click');
 		    e.layer.on('click', function (event) {
-		    	if(isLoged){
+		    	if(isLoged && ($("#usuariosCatalogo .noCategories").length == 0)){
 			    	Split.showFancySaveDraw(e, Split.type, event.originalEvent.clientX,event.originalEvent.clientY);
 			    }else{
 			    	Split.showFancyDontSaveDraw(e,event.originalEvent.clientX,event.originalEvent.clientY);
@@ -389,7 +389,7 @@ Split = {
 		    	polyline.off('click');
 			    aux.layer = polyline;
 			    polyline.on('click', function (e) {
-			    	if(isLoged){
+			    	if(isLoged && ($("#usuariosCatalogo .noCategories").length == 0)){
 				    	Split.showFancySaveDraw(aux, Split.type, e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);
@@ -401,7 +401,7 @@ Split = {
 		    	poligono.off('click');
 		    	aux.layer = poligono;
 		    	poligono.on('click', function (e) {
-			    	if(isLoged){
+			    	if(isLoged && ($("#usuariosCatalogo .noCategories").length == 0)){
 				    	Split.showFancySaveDraw(aux, Split.type,e.originalEvent.clientX,e.originalEvent.clientY);
 				    }else{
 				    	Split.showFancyDontSaveDraw(aux,e.originalEvent.clientX,e.originalEvent.clientY);

@@ -46,8 +46,12 @@ function onEachFeatureGeoJson(feature, layer) {
 }
 
 function generateComboCategories(category){
+	var idProject = Split.__mapLeft.project;
+	if(!idProject){
+		idProject = Split.__mapRight.project;
+	}
 	$.ajax({
-		url: 'index.php/draw/getCategories',
+		url: 'index.php/draw/getCategories/' + encodeURIComponent(idProject),
         dataType: "json",
         success: function(response) {
         	$($(".vectorFancySelect")[1]).children().remove();

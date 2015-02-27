@@ -7,18 +7,19 @@ class Category_model extends CI_Model{
 		parent::__construct();
 	}
 	
-	public function getCategories(){
+	public function getCategories($idProject){
 		
-		$sql = "SELECT * FROM public.category order by title";
+		$sql = "SELECT * FROM public.category where title like ? order by title";
 		
-		return $this->db->query($sql)->result();
+		return $this->db->query($sql,array($idProject . "###%"))->result();
 	}
 
-	public function getCategoriesWithData(){
+	public function getCategoriesWithData($idProject){
 		
-		$sql = "SELECT *, (SELECT count(*) FROM draw d WHERE c.id_category = d.id_category) as numDraws FROM public.category c order by c.title";
+		$sql = "SELECT *, (SELECT count(*) FROM draw d WHERE c.id_category = d.id_category) as numDraws FROM public.category c 
+				where c.title like ? order by c.title";
 		
-		return $this->db->query($sql)->result();
+		return $this->db->query($sql,array($idProject . "###%"))->result();
 	}
 	
 	public function getCategeryTitle($idCategory){

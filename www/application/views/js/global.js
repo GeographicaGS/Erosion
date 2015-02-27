@@ -272,7 +272,7 @@ function showConfirmDialog(accept,text)
 	var html = "<div>" +
 				"<p align='center' style='font-size: 14px; color: #013e88; margin-bottom: 40px;'>" + text + "</p>" +
 				"<input class='genericButton fright' type='button' value='Cancelar' onclick='fnCancel()''>" +
-				"<input class='genericButton fright' type='button' value='Confirmar' onclick='fnConfirm()''>" +
+				"<input class='genericButton fright mr' type='button' value='Confirmar' onclick='fnConfirm()''>" +
 				"</div>";
 
 	$.fancybox($(html),{

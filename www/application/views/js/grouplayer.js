@@ -139,9 +139,20 @@ function GroupLayer(opts){
 			if($(this).siblings("input").attr("tipo") != "vectorial"){
 				$(this).attr('contentEditable',true);
 				this.focus();
+				$(this).off("keypress");
+				$(this).keypress(function(e){
+				    if(e.keyCode == 13)
+				    {
+				        if($(this).siblings("input").attr("tipo") != "vectorial"){
+			            	$(this).attr('contentEditable', false);
+			            	self.layers[$(this).siblings("input").attr("id_layer")].alternativeTitle = $(this).text();
+			            }
+				    }
+				});
 			}
 		}).blur(
 	        function() {
+	        	$(this).off("keypress");
 	            if($(this).siblings("input").attr("tipo") != "vectorial"){
 	            	$(this).attr('contentEditable', false);
 	            	self.layers[$(this).siblings("input").attr("id_layer")].alternativeTitle = $(this).text();
@@ -359,7 +370,7 @@ function GroupLayer(opts){
 		    					if(select == "WMS"){
 		    						wLayer = new GSLayerWMS(-1,title, url, layer, leyenda, null, description);
 		    						wLayer.version = version;
-		    						wLayer.simpleLayer = true;
+		    						wLayer.simpleLayer = false;
 		    						self.addLayer(wLayer);
 		    					}else{
 		    						wLayer = new GSLayerWMTS(-1,title, url, layer, leyenda, null, description);
@@ -368,12 +379,19 @@ function GroupLayer(opts){
 		    					
 		    					
 		    					// $.fancybox.close();
+			    				// if(!$("#panel_right .layer_panel").hasClass("close")){
+			    				// 	Split.toggleLayersInterface(Split.RIGHT);
+			    				// }
+			    				// if(!$("#panel_left .layer_panel").hasClass("close")){
+			    				// 	Split.toggleLayersInterface(Split.LEFT);
+			    				// }
+
 			    				if(!$("#panel_right .layer_panel").hasClass("close")){
-			    					Split.toggleLayersInterface(Split.RIGHT);
-			    				}
-			    				if(!$("#panel_left .layer_panel").hasClass("close")){
-			    					Split.toggleLayersInterface(Split.LEFT);
-			    				}
+									Split.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
+								}
+								if(!$("#panel_left .layer_panel").hasClass("close")){
+									Split.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
+								}
 			    				
 			    				//Relleno el panel de la leyenda
 			    				self._drawInfoFromService(wLayer);
@@ -628,7 +646,7 @@ function GroupLayer(opts){
 		$(".cuerpoInfoCatalogo").find(".title2").text(layer.description);
 		$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
 		var leyenda = layer.url.replace("/gwc/service", "");
-		var legendUrl = leyenda.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=" + layer.version + "&REQUEST=GetLegendGraphic&"
+		var legendUrl = leyenda.replace("/gwc/service", "").replace("wmts","wms") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=" + layer.version + "&REQUEST=GetLegendGraphic&"
 		+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.name;
 		$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
 		$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
@@ -671,11 +689,11 @@ function GroupLayer(opts){
 		// }
 
 		var l = this.layers[id];
-		if (l.visible && l.layer.options.opacity>0){
+		// if (l.visible && l.layer.options.opacity>0){
 			server = l.url;
 			layers = l.name;
 			requestIdx = i;
-		}
+		// }
 		
 		if (layers==null || server==null || requestIdx==null)
 		{
