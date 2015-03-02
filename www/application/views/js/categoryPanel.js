@@ -84,17 +84,44 @@ function categoryPanelEvents(){
 	});
 
 	//Desplegar cada capa
-	$('.contenidoCatalogo #capasCatalogo').on('click', '.families .family_header', function(){
+	$('.contenidoCatalogo #capasCatalogo').on('click', '.families .family_header, .ico_info', function(e){
 
-		if($(this).next().next().is(":visible")){
+		if($(this).hasClass("ico_info")){
+			e.stopPropagation();
+			$(".deleteProyect").hide();
+			$("#commentsVector").hide();
+			$("#geometryVector").hide();
+			$("#addHistoryForm").hide();
+			$("#kmlAll").remove();
+			$(".botonAddImageLeyenda").hide();
+			$(".extraLeyenda").children(".title3, .divLeyenda").hide();
+			$(".infoCatalogo .cuerpoInfoCatalogo .moreInfo").hide();
+			$(".defaultProject").hide();
+			$(".listaTiposLeyenda").hide();
 
-			$(this).next().next().slideUp();
-			$($(this).find("img")[0]).attr("src", "application/views/img/MED_icon_familia.png")
+			$(".cuerpoInfoCatalogo").find(".title1").text($(this).parent().find(".name").text());
+			$(".cuerpoInfoCatalogo").find(".title2").text($(this).find(".description").text());
+			var info = $(this).find(".info");
+			if(info && info.text().length > 0){
+				$(".infoCatalogo .cuerpoInfoCatalogo .moreInfo").show();
+				$(".infoCatalogo .cuerpoInfoCatalogo .moreInfo").attr("href",info.text());
+			}
+			$(".petaniaInfoCatalogo").show();
+			if(!$(".cuerpoInfoCatalogo").is(":visible")){
+				$(".petaniaInfoCatalogo").trigger("click");
+			}
 
-		}else if($(this).next().next().find("li").length > 0){
+		}else{
+			if($(this).next().next().is(":visible")){
 
-			$(this).next().next().slideDown();
-			$($(this).find("img")[0]).attr("src", "application/views/img/MED_icon_cerrar_capas.png")
+				$(this).next().next().slideUp();
+				$($(this).find("img")[0]).attr("src", "application/views/img/MED_icon_familia.png")
+
+			}else if($(this).next().next().find("li").length > 0){
+
+				$(this).next().next().slideDown();
+				$($(this).find("img")[0]).attr("src", "application/views/img/MED_icon_cerrar_capas.png")
+			}
 		}
 	});
 
@@ -115,6 +142,8 @@ function categoryPanelEvents(){
 		        	var capasLeft = JSON.parse(capas.left);
 		        	var capasRight = JSON.parse(capas.right);
 		        	
+		        	Split.syncEnable = true;
+		        	Split.sync();
 		        	if(capas.hasOwnProperty('leftState')){
 		        		Split.__mapLeft.getMap().setView(L.latLng(capas.leftState.lat,capas.leftState.lng),capas.leftState.zoom);
 		        	}
@@ -122,6 +151,10 @@ function categoryPanelEvents(){
 		        		Split.__mapRight.getMap().setView(L.latLng(capas.rightState.lat,capas.rightState.lng),capas.rightState.zoom);
 		        	}
 		        	
+		        	if(capas.leftState.zoom == capas.rightState.zoom && capas.leftState.lat == capas.rightState.lat && capas.leftState.lng == capas.rightState.lng){
+		        		Split.syncEnable = false;
+		        		Split.sync();
+		        	}
 		        	
 		        	Split.__mapRight.project = project;
 		        	Split.__mapLeft.project = project;

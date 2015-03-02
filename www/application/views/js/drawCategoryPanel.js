@@ -147,9 +147,21 @@ function getHtmlCategories(categories, index) {
 						"<li class='ico_open_close'><img style='vertical-align: top;' src='application/views/img/MED_icon_familia.png'></li>" +
 						"<li class='name ellipsis'>" + categories[i].title + "</li>";
 
+
 		if(categories[i].layers.length > 0){
 			html +=		"<li class='n_elements'>(" + categories[i].layers.length + ")</li>";
 		}
+
+		if(categories[i].hasOwnProperty("description") && categories[i].description.length > 0){
+			html += "<li class='ico_info'>" +
+					"<span class='description' style='display:none;'>" + categories[i].description + "</span>";
+			
+			if(categories[i].hasOwnProperty("info") && categories[i].info.length > 0){
+				html += "<span class='info' style='display:none;'>" + categories[i].info + "</span>";
+			}
+
+			html += "</li>";
+		}	
 		
 		html +=			"</ul>"+
 					

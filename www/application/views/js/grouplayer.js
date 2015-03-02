@@ -47,7 +47,7 @@ function GroupLayer(opts){
 						html += "<img class='opacity' style='margin-left: -9px; visibility:hidden' src=''>";
 					}
 //					if(l.leyenda){
-						html += "<img class='legend' src='application/views/img/MED_icon_leyenda.png' title='' id_layer='" + x + "'>";
+						html += "<img class='legend' src='application/views/img/ERO_icon_infolayer.png' title='' id_layer='" + x + "'>";
 //					}
 					html += "<span contenteditable='false' class='ellipsis'>"+ (l.alternativeTitle ? l.alternativeTitle:l.title) +"</span>";
 					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
@@ -272,6 +272,7 @@ function GroupLayer(opts){
 		});
 
 		$("#service_fancy_box_data select").unbind().change(function(){
+			$("#service_fancy_box_data input[type='text']").val("");
     		if($(this).val() == "WMS" || $(this).val() == "WMTS"){
     			if($(this).parent().find(".tabla_fancy_service").children().length > 0){
     				$(this).parent().find(".info_fancy_service").slideUp();
@@ -297,6 +298,9 @@ function GroupLayer(opts){
     	$("#service_fancy_box_data input[type='button']").unbind().click(function(){
     		var select = $(this).parent().find("select").val()
     		var server = $($(this).parent().find("input[type='text']")[0]).val();
+    		if(server.lastIndexOf("?") >= 0){
+    			server = server.slice(0,server.lastIndexOf("?"));
+    		}
     		var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?REQUEST=GetCapabilities&SERVICE=" + select;
     		var name = $($(this).parent().find("input[type='text']")[1]).val();
     		var selfBoton = this;
@@ -332,7 +336,7 @@ function GroupLayer(opts){
 				    				if($($(this).find(keyLayerName)[0]).text().length > 0){
 						    				html +='<ul class="family_content" style="display: block;">' +
 			    							'<li>' +
-			    								'<p class="fleft mb ellipsis">' + $(this).find("Title").text() + '</p>' +
+			    								'<p class="fleft mb ellipsis">' + $(this).find("Layer > Title").text() + '</p>' +
 			    								'<div nombreCapa="' + $($(this).find(keyLayerName)[0]).text() + '" class="ml fleft mt">' +
 			    									'<span class="tiposCapas">' + select +'</span>' +
 			    								'</div>' +
@@ -717,6 +721,7 @@ function GroupLayer(opts){
 		        	}
 		        	else{
 		        		if(data.substring(data.indexOf('<body>') + 6,data.indexOf('</body>')).trim().length > 0){
+		        			data = data.replace("<a ", "<a target='_blank' ");
 		        			$("#container_feature_info").html(data);
 		        		}else{
 		        			// if(requestIdx < obj.layers.length){

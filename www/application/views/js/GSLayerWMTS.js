@@ -18,6 +18,8 @@ function GSLayerWMTS(id,title, url, name, leyenda, alternativeTitle, description
 	this.tipo = "wmts";
 	this.leyenda = leyenda;
 	this.description = description;
+	this.minZoom = null;
+	this.maxZoom = null;
 }
 
 GSLayerWMTS.prototype.setVisibility = function(visibility, map, z_index){
@@ -30,10 +32,16 @@ GSLayerWMTS.prototype.setVisibility = function(visibility, map, z_index){
 						format: 'image/png'
 					});	
 	}
-	
+
 	this.visible = visibility;
 	if(this.visible){
-		this.layer.addTo(map);
+		if(this.minZoom && map.getZoom() < this.minZoom){
+			map.removeLayer(this.layer);
+		}else if(this.maxZoom && map.getZoom() > this.maxZoom){
+			map.removeLayer(this.layer);
+		}else{
+			this.layer.addTo(map);
+		}
 		if(z_index){
 			this.layer.setZIndex(z_index);
 		}

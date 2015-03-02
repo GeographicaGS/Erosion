@@ -2,6 +2,8 @@ Tools = {
 	
 	panoramiosLeft:null,
 	panoramiosRight:null,
+	kmlLayerLeft:null,
+	kmlLayerRight:null,
 
 	initialize: function(){
 
@@ -88,6 +90,70 @@ Tools = {
 			$(this).hide();
 			panelHtml.find("object").remove();
 
+		});
+
+		$(".tools .loadFile button").click(function(e){
+			if(!$(this).hasClass('active')){
+				$("#uploadFileButtom").click();
+			}
+			e.preventDefault();
+		});
+
+		$(".tools .loadFile input[type='file']").change(function(e){
+			var input = event.target;
+			var reader = new FileReader();
+			reader.onload = function(){
+				var data = reader.result;
+				
+				Tools.kmlLayerLeft = new L.KML(data, {async: true});
+				Tools.kmlLayerRight = new L.KML(data, {async: true});
+				                                              
+				Tools.kmlLayerLeft.on("loaded", function(e) { 
+					Split.__mapLeft.getMap().fitBounds(e.target.getBounds());
+
+					Tools.kmlLayerRight.on("loaded", function(e) { 
+						Split.__mapRight.getMap().fitBounds(e.target.getBounds());
+						$(".tools .loadFile input[type='checkbox']").prop('disabled', false);
+						$(".tools .loadFile input[type='checkbox']").prop('checked', true);
+						$(".tools .loadFile button").text("Kml subido");
+						$(".tools .loadFile button").addClass("active");
+						$(".loadFile .deleteKml").show();
+					});
+				});
+                                    
+				Split.__mapLeft.getMap().addLayer(Tools.kmlLayerLeft);
+				Split.__mapRight.getMap().addLayer(Tools.kmlLayerRight);
+				$(".tools .loadFile input[type='file']").val("");
+
+			};
+			reader.readAsDataURL(input.files[0]);
+		});
+
+		$(".loadFile .deleteKml").click(function(){
+			$(".tools .loadFile input[type='checkbox']").prop('disabled', true);
+			$(".tools .loadFile input[type='checkbox']").prop('checked', false);
+			$(".tools .loadFile button").text("+ Subir kml");
+			$(".tools .loadFile button").removeClass("active");
+			$(".loadFile .deleteKml").hide();
+			Split.__mapLeft.getMap().removeLayer(Tools.kmlLayerLeft);
+			Split.__mapRight.getMap().removeLayer(Tools.kmlLayerRight);
+		});
+
+		$(".tools .loadFile input[type=checkbox]").click(function(){
+			var panel = $(this).attr("panel");
+			if($(this).is(":checked")){
+				if(panel == 1){
+					Split.__mapLeft.getMap().addLayer(Tools.kmlLayerLeft);
+				}else{
+					Split.__mapRight.getMap().addLayer(Tools.kmlLayerRight);
+				}
+			}else{
+				if(panel == 1){
+					Split.__mapLeft.getMap().removeLayer(Tools.kmlLayerLeft);
+				}else{
+					Split.__mapRight.getMap().removeLayer(Tools.kmlLayerRight);
+				}
+			}
 		});
 	},
 

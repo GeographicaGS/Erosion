@@ -644,14 +644,22 @@ Split = {
 				gsLayerLeft.simpleLayer = true;
 				gsLayerRight.simpleLayer = true;
 			}
-			
+			this.setZoomsLayer(gsLayerLeft,capa.wms);
+			this.setZoomsLayer(gsLayerRight,capa.wms);
+
 		}else if(tipo == "wmts"){
 			gsLayerLeft = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle, capa.description);
 			gsLayerRight = new GSLayerWMTS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle, capa.description);
+
+			this.setZoomsLayer(gsLayerLeft,capa.wmts);
+			this.setZoomsLayer(gsLayerRight,capa.wmts);
 		
 		}else if(tipo == "tms"){
 			gsLayerLeft = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google, capa.alternativeTitle, capa.description);
 			gsLayerRight = new GSLayerTMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.tms.google, capa.alternativeTitle, capa.description);
+
+			this.setZoomsLayer(gsLayerLeft,capa.tms);
+			this.setZoomsLayer(gsLayerRight,capa.tms);
 		
 		}else if(tipo == "simbolo"){
 			
@@ -688,7 +696,7 @@ Split = {
 		}else{
 			return null;
 		}
-		
+
 		if((panel==1 || panel==3) && !this.__mapRight.containLayer(capa != null? capa.id : geoJson[0].properties.id_category ,tipo, capa != null ? capa.alternativeTitle:null)){
 			this.__mapRight.addLayer(gsLayerRight);
 			gsLayerRight.setVisibility(visible,Split.__mapRight.getMap(),null);
@@ -708,6 +716,15 @@ Split = {
 			this.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
 		}
 
+	},
+
+	setZoomsLayer:function(layer,capa){
+		if(capa.hasOwnProperty("minZoom")){
+			layer.minZoom = capa.minZoom;
+		}
+		if(capa.hasOwnProperty("maxZoom")){
+			layer.maxZoom = capa.maxZoom;
+		}
 	},
 	
 	removeLayer: function(title, tipo) {

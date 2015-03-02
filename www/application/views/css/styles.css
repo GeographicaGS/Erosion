@@ -321,7 +321,7 @@ ul.layer_panel > li > img.remove, ul.layer_panel > ul > li > img.remove {
 
 
 ul.layer_panel > li > img.legend, ul.layer_panel > ul > li > img.legend {
-	padding: 5px 0px;
+	padding: 4px 0px;
 }
 
 ul.layer_panel > li > span, ul.layer_panel > ul > li > span {
@@ -676,6 +676,37 @@ and (max-device-width : 1024px) {
 	margin-right: 10px;
 }
 
+.loadFile button{
+	background-color: inherit;
+	border: none;
+	font-size: 12px;
+	color: #013e88;
+	padding: 0;
+	cursor: pointer;
+}
+
+.loadFile button.active{
+	cursor: inherit;
+	position: relative;
+	top: -2px;
+}
+
+.loadFile button.active:before{
+	content: url("../img/ERO_herramienta_kml.png");
+	position: relative;
+	top: 5px;
+	margin-right: 10px;
+}
+
+.loadFile .deleteKml{
+	float: right;
+	margin-right: 10px;
+	cursor: pointer;
+	position: relative;
+	top: 3px;
+	display: none;
+}
+
 .catalogo{
 	width: 30%;
 	left: -30.1%;
@@ -783,14 +814,14 @@ and (max-device-width : 1024px) {
 
 .family_header .name{
 	margin-right: 5px;
-	max-width: 80%;
+	max-width: 74%;
 	
 	
 }
 
 @media (max-width: 900px) {
 	.family_header .name{
-		max-width: 70%;
+		max-width: 64%;
 	}
 }
 
@@ -798,6 +829,21 @@ and (max-device-width : 1024px) {
 	margin-left: 10px;
 	margin-right: 10px;
 	margin-top: 20px;
+}
+
+.family_header .ico_info{
+	position: absolute;
+	right: 10px;
+	background-image: url("../img/ERO_icon_infolayer.png");	
+	width: 16px;
+	height: 16px;
+	background-repeat: no-repeat;
+}
+
+.family_header .ico_info:HOVER{
+	background-image: url("../img/ERO_icon_pestana_info.png");	
+	width: 18px;
+	height: 18px;
 }
 
 .family_content{

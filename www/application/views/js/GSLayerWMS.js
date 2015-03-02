@@ -11,6 +11,8 @@ function GSLayerWMS(id,title, url, name, leyenda, alternativeTitle, description)
 	this.version = "1.1.1";
 	this.simpleLayer = false;
 	this.description = description;
+	this.minZoom = null;
+	this.maxZoom = null;
 }
 
 GSLayerWMS.prototype.setVisibility = function(visibility, map, z_index){
@@ -36,7 +38,13 @@ GSLayerWMS.prototype.setVisibility = function(visibility, map, z_index){
 	
 	this.visible = visibility;
 	if(this.visible){
-		this.layer.addTo(map);
+		if(this.minZoom && map.getZoom() < this.minZoom){
+			map.removeLayer(this.layer);
+		}else if(this.maxZoom && map.getZoom() > this.maxZoom){
+			map.removeLayer(this.layer);
+		}else{
+			this.layer.addTo(map);
+		}
 		if(z_index){
 			this.layer.setZIndex(z_index);
 		}

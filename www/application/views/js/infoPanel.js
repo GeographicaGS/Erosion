@@ -363,7 +363,7 @@ function infoPanelEvents(){
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//Redibujado del panel de información en función de lo que se seleccione en el catálogo
-	$(".contenidoCatalogo").on( "click", '.family_content li' ,function(){
+	$(".contenidoCatalogo").on( "click", '.family_content li' ,function(e){
 		//Restauro vistas
 		if($(".seccion.active").attr("idSection") == 4){
 			$(".deleteProyect").show();
@@ -376,7 +376,8 @@ function infoPanelEvents(){
 		$("#kmlAll").remove();
 		$(".botonAddImageLeyenda").show();
 		$(".extraLeyenda").children(".title3, .divLeyenda").show();
-		$(".moreInfo").hide();
+		$(".infoCatalogo .cuerpoInfoCatalogo .moreInfo").hide();
+		$(".listaTiposLeyenda").show();
 
 
 		if($(this).parent().hasClass("family_content")){

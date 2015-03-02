@@ -48,6 +48,7 @@
 <script type="text/javascript" src="<?= get_js("lib/leaflet.Sync.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/singleTile.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("lib/L.Control.ZoomDisplay.js")?>"></script>
+<script type="text/javascript" src="<?= get_js("lib/kml.js")?>"></script>
 
 <script type="text/javascript" src="<?= get_js("global.js")?>"></script>
 <script type="text/javascript" src="<?= get_js("grouplayer.js")?>"></script>
@@ -331,6 +332,17 @@
 						<td>Street View</td>
 						<td><input panel="1" type="checkbox"/></td>
 						<td><input panel="2" type="checkbox"/></td>
+					</tr>
+					<tr class="loadFile">
+						<td>
+							<form> 
+								<input type="file" id="uploadFileButtom" style="display:none;" multiple name="files[]"> 
+								<button>+ Subir kml</button>
+								<img class="deleteKml" title="Eliminar Kml" src="<?= get_img("MED_icon_papelera_panel.png")?>"/></div>
+							</form>
+						</td>
+						<td><input panel="1" type="checkbox" disabled="true"/></td>
+						<td><input panel="2" type="checkbox" disabled="true"/></td>
 					</tr>
 				</tbody>
 			</table>
