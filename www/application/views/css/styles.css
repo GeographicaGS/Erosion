@@ -2136,3 +2136,11 @@ img.tiposCapas{
 	font-weight: normal;
 }
 
+.leaflet-retina .leaflet-control-layers-toggle{
+	background-image: url("../img/ERO_icon_layer_off.png");	
+}
+
+.leaflet-control-layers-toggle{
+	background-image: url("../img/ERO_icon_layer_off.png");	
+}
+
