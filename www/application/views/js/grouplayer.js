@@ -324,33 +324,31 @@ function GroupLayer(opts){
 				    		
 	    		        	var layerPadre = $(xml).find("Layer")[0];
 	    		        	var version = $($(xml).find("*")[0]).attr("version");
-				    		// $(xml).find("Layer").slice(1).each(function(){
-				    		$(xml).find("Layer").each(function(){
-				    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
-				    				var keyLayerName;
-				    				if(select == "WMS"){
-				    					keyLayerName = "Name"
-				    				}else{
-				    					keyLayerName = "Identifier"
-				    				}
-				    				if($($(this).find(keyLayerName)[0]).text().length > 0){
-						    				html +='<ul class="family_content" style="display: block;">' +
-			    							'<li>' +
-			    								'<p class="fleft mb ellipsis">' + $(this).find("Layer > Title").text() + '</p>' +
-			    								'<div nombreCapa="' + $($(this).find(keyLayerName)[0]).text() + '" class="ml fleft mt">' +
-			    									'<span class="tiposCapas">' + select +'</span>' +
-			    								'</div>' +
-			    								'<div class="clear"></div>'+
-			    								'<span class="description">' + (($(this).find("Abstract").text() != "null") ? $(this).find("Abstract").text() : 'Sin descripción') + '</span>' +
-			    								'<div class="clear"></div>' +
-			    							'</li>' +
-										'</ul>';
-									}
-				    				
-				    			}else{
-				    				sistemasErroneos = true;
-				    			}
-	    		        	});
+				    		
+	    		        	var keyLayerName;
+		    				if(select == "WMS"){
+		    					keyLayerName = "Name"
+		    					$(xml).find("Capability > Layer").each(function(){
+						    		$(this).find("Layer").each(function(){
+						    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
+											html += self.createHtmlExternalService($(this).find("Layer > " + keyLayerName).text(),$(this).find("Layer > Title").text(),$(this).find("Layer > Abstract").text(),select);
+						    			}else{
+						    				sistemasErroneos = true;
+						    			}
+			    		        	});
+								});
+		    				}else{
+		    					keyLayerName = "Identifier"
+		    					$(xml).find("Contents > Layer").each(function(){
+					    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
+										html += self.createHtmlExternalService($(this).find("Layer > " + keyLayerName).text(),$(this).find("Layer > Title").text(),$(this).find("Layer > Abstract").text(),select);
+					    			}else{
+					    				sistemasErroneos = true;
+					    			}
+								});
+		    				}
+
+				    		
 				    		html +=	'</li></ul>';
 				    		$(selfBoton).parent().find(".tabla_fancy_service").html(html);
 				    		$(selfBoton).parent().find(".info_fancy_service").hide();						    		
@@ -437,6 +435,22 @@ function GroupLayer(opts){
     	});
 		//Fin fancybox de servicios
 	};
+
+	this.createHtmlExternalService = function(name,title,abstract,type){
+		var html ='<ul class="family_content" style="display: block;">' +
+			'<li>' +
+				'<p class="fleft mb ellipsis">' + title + '</p>' +
+				'<div nombreCapa="' +  name + '" class="ml fleft mt">' +
+					'<span class="tiposCapas">' + type +'</span>' +
+				'</div>' +
+				'<div class="clear"></div>'+
+				'<span class="description">' + ((abstract != "null") ? abstract : 'Sin descripción') + '</span>' +
+				'<div class="clear"></div>' +
+			'</li>' +
+		'</ul>';
+
+		return html;
+	}
 
 	/* Toogle a given layer*/
 	this.toogleLayer = function(id_layer,checked){
@@ -721,7 +735,8 @@ function GroupLayer(opts){
 		        	}
 		        	else{
 		        		if(data.substring(data.indexOf('<body>') + 6,data.indexOf('</body>')).trim().length > 0){
-		        			data = data.replace("<a ", "<a target='_blank' ");
+		        			// data = data.replace("<a ", "<a target='_blank' ");
+		        			data = data.split("<a ").join("<a target='_blank' ")
 		        			$("#container_feature_info").html(data);
 		        		}else{
 		        			// if(requestIdx < obj.layers.length){
