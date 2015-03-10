@@ -70,6 +70,7 @@ function funfeatureInfosEvent(){
 	        success: function(data) {
 	        	try {
 		        	if(data.substring(data.indexOf('<body>') + 6,data.indexOf('</body>')).trim().length > 0){
+		        			data = data.split("<a ").join("<a target='_blank' ")
 		        			$("#container_feature_info").html(data);
 		        		}else{
 		        			$("#container_feature_info").html("No hay información sobre este punto");
