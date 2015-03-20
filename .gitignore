@@ -2,7 +2,10 @@ www/application/config/config.php
 www/application/config/database.php
 www/application/config/erosion.php
 www/application/views/js/categories.js
+www/application/views/js/sections.js
+www/application/views/js/featureInfos.js
 www/.htaccess
 .buildpath
 .settings
 .project
+.DS_Store
