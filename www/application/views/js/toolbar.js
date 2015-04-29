@@ -173,8 +173,8 @@ Toolbar ={
     		
     		if(enviar){
     			var panels = {};
-    			var leftState = {"lat":Split.__mapLeft.map.getCenter().lat, "lng":Split.__mapLeft.map.getCenter().lng, "zoom":Split.__mapLeft.map.getZoom()};
-    			var rightState = {"lat":Split.__mapRight.map.getCenter().lat, "lng":Split.__mapRight.map.getCenter().lng, "zoom":Split.__mapRight.map.getZoom()};
+    			var leftState = {"lat":Split.__mapLeft.map.getCenter().lat, "lng":Split.__mapLeft.map.getCenter().lng, "zoom":Split.__mapLeft.map.getZoom(), "base_map":$("#map_left input[name='leaflet-base-layers']:checked").next("span").text()};
+    			var rightState = {"lat":Split.__mapRight.map.getCenter().lat, "lng":Split.__mapRight.map.getCenter().lng, "zoom":Split.__mapRight.map.getZoom(), "base_map":$("#map_right input[name='leaflet-base-layers']:checked").next("span").text()};
     			var leftPanel = (Toolbar._createJsonFromLayer(Split.__mapLeft.layers));
     			var rightPanel = (Toolbar._createJsonFromLayer(Split.__mapRight.layers))  
     			panels = { 'left':JSON.stringify(leftPanel),'right':JSON.stringify(rightPanel), 'leftState':leftState, 'rightState':rightState};
@@ -250,6 +250,9 @@ Toolbar ={
 				capas["title"] = layers[i].title;
 				capas["name"] = layers[i].name;
 				capas["description"] = layers[i].description;
+				if(layers[i].simpleLayer != null){
+					capas["simpleLayer"] = layers[i].simpleLayer;
+				}
 			}
 			if(layers[i].alternativeTitle ){
 				capas["alternativeTitle"] = layers[i].alternativeTitle ;

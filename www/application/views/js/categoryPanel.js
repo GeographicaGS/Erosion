@@ -141,14 +141,23 @@ function categoryPanelEvents(){
 		        	var capas = JSON.parse(response.capas);
 		        	var capasLeft = JSON.parse(capas.left);
 		        	var capasRight = JSON.parse(capas.right);
+		        	var base_map = "Google satélite";
 		        	
 		        	Split.syncEnable = true;
 		        	Split.sync();
 		        	if(capas.hasOwnProperty('leftState')){
 		        		Split.__mapLeft.getMap().setView(L.latLng(capas.leftState.lat,capas.leftState.lng),capas.leftState.zoom);
+		        		if(capas.leftState.hasOwnProperty("base_map")){
+		        			base_map = capas.leftState.base_map;
+		        		}
+		        		$("#map_left input[name='leaflet-base-layers']").next("span:contains(" + base_map + ")").prev("input").trigger("click");
 		        	}
 		        	if(capas.hasOwnProperty('rightState')){
 		        		Split.__mapRight.getMap().setView(L.latLng(capas.rightState.lat,capas.rightState.lng),capas.rightState.zoom);
+		        		if(capas.rightState.hasOwnProperty("base_map")){
+		        			base_map = capas.rightState.base_map;
+		        		}
+		        		$("#map_right input[name='leaflet-base-layers']").next("span:contains(" + base_map + ")").prev("input").trigger("click");
 		        	}
 		        	
 		        	if(capas.leftState.zoom == capas.rightState.zoom && capas.leftState.lat == capas.rightState.lat && capas.leftState.lng == capas.rightState.lng){
@@ -193,7 +202,7 @@ function addLayerFromProyect(layers, panel){
 				capa["tipo"] = layers[i].tipo;
 				capa["visible"] = layers[i].visible;
 				capa["opacity"] = layers[i].opacity;
-				capa[layers[i].tipo] = {"server":layers[i].url, "name":layers[i].name, "simple_tile":true};
+				capa[layers[i].tipo] = {"server":layers[i].url, "name":layers[i].name, "simple_tile":(layers[i].simpleLayer != null ? layers[i].simpleLayer : false)};
 				capa["title"] = layers[i].title;
 				capa["description"] = layers[i].description;
 

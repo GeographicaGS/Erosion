@@ -440,7 +440,7 @@ function infoPanelEvents(){
 					}
 					
 
-					$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
+					$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"' alt='Leyenda no disponible'/>");
 					$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
 				}
 				

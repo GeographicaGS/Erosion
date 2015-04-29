@@ -283,11 +283,17 @@ function GroupLayer(opts){
     			
     			$(this).parent().find(".input_fancy").hide();
     			$(this).parent().find("input[type='button']").val("Explorar servicio");
+    			if($(this).val() == "WMS"){
+    				$(".singleTileCheckbox").show();
+    			}else{
+    				$(".singleTileCheckbox").hide();
+    			}
     		}else{
     			$(this).parent().find(".info_fancy_service").slideDown()
     			$(this).parent().find(".input_fancy").fadeIn(700);
     			$(this).parent().find(".tabla_fancy_service").slideUp();
     			$(this).parent().find("input[type='button']").val("Añadir directamente al panel de capas");
+    			$(".singleTileCheckbox").hide();
     		}
     	});
 
@@ -372,7 +378,7 @@ function GroupLayer(opts){
 		    					if(select == "WMS"){
 		    						wLayer = new GSLayerWMS(-1,title, url, layer, leyenda, null, description);
 		    						wLayer.version = version;
-		    						wLayer.simpleLayer = false;
+		    						wLayer.simpleLayer = $(".singleTileCheckbox input").is(":checked");
 		    						self.addLayer(wLayer);
 		    					}else{
 		    						wLayer = new GSLayerWMTS(-1,title, url, layer, leyenda, null, description);
@@ -543,6 +549,9 @@ function GroupLayer(opts){
 	};
 
 	this.containLayer = function(id, type, alternativeTitle){
+		if(id == -1){
+			return false;
+		}
 		if(type == "vectorial"){
 			type = "geoJson";
 		}
@@ -666,7 +675,7 @@ function GroupLayer(opts){
 		var leyenda = layer.url.replace("/gwc/service", "");
 		var legendUrl = leyenda.replace("/gwc/service", "").replace("wmts","wms") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=" + layer.version + "&REQUEST=GetLegendGraphic&"
 		+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.name;
-		$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"'/>");
+		$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"' alt='Leyenda no disponible'/>");
 		$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
 		
 		$(".extraLeyenda").show();

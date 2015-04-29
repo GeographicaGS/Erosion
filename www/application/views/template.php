@@ -526,6 +526,7 @@
 		</select>
 		<input type="text" placeholder="url"/>
 		<input class="input_fancy" style="display: none;" type="text" placeholder="Título de la capa" />
+		<div class="singleTileCheckbox fright mt mr"><input class="mr5" type="checkbox">Cargar como single tile</div>
 		<div class="clear"></div>
 		<input type="button" value="Explorar servicio" />
 		<div class="clear"></div>

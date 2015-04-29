@@ -35,7 +35,11 @@ L.Control.ZoomDisplay = L.Control.extend({
         if(zoom<0){
             return None
         }
-        return Math.round(559082264.028/(Math.pow(2,zoom)));
+        return this.numberWithDots(Math.round(559082264.028/(Math.pow(2,zoom))));
+    },
+
+    numberWithDots:function(number){
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 });
 

@@ -71,7 +71,8 @@ Tools = {
 				capaHtml = $("#capaLeft");
 				panelHtml = $("#panel_left");
 				street = $(".streetButtonLeft");
-				$(".tools .streetTool input[panel='1']").prop( "checked", false )
+				$(".tools .streetTool input[panel='1']").prop( "checked", false );
+				
 			}else{
 				map = Split.__mapRight;
 				mapHtml = $("#map_right");
@@ -89,6 +90,9 @@ Tools = {
 			street.show();
 			$(this).hide();
 			panelHtml.find("object").remove();
+
+			Split.__mapLeft.getMap().invalidateSize();
+			Split.__mapRight.getMap().invalidateSize();
 
 		});
 
