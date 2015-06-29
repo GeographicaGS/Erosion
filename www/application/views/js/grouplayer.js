@@ -410,7 +410,7 @@ function GroupLayer(opts){
     		        	}
     		        	$(selfBoton).removeClass("cargadoServicio");
     		        },
-    		        error: function(){
+    		        error: function(e){
     		        	$(selfBoton).removeClass("cargadoServicio");
     		        	$(selfBoton).val("Servicio no encontrado");
     		        }

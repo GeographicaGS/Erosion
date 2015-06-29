@@ -264,7 +264,8 @@ Tools = {
 			    	$(".catalogo").hide();
 			    	capaHtml.hide();
 			    	closeStreet.show();
-					panelHtml.append("<object width='100%' height='100%' data='https://maps.google.es/maps/sv?cbll=" + result.location.latLng.lat() + "," + result.location.latLng.lng() + "'></object>");
+					// panelHtml.append("<object width='100%' height='100%' data='https://maps.google.es/maps/sv?cbll=" + result.location.latLng.lat() + "," + result.location.latLng.lng() + "'></object>");
+					panelHtml.append("<object width='100%' height='100%' data='https://www.google.com/maps/embed/v1/streetview?key=AIzaSyBv2LS8Lqu53wYmtgxztWVBTEpLdMWIzHQ&location=" + result.location.latLng.lat() + "," + result.location.latLng.lng() + "'></object>");
 				}		
 			 });
 		});
