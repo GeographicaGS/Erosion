@@ -168,9 +168,9 @@
 		<div class="clear"></div>
 	</div>	
 	<nav class="fleft">
-		<a class="mainNav" href="javascript:navigate(0)">
+		<!-- <a class="mainNav" href="javascript:navigate(0)">
 			EL PROYECTO
-		</a>
+		</a> -->
 <!-- 		<a href="javascript:navigate(1)"> -->
 <!-- 			CATÁLOGO -->
 <!-- 		</a> -->
