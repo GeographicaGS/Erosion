@@ -299,10 +299,15 @@ function downloadKml(type,latlng){
 		}
 	}
 
-	window.location.href = 'index.php/draw/createKml/' + type.charAt(0).toUpperCase() + type.slice(1) + "/" + encodeURIComponent(coordinates)
+	$.fancybox($("#kml_fancy"));
+	$($("#kml_fancy").find("input[type='button']")).unbind().click(function() {
+		var theme = $("#kml_fancy").find("input[name='theme']").val();
+		$.fancybox.close();
+		window.location.href = 'index.php/draw/createKml/' + type.charAt(0).toUpperCase() + type.slice(1) + "/" + encodeURIComponent(coordinates) + "/" + encodeURIComponent(theme);
+	});
 }
 
-function showFancySelectPanel(x,y,idCapa,tipo){
+function showFancySelectPanel(x,y,idCapa,tipo, event){
 	$("#fancy_select_panel div[idCapa]").attr("idCapa",idCapa);
 	$("#fancy_select_panel div[idCapa]").attr("tipo",tipo);
 	$("#fancy_select_panel").css({"top":x, "left":y});

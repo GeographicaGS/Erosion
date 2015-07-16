@@ -127,7 +127,7 @@ function categoryPanelEvents(){
 
 	//Pulsar sobre el tipo de capa para que salga el fancybox dónde se indica en qué mapa cargar la capa o para
 	//cargar un proyecto
-	$(".contenidoCatalogo, .cuerpoInfoCatalogo").on( "click", '.tiposCapas' ,function(){
+	$(".contenidoCatalogo, .cuerpoInfoCatalogo").on( "click", '.tiposCapas' ,function(event){
 		// $(this).closest("li").trigger("click");
 		
 		if($(this).parent().attr("tipo") == "proyecto"){
@@ -176,7 +176,7 @@ function categoryPanelEvents(){
 			});
 
 		}else{
-			showFancySelectPanel(event.pageY,event.pageX,$(this).parent().attr("idCapa"),$(this).parent().attr("tipo"));
+			showFancySelectPanel(event.pageY,event.pageX,$(this).parent().attr("idCapa"),$(this).parent().attr("tipo"), event);
 		}
 		
 	});	

@@ -460,14 +460,14 @@ Split = {
 				$("#sep").hide();
 				$('#panel_left').hide();
 				$('#panel_right').width(totalWidth*2);					
-				Split.__mapRight.getMap().invalidateSize();	
+				// Split.__mapRight.getMap().invalidateSize();	
 				Split.__mapLeft.setActive(false);				
 			}
 			else{
 				$("#sep").show();				
 				$('#panel_right').show();
 				$('#panel_left').width(totalWidth);					
-				Split.__mapLeft.getMap().invalidateSize();	
+				// Split.__mapLeft.getMap().invalidateSize();	
 				Split.__mapRight.setActive(true);
 			}			
 			
@@ -481,14 +481,14 @@ Split = {
 				$("#sep").hide();
 				$('#panel_right').hide();
 				$('#panel_left').width(totalWidth*2);					
-				Split.__mapLeft.getMap().invalidateSize();
+				// Split.__mapLeft.getMap().invalidateSize();
 				Split.__mapRight.setActive(false);
 			}
 			else{
 				$("#sep").show();				
 				$('#panel_left').show();
 				$('#panel_right').width(totalWidth);					
-				Split.__mapRight.getMap().invalidateSize();
+				// Split.__mapRight.getMap().invalidateSize();
 				Split.__mapLeft.setActive(true);
 			}
 		}
@@ -498,6 +498,9 @@ Split = {
 		else{
 			Split.mapMover(Split.__mapRight.getMap(), Split.__mapLeft.getMap());
 		}
+
+		Split.__mapLeft.getMap().invalidateSize();
+		Split.__mapRight.getMap().invalidateSize();
 	},
 	/* Syncronized and desyncronized maps*/
 	sync: function(){

@@ -41,7 +41,14 @@ function onEachFeatureGeoJson(feature, layer) {
 		if($(".infoCatalogo").css('right').indexOf("-") == 0){
 			$(".petaniaInfoCatalogo").trigger("click");
 		}
-		$("#geometryVectorList").find("p[idDraw='" + feature.properties.id + "']").trigger("click");
+		var geom = $("#geometryVectorList").find("p[idDraw='" + feature.properties.id + "']");
+		if(geom.length > 0){
+			geom.trigger('click');
+		}else{
+			//Cargo la categoría en el panel derecho e inicializo esta variable global (está en infoPanel) para que haga zoom después de cargar
+			geometryClicked = feature.properties.id;
+			$($("#usuariosCatalogo li div[idcapa=" + feature.properties.id_category + "]")).closest("li").trigger("click");
+		}
 	});
 }
 

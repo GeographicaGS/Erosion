@@ -1,5 +1,8 @@
-function infoPanelEvents(){
+//Esta variable se usa por si se pincha sobre una geometría y la categoría no está cargada en el panel derecho,
+//se le da valor en GSLayerGeoJson.js en onEachFeatureGeoJson
+var geometryClicked = null;
 
+function infoPanelEvents(){
 	//Muestra u oculta el panel de información
 	$(".petaniaInfoCatalogo").click(function(e){
 		if($(".cuerpoInfoCatalogo").is(":visible")){
@@ -227,7 +230,7 @@ function infoPanelEvents(){
 	    },"¿Desea borrar el comentario seleccionado?");
 	});
 
-	$("#geometryVectorList").on( "click", 'p' ,function(){
+	$("#geometryVectorList").on( "click", 'p' ,function(event){
 		var tipo = $(this).attr("tipo");
 		var idDraw = $(this).attr("idDraw");
 		var idCapa = $(".infoCatalogo div[idCapa]").attr("idCapa");
@@ -259,7 +262,7 @@ function infoPanelEvents(){
 				var loadLeft = existCapaVectorial(Split.__mapLeft, idCapa);
 				var loadRight = existCapaVectorial(Split.__mapRight, idCapa);
 				if(!loadLeft && !loadRight){
-					showFancySelectPanel(event.pageY,event.pageX,idCapa,"vectorial");
+					showFancySelectPanel(event.pageY,event.pageX,idCapa,"vectorial", event);
 
 					$("#fancy_select_panel").css({"top":$(".cuerpoInfoCatalogo").find(".tiposCapas").offset().top +20, "left":$(".cuerpoInfoCatalogo").find(".tiposCapas").offset().left+20});
 					
@@ -473,7 +476,12 @@ function infoPanelEvents(){
 							for(var i=0; i<response.length; i++){
 								$("#geometryVectorList").append("<img title='Eliminar historia' class='deleteHistory' idUser='" + response[i].id_user +"' src='application/views/img/MED_icon_delete.png'> <p idDraw='" + response[i].id_draw + "' tipo= '" + response[i].tipo + "' comentario='" + response[i].comentario +"' idUser='" + response[i].id_user + "'>" + response[i].titulo + "</p>");
 							}
-							updatedState();       		        	
+							updatedState();
+
+							if(geometryClicked){
+								$("#geometryVectorList").find("p[idDraw='" + geometryClicked + "']").trigger("click");
+								geometryClicked = null;
+							}
 						}
 					});
 				}

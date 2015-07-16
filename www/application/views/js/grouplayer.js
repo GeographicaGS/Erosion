@@ -1,5 +1,6 @@
 function GroupLayer(opts){
 
+	var self = this;
 			
 	/****************************************/
 	/********** METHODS  ********************/
@@ -67,8 +68,7 @@ function GroupLayer(opts){
 	
 	this.refreshLayerPanel = function($panel){
 		$panel.html(this.getHTMLLayersPanel());
-		var self = this;
-		
+
 		$panel.find(".slider").slider({
 			max: 100,
 			min: 0,
@@ -265,9 +265,9 @@ function GroupLayer(opts){
 			            	}
 			        }
 			    },
-			    // afterShow: function () {
-			    	
-			    // }
+			    afterShow: function () {
+			    	self._layerTypeServiceFacyEvent();
+			    }
 			});
 		});
 
@@ -367,44 +367,35 @@ function GroupLayer(opts){
 		    				}
 		    				});
 		    				
-		    				
-		    				$(selfBoton).parent().find(".tiposCapas").click(function(){
-		    					var title = $(this).parent().parent().find("p").text();
-		    					var url = $(".urlServicioWms").val().replace("?REQUEST=GetCapabilities&SERVICE=" + select, "");
-		    					var layer = $(this).parent().attr("nombreCapa");
-		    					var leyenda = url.replace("/gwc/service", "");
-		    					var description = $(this).parent().parent().find(".description").text();
-		    					var wLayer = ";"
-		    					if(select == "WMS"){
-		    						wLayer = new GSLayerWMS(-1,title, url, layer, leyenda, null, description);
-		    						wLayer.version = version;
-		    						wLayer.simpleLayer = $(".singleTileCheckbox input").is(":checked");
-		    						self.addLayer(wLayer);
-		    					}else{
-		    						wLayer = new GSLayerWMTS(-1,title, url, layer, leyenda, null, description);
-		    						self.addLayer(wLayer);
-		    					}
+		    				self._layerTypeServiceFacyEvent();
+		    		// 		$("#service_fancy_box_data").find(".tiposCapas").click(function(){
+		    		// 			var title = $(this).parent().parent().find("p").text();
+		    		// 			var url = $(".urlServicioWms").val().replace("?REQUEST=GetCapabilities&SERVICE=" + select, "");
+		    		// 			var layer = $(this).parent().attr("nombreCapa");
+		    		// 			var leyenda = url.replace("/gwc/service", "");
+		    		// 			var description = $(this).parent().parent().find(".description").text();
+		    		// 			var wLayer = ";"
+		    		// 			if(select == "WMS"){
+		    		// 				wLayer = new GSLayerWMS(-1,title, url, layer, leyenda, null, description);
+		    		// 				wLayer.version = version;
+		    		// 				wLayer.simpleLayer = $(".singleTileCheckbox input").is(":checked");
+		    		// 				self.addLayer(wLayer);
+		    		// 			}else{
+		    		// 				wLayer = new GSLayerWMTS(-1,title, url, layer, leyenda, null, description);
+		    		// 				self.addLayer(wLayer);
+		    		// 			}
 		    					
-		    					
-		    					// $.fancybox.close();
-			    				// if(!$("#panel_right .layer_panel").hasClass("close")){
-			    				// 	Split.toggleLayersInterface(Split.RIGHT);
-			    				// }
-			    				// if(!$("#panel_left .layer_panel").hasClass("close")){
-			    				// 	Split.toggleLayersInterface(Split.LEFT);
-			    				// }
-
-			    				if(!$("#panel_right .layer_panel").hasClass("close")){
-									Split.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
-								}
-								if(!$("#panel_left .layer_panel").hasClass("close")){
-									Split.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
-								}
+			    	// 			if(!$("#panel_right .layer_panel").hasClass("close")){
+								// 	Split.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
+								// }
+								// if(!$("#panel_left .layer_panel").hasClass("close")){
+								// 	Split.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
+								// }
 			    				
-			    				//Relleno el panel de la leyenda
-			    				self._drawInfoFromService(wLayer);
+			    	// 			//Relleno el panel de la leyenda
+			    	// 			self._drawInfoFromService(wLayer);
 
-		    				});
+		    		// 		});
     		        	}else{
     		        		$(selfBoton).val("Servicio no encontrado");
     		        	}
@@ -680,6 +671,38 @@ function GroupLayer(opts){
 		
 		$(".extraLeyenda").show();
 		$(".botonAddImageLeyenda").hide();
+	}
+
+	this._layerTypeServiceFacyEvent = function(){
+		$("#service_fancy_box_data").find(".tiposCapas").unbind().click(function(){
+    		var select = $("#service_fancy_box_data").find("select").val()
+			var title = $(this).parent().parent().find("p").text();
+			var url = $(".urlServicioWms").val().replace("?REQUEST=GetCapabilities&SERVICE=" + select, "");
+			var layer = $(this).parent().attr("nombreCapa");
+			var leyenda = url.replace("/gwc/service", "");
+			var description = $(this).parent().parent().find(".description").text();
+			var wLayer = ";"
+			if(select == "WMS"){
+				wLayer = new GSLayerWMS(-1,title, url, layer, leyenda, null, description);
+				wLayer.version = version;
+				wLayer.simpleLayer = $(".singleTileCheckbox input").is(":checked");
+				self.addLayer(wLayer);
+			}else{
+				wLayer = new GSLayerWMTS(-1,title, url, layer, leyenda, null, description);
+				self.addLayer(wLayer);
+			}
+			
+			if(!$("#panel_right .layer_panel").hasClass("close")){
+				Split.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
+			}
+			if(!$("#panel_left .layer_panel").hasClass("close")){
+				Split.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
+			}
+			
+			//Relleno el panel de la leyenda
+			self._drawInfoFromService(wLayer);
+
+		});
 	}
 	
 	this.featureInfo = function(e,id){

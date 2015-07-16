@@ -514,6 +514,16 @@
 	</div>
 </div>
 
+<div id="kml_fancy" class="hide">
+	<div class="serviceFancy">
+		<h1>Especifique una temática para su kml</h1>
+		<h2 onclick="$.fancybox.close()">Cerrar</h2>
+		<div class="clear"></div>
+		<input name="theme" class="fleft" style="width: 620px; background: #ecedef;" type="text" value="" placeholder="Temática">
+		<input class="mt20" style="width: 620px;" type="button" value="Descargar kml">
+	</div>
+</div>
+
 <div style="display: none" id="service_fancy_box_data">
 	<div class="serviceFancy">
 		<h1>Añadir servicio externo</h1>
