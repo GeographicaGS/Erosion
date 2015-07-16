@@ -103,16 +103,18 @@ class Draw_model extends CI_Model{
 	}
 
 	public function getKml($id_draw){
-		$sql = "select titulo, ST_AsKML(geom) as kml
-				FROM public.draw
+		$sql = "select titulo, u.name, u.surname, d.comentario, ST_AsKML(geom) as kml
+				FROM public.draw d
+				INNER JOIN public.user u on d.id_user = u.id_user
 				where id_draw=?";
 
 		return $this->db->query($sql,array($id_draw))->row();
 	}
 
 	public function getAllKml($id_category){
-		$sql = "SELECT titulo, title, ST_AsKML(geom) as kml FROM public.draw d
-				LEFT JOIN public.category c on d.id_category = c.id_category  
+		$sql = "SELECT titulo, title, u.name, u.surname, d.comentario, ST_AsKML(geom) as kml FROM public.draw d
+				INNER JOIN public.user u on d.id_user = u.id_user 
+				LEFT JOIN public.category c on d.id_category = c.id_category 
 				where d.id_category=? and geom is not null";
 
 		return $this->db->query($sql,array($id_category))->result();
