@@ -34,6 +34,13 @@ function GroupLayer(opts){
 
 			var lattr = "checked"; 
 			var lstyle = "color:black";
+
+			if(l.title.indexOf('###') >= 0){
+				var aux = l.title.split("###");
+				if(aux.length > 0){
+					l.title = aux[1];
+				} 
+			}
 					
 			html += "<li class='layerTree' title='" + l.title + "'>" +	
 			
@@ -325,11 +332,12 @@ function GroupLayer(opts){
     		        success: function(xml) {
     		        	var sistemasErroneos = false;
     		        	if(xml){
-	    		        	var html = '<ul class="families" style="padding-top:0px;">' +
-				    						'<li class="close" style="background-color: rgb(236, 237, 239);">';
-				    		
-	    		        	var layerPadre = $(xml).find("Layer")[0];
+    		        		
+    		        		var layerPadre = $(xml).find("Layer")[0];
 	    		        	var version = $($(xml).find("*")[0]).attr("version");
+
+	    		        	var html = '<ul class="families" style="padding-top:0px;" version="' + version +'">' +
+				    						'<li class="close" style="background-color: rgb(236, 237, 239);">';
 				    		
 	    		        	var keyLayerName;
 		    				if(select == "WMS"){
@@ -684,7 +692,7 @@ function GroupLayer(opts){
 			var wLayer = ";"
 			if(select == "WMS"){
 				wLayer = new GSLayerWMS(-1,title, url, layer, leyenda, null, description);
-				wLayer.version = version;
+				wLayer.version = $($("#service_fancy_box_data .families")).attr("version");
 				wLayer.simpleLayer = $(".singleTileCheckbox input").is(":checked");
 				self.addLayer(wLayer);
 			}else{
