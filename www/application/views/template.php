@@ -22,7 +22,7 @@
 
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/ui-lightness/jquery-ui-1.10.3.custom.min.css")?>"/>
 		
-<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBv2LS8Lqu53wYmtgxztWVBTEpLdMWIzHQ&sensor=false"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBv2LS8Lqu53wYmtgxztWVBTEpLdMWIzHQ&sensor=false"></script>
 
 <link rel="stylesheet" type="text/css" href="<?= get_css("layout.css")?>" />
 <link rel="stylesheet" type="text/css" href="<?= get_css("styles.css")?>?v1.0" />
