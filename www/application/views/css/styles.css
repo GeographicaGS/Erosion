@@ -582,7 +582,7 @@ and (max-device-width : 1024px) {
 	left: -235px;	
 	background-color: #cccccc;
 	position: absolute;
-	height: 150px;
+	height: 158px;
 	top: 142px;
 	border: 1px solid #b9b9b9;
 	border-left: none;
@@ -655,6 +655,21 @@ and (max-device-width : 1024px) {
 	font-size: 11px;
 }
 
+.tools .clearLocal{
+
+}
+
+.tools .clearLocal{
+	cursor: pointer;
+	background-color: #f1f2f3;
+}
+
+.clearLocal td:FIRST-CHILD:before{
+	content: url("../img/ERO_icon_limpiar-creden.png");
+	position: relative;
+	top: 3px;
+}
+
 .locationTool td:FIRST-CHILD:before{
 	content: url("../img/ERO_herramienta_gps.png");
 	position: relative;
@@ -683,6 +698,7 @@ and (max-device-width : 1024px) {
 	color: #013e88;
 	padding: 0;
 	cursor: pointer;
+	margin-left: 5px;
 }
 
 .loadFile button.active{
@@ -1136,6 +1152,11 @@ and (max-device-width : 1024px) {
 	margin-left: -1px;
 }
 
+.tiposCapas.password{
+	  padding: 6px 7px 2px 7px;
+	  border:1px solid #333333;
+}
+
 .tiposCapas.plus:AFTER{
 	content: url("../img/ERO_icon_anadir_capa.png");
 	position: relative;
@@ -1244,7 +1265,7 @@ img.tiposCapas{
 	font-size: 14px;
 }
 
-.serviceFancy input[type='text']{
+.serviceFancy input[type='text'], .serviceFancy input[type='password']{
 	height: 35px;
 	width: 480px;
 	border: 1px solid #001232;
@@ -1255,6 +1276,7 @@ img.tiposCapas{
 	margin-left: 10px;
 	padding-right: 40px;
 	padding-left: 10px;
+	border-radius: 0;
 }
 
 .serviceFancy input[type='button']{
@@ -1432,6 +1454,26 @@ img.tiposCapas{
 
 .vectorFancySelect{
 	display: none;	
+}
+
+#security_proyect_layer_fancy input[type="text"], #security_proyect_layer_fancy input[type="password"]{
+	background: #ecedef;
+	width: 305px;
+}
+
+#security_proyect_layer_fancy input[type="text"].error, #security_proyect_layer_fancy input[type="password"].error{
+	border: 1px solid red;
+}
+
+#security_proyect_layer_fancy p{
+	margin-top: 20px;
+	font-size: 16px;
+	margin-left: 10px
+}
+
+#security_proyect_layer_fancy .serviceList{
+	max-height: 300px;
+  	overflow: auto;
 }
 
 #tool_bar {
@@ -1759,7 +1801,7 @@ img.tiposCapas{
 	-webkit-box-shadow: 1px 1px 1px #cccccc;
 	box-shadow: 1px 1px 1px #cccccc;
 	border-radius: 6px;
-	z-index: 1003;
+	z-index: 10000;
 }
 
 #fancy_select_panel p{
@@ -1788,6 +1830,12 @@ img.tiposCapas{
 /* 	height: 215px; */
 	background-color: white;
 	display: none;
+}
+
+#clear_local_fancy .cancel{
+	background-color: #fff;
+	color:#013e88;
+	border: 1px solid #013e88;
 }
 
 .drawNotification{

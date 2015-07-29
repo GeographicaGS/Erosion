@@ -246,7 +246,20 @@ Toolbar ={
 			capas["visible"] = layers[i].visible;
 			capas["opacity"] = layers[i].layer.options.opacity;
 			if(capas["id"] == -1){
-				capas["url"] = layers[i].url;
+				//Compruebo si el proyecto viene de una capa securizda
+				var split = layers[i].url.split("http:||");
+				var protocol = "http://";
+				if(split.length != 2){
+					var split = layers[i].url.split("https:||");
+					protocol = "https://";
+				}
+
+				if(split.length == 2){
+					capas["url"] = protocol + split[1].replace(/\|/g, '/');
+					capas["password"] = true;
+				}else{
+					capas["url"] = layers[i].url;
+				}
 				capas["title"] = layers[i].title;
 				capas["name"] = layers[i].name;
 				capas["description"] = layers[i].description;

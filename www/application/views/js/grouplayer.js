@@ -280,6 +280,7 @@ function GroupLayer(opts){
 
 		$("#service_fancy_box_data select").unbind().change(function(){
 			$("#service_fancy_box_data input[type='text']").val("");
+			$(this).parent().find("input[name='user'],input[name='password']").val("");
     		if($(this).val() == "WMS" || $(this).val() == "WMTS"){
     			if($(this).parent().find(".tabla_fancy_service").children().length > 0){
     				$(this).parent().find(".info_fancy_service").slideUp();
@@ -292,8 +293,10 @@ function GroupLayer(opts){
     			$(this).parent().find("input[type='button']").val("Explorar servicio");
     			if($(this).val() == "WMS"){
     				$(".singleTileCheckbox").show();
+    				$(this).parent().find("input[name='user'],input[name='password']").show();
     			}else{
     				$(".singleTileCheckbox").hide();
+    				$(this).parent().find("input[name='user'],input[name='password']").hide();
     			}
     		}else{
     			$(this).parent().find(".info_fancy_service").slideDown()
@@ -301,6 +304,7 @@ function GroupLayer(opts){
     			$(this).parent().find(".tabla_fancy_service").slideUp();
     			$(this).parent().find("input[type='button']").val("Añadir directamente al panel de capas");
     			$(".singleTileCheckbox").hide();
+    			$(this).parent().find("input[name='user'],input[name='password']").hide();
     		}
     	});
 
@@ -310,7 +314,7 @@ function GroupLayer(opts){
 
     	$("#service_fancy_box_data input[type='button']").unbind().click(function(){
     		var select = $(this).parent().find("select").val()
-    		var server = $($(this).parent().find("input[type='text']")[0]).val();
+    		var server = $($(this).parent().find("input[name='url']")[0]).val();
     		if(server.lastIndexOf("?") >= 0){
     			server = server.slice(0,server.lastIndexOf("?"));
     		}
@@ -323,10 +327,19 @@ function GroupLayer(opts){
     		if((select == "WMS" || select == "WMTS") && server != "" && server != "url"){
     			$(this).val("Cargando...");
 	    		$(this).addClass("cargadoServicio");
-    			url = serverWms
+	    		var user = $("#service_fancy_box_data input[name='user']").val()
+	    		var pass = $("#service_fancy_box_data input[name='password']").val()
+	    		if(user && pass){
+					saveLayerLocal($($(this).parent().find("input[name='url']")[0]).val(),user,pass);
+	    			url = "index.php/erosion/get_security_layer_image/" + user + "/" + pass + "/" + serverWms.replace(/\//g, '|');
+	    			data = "";
+	    		}else{
+	    			url = "application/views/proxy.php";
+	    			data = { "url": serverWms};
+	    		}
     			$.ajax({
-    				url : "application/views/proxy.php",
-    				data: { "url": url},
+    				url : url,
+    				data: data,
     				dataType: 'xml',
     				type: "POST",			
     		        success: function(xml) {
@@ -691,6 +704,18 @@ function GroupLayer(opts){
 			var description = $(this).parent().parent().find(".description").text();
 			var wLayer = ";"
 			if(select == "WMS"){
+				var user = localStorage.getItem(url + "_user");
+				var pass = localStorage.getItem(url + "_pass");
+				if(!user){
+					user = localStorage.getItem(url + "?_user");
+				}
+				if(!pass){
+					pass = localStorage.getItem(url + "?_pass");
+				}
+				if(user && pass){
+					url = "index.php/erosion/get_security_layer_image/" + user + "/" + pass + "/" + url.replace(/\//g, '|');
+				}
+
 				wLayer = new GSLayerWMS(-1,title, url, layer, leyenda, null, description);
 				wLayer.version = $($("#service_fancy_box_data .families")).attr("version");
 				wLayer.simpleLayer = $(".singleTileCheckbox input").is(":checked");
@@ -759,14 +784,27 @@ function GroupLayer(opts){
 			
 			return;
 		}
+
+		if(server.slice(-1) == "?"){
+			server = server.slice(0, -1);
+		}
 		
 		var request = server + '?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=' +layers+'&QUERY_LAYERS='+layers+'&STYLES=&BBOX='+BBOX+'&FEATURE_COUNT=5&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&FORMAT=image%2Fpng&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A3857&X='+X+'&Y='+Y;
 		request = request.replace("wmts","wms");
+
+		//Compruebo si es una capa securizada
+		if(request.indexOf("index.php/erosion/get_security_layer_image/") >= 0){
+			var url = request
+			var data = "";
+		}else{
+			var url = "application/views/proxy.php"
+			var data = { "url": request};
+		}
 	    
 		var obj = this;
 	    $.ajax({
-			url : "application/views/proxy.php",
-			data: { "url": request},	       
+			url : url,
+			data: data,	       
 			type: "POST",			
 	        success: function(data) {
 	        	try {

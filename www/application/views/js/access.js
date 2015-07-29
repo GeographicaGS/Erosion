@@ -123,12 +123,17 @@ Access = {
 				capa = buscarCapa(idCapa, categories);
 				leyenda = null;
 				if(capa.wms){
+					if(capa.wms.password){
+						capa.wms.server = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(capa.wms.server + "_user") + "/" + localStorage.getItem(capa.wms.server + "_pass") + "/" + capa.wms.server.replace(/\//g, '|');
+					}
 					leyenda = capa.wms.server;
 
 				}else if(capa.wmts){
 					leyenda = capa.wmts.server.replace("wmts","wms");					
 				}
 				Split.addLayer(capa,tipo, leyenda, null,panel);
+				//Por si el fancy de capa securizada estaba abierto
+				$.fancybox.close();
 			}
 		});
 

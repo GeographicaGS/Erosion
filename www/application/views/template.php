@@ -344,6 +344,11 @@
 						<td><input panel="1" type="checkbox" disabled="true"/></td>
 						<td><input panel="2" type="checkbox" disabled="true"/></td>
 					</tr>
+					<tr class="clearLocal">
+						<td colspan="3">
+							Limpiar crendenciales de capas
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -524,6 +529,42 @@
 	</div>
 </div>
 
+<div id="clear_local_fancy" class="hide">
+	<div class="serviceFancy" style="width:630px;">
+		<h1>¿Esta seguro de que desea eliminar todas las credenciales<br>para las capas almacenadas en este equipo?</h1>
+		<h2 onclick="$.fancybox.close()">Cerrar</h2>
+		<div class="clear"></div>
+		<input class="mt20 fleft aceptar" style="width: 305px;" type="button" value="Aceptar">
+		<input class="mt20 ml cancel" style="width: 305px;" type="button" value="Cancelar" onclick="$.fancybox.close()">
+	</div>
+</div>
+
+
+<div id="security_layer_fancy" class="hide">
+	<div class="serviceFancy">
+		<h2 class="id_capa hide"></h2>
+		<h1>Esta capa requiere e usuario y contraseña</h1>
+		<h2 onclick="$.fancybox.close()">Cerrar</h2>
+		<div class="clear"></div>
+		<input name="user" class="fleft" style="width: 620px; background: #ecedef;" type="text" value="" placeholder="Usuario">
+		<div class="clear"></div>
+		<input name="password" class="fleft" style="width: 620px; background: #ecedef;" type="password" value="" placeholder="Password">
+		<p class="ml hide error" style="color:red;">Credenciales erróneos</p>
+		<input class="mt20" style="width: 620px;" type="button" value="Cargar capa">
+	</div>
+</div>
+
+
+<div id="security_proyect_layer_fancy" class="hide">
+	<div class="serviceFancy">
+		<h1>El proyecto que intenta cargar contiene capas protegidas.<br>Especifique usuario y contraseña para cada servicio.</h1>
+		<h2 onclick="$.fancybox.close()">Cerrar</h2>
+		<div class="clear"></div>
+		<div class="serviceList"></div>
+		<input class="mt20" style="width: 620px;" type="button" value="Cargar proyecto">
+	</div>
+</div>
+
 <div style="display: none" id="service_fancy_box_data">
 	<div class="serviceFancy">
 		<h1>Añadir servicio externo</h1>
@@ -534,7 +575,12 @@
 			<option>WMTS</option>
 			<option>TMS</option>
 		</select>
-		<input type="text" placeholder="url"/>
+		<input name="url" type="text" placeholder="url"/>
+		
+		<input name="user" class="fright mr mt5" style="background: #ecedef;" type="text" placeholder="Usuario"/>
+		<input name="password" class="fright mr mt5" style="background: #ecedef;" type="password" placeholder="Contraseña"/>
+		<div class="clear"></div>
+
 		<input class="input_fancy" style="display: none;" type="text" placeholder="Título de la capa" />
 		<div class="singleTileCheckbox fright mt mr"><input class="mr5" type="checkbox">Cargar como single tile</div>
 		<div class="clear"></div>

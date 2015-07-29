@@ -1,3 +1,6 @@
+var capasProyectRight;
+var capasProyectLeft;
+
 function categoryPanelEvents(){
 
 	//Mostrar y ocultar herramientas
@@ -168,18 +171,206 @@ function categoryPanelEvents(){
 		        	Split.__mapRight.project = project;
 		        	Split.__mapLeft.project = project;
 		        	
-		        	addLayerFromProyect(capasRight,1);
-		        	addLayerFromProyect(capasLeft,2);
+		        	var securityLayers = new Array();
+		        	checkSecurityLayers(securityLayers,capasRight);
+		        	checkSecurityLayers(securityLayers,capasLeft);
 
-		        	drawCategoriesWithData();
+		        	if(securityLayers.length == 0){
+		        		addLayerFromProyect(capasRight,1);
+		        		addLayerFromProyect(capasLeft,2);
+		        		drawCategoriesWithData();
+		        	}else{
+		        		$.fancybox($("#security_proyect_layer_fancy"),{
+		        			closeBtn:false,
+		        			beforeShow: function () {
+		        				capasProyectRight = capasRight;
+								capasProyectLeft = capasLeft;
+		        				$(this.content).find(".serviceList").html("");
+		        				for(var i=0; i<securityLayers.length; i++){
+		        					$(this.content).find(".serviceList").append(
+		        							'<div service=' + securityLayers[i] + '>' +
+			        							'<p>' + securityLayers[i] + '</p>' +
+			        							'<input name="user" class="fleft" type="text" value="" placeholder="Usuario">' +
+			        							'<input name="password" class="fleft" type="password" value="" placeholder="Contraseña">' +
+			        							'<p class="error hide" style="color:red;">Credenciales erróneos</p>' +
+		        							'</div>'
+		        						);
+		        				}
+					    	}
+		        		});
+		        	}
 		        }
 			});
-
+		
+		}else if($(this).parent().attr("tipo") == 'password'){
+			var idCapa = $(this).parent().attr("idCapa");
+			var capa = buscarCapa(idCapa,categories);
+			if(!localStorage.getItem(capa.wms.server + "_user") || !localStorage.getItem(capa.wms.server + "_pass")){
+				showSecurityFancy(idCapa);
+			}else{
+				showFancySelectPanel(event.pageY,event.pageX,$(this).parent().attr("idCapa"),"wms", event);
+			}
+		
 		}else{
 			showFancySelectPanel(event.pageY,event.pageX,$(this).parent().attr("idCapa"),$(this).parent().attr("tipo"), event);
 		}
 		
-	});	
+	});
+
+	$($("#security_layer_fancy").find("input[type='button']")).unbind().click(function(event) {
+		var user = $("#security_layer_fancy").find("input[name='user']").val();
+		var password = $("#security_layer_fancy").find("input[name='password']").val();
+		var idCapa = $(this).closest(".serviceFancy").find(".id_capa").text();
+		var capa = buscarCapa(idCapa,categories);
+		if(user && password){
+			var url = capa.wms.server;
+			if(url.slice(-1) == '?'){
+				url = url.slice(0, -1);
+			}
+			$.ajax({
+		        url: 'index.php/erosion/get_security_layer_image/' + user + '/' + password + '/' + url.replace(/\//g, '|') + '?REQUEST=GetCapabilities&SERVICE=WMS',
+		        success: function(response) {
+		        	if(response.indexOf("No AuthenticationProvider") >=0){
+		        		$("#security_layer_fancy .error").show();
+		        	}else{
+		        		saveLayerLocal(capa.wms.server,user,password);
+						$(".contenidoCatalogo .family_content li[idCapa=" + idCapa + "]").trigger('click');
+						//Para que se cargue la leyenda
+						showFancySelectPanel(event.pageY,event.pageX,idCapa,"wms", event);
+		        	}
+		        }
+			});
+		}
+	});
+
+	$("#security_proyect_layer_fancy input[type=button]").click(function() {
+		$("#security_proyect_layer_fancy p.error").hide();
+		var send = true;
+		var users = $("#security_proyect_layer_fancy input[name=user]");
+		var passwords = $("#security_proyect_layer_fancy input[name=password]");
+		for(var i=0; i<users.length; i++){
+			if($(users[i]).val() == ""){
+				send = false;
+				$(users[i]).addClass('error');
+			}else{
+				$(users[i]).removeClass('error');
+			}
+		}
+
+		for(var i=0; i<passwords.length; i++){
+			if($(passwords[i]).val() == ""){
+				send = false;
+				$(passwords[i]).addClass('error');
+			}else{
+				$(passwords[i]).removeClass('error');
+			}
+		}
+
+		if(send){
+			var services = $("#security_proyect_layer_fancy div[service]");
+			checkLayerProyectCredentials(services,0);
+			// var send = true;
+			// for(var i=0; i<services.length; i++){
+			// 	var user = $(services[i]).find("input[name=user]").val();
+			// 	var pass = $(services[i]).find("input[name=password]").val();
+			// 	var server = $(services[i]).attr("service");
+			// 	if(server.slice('-1') == '?'){
+			// 		server = server.slice(0, '-1');
+			// 	}
+				
+			// 	$.ajax({
+			//         url: 'index.php/erosion/get_security_layer_image/' + user + '/' + pass + '/' + server.replace(/\//g, '|') + '?REQUEST=GetCapabilities&SERVICE=WMS',
+			//         success: function(response) {
+			//         	if(response.indexOf("No AuthenticationProvider") >=0){
+			//         		send = false;
+			//         		$("#security_proyect_layer_fancy div[service='" + $(services[i]).attr("service") + "'] .error").show();
+			//         	}else{
+			//         		saveLayerLocal(server,user,pass);
+			//         	}
+			//         	if(send && i==(services.length - 1)){
+			//         		addLayerFromProyect(capasProyectRight,1);
+			//         		addLayerFromProyect(capasProyectLeft,2);
+			//         		drawCategoriesWithData();
+			// 				$.fancybox.close();
+		 //        		}
+			//         }
+			// 	});
+			// }
+		}
+
+	});
+}
+
+function checkLayerProyectCredentials(services,i){
+	var user = $(services[i]).find("input[name=user]").val();
+	var pass = $(services[i]).find("input[name=password]").val();
+	var server = $(services[i]).attr("service");
+	if(server.slice('-1') == '?'){
+		server = server.slice(0, '-1');
+	}
+
+	$.ajax({
+        url: 'index.php/erosion/get_security_layer_image/' + user + '/' + pass + '/' + server.replace(/\//g, '|') + '?REQUEST=GetCapabilities&SERVICE=WMS',
+        success: function(response) {
+        	if(response.indexOf("No AuthenticationProvider") >=0){
+        		$("#security_proyect_layer_fancy div[service='" + $(services[i]).attr("service") + "'] p.error").show();
+        	}else{
+        		i = i+1;
+        		saveLayerLocal(server,user,pass);
+        		if(i<services.length){
+        			checkLayerProyectCredentials(services, i);
+        		}else{
+					addLayerFromProyect(capasProyectRight,1);
+					addLayerFromProyect(capasProyectLeft,2);
+					drawCategoriesWithData();
+					$.fancybox.close();
+        		}
+        	}
+        }
+	});
+}
+
+function showSecurityFancy(idCapa){
+	$.fancybox($("#security_layer_fancy"),{
+		closeBtn:false,
+		beforeShow: function () {
+			$("#security_layer_fancy .error").hide();
+			$("#security_layer_fancy input[name=user]").val("");
+			$("#security_layer_fancy input[name=password]").val("");
+    		$(this.content).find(".id_capa").text(idCapa);
+    	}
+	});
+}
+
+function checkSecurityLayers(securityLayers,layers){
+	var server;
+	for(var i=0; i<layers.length; i++){
+		server = null;
+		if(layers[i].tipo != "geoJson"){
+			if(layers[i].id == -1){
+				if(layers[i].password){
+					server = layers[i].url;
+				}
+			}else{
+				var capa = buscarCapa(layers[i].id, categories);
+				if(capa.wms && capa.wms.password){
+					server = capa.wms.server;
+				}
+			}
+			if(server){
+				if(server.slice(-1) == "?"){
+					server = server.slice(0, -1);
+				}
+				var user = localStorage.getItem(server + "_user");
+				var pass = localStorage.getItem(server + "_pass");
+				if(!user || !pass){
+					if($.inArray(server, securityLayers) == -1){
+						securityLayers.push(server);
+					}
+				}
+			}
+		}
+	}
 }
 
 function addLayerFromProyect(layers, panel){
@@ -198,6 +389,9 @@ function addLayerFromProyect(layers, panel){
 			var capa = {};
 			//Si la capa viene de un servicio externo
 			if(layers[i].id == -1){
+				if(layers[i].password){
+					layers[i].url = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(layers[i].url + "_user") + "/" + localStorage.getItem(layers[i].url + "_pass") + "/" + layers[i].url.replace(/\//g, '|');
+				}
 				capa["id"] = layers[i].id;
 				capa["tipo"] = layers[i].tipo;
 				capa["visible"] = layers[i].visible;
@@ -217,6 +411,9 @@ function addLayerFromProyect(layers, panel){
 			leyenda = null;
 			if(capa.wms){
 				leyenda = capa.wms.server;
+				if(capa.wms.password){
+					capa.wms.server = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(capa.wms.server + "_user") + "/" + localStorage.getItem(capa.wms.server + "_pass") + "/" + capa.wms.server.replace(/\//g, '|');
+				}
 			}
 
 			Split.addLayer(capa,layers[i].tipo, leyenda, null,panel, layers[i].visible, layers[i].opacity);

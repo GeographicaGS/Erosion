@@ -159,6 +159,18 @@ Tools = {
 				}
 			}
 		});
+
+		$(".tools .clearLocal").click(function() {
+			$.fancybox($("#clear_local_fancy"),{
+				closeBtn:false
+			});
+		});
+
+		$("#clear_local_fancy .aceptar").click(function() {
+			localStorage.clear();
+			drawCategories(true);
+			$.fancybox.close();
+		});
 	},
 
 	locationfoundLeft: function(e){

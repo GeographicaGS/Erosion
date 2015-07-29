@@ -34,6 +34,22 @@ class Erosion extends MY_Controller
 		
 		return $points;
 	}
+
+	public function get_security_layer_image($user, $pass, $url){
+		$param = $_SERVER['QUERY_STRING'];
+		$url = str_replace("%7C","/",$url) . "?";
+
+		$ch = curl_init();
+		$timeout = 5;
+		curl_setopt($ch, CURLOPT_URL, $url . $param);
+		curl_setopt($ch, CURLOPT_USERPWD, $user . ":" . $pass);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+		$response = curl_exec($ch);
+		curl_close($ch);
+
+		print $response;
+	}
 	
 }
 ?>

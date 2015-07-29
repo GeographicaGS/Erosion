@@ -122,6 +122,5 @@ class Project extends MY_Controller
 		echo json_encode($this->project_model->getDefaultProject());
 	}
 	
-	
 } 
 ?>

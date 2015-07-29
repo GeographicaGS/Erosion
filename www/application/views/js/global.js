@@ -329,3 +329,14 @@ function debounce(func, wait, immediate) {
 		if (callNow) func.apply(context, args);
 	};
 };
+
+function saveLayerLocal(server,user,pass){
+	if(server.slice(-1) == "?"){
+		server = server.slice(0, -1);
+	}
+	localStorage.setItem(server + "_user", user);
+	localStorage.setItem(server + "_pass", pass);
+	localStorage.setItem(server + "?_user", user);
+	localStorage.setItem(server + "?_pass", pass);
+	drawCategories(true);
+}

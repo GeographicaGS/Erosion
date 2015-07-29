@@ -175,15 +175,27 @@ function getHtmlCategories(categories, index) {
 
 						for(var y=0; y<categories[i].layers.length; y++){
 							html += "<li idCapa='" + categories[i].layers[y].id + "' style='border-top: 1px solid #ccc;'>" + 
-								"<p class='ellipsis' title='"+ categories[i].layers[y].title + "'>" + categories[i].layers[y].title + "</p>" +
-								"<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>" +
-								"<span style='display:none;'>" + categories[i].layers[y].description + "</span>"
-								;
+								"<p class='ellipsis' title='"+ categories[i].layers[y].title + "'>" + categories[i].layers[y].title + "</p>";
+							
+							
+							var secure = true;
+							if(!categories[i].layers[y].wms || (categories[i].layers[y].wms && !categories[i].layers[y].wms.password)
+								|| (localStorage.getItem(categories[i].layers[y].wms.server + "_pass") && localStorage.getItem(categories[i].layers[y].wms.server + "_user"))
+								){
 
-								if(categories[i].layers[y].info){
-	    							html += "<a href='" + categories[i].layers[y].info + "' target='_blank' class='moreInfo' style='display:none;'>Más información</a>"
-	    						}
+								html += "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>";
+								secure = false;
+							}
+							
+							html += "<span style='display:none;'>" + categories[i].layers[y].description + "</span>";
+
+							if(categories[i].layers[y].info){
+    							html += "<a href='" + categories[i].layers[y].info + "' target='_blank' class='moreInfo' style='display:none;'>Más información</a>"
+    						}
 								
+							if(secure){
+								html += "<div style='margin:10px;' idCapa='"+ categories[i].layers[y].id +"' tipo='password' class='fleft fright'><span class='tiposCapas password'><img src='application/views/img/ERO_icon_securizada.png'/></span></div>";
+							}else{
 								html += "<div class='listaTipos mt'>"
 	    							if((categories[i].layers[y].wms) && (categories[i].layers[y].wms.server) && (categories[i].layers[y].wms.name)){
 	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wms' class='fleft fright'><span class='tiposCapas'>WMS</span></div>";
@@ -203,7 +215,8 @@ function getHtmlCategories(categories, index) {
 	    							}
 
 								html += "</div>"
-								html+= "<div class='clear'></div>" + 
+							}
+							html+= "<div class='clear'></div>" + 
 							"</li>";
 						}
 
