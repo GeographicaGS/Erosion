@@ -113,7 +113,7 @@ function drawCategoriesWithData(){
 
 					$("#usuariosCatalogo").html(html);
 	        	}else{
-	        		$("#usuariosCatalogo").html("<span class='noCategories'>El proyecto seleccionado no cotiene ninguna categoría<span>");
+	        		$("#usuariosCatalogo").html("<span class='noCategories'>El proyecto seleccionado no contiene ninguna categoría.<span>");
 	        	}
 	        }
 	    });
