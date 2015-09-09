@@ -188,8 +188,8 @@ function categoryPanelEvents(){
 		        				$(this.content).find(".serviceList").html("");
 		        				for(var i=0; i<securityLayers.length; i++){
 		        					$(this.content).find(".serviceList").append(
-		        							'<div service=' + securityLayers[i] + '>' +
-			        							'<p>' + securityLayers[i] + '</p>' +
+		        							'<div server=' + securityLayers[i].server + ' name=' + securityLayers[i].name + '>' +
+			        							'<p>Servicio: ' + securityLayers[i].server + '<br> Capa: ' + securityLayers[i].name + '</p>' +
 			        							'<input name="user" class="fleft" type="text" value="" placeholder="Usuario">' +
 			        							'<input name="password" class="fleft" type="password" value="" placeholder="Contraseña">' +
 			        							'<p class="error hide" style="color:red;">Credenciales erróneos</p>' +
@@ -205,7 +205,7 @@ function categoryPanelEvents(){
 		}else if($(this).parent().attr("tipo") == 'password'){
 			var idCapa = $(this).parent().attr("idCapa");
 			var capa = buscarCapa(idCapa,categories);
-			if(!localStorage.getItem(capa.wms.server + "_user") || !localStorage.getItem(capa.wms.server + "_pass")){
+			if(!localStorage.getItem(capa.wms.server + '###' + capa.wms.name + "###user") || !localStorage.getItem(capa.wms.server + '###' + capa.wms.name + "###pass")){
 				showSecurityFancy(idCapa);
 			}else{
 				showFancySelectPanel(event.pageY,event.pageX,$(this).parent().attr("idCapa"),"wms", event);
@@ -233,7 +233,7 @@ function categoryPanelEvents(){
 		        	if(response.indexOf("No AuthenticationProvider") >=0){
 		        		$("#security_layer_fancy .error").show();
 		        	}else{
-		        		saveLayerLocal(capa.wms.server,user,password);
+		        		saveLayerLocal(capa.wms.server,user,password,capa.wms.name);
 						$(".contenidoCatalogo .family_content li[idCapa=" + idCapa + "]").trigger('click');
 						//Para que se cargue la leyenda
 						showFancySelectPanel(event.pageY,event.pageX,idCapa,"wms", event);
@@ -267,7 +267,7 @@ function categoryPanelEvents(){
 		}
 
 		if(send){
-			var services = $("#security_proyect_layer_fancy div[service]");
+			var services = $("#security_proyect_layer_fancy div[server][name]");
 			checkLayerProyectCredentials(services,0);
 			// var send = true;
 			// for(var i=0; i<services.length; i++){
@@ -304,7 +304,8 @@ function categoryPanelEvents(){
 function checkLayerProyectCredentials(services,i){
 	var user = $(services[i]).find("input[name=user]").val();
 	var pass = $(services[i]).find("input[name=password]").val();
-	var server = $(services[i]).attr("service");
+	var server = $(services[i]).attr("server");
+	var name = $(services[i]).attr("name");
 	if(server.slice('-1') == '?'){
 		server = server.slice(0, '-1');
 	}
@@ -313,10 +314,10 @@ function checkLayerProyectCredentials(services,i){
         url: 'index.php/erosion/get_security_layer_image/' + user + '/' + pass + '/' + server.replace(/\//g, '|') + '?REQUEST=GetCapabilities&SERVICE=WMS',
         success: function(response) {
         	if(response.indexOf("No AuthenticationProvider") >=0){
-        		$("#security_proyect_layer_fancy div[service='" + $(services[i]).attr("service") + "'] p.error").show();
+        		$("#security_proyect_layer_fancy div[server='" + $(services[i]).attr("server") + "'][name='" + $(services[i]).attr("name") + "'] p.error").show();
         	}else{
         		i = i+1;
-        		saveLayerLocal(server,user,pass);
+        		saveLayerLocal(server,user,pass,name);
         		if(i<services.length){
         			checkLayerProyectCredentials(services, i);
         		}else{
@@ -346,26 +347,38 @@ function checkSecurityLayers(securityLayers,layers){
 	var server;
 	for(var i=0; i<layers.length; i++){
 		server = null;
+		var name = null;
 		if(layers[i].tipo != "geoJson"){
 			if(layers[i].id == -1){
 				if(layers[i].password){
 					server = layers[i].url;
+					name = layers[i].name;
 				}
 			}else{
 				var capa = buscarCapa(layers[i].id, categories);
 				if(capa.wms && capa.wms.password){
 					server = capa.wms.server;
+					name = capa.wms.name;
 				}
 			}
-			if(server){
+			if(server && name){
 				if(server.slice(-1) == "?"){
 					server = server.slice(0, -1);
 				}
-				var user = localStorage.getItem(server + "_user");
-				var pass = localStorage.getItem(server + "_pass");
+				var user = localStorage.getItem(server + '###' + name + "###user");
+				var pass = localStorage.getItem(server + '###' + name + "###pass");
 				if(!user || !pass){
-					if($.inArray(server, securityLayers) == -1){
-						securityLayers.push(server);
+					// if($.inArray(server, securityLayers) == -1){
+					// 	securityLayers.push({'server':server, 'name':name});
+					// }
+					var add = true;
+					$.each(securityLayers, function () {
+						if(this.server == server && this.name == name){
+							add = false;
+						}
+					});
+					if(add){
+						securityLayers.push({'server':server, 'name':name});
 					}
 				}
 			}
@@ -390,7 +403,7 @@ function addLayerFromProyect(layers, panel){
 			//Si la capa viene de un servicio externo
 			if(layers[i].id == -1){
 				if(layers[i].password){
-					layers[i].url = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(layers[i].url + "_user") + "/" + localStorage.getItem(layers[i].url + "_pass") + "/" + layers[i].url.replace(/\//g, '|');
+					layers[i].url = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(layers[i].url + '###' + layers[i].name + '###user') + "/" + localStorage.getItem(layers[i].url + '###' + layers[i].name + '###pass') + "/" + layers[i].url.replace(/\//g, '|');
 				}
 				capa["id"] = layers[i].id;
 				capa["tipo"] = layers[i].tipo;
@@ -412,7 +425,7 @@ function addLayerFromProyect(layers, panel){
 			if(capa.wms){
 				leyenda = capa.wms.server;
 				if(capa.wms.password){
-					capa.wms.server = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(capa.wms.server + "_user") + "/" + localStorage.getItem(capa.wms.server + "_pass") + "/" + capa.wms.server.replace(/\//g, '|');
+					capa.wms.server = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(capa.wms.server + '###' + capa.wms.name + '###user') + "/" + localStorage.getItem(capa.wms.server + '###' + capa.wms.name + '###pass') + "/" + capa.wms.server.replace(/\//g, '|');
 				}
 			}
 

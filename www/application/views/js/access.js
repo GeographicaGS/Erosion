@@ -124,7 +124,7 @@ Access = {
 				leyenda = null;
 				if(capa.wms){
 					if(capa.wms.password){
-						capa.wms.server = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(capa.wms.server + "_user") + "/" + localStorage.getItem(capa.wms.server + "_pass") + "/" + capa.wms.server.replace(/\//g, '|');
+						capa.wms.server = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(capa.wms.server + '###' + capa.wms.name + "###user") + "/" + localStorage.getItem(capa.wms.server + '###' + capa.wms.name + "###pass") + "/" + capa.wms.server.replace(/\//g, '|');
 					}
 					leyenda = capa.wms.server;
 

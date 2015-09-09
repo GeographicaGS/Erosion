@@ -438,13 +438,13 @@ function infoPanelEvents(){
 						var url = capa.wms.server;
 						if(capa.wms.password){
 							
-							if(!localStorage.getItem(capa.wms.server + "_user") || !localStorage.getItem(capa.wms.server + "_pass")){
+							if(!localStorage.getItem(capa.wms.server + '###' + capa.wms.name + "###user") || !localStorage.getItem(capa.wms.server  + '###' + capa.wms.name + "###pass")){
 								showSecurityFancy(capa.id);
 							}else{
 								if(capa.wms.server.slice(-1) == "?"){
 									url = url.slice(0, -1);
 								}
-								url = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(capa.wms.server + "_user") + "/" + localStorage.getItem(capa.wms.server + "_pass") + "/" + url.replace(/\//g, '|');
+								url = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(capa.wms.server  + '###' + capa.wms.name + "###user") + "/" + localStorage.getItem(capa.wms.server  + '###' + capa.wms.name + "###pass") + "/" + url.replace(/\//g, '|');
 								legendUrl = url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
 									+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + capa.wms.name;
 							}

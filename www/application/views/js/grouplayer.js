@@ -279,8 +279,8 @@ function GroupLayer(opts){
 		});
 
 		$("#service_fancy_box_data select").unbind().change(function(){
-			$("#service_fancy_box_data input[type='text']").val("");
-			$(this).parent().find("input[name='user'],input[name='password']").val("");
+			// $("#service_fancy_box_data input[type='text']").val("");
+			// $(this).parent().find("input[name='user'],input[name='password']").val("");
     		if($(this).val() == "WMS" || $(this).val() == "WMTS"){
     			if($(this).parent().find(".tabla_fancy_service").children().length > 0){
     				$(this).parent().find(".info_fancy_service").slideUp();
@@ -330,7 +330,7 @@ function GroupLayer(opts){
 	    		var user = $("#service_fancy_box_data input[name='user']").val()
 	    		var pass = $("#service_fancy_box_data input[name='password']").val()
 	    		if(user && pass){
-					saveLayerLocal($($(this).parent().find("input[name='url']")[0]).val(),user,pass);
+					// saveLayerLocal($($(this).parent().find("input[name='url']")[0]).val(),user,pass);
 	    			url = "index.php/erosion/get_security_layer_image/" + user + "/" + pass + "/" + serverWms.replace(/\//g, '|');
 	    			data = "";
 	    		}else{
@@ -703,16 +703,20 @@ function GroupLayer(opts){
 			var leyenda = url.replace("/gwc/service", "");
 			var description = $(this).parent().parent().find(".description").text();
 			var wLayer = ";"
+			var user = $("#service_fancy_box_data input[name='user']").val();
+			var pass = $("#service_fancy_box_data input[name='password']").val();
 			if(select == "WMS"){
-				var user = localStorage.getItem(url + "_user");
-				var pass = localStorage.getItem(url + "_pass");
-				if(!user){
-					user = localStorage.getItem(url + "?_user");
-				}
-				if(!pass){
-					pass = localStorage.getItem(url + "?_pass");
-				}
+				// var user = localStorage.getItem(url + "_user");
+				// var pass = localStorage.getItem(url + "_pass");
+				// if(!user){
+				// 	user = localStorage.getItem(url + "?_user");
+				// }
+				// if(!pass){
+				// 	pass = localStorage.getItem(url + "?_pass");
+				// }
+
 				if(user && pass){
+					saveLayerLocal(url,user,pass,title);
 					url = "index.php/erosion/get_security_layer_image/" + user + "/" + pass + "/" + url.replace(/\//g, '|');
 				}
 

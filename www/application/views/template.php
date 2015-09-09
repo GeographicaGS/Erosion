@@ -346,7 +346,7 @@
 					</tr>
 					<tr class="clearLocal">
 						<td colspan="3">
-							Limpiar crendenciales de capas
+							Limpiar credenciales de capas
 						</td>
 					</tr>
 				</tbody>
@@ -557,7 +557,7 @@
 
 <div id="security_proyect_layer_fancy" class="hide">
 	<div class="serviceFancy">
-		<h1>El proyecto que intenta cargar contiene capas protegidas.<br>Especifique usuario y contraseña para cada servicio.</h1>
+		<h1>El proyecto que intenta cargar contiene capas protegidas.<br>Especifique usuario y contraseña para cada capa.</h1>
 		<h2 onclick="$.fancybox.close()">Cerrar</h2>
 		<div class="clear"></div>
 		<div class="serviceList"></div>

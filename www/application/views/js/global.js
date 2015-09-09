@@ -330,13 +330,13 @@ function debounce(func, wait, immediate) {
 	};
 };
 
-function saveLayerLocal(server,user,pass){
+function saveLayerLocal(server,user,pass,layer_name){
 	if(server.slice(-1) == "?"){
 		server = server.slice(0, -1);
 	}
-	localStorage.setItem(server + "_user", user);
-	localStorage.setItem(server + "_pass", pass);
-	localStorage.setItem(server + "?_user", user);
-	localStorage.setItem(server + "?_pass", pass);
+	localStorage.setItem(server + '###' + layer_name + '###user', user);
+	localStorage.setItem(server + '###' + layer_name + "###pass", pass);
+	localStorage.setItem(server + '?###' + layer_name + '###user', user);
+	localStorage.setItem(server + '?###' + layer_name + '###pass', pass);
 	drawCategories(true);
 }

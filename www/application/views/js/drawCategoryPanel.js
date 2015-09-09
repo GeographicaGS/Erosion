@@ -180,7 +180,7 @@ function getHtmlCategories(categories, index) {
 							
 							var secure = true;
 							if(!categories[i].layers[y].wms || (categories[i].layers[y].wms && !categories[i].layers[y].wms.password)
-								|| (localStorage.getItem(categories[i].layers[y].wms.server + "_pass") && localStorage.getItem(categories[i].layers[y].wms.server + "_user"))
+								|| (localStorage.getItem(categories[i].layers[y].wms.server + '###' + categories[i].layers[y].wms.name + "###pass") && localStorage.getItem(categories[i].layers[y].wms.server + '###' + categories[i].layers[y].wms.name + "###user"))
 								){
 
 								html += "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>";
