@@ -393,8 +393,9 @@ function addLayerFromProyect(layers, panel){
 			$.ajax({
 		        url: 'index.php/draw/getDraws/' + layers[i].id, 
 		        dataType: "json",
+		        visible:layers[i].visible,
 		        success: function(response) {
-		        	Split.addLayer(null,"vectorial", null, response,panel,layers[i].visible);  
+		        	Split.addLayer(null,"vectorial", null, response,panel,this.visible);  
 		        }
 			});
 			
