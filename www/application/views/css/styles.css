@@ -2156,11 +2156,11 @@ img.tiposCapas{
 }
 
 .leaflet-overlay-pane{
-	position: relative;
+	/*position: relative;*/
 }
 
 .leaflet-marker-pane{
-	position: relative;
+	/*position: relative;*/
 }
 
 .leaflet-bottom.leaflet-left .leaflet-control-zoom-display{
