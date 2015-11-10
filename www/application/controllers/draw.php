@@ -229,7 +229,7 @@ class Draw extends MY_Controller
 	   	$kml .= "<Document>";
 	   	$kml .= "<Placemark>";
 	   	$kml .= "<name>" . $draw->name . " " . $draw->surname . "</name>";
-	   	$kml .= "<description>" . $draw->comentario . "</description>";
+	   	$kml .= "<description>" . $draw->titulo . " - " .  $draw->comentario . "</description>";
 	   	$kml .= $draw->kml;
 	   	// $kml .= "<name>Document.kml</name>";
 	   	// $kml .= drawStyles($id);
@@ -259,7 +259,7 @@ class Draw extends MY_Controller
 		   	foreach ($draws as $draw) {
 		   		$kml .= "<Placemark>";
 		   		$kml .= "<name>" . $draw->name . " " . $draw->surname . "</name>";
-	   			$kml .= "<description>" . $draw->comentario . "</description>";
+	   			$kml .= "<description>" . $draw->titulo . " - " .  $draw->comentario . "</description>";
 		   		$kml .= $draw->kml;
 				$kml .= "</Placemark>";
 			}
