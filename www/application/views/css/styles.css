@@ -76,7 +76,7 @@ header nav ul{
 	padding-left: 10px;
 	padding-right: 12px;
 	position: relative;
-	z-index: 1;
+	z-index: 9999;
 }
 
 header nav .subsection{
