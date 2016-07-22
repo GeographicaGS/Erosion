@@ -1,3 +1,4 @@
+
 function GroupLayer(opts){
 
 	var self = this;
@@ -255,6 +256,7 @@ function GroupLayer(opts){
 		
 		//Fancybox de servicios
 		$panel.find(".add_layer").click(function(){
+			$panel = $(this).closest('.layer_panel');
 			$.fancybox($("#service_fancy_box_data"), {
 				'width':'660',
 				"height": "auto",
@@ -273,7 +275,8 @@ function GroupLayer(opts){
 			        }
 			    },
 			    afterShow: function () {
-			    	self._layerTypeServiceFacyEvent();
+			    	self.refreshLayerPanel($panel); //Corrige un bug cuando están los dos paneles abiertos y se empiezan a llamar a servicios externos
+			    	self._layerTypeServiceFacyEvent($panel);
 			    }
 			});
 		});
@@ -377,6 +380,7 @@ function GroupLayer(opts){
 
 				    		
 				    		html +=	'</li></ul>';
+
 				    		$(selfBoton).parent().find(".tabla_fancy_service").html(html);
 				    		$(selfBoton).parent().find(".info_fancy_service").hide();						    		
 		    				$(selfBoton).parent().find(".tabla_fancy_service").slideDown(function(){
@@ -388,7 +392,7 @@ function GroupLayer(opts){
 		    				}
 		    				});
 		    				
-		    				self._layerTypeServiceFacyEvent();
+		    				self._layerTypeServiceFacyEvent($panel);
 		    		// 		$("#service_fancy_box_data").find(".tiposCapas").click(function(){
 		    		// 			var title = $(this).parent().parent().find("p").text();
 		    		// 			var url = $(".urlServicioWms").val().replace("?REQUEST=GetCapabilities&SERVICE=" + select, "");
@@ -694,7 +698,7 @@ function GroupLayer(opts){
 		$(".botonAddImageLeyenda").hide();
 	}
 
-	this._layerTypeServiceFacyEvent = function(){
+	this._layerTypeServiceFacyEvent = function($panel){
 		$("#service_fancy_box_data").find(".tiposCapas").unbind().click(function(){
     		var select = $("#service_fancy_box_data").find("select").val()
 			var title = $(this).parent().parent().find("p").text();
@@ -729,12 +733,14 @@ function GroupLayer(opts){
 				self.addLayer(wLayer);
 			}
 			
-			if(!$("#panel_right .layer_panel").hasClass("close")){
-				Split.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
-			}
-			if(!$("#panel_left .layer_panel").hasClass("close")){
-				Split.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
-			}
+			// if(!$("#panel_right .layer_panel").hasClass("close")){
+			// 	Split.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
+			// }
+			// if(!$("#panel_left .layer_panel").hasClass("close")){
+			// 	Split.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
+			// }
+
+			self.refreshLayerPanel($panel);
 			
 			//Relleno el panel de la leyenda
 			self._drawInfoFromService(wLayer);
