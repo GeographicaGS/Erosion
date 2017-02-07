@@ -12,7 +12,7 @@ function categoryPanelEvents(){
 				$(".toolsFlange").find("img").attr("src",$(".toolsFlange").find("img").attr("src").replace("ERO_icon_herramientas.png","ERO_icon_herramientas_close.png"));
 			});
 			$(".toolsBody").parent().css({'z-index':''});
-			
+
 		}else{
 			$(".toolsBody").show();
 			$(".tools").animate({"left":""});
@@ -20,7 +20,7 @@ function categoryPanelEvents(){
 			$(".toolsBody").parent().css({'z-index':'1003'});
 		}
 	});
-	
+
 	//Mostrar y ocultar catálogo
 	$(".petaniaCatalogo").click(function(){
 		if($(".cuerpoCatalogo").is(":visible")){
@@ -35,7 +35,7 @@ function categoryPanelEvents(){
 				$(".petaniaCatalogo").find("img").attr("src",$(".petaniaCatalogo").find("img").attr("src").replace("ERO_icon_pestana_catalogo.png","ERO_icon_pestana_catalogo_off.png"));
 			});
 			$(".cuerpoCatalogo").parent().css({'z-index':''});
-			
+
 		}else{
 			$(".cuerpoCatalogo").show();
 			$(".catalogo").animate({"left":""});
@@ -56,7 +56,7 @@ function categoryPanelEvents(){
 	$(".contenidoCatalogo #capasCatalogo").on( "mouseenter mouseleave", '.families .family_content li .botonAddImage' ,function(){
 		var lista = $(this).siblings(".listaTipos");
 		var aux;
-		
+
 		if($(lista).is(":visible")){
 			aux = $(lista).parent().outerWidth() - $(this).outerWidth() - 40;
 			$(this).siblings("p").css({"width":aux});
@@ -69,7 +69,7 @@ function categoryPanelEvents(){
 			lista.show();
 		}
 	});
-	
+
 	//Raton sobre el tipo de capa
 	$(".contenidoCatalogo #capasCatalogo").on( "mouseenter mouseleave", '.families .family_content li .listaTipos' ,function(){
 		var aux;
@@ -132,20 +132,20 @@ function categoryPanelEvents(){
 	//cargar un proyecto
 	$(".contenidoCatalogo, .cuerpoInfoCatalogo").on( "click", '.tiposCapas' ,function(event){
 		// $(this).closest("li").trigger("click");
-		
+
 		if($(this).parent().attr("tipo") == "proyecto"){
-			
+
 			Split.removeAllLayers();
 			var project = $(this).parent().attr("idproject");
 			$.ajax({
-		        url: 'index.php/project/getLayersProject/' + encodeURIComponent(project), 
+		        url: 'index.php/project/getLayersProject/' + encodeURIComponent(project),
 		        dataType: "json",
 		        success: function(response) {
 		        	var capas = JSON.parse(response.capas);
 		        	var capasLeft = JSON.parse(capas.left);
 		        	var capasRight = JSON.parse(capas.right);
 		        	var base_map = "Google satélite";
-		        	
+
 		        	Split.syncEnable = true;
 		        	Split.sync();
 		        	if(capas.hasOwnProperty('leftState')){
@@ -162,15 +162,15 @@ function categoryPanelEvents(){
 		        		}
 		        		$("#map_right input[name='leaflet-base-layers']").next("span:contains(" + base_map + ")").prev("input").trigger("click");
 		        	}
-		        	
+
 		        	if(capas.leftState.zoom == capas.rightState.zoom && capas.leftState.lat == capas.rightState.lat && capas.leftState.lng == capas.rightState.lng){
 		        		Split.syncEnable = false;
 		        		Split.sync();
 		        	}
-		        	
+
 		        	Split.__mapRight.project = project;
 		        	Split.__mapLeft.project = project;
-		        	
+
 		        	var securityLayers = new Array();
 		        	checkSecurityLayers(securityLayers,capasRight);
 		        	checkSecurityLayers(securityLayers,capasLeft);
@@ -201,7 +201,7 @@ function categoryPanelEvents(){
 		        	}
 		        }
 			});
-		
+
 		}else if($(this).parent().attr("tipo") == 'password'){
 			var idCapa = $(this).parent().attr("idCapa");
 			var capa = buscarCapa(idCapa,categories);
@@ -210,11 +210,11 @@ function categoryPanelEvents(){
 			}else{
 				showFancySelectPanel(event.pageY,event.pageX,$(this).parent().attr("idCapa"),"wms", event);
 			}
-		
+
 		}else{
 			showFancySelectPanel(event.pageY,event.pageX,$(this).parent().attr("idCapa"),$(this).parent().attr("tipo"), event);
 		}
-		
+
 	});
 
 	$($("#security_layer_fancy").find("input[type='button']")).unbind().click(function(event) {
@@ -277,7 +277,7 @@ function categoryPanelEvents(){
 			// 	if(server.slice('-1') == '?'){
 			// 		server = server.slice(0, '-1');
 			// 	}
-				
+
 			// 	$.ajax({
 			//         url: 'index.php/erosion/get_security_layer_image/' + user + '/' + pass + '/' + server.replace(/\//g, '|') + '?REQUEST=GetCapabilities&SERVICE=WMS',
 			//         success: function(response) {
@@ -389,16 +389,16 @@ function checkSecurityLayers(securityLayers,layers){
 function addLayerFromProyect(layers, panel){
 	for(var i=0; i<layers.length; i++){
 		if(layers[i].tipo == "geoJson"){
-			
+
 			$.ajax({
-		        url: 'index.php/draw/getDraws/' + layers[i].id, 
+		        url: 'index.php/draw/getDraws/' + layers[i].id,
 		        dataType: "json",
 		        visible:layers[i].visible,
 		        success: function(response) {
-		        	Split.addLayer(null,"vectorial", null, response,panel,this.visible);  
+		        	Split.addLayer(null,"vectorial", null, response,panel,this.visible);
 		        }
 			});
-			
+
 		}else{
 			var capa = {};
 			//Si la capa viene de un servicio externo
@@ -417,9 +417,13 @@ function addLayerFromProyect(layers, panel){
 			}else{
 				capa = buscarCapa(layers[i].id, categories);
 			}
-			
+
 			if(layers[i].alternativeTitle ){
 				capa["alternativeTitle"] = layers[i].alternativeTitle ;
+			}
+
+			if(layers[i].styles ){
+				capa["styles"] = layers[i].styles ;
 			}
 
 			leyenda = null;

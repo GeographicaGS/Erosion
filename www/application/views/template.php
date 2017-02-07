@@ -21,7 +21,7 @@
 
 
 <link rel="stylesheet" type="text/css" media="screen" href="<?= get_js("lib/ui-lightness/jquery-ui-1.10.3.custom.min.css")?>"/>
-		
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBv2LS8Lqu53wYmtgxztWVBTEpLdMWIzHQ&sensor=false"></script>
 
 <link rel="stylesheet" type="text/css" href="<?= get_css("layout.css")?>" />
@@ -78,18 +78,18 @@
 
 <script type="text/javascript" src="<?= get_js("lib/jquery.ui.touch-punch.min.js")?>"></script>
 
-<script type="text/javascript">	
+<script type="text/javascript">
 
 	$(window).ready(function(){
-		
+
 		$("title").text(TITLE)
-		
+
 		$("a#info_fancybox").fancybox({
 			"hideOnContentClick" : true,
 			"overlayColor" : "#150e09",
 			"overlayOpacity" : 0.5
 		});
-		
+
 		$("#search").keypress(function(e) {
 		    if(e.which == 13) {
 		    	showDevMsg();
@@ -101,7 +101,7 @@
 				$(this).val("");
 			}
 		});
-		
+
 		resize();
 		$("img.sync").click(Split.sync);
 		$.ajax({
@@ -134,13 +134,13 @@
 		setTimeout(function(){
 			resize();
 		},300);
-		
+
     });
-	
+
 	$(window).resize(function(){
 		resize();
-		Split.__mapLeft.getMap().invalidateSize();		
-		Split.__mapRight.getMap().invalidateSize();		
+		Split.__mapLeft.getMap().invalidateSize();
+		Split.__mapRight.getMap().invalidateSize();
 	})
 	var base_url = "<?= base_url("/")?>";
 </script>
@@ -159,14 +159,14 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-</script>	
+</script>
 
 <header>
 	<div class="fleft left" style="display: none;">
-		
+
 		<input class="fleft" type="text" id="search" value="buscar..."/>
 		<div class="clear"></div>
-	</div>	
+	</div>
 	<nav class="fleft">
 		<!-- <a class="mainNav" href="javascript:navigate(0)">
 			EL PROYECTO
@@ -178,31 +178,31 @@
 			ACTIVIDAD
 		</a> -->
 	</nav>
-	
+
 	<div class="fright">
 		<p class="size10 credits fleft">
 			<span class="bold">Proyecto de I+D+i</span><br/>
 			<?
 				if(strpos($_SERVER["HTTP_HOST"],"excelencia.gis-and-coast")){
-					
+
 					echo "Espacialización y difusión web de datos de urbanización, y fitodiversidad, <br/>
 							para el análisis de vulnerabilidad ante los procesos de inundación asociados<br/>
 							a la subida del nivel del mar en la costa andaluza.";
-				
+
 				}else if(strpos($_SERVER["HTTP_HOST"],"visor.gis-and-coast")){
-					
+
 					echo "CLIENTES Y VISORES WEB<br/>
 							Información espacial del<br/>
 							medio litoral y marino.";
 
 				}else if(strpos($_SERVER["HTTP_HOST"],"vivienda.gis-and-coast.org")){
-					
+
 					echo "GEORREFERENCIACIÓN<br/>
 							CARACTERIZACIÓN ESTADÍSTICA Y<br/>
 							ESTRATEGIAS DE DIFUSIÓN DEL ESPACIO RESIDENCIAL.";
 
 				}else if(strpos($_SERVER["HTTP_HOST"],"gestioncosteraymarina.gis-and-coast.org")){
-					
+
 					echo "Curso de experto universitario en herramientas SIG e Internet<br/>
 							para la gestión integrada de áreas costeras, planificación espacial marina<br/>
 							y participación pública.";
@@ -217,17 +217,17 @@
 		<?if(strpos($_SERVER["HTTP_HOST"],"excelencia.gis-and-coast")){?>
 			<a href="http://www.andaluciasemueveconeuropa.com/" target="_blank"><img style="width: 90px;" class="fleft mt mr" src="<?= get_img("ERO_Andalucia-se-mueve-UE.png")?>" /></a>
 		<?}?>
-		
+
 		<div class="acceder">
 			<img class="mb5" src="<?= get_img("ERO_icon_user_cab.png")?>" title="Acceder"/>
 			<div class="clear"></div>
 			Acceder
 		</div>
 		<p id="closeSesion" class="credits fleft">
-			
+
 		</p>
 	</div>
-	
+
 	<div class="clear"></div>
 </header>
 
@@ -236,41 +236,41 @@
 	<form id="form_login" action="index.php/login/getUser" method="POST">
 		<div class="loginDiv">
 			<h1>Acceso de usuarios</h1>
-			<img class="closeLogin" src="<?= get_img("MED_icon_delete.png")?>" title="Cerrar" />						
+			<img class="closeLogin" src="<?= get_img("MED_icon_delete.png")?>" title="Cerrar" />
 			<input name="email" placeholder="Correo electrónico" type="text" value=""/>
 			<input name="password" placeholder="Contraseña" type="password" value="" />
 			<input type="button" value="Acceder"/>
-			<p id="errorLogin">Usuario y contraseña incorrectos</p>	
+			<p id="errorLogin">Usuario y contraseña incorrectos</p>
 		</div>
 	</form>
 
 	<div id="proyecto">
 		<div id="panel_left" class="panel">
-		
+
 			<div id="map_left"></div>
-		
+
 			<div id="histogram_left" style="display:none"></div>
-			
-			<div class="split_ctrl">			
-				<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_left.png")?>" width=15px height=16px title="Desincronizar mapas" />						
+
+			<div class="split_ctrl">
+				<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_left.png")?>" width=15px height=16px title="Desincronizar mapas" />
 				<a href="javascript:Split.togglePanel(Split.LEFT)">
 					<img class="toggle" src="<?= get_img("MED_icon_split_left.png")?>" width=28px height=29px title="Ocultar mapa de la izquierda"/>
 				</a>
 			</div>
-		
+
 			<a id="capaLeft" href="javascript:Split.toggleLayersInterface(Split.LEFT)" class="layer_ctrl" style="right:0">Capas</a>
-			
+
 			<ul class="layer_panel close" style="right: 0"></ul>
 
 
 			<input class="closeStreetLeft" type="button" value="Cerrar Street View"/>
 			<span class="scaleNumeric left"></span>
-		
+
 		</div>
-		
+
 		<div id="sep" class="sep" ></div>
-		
-		
+
+
 		<div id="tool_bar">
 			<div title="Dibujar marcador" id="ctrl_marker_drawer"></div>
 			<div title="Dibujar línea" id="ctrl_line_drawer"></div>
@@ -279,25 +279,25 @@
 			</div>
 			<div title="Guardar proyecto" id="ctrl_add_project"></div>
 		</div>
-			
+
 		</div>
-		
-		
+
+
 		<div id="panel_right" class="panel">
-		
+
 			<div id="map_right"></div>
-		
+
 			<div id="histogram_right" style="display:none"></div>
-		
-			<div class="split_ctrl">			
-				<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right.png")?>" width=15px height=16px title="Desincronizar mapas"/>			
+
+			<div class="split_ctrl">
+				<img class="sync" src="<?= get_img("MED_icon_enlazar_OK_right.png")?>" width=15px height=16px title="Desincronizar mapas"/>
 				<a href="javascript:Split.togglePanel(Split.RIGHT)">
 					<img class="toggle" src="<?= get_img("MED_icon_split_right.png")?>" width=28px height=29px title="Ocultar mapa de la derecha"/>
 				</a>
 			</div>
-		
+
 			<a id="capaRight" href="javascript:Split.toggleLayersInterface(Split.RIGHT)" class="layer_ctrl">Capas</a>
-			
+
 			<ul class="layer_panel close"></ul>
 
 			<input class="closeStreetRight" type="button" value="Cerrar Street View"/>
@@ -335,8 +335,8 @@
 					</tr>
 					<tr class="loadFile">
 						<td>
-							<form> 
-								<input type="file" id="uploadFileButtom" style="display:none;" multiple name="files[]"> 
+							<form>
+								<input type="file" id="uploadFileButtom" style="display:none;" multiple name="files[]">
 								<button>+ Subir kml</button>
 								<img class="deleteKml" title="Eliminar Kml" src="<?= get_img("MED_icon_papelera_panel.png")?>"/></div>
 							</form>
@@ -354,7 +354,7 @@
 		</div>
 		<div class="toolsFlange"><img class="" src="<?= get_img("ERO_icon_herramientas_close.png")?>"/></div>
 	</div>
-	
+
 	<div class="catalogo">
 		<div class="cuerpoCatalogo">
 			<div class="cabecera">
@@ -371,7 +371,7 @@
 					</div>
 					<div idSection="4" id="myProyectCatalogo" class="catalogueSection" style="display:none;"></div>
 				</div>
-				
+
 			</div>
 		</div>
 		<div class="petaniaCatalogo"><img class="" src="<?= get_img("ERO_icon_pestana_catalogo_off.png")?>"/></div>
@@ -441,7 +441,7 @@
 		</div>
 		<div class="petaniaInfoCatalogo"><img class="" src="<?= get_img("ERO_icon_pestana_info_off.png")?>"/></div>
 	</div>
-	
+
 	<div id="catalogo" style="display: none;">
 		<div class="fleft mr20">
 			<div class="catalogo size18">Catálogo</div>
@@ -450,23 +450,23 @@
 		</div>
 		<div id="categories"></div>
 	</div>
-	
+
 	<!-- <div id="actividad" style="display: none;" >
 		<div class="tablaActividad">
 			<h1>Actividad reciente</h1>
-			
+
 			<div class="comentTable" style="max-height: none;background-color: white;"></div>
-		
+
 		</div>
 	</div> -->
-	
+
 	<div class="clear"></div>
 </div>
 
 <div style="display: none">
 	<a id="info_fancybox" href="#info_fancy_box_data">Fancybox hidden_link</a>
 	<div id="info_fancy_box_data"></div>
-	
+
 	<div id="fancy_box_form_save_draw">
 		<div class="serviceFancy">
 			<h1>Nuevo elemento</h1>
@@ -474,7 +474,7 @@
 			<div class="clear"></div>
 			<input class="fleft" style="width: 390px; background: #ecedef;" type="text" value="Título">
 			<select style="width: 220px; background-position: 195 13;">
-				
+
 			</select>
 			<input style="width: 620px; background: #ecedef;" type="text" value="Comentario">
 			<input class="mt20" style="width: 620px;" type="button" value="Guardar geometría">
@@ -509,13 +509,13 @@
 		<p id="errorNoCapas" style="display:none; text-align: center; margin-top: 15px; color: red;">No ha cargado ninguna capa en ninguno de los mapas</p>
 		<p id="errorProjectOwner" style="display:none; text-align: center; margin-top: 15px; color: red;">Usted no es propietario de este proyecto y no puede sobreescribirlo</p>
 		<input name="saveProject" class="mt20" style="width: 620px;" type="button" value="Guardar proyecto">
-		
+
 		<div id="projectExist" style="display: none;">
 			<p style="text-align: center; margin-top: 15px; color: red;">Este proyecto ya existe ¿Desea sobreescribirlo?</p>
 			<input id="aceptSaveProject" class="mt20" style="width: 310px;" type="button" value="Aceptar">
 			<input id="cancelSaveProject" class="mt20" style="width: 310px;" type="button" value="Cancelar">
 		</div>
-		
+
 	</div>
 </div>
 
@@ -576,7 +576,7 @@
 			<option>TMS</option>
 		</select>
 		<input name="url" type="text" placeholder="url"/>
-		
+
 		<input name="user" class="fright mr mt5" style="background: #ecedef;" type="text" placeholder="Usuario"/>
 		<input name="password" class="fright mr mt5" style="background: #ecedef;" type="password" placeholder="Contraseña"/>
 		<div class="clear"></div>
@@ -586,19 +586,20 @@
 		<div class="clear"></div>
 		<input type="button" value="Explorar servicio" />
 		<div class="clear"></div>
-		
+
 		<div class="info_fancy_service">Seleccione un tipo de servicio y especifique la url de descarga</div>
-		
+
 		<div class="ml mr tabla_fancy_service"></div>
 		<div class="urlServicioWms" style="display: none"></div>
-		
+    <div class="styleServicioWms" style="display: none"></div>
+
 	</div>
 </div>
 
 <div id="fancy_vector_info" style="position: absolute; background-color: white;top:10%; left: 50%;">
 	<div class="serviceFancy vectorFancy">
 		<div class="idDrawFancyVector" style="display: none"></div>
-		
+
 		<img class="imageType" src="" />
 		<h1></h1>
 		<div class="clear"></div>
@@ -654,7 +655,7 @@
 			Departamento de Geografía Física y Análisis Geográfico Regional
 		</p>
 	</div>
-	<div class="geo" >		
+	<div class="geo" >
 		<a href="http://www.geographica.gs" target="_blank">
 			<img src="<?= get_img("GEO_W12_icon_bygeographica.png")?>" />
 			<span class="italic ml5 grey2 size10 mr3">D+D by</span>
@@ -662,36 +663,36 @@
 		</a>
 		<?if(strpos($_SERVER["HTTP_HOST"],"nacional.gis-and-coast") || strpos($_SERVER["HTTP_HOST"],"excelencia.gis-and-coast")){?>
 			<div class="clear"></div>
-			<img class="logoGis" src="<?= get_img("ERO_logo.png")?>" />	
-			<p class="logoGisText">Research Group</p>	
+			<img class="logoGis" src="<?= get_img("ERO_logo.png")?>" />
+			<p class="logoGisText">Research Group</p>
 		<?}?>
-		
+
 	</div>
 	<div class="fright">
 		<p class="fleft fund">
 		<? if(strpos($_SERVER["HTTP_HOST"],"excelencia.gis-and-coast")){?>
-					
+
 			<span class="bold">Proyecto cofinanciado<br/> por los Fondos FEDER</span><br/>
 			Ref. del Proyecto:<br/>
-			P10-RNM-6207H		
-				
+			P10-RNM-6207H
+
 		<?}else if(strpos($_SERVER["HTTP_HOST"],"visor.gis-and-coast")){?>
-			
+
 			<span class="bold">GRUPO INVESTIGACIÓN <br/>(RNM177):</span><br/>
 			Ordenación del Litoral y Tecnologías<br/>
-			de Información Territorial			
-					
+			de Información Territorial
+
 		<?}else{?>
 			<span class="bold">Proyecto cofinanciado<br/> por los Fondos FEDER</span><br/>
 			Ref. del Proyecto:<br/>
-			CS02010-15807		
+			CS02010-15807
 		<?}?>
-		
-			
+
+
 		</p>
-		
+
 		<? if(strpos($_SERVER["HTTP_HOST"],"excelencia.gis-and-coast")){?>
-			
+
 			<div class="fleft mt ml mr">
 				<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" >
 					<img style="width: 70px;" src="<?= get_img("ERO_Fondos-FEDER.png")?>" />
@@ -699,46 +700,46 @@
 				<a href="http://www.juntadeandalucia.es/organismos/economiainnovacioncienciayempleo.html" target="_blank" class="fleft" >
 					<img style="width: 160px; margin-left: 45px; margin-right: 30px;" src="<?= get_img("ERO_JA-Consejeria-EICE.png")?>" />
 				</a>
-			</div>		
-			
+			</div>
+
 		<?}else if(strpos($_SERVER["HTTP_HOST"],"visor.gis-and-coast")){?>
-			
+
 			<div class="fleft mt20">
-				<img style="width: 150px;" class="fleft" src="<?= get_img("ERO_logo.png")?>" />	
-				<p class="logoGisText fleft mr20">Research Group</p>	
-			</div>			
-				
+				<img style="width: 150px;" class="fleft" src="<?= get_img("ERO_logo.png")?>" />
+				<p class="logoGisText fleft mr20">Research Group</p>
+			</div>
+
 		<?}else if(strpos($_SERVER["HTTP_HOST"],"vivienda.gis-and-coast.org")){?>
 			<div class="fleft mt20">
-				<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" > 
+				<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" >
 					<img src="<?= get_img("ERO_logo_EU.png")?>" />
 				</a>
 
-				<a href="http://www.juntadeandalucia.es/fomentoyvivienda" target="_blank" class="fleft" > 
+				<a href="http://www.juntadeandalucia.es/fomentoyvivienda" target="_blank" class="fleft" >
 					<img style="margin-left: 20px;margin-right: 10px;margin-top: -8px;" src="<?= get_img("ERO_logo_JA-Vivienda.png")?>" />
 				</a>
 
-				<a href="http://www.gis-and-coast.org/index.php" target="_blank" class="fleft" > 
+				<a href="http://www.gis-and-coast.org/index.php" target="_blank" class="fleft" >
 					<img style="width: 150px;" src="<?= get_img("ERO_logo.png")?>" />
 				</a>
 
 			</div>
 
-			
+
 
 		<?}else if(strpos($_SERVER["HTTP_HOST"],"gestioncosteraymarina.gis-and-coast.org")){?>
 			<div class="fleft mt20">¡
 				<a href="http://www.mineco.gob.es/" target="_blank" class="fleft" >
 					<img style="height: 55px;" src="<?= get_img("unia_logo.png")?>" />
 				</a>
-				<a href="http://www.gis-and-coast.org/index.php" target="_blank" class="fleft" > 
+				<a href="http://www.gis-and-coast.org/index.php" target="_blank" class="fleft" >
 					<img style="width: 150px;" src="<?= get_img("ERO_logo.png")?>" />
 				</a>
 			</div>
 
 		<?}else{?>
  			<div class="fleft mt20">
-	 			<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" > 
+	 			<a href="http://europa.eu/legislation_summaries/agriculture/general_framework/g24234_es.htm" target="_blank" class="fleft" >
 					<img src="<?= get_img("ERO_logo_EU.png")?>" />
 				</a>
 				<a href="http://www.mineco.gob.es/" target="_blank" class="fleft" >
@@ -749,10 +750,10 @@
 				</a>
  			</div>
 		<?}?>
-		
-			
-		
-		
+
+
+
+
 	</div>
 </footer>
 </body>

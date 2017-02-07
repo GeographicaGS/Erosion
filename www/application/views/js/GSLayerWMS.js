@@ -1,4 +1,4 @@
-function GSLayerWMS(id,title, url, name, leyenda, alternativeTitle, description){
+function GSLayerWMS(id,title, url, name, leyenda, alternativeTitle, description, styles){
 	this.id = id;
 	this.title = title;
 	this.alternativeTitle = alternativeTitle;
@@ -11,6 +11,7 @@ function GSLayerWMS(id,title, url, name, leyenda, alternativeTitle, description)
 	this.version = "1.1.1";
 	this.simpleLayer = false;
 	this.description = description;
+	this.styles = styles;
 	this.minZoom = null;
 	this.maxZoom = null;
 }
@@ -23,6 +24,7 @@ GSLayerWMS.prototype.setVisibility = function(visibility, map, z_index){
 							format: 'image/png',
 							transparent: true,
 							version: this.version,
+							styles:this.styles ? this.styles:''
 			});
 		}
 		else{
@@ -35,7 +37,7 @@ GSLayerWMS.prototype.setVisibility = function(visibility, map, z_index){
 						});
 		}
 	}
-	
+
 	this.visible = visibility;
 	if(this.visible){
 		if(this.minZoom && map.getZoom() < this.minZoom){

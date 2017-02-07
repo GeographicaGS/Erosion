@@ -2,25 +2,25 @@
 function GroupLayer(opts){
 
 	var self = this;
-			
+
 	/****************************************/
 	/********** METHODS  ********************/
-	/****************************************/	
+	/****************************************/
 	this.getMap = function(){
 		return this.map;
 	};
-	
+
 	this.isActive = function(){
 		return this.__active;
 	}
-	
+
 	this.setActive = function(active){
 		this.__active = active;
 	}
-	
+
 	this.getHTMLLayersPanel = function(){
 		var html = "";
-		
+
 		//Añado la capa de  Panoramio
 		// if(this.capaPanoramios){
 		// 	html += "<li class='panoramio disableSortable' style='cursor:pointer' title='Panoramio'><img class='remove' src='application/views/img/MED_icon_papelera_panel.png'/><input id_layer='panoramio' type='checkbox' "+ (this.getMap().getZoom()>=11? '' : 'disabled') + " " + (this.mostrarPanoramios && this.getMap().getZoom()>=11 ? 'checked':'') + " class='toogleLayer'/> <span class='ellipsis'>Panoramio (visble a partir de zoom 11)</span></li>";
@@ -33,23 +33,23 @@ function GroupLayer(opts){
 		for(x in this.layers){
 			var l =  this.layers[x];
 
-			var lattr = "checked"; 
+			var lattr = "checked";
 			var lstyle = "color:black";
 
 			if(l.title.indexOf('###') >= 0){
 				var aux = l.title.split("###");
 				if(aux.length > 0){
 					l.title = aux[1];
-				} 
+				}
 			}
-					
-			html += "<li class='layerTree' title='" + l.title + "'>" +	
-			
+
+			html += "<li class='layerTree' title='" + l.title + "'>" +
+
 				"	<input type='checkbox' class='toogleLayer' " +
 				"			id_layer="+x+" father="+this.father+ " " + (l.visible ? lattr :"") +" tipo=" + (l.tipo=="geoJson" ? "vectorial":l.tipo) + " + idCapa='" + l.id +"'>" +
-				
+
 					"<img class='remove' src='application/views/img/MED_icon_papelera_panel.png' title='Opacity 100 %' id_layer='" + x + "'>";
-					
+
 					if(l.tipo != "geoJson" && l.tipo != "simbolo"){
 						html += "<img class='opacity' src='application/views/img/MED_icon_opacity.png' title='Opacity 100 %'>";
 					}else{
@@ -66,14 +66,14 @@ function GroupLayer(opts){
 					"</div>";
 					}
 				html += "</li>";
-			
+
 		}
 		html += "</ul>"
 
-		html += "<li style='background: none; cursor: initial;' class='disableSortable' ><a class='add_layer' href='#'>+ Añadir capas de un servicio externo</a></li>"; 
-		return html;		
+		html += "<li style='background: none; cursor: initial;' class='disableSortable' ><a class='add_layer' href='#'>+ Añadir capas de un servicio externo</a></li>";
+		return html;
 	};
-	
+
 	this.refreshLayerPanel = function($panel){
 		$panel.html(this.getHTMLLayersPanel());
 
@@ -92,7 +92,7 @@ function GroupLayer(opts){
 				l.layer.setOpacity(ui.value/100);
 			}
 		}).draggable();
-		
+
 		$panel.find("ul").sortable({
 
 			start: function( event, ui ) {
@@ -105,7 +105,7 @@ function GroupLayer(opts){
 				self.layers.splice(id_layer,1);
 				var new_idx = $(ui.item).index();
 				self.layers.splice(new_idx,0,l);
-				
+
 				//change priority of all layer with bigger priority
 				for(var i=0;i<self.layers.length;i++){
 					self.layers[i].layer.setZIndex(self.layers.length-i);
@@ -120,7 +120,7 @@ function GroupLayer(opts){
 		$panel.find(".layerTree span").click(function(){
 			//Por si están los features infos globales activos
 			$("#ctrl_feature_info ul li").removeClass("active");
-			
+
 			$(self.getMap()._container).removeClass("cursor_info");
 			self.getMap().off("click");
 			var layer = $(this).closest(".layerTree");
@@ -131,7 +131,7 @@ function GroupLayer(opts){
 
 				$(this).closest(".layer_panel").find(".layerTree").each(function() {
 					$(this).removeClass("active");
-				});	
+				});
 				layer.addClass("active");
 				$(self.getMap()._container).addClass("cursor_info");
 				var id_layer = $(this).parent().find("input").attr("id_layer");
@@ -169,11 +169,11 @@ function GroupLayer(opts){
 
 		$panel.disableSelection();
 		$panel.sortable({ cancel: '.disableSortable' });
-		
+
 		$panel.find("li > img.opacity").click(function(){
 			var $opacity_panel = $(this).siblings(".opacity_panel");
 			if(navigator.userAgent.match(/iPad/i) == null){
-				var $li = $(this).parent(); 
+				var $li = $(this).parent();
 				if ($opacity_panel.is(":visible")){
 					$li.animate({"height": $li.height() - $opacity_panel.outerHeight()});
 					$opacity_panel.slideUp();
@@ -197,15 +197,15 @@ function GroupLayer(opts){
 					$opacity_panel.find(".slider").width(150);
 				}
 			}
-			
+
 		});
-		
+
 		$panel.find("li > img.legend").click(function(){
-			
+
 			var id_layer = $(this).parent().find("input").attr("id_layer");
 			var id_capa = $(this).parent().find("input").attr("idCapa");
 			var tipo = $(this).parent().find("input").attr("tipo");
-			
+
 			if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible") || $(".cuerpoInfoCatalogo").find(".id").text() == id_layer){
 				$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
 			}
@@ -213,11 +213,11 @@ function GroupLayer(opts){
 			if(id_capa == -1){
 				self._drawInfoFromService(self.layers[id_layer]);
 			}else{
-				$(".contenidoCatalogo div[idCapa='" + id_capa + "'][tipo='" + tipo +"']").trigger("click");	
+				$(".contenidoCatalogo div[idCapa='" + id_capa + "'][tipo='" + tipo +"']").trigger("click");
 			}
-			
+
 		});
-		
+
 		$panel.find("li > img.remove").click(function(){
 			var id_layer = $(this).parent().find("input[type='checkbox']").attr("id_layer");
 			if(id_layer == "panoramio"){
@@ -227,11 +227,11 @@ function GroupLayer(opts){
 			}else{
 				self.layers[id_layer].setVisibility(false, self.map, null);
 				self.layers.splice(id_layer,1);
-				
+
 				for(var i=0;i<self.layers.length;i++){
 					self.layers[i].layer.setZIndex(self.layers.length-i);
 				}
-				
+
 				if($(this).closest(".layerTree").hasClass("active")){
 					$(self.getMap()._container).removeClass("cursor_info");
 					self.getMap().off("click");
@@ -246,14 +246,14 @@ function GroupLayer(opts){
 					$(checks[i]).attr("id_layer",i);
 				}
 			});
-			
+
 			event.stopPropagation();
 		});
 
 		$panel.find(".toogleLayer").click(function(){
 			Split.toggleLayer($(this).attr("id_layer"),$(this).attr("father"),$(this).is(":checked"));
 		});
-		
+
 		//Fancybox de servicios
 		$panel.find(".add_layer").click(function(){
 			$panel = $(this).closest('.layer_panel');
@@ -264,7 +264,7 @@ function GroupLayer(opts){
 			    'autoSize':false,
 			    "visibility":"hidden",
 			    'closeBtn' : false,
-			    "openEffect" : "fade",		   
+			    "openEffect" : "fade",
 			    'scrolling'   : 'no',
 			    helpers : {
 			        overlay : {
@@ -291,7 +291,7 @@ function GroupLayer(opts){
     			}else{
     				$(this).parent().find(".info_fancy_service").slideDown()
     			}
-    			
+
     			$(this).parent().find(".input_fancy").hide();
     			$(this).parent().find("input[type='button']").val("Explorar servicio");
     			if($(this).val() == "WMS"){
@@ -318,15 +318,17 @@ function GroupLayer(opts){
     	$("#service_fancy_box_data input[type='button']").unbind().click(function(){
     		var select = $(this).parent().find("select").val()
     		var server = $($(this).parent().find("input[name='url']")[0]).val();
+				var styles = server.split('styles=');
     		if(server.lastIndexOf("?") >= 0){
     			server = server.slice(0,server.lastIndexOf("?"));
     		}
     		var serverWms = ((server.lastIndexOf("/") == server.length-1)? server.slice(0,-1):server) + "?REQUEST=GetCapabilities&SERVICE=" + select;
     		var name = $($(this).parent().find("input[type='text']")[1]).val();
     		var selfBoton = this;
-    		
+
     		$(".urlServicioWms").val(serverWms);
-    		
+				$(".styleServicioWms").val(styles.length > 1 ? styles[1]:'');
+
     		if((select == "WMS" || select == "WMTS") && server != "" && server != "url"){
     			$(this).val("Cargando...");
 	    		$(this).addClass("cargadoServicio");
@@ -344,24 +346,34 @@ function GroupLayer(opts){
     				url : url,
     				data: data,
     				dataType: 'xml',
-    				type: "POST",			
+    				type: "POST",
     		        success: function(xml) {
     		        	var sistemasErroneos = false;
     		        	if(xml){
-    		        		
+
     		        		var layerPadre = $(xml).find("Layer")[0];
 	    		        	var version = $($(xml).find("*")[0]).attr("version");
 
 	    		        	var html = '<ul class="families" style="padding-top:0px;" version="' + version +'">' +
 				    						'<li class="close" style="background-color: rgb(236, 237, 239);">';
-				    		
+
 	    		        	var keyLayerName;
 		    				if(select == "WMS"){
 		    					keyLayerName = "Name"
 		    					$(xml).find("Capability > Layer").each(function(){
 						    		$(this).find("Layer").each(function(){
+
 						    			if($($(this).find("SRS")).text().indexOf("900913") > 0 || $($(this).find("SRS")).text().indexOf("3857")>0 || $(layerPadre).find("SRS").text().indexOf("900913") > 0 || $(layerPadre).find("SRS").text().indexOf("3857")){
-											html += self.createHtmlExternalService($(this).find("Layer > " + keyLayerName).text(),$(this).find("Layer > Title").text(),$(this).find("Layer > Abstract").text(),select);
+
+												var styles = [];
+												$(this).find("Style > " + 'Name').each(function(s){
+													if($.inArray($(this).text(), styles) < 0)
+														styles.push($(this).text());
+												});
+
+												if($('.styleServicioWms').val() == '' || (styles.indexOf($('.styleServicioWms').val()) >= 0))
+													html += self.createHtmlExternalService($(this).find("Layer > " + keyLayerName).text(),$(this).find("Layer > Title").text(),$(this).find("Layer > Abstract").text(),select);
+
 						    			}else{
 						    				sistemasErroneos = true;
 						    			}
@@ -378,11 +390,11 @@ function GroupLayer(opts){
 								});
 		    				}
 
-				    		
+
 				    		html +=	'</li></ul>';
 
 				    		$(selfBoton).parent().find(".tabla_fancy_service").html(html);
-				    		$(selfBoton).parent().find(".info_fancy_service").hide();						    		
+				    		$(selfBoton).parent().find(".info_fancy_service").hide();
 		    				$(selfBoton).parent().find(".tabla_fancy_service").slideDown(function(){
 		    				$.fancybox.update();
 		    				if(sistemasErroneos){
@@ -391,7 +403,7 @@ function GroupLayer(opts){
 		    					$(selfBoton).val("Explorar servicio");
 		    				}
 		    				});
-		    				
+
 		    				self._layerTypeServiceFacyEvent($panel);
 		    		// 		$("#service_fancy_box_data").find(".tiposCapas").click(function(){
 		    		// 			var title = $(this).parent().parent().find("p").text();
@@ -409,14 +421,14 @@ function GroupLayer(opts){
 		    		// 				wLayer = new GSLayerWMTS(-1,title, url, layer, leyenda, null, description);
 		    		// 				self.addLayer(wLayer);
 		    		// 			}
-		    					
+
 			    	// 			if(!$("#panel_right .layer_panel").hasClass("close")){
 								// 	Split.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
 								// }
 								// if(!$("#panel_left .layer_panel").hasClass("close")){
 								// 	Split.__mapLeft.refreshLayerPanel($("#panel_left .layer_panel"));
 								// }
-			    				
+
 			    	// 			//Relleno el panel de la leyenda
 			    	// 			self._drawInfoFromService(wLayer);
 
@@ -431,7 +443,7 @@ function GroupLayer(opts){
     		        	$(selfBoton).val("Servicio no encontrado");
     		        }
     		    });
-    			
+
     		}else{
     			if(server != "" && server != "url" && name != "" && name != "Título de la capa"){
     				// if(select == "WMTS"){
@@ -448,10 +460,10 @@ function GroupLayer(opts){
     				if(!$("#panel_left .layer_panel").hasClass("close")){
     					Split.toggleLayersInterface(Split.LEFT);
     				}
-    				
+
     				//Relleno el panel de la leyenda
     				self._drawInfoFromService(layerTMS);
-    				
+
     			}
     		}
     	});
@@ -481,13 +493,13 @@ function GroupLayer(opts){
 		l.visible = checked;
 		this.__refreshLayer(l);
 	};
-		
+
 	this.setHistogram = function(id_layer){
 		this.__layerHistogram = this.layers[id_layer];
 	};
-	
+
 	/* Draw a given layer */
-	this.__drawLayer = function (l){		
+	this.__drawLayer = function (l){
 		// the layer is visible so let's draw it
 		var markers = [];
 		// create the proportional symbol for each point
@@ -510,7 +522,7 @@ function GroupLayer(opts){
 				}
 			}
 
-			var myIcon = L.divIcon({		
+			var myIcon = L.divIcon({
 				className: 'symbol-marker',
 				iconSize: new L.Point(size, size),
 				html: '<div style="height:'+size+';width:'+size+';background-color:'+color+'"></div>'
@@ -528,37 +540,37 @@ function GroupLayer(opts){
 		// draw the group layers
 		l.points.addTo(this.map);
 	};
-		
+
 	this.__refreshLayerClosure = function (caller,l,bbox){
 		$.ajax({
 			url: base_url + "erosion/points/"+l.source+"/"+caller.bbox+"/"+l.baseRetriever,
 			dataType: "json",
 			success:function(json){
 				// store the layer in the closure GroupLayer.layers
-				l.json = json;				
+				l.json = json;
 				caller.__drawLayer(l);
 			}
 		});
 	};
-	
-	this.refreshLayers = function(){		
+
+	this.refreshLayers = function(){
 		for(var i=0;i<this.layers.length;i++){
 			var l = this.layers[i];
-			this.__refreshLayer(this.layers[i]);						
+			this.__refreshLayer(this.layers[i]);
 		}
 	};
-	
+
 	this.__refreshLayer = function(l){
 		// refresh BBOX
 		this.__refreshBBOX();
-			
+
 		if (l.visible){
 			l.setVisibility(true, this.map);
 		}else{
 			l.setVisibility(false, this.map);
 		}
 	};
-	
+
 	this.__refreshBBOX = function(){
 		this.bbox = this.map.getBounds().getSouthWest().lng + "/" + this.map.getBounds().getSouthWest().lat + "/"
 					+ this.map.getBounds().getNorthEast().lng + "/" + this.map.getBounds().getNorthEast().lat;
@@ -583,7 +595,7 @@ function GroupLayer(opts){
 	/****************************************/
 	/********** MEMBERS  ********************/
 	/****************************************/
-	this.map = opts.map;	
+	this.map = opts.map;
 	this.father = opts.father;
 	this.layers = null;
 	this.project = null;
@@ -592,7 +604,7 @@ function GroupLayer(opts){
 	this.capaPanoramios = false;
 	this.callejero = new L.GoogleStreet();
 	this.layers = new Array();
-	
+
 	var gSatellite = new L.Google('SATELLITE'),
 		noMap = new L.Google('SATELLITE'),
 		gTerrain = new L.Google('TERRAIN'),
@@ -601,14 +613,14 @@ function GroupLayer(opts){
 		bingRoad =  new L.BingLayer("Ah02iHhuuQ1AQK_EQt_vc513bIwSVYgCQiZnSdlyux_G7o5LDPGHhLK30tZRvFn5", {type: "Road", maxZoom:20},
 		openStreetMap =  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'})
 		);
-	
+
 	noMap.options.opacity = 0
 	noMap.options.mapOptions.backgroundColor = "black";
-	
+
 	this.map.addLayer(gSatellite);
 
 	var position = this.father == Split.LEFT ?  'topleft' : 'topright';
-	
+
 	L.control.layers(
 					 {
 						 'Google satélite':gSatellite,
@@ -621,15 +633,15 @@ function GroupLayer(opts){
 					 },null,{position: position}).addTo(this.map);
 
 	this.refreshLayers();
-	
-	
+
+
 	this.addLayer = function(gsLayer){
-		
+
 		this.layers.unshift(gsLayer);
 		gsLayer.setVisibility(true, this.map, this.layers.length);
-		
+
 	};
-	
+
 	this.removeLayer = function(title, tipo){
 		for(var i=0; i<this.layers.length; i++){
 			if(this.layers[i].title == title && this.layers[i].tipo == tipo){
@@ -639,33 +651,33 @@ function GroupLayer(opts){
 			}
 		}
 	};
-	
+
 	this.__getLegendContainer = function(){
 		return $("<div class='flotable_legend ui-widget ui-widget-content' >"
-							+	"<h4>" 
+							+	"<h4>"
 							+		"<img src='application/views/img/MED_icon_leyenda.png' />"
 							+		"<p class='title'></p>"
 							+		"<img class='close' src='application/views/img/MED_icon_delete.png' />"
 							+	"</h4>"
-							+	"<div class='co_legend'>"							
-							+	"</div>"			
+							+	"<div class='co_legend'>"
+							+	"</div>"
 							+	"</div>");
-					
-					
+
+
 	};
-	
+
 	this.__addLegendDOM= function($container,$el){
 		$container.prepend($el);
-	
+
 		$el.css("left",($container.width() / 2 ) - $el.width());
 		$el.css("top",($container.height() / 2 ) - ($el.height() / 2));
-					
+
 		$el.find(".close").click(function(){
 			$el.fadeOut(function () {
 				$(this).remove();
 			});
 		});
-		
+
 		$el.draggable();
 	};
 
@@ -676,7 +688,7 @@ function GroupLayer(opts){
 		$("#commentsVector").hide();
 		$("#geometryVector").hide();
 		$("#addHistoryForm").hide();
-		
+
 		$(".infoCatalogo .petaniaInfoCatalogo").show();
 		if(!$(".infoCatalogo .cuerpoInfoCatalogo").is(":visible")){
 			$(".infoCatalogo .petaniaInfoCatalogo").trigger("click");
@@ -693,7 +705,7 @@ function GroupLayer(opts){
 		+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.name;
 		$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"' alt='Leyenda no disponible'/>");
 		$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
-		
+
 		$(".extraLeyenda").show();
 		$(".botonAddImageLeyenda").hide();
 	}
@@ -724,7 +736,7 @@ function GroupLayer(opts){
 					url = "index.php/erosion/get_security_layer_image/" + user + "/" + pass + "/" + url.replace(/\//g, '|');
 				}
 
-				wLayer = new GSLayerWMS(-1,title, url, layer, leyenda, null, description);
+				wLayer = new GSLayerWMS(-1,title, url, layer, leyenda, null, description, $(".styleServicioWms").val());
 				wLayer.version = $($("#service_fancy_box_data .families")).attr("version");
 				wLayer.simpleLayer = $(".singleTileCheckbox input").is(":checked");
 				self.addLayer(wLayer);
@@ -732,7 +744,7 @@ function GroupLayer(opts){
 				wLayer = new GSLayerWMTS(-1,title, url, layer, leyenda, null, description);
 				self.addLayer(wLayer);
 			}
-			
+
 			// if(!$("#panel_right .layer_panel").hasClass("close")){
 			// 	Split.__mapRight.refreshLayerPanel($("#panel_right .layer_panel"));
 			// }
@@ -741,22 +753,22 @@ function GroupLayer(opts){
 			// }
 
 			self.refreshLayerPanel($panel);
-			
+
 			//Relleno el panel de la leyenda
 			self._drawInfoFromService(wLayer);
 
 		});
 	}
-	
+
 	this.featureInfo = function(e,id){
-		
+
 		if(!id){
 			id = 0;
 		}
-		
+
 		var map = this.getMap();
 		var latlngStr = '(' + e.latlng.lat.toFixed(3) + ', ' + e.latlng.lng.toFixed(3) + ')';
-		    
+
 		// var BBOX = map.getBounds().toBBoxString();
 		var aux = L.CRS.EPSG3857.project(map.getBounds()._southWest)
 		var BBOX = aux.x + "," + aux.y + ","
@@ -766,11 +778,11 @@ function GroupLayer(opts){
 		var HEIGHT = map.getSize().y;
 		var X = map.layerPointToContainerPoint(e.layerPoint).x;
 		var Y = map.layerPointToContainerPoint(e.layerPoint).y;
-		    
-		var layers = null;   
+
+		var layers = null;
 		var server = null;
 		var requestIdx = null;
-		
+
 		// for (var i=id;i<this.layers.length;i++){
 		// 	var l = this.layers[i];
 		// 	if (l.visible && l.layer.options.opacity>0){
@@ -787,18 +799,18 @@ function GroupLayer(opts){
 			layers = l.name;
 			requestIdx = i;
 		// }
-		
+
 		if (layers==null || server==null || requestIdx==null)
 		{
 			$("#container_feature_info").html("No hay información sobre este punto");
-			
+
 			return;
 		}
 
 		if(server.slice(-1) == "?"){
 			server = server.slice(0, -1);
 		}
-		
+
 		var request = server + '?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetFeatureInfo&LAYERS=' +layers+'&QUERY_LAYERS='+layers+'&STYLES=&BBOX='+BBOX+'&FEATURE_COUNT=5&HEIGHT='+HEIGHT+'&WIDTH='+WIDTH+'&FORMAT=image%2Fpng&INFO_FORMAT=text%2Fhtml&SRS=EPSG%3A3857&X='+X+'&Y='+Y;
 		request = request.replace("wmts","wms");
 
@@ -810,12 +822,12 @@ function GroupLayer(opts){
 			var url = "application/views/proxy.php"
 			var data = { "url": request};
 		}
-	    
+
 		var obj = this;
 	    $.ajax({
 			url : url,
-			data: data,	       
-			type: "POST",			
+			data: data,
+			type: "POST",
 	        success: function(data) {
 	        	try {
 		        	if (!data || data.indexOf("LayerNotQueryable")!=-1){
@@ -838,12 +850,12 @@ function GroupLayer(opts){
 	        	}catch (ex){
 	        		$("#container_feature_info").html("No hay información sobre este punto");
 	        	}
-	        	$.fancybox.update();	
+	        	$.fancybox.update();
 	        },
-	        error: function(){	        	
+	        error: function(){
 	        	// obj.featureInfo(e,requestIdx+1);
 	        }
 	    });
-		
+
 	};
 }

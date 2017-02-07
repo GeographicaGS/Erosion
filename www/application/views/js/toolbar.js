@@ -2,25 +2,25 @@ Toolbar ={
 
 	initialize: function(){
 		// $("#ctrl_feature_info").click(function(){
-			
-		// 	if ($(this).hasClass("enable")) { 
+
+		// 	if ($(this).hasClass("enable")) {
 		// 		$(this).removeClass("enable");
 		// 		Split.deActivateFeatureInfo()
 		// 	}
 		// 	else{
 		// 		Split.disableAllDrawTools();
-		// 		$(this).addClass("enable");				
+		// 		$(this).addClass("enable");
 		// 		Split.activateFeatureInfo()
 		// 	}
 		// });
-		
+
 		$("#ctrl_marker_drawer").click(function(){
-			
-			if ($(this).hasClass("enable")) { 
+
+			if ($(this).hasClass("enable")) {
 				$(this).removeClass("enable");
 				Split.drawMakerLeft.disable();
 				Split.drawMarkerRight.disable();
-				
+
 			}
 			else{
 				Split.disableAllDrawTools();
@@ -30,9 +30,9 @@ Toolbar ={
 				Split.drawMarkerRight.enable();
 			}
 		});
-		
+
 		$("#ctrl_line_drawer").click(function(){
-			if ($(this).hasClass("enable")) { 
+			if ($(this).hasClass("enable")) {
 				$(this).removeClass("enable");
 				Split.drawLineLeft.disable();
 				Split.drawLineRight.disable();
@@ -45,29 +45,29 @@ Toolbar ={
 				Split.type = "linea";
 			}
 		});
-		
+
 		$("#ctrl_rectangle_drawer").click(function(){
-			if ($(this).hasClass("enable")) { 
+			if ($(this).hasClass("enable")) {
 				$(this).removeClass("enable");
 				Split.drawPolygonLeft.disable();
 				Split.drawPolygonRight.disable();
 			}
 			else{
 				Split.disableAllDrawTools();
-				$(this).addClass("enable");				
+				$(this).addClass("enable");
 				Split.drawPolygonLeft.enable();
 				Split.drawPolygonRight.enable();
 				Split.type = "poligono";
 				Split.arrayLatlng = new Array();
 			}
 		});
-		
-		
+
+
 		$("#ctrl_add_project").click(function(){
 			if(isLoged){
-				if ($(this).hasClass("enable")) { 
+				if ($(this).hasClass("enable")) {
 					$(this).removeClass("enable");
-					
+
 				}
 				else{
 					$(this).addClass("enable");
@@ -78,7 +78,7 @@ Toolbar ={
 					    'autoSize':false,
 					    "visibility":"hidden",
 					    'closeBtn' : false,
-					    "openEffect" : "fade",		   
+					    "openEffect" : "fade",
 					    'scrolling'   : 'no',
 					    helpers : {
 					        overlay : {
@@ -107,20 +107,20 @@ Toolbar ={
 					    	// 		$(this).val("");
 					    	// 	}
 					    	// });
-					    	
+
 					    	// $("input[name='descripcionProyecto']").click(function(){
 					    	// 	if($(this).val() == "Descripción"){
 					    	// 		$(this).val("");
 					    	// 	}
-					    	// });					    	
+					    	// });
 					    },
-					    
+
 					    // afterClose:function () {
-					    	
+
 					    // },
-					    
+
 					});
-					
+
 				}
 			}else{
 				if(!$(".loginDiv").is(":visible")){
@@ -137,7 +137,7 @@ Toolbar ={
 				        url: 'index.php/project/getInformationProject/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
 				        dataType: "json",
 				        success: function(response) {
-				        	
+
 				        	if(response.length != 0){
 				        		$("input[name='descripcionProyecto']").val(response.descripcion);
 				        		if(response.is_public == "t"){
@@ -157,28 +157,28 @@ Toolbar ={
     		$("input[name='descripcionProyecto']").css({"border":"1px solid #001232"});
     		$("#errorNoCapas").hide();
     		if($("input[name='tituloProyecto']").val() == "" || $("input[name='tituloProyecto']").val() == "Título"){
-    			
+
     			$("input[name='tituloProyecto']").css({"border":"1px solid red"});
     			enviar = false;
-    		} 
+    		}
     		if($("input[name='descripcionProyecto']").val() == '' || $("input[name='descripcionProyecto']").val() == 'Descripción'){
     			$("input[name='descripcionProyecto']").css({"border":"1px solid red"});
     			enviar = false;
     		}
-    		
+
     		if(Split.__mapRight.layers.length == 0 && Split.__mapLeft.layers.length == 0){
     			$("#errorNoCapas").show();
     			enviar = false;
     		}
-    		
+
     		if(enviar){
     			var panels = {};
     			var leftState = {"lat":Split.__mapLeft.map.getCenter().lat, "lng":Split.__mapLeft.map.getCenter().lng, "zoom":Split.__mapLeft.map.getZoom(), "base_map":$("#map_left input[name='leaflet-base-layers']:checked").next("span").text()};
     			var rightState = {"lat":Split.__mapRight.map.getCenter().lat, "lng":Split.__mapRight.map.getCenter().lng, "zoom":Split.__mapRight.map.getZoom(), "base_map":$("#map_right input[name='leaflet-base-layers']:checked").next("span").text()};
     			var leftPanel = (Toolbar._createJsonFromLayer(Split.__mapLeft.layers));
-    			var rightPanel = (Toolbar._createJsonFromLayer(Split.__mapRight.layers))  
+    			var rightPanel = (Toolbar._createJsonFromLayer(Split.__mapRight.layers))
     			panels = { 'left':JSON.stringify(leftPanel),'right':JSON.stringify(rightPanel), 'leftState':leftState, 'rightState':rightState};
-    			
+
     			$.ajax({
 			        url: 'index.php/project/projectExist/' + encodeURIComponent($("input[name='tituloProyecto']").val()),
 			        success: function(response) {
@@ -186,8 +186,8 @@ Toolbar ={
 			        		$("input[name='saveProject']").hide();
 			        		$("#errorProjectOwner").hide();
 			        		$("#projectExist").show();
-			        		
-			        		
+
+
 			        		$("#aceptSaveProject").click(function(){
 			        			$.ajax({
 							        url: 'index.php/project/updateProject',
@@ -206,13 +206,13 @@ Toolbar ={
 							        }
 					    		});
 			        		});
-			        		
+
 			        		$("#cancelSaveProject").click(function(){
 			        			$("#projectExist").hide();
 			        			$("#errorProjectOwner").hide();
 			        			$("input[name='saveProject']").show();
 			        		});
-			        		
+
 			        	}else{
 			    			$.ajax({
 						        url: 'index.php/project/createProject',
@@ -226,10 +226,10 @@ Toolbar ={
 			        	}
 			        }
 	    		});
-    			
-    			
+
+
     		}
-    	
+
     	});
 
 		$("#project_fancy h2").click(function(){
@@ -270,7 +270,11 @@ Toolbar ={
 			if(layers[i].alternativeTitle ){
 				capas["alternativeTitle"] = layers[i].alternativeTitle ;
 			}
-			panel.push(capas); 
+
+			if(layers[i].styles ){
+				capas["styles"] = layers[i].styles ;
+			}
+			panel.push(capas);
 		}
 		return panel;
 	}
