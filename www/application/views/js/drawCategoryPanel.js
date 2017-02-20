@@ -1,8 +1,8 @@
 function drawCategories(unLoadDefaultProject) {
-	
+
 	var html = "<ul class='families'>";
 	html += getHtmlCategories(categories,0);
-	
+
 	$("#capasCatalogo").html(html);
 
 	$.ajax({
@@ -11,32 +11,32 @@ function drawCategories(unLoadDefaultProject) {
         	if(isLoged){
         		$(".seccion[idSection=4]").show();
             	var html = "";
-            	
+
             	html += "<ul class='family_content'>";
-            		
+
             		for(var y=0; y<response.length; y++){
-            			html += "<li style='border-top: 1px solid #ccc;'>" + 
+            			html += "<li style='border-top: 1px solid #ccc;'>" +
         				"<p class='ellipsis " + ((defaultProject && defaultProject == response[y].titulo) ? 'default':'') + "' title='"+ ((defaultProject && defaultProject == response[y].titulo) ? response[y].titulo + ' - Establecido por defecto':response[y].titulo) + "'>" + response[y].titulo + "</p>" +
         				// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
         				"<span style='display:none;'>" + response[y].descripcion + "</span>"
         				;
-            			
+
             			html+= "<div class='fleft fright' style='margin-top:8px;' idProject='"+ response[y].titulo +"' tipo='proyecto' class='fleft'><span class='tiposCapas plus mr'>CARGAR PROYECTO</span></div>";
-            			
-            			
-            			
-            			html+= "<div class='clear'></div>" + 
+
+
+
+            			html+= "<div class='clear'></div>" +
             		"</li>";
             		}
 
             		html += "</ul>"+
-            		
-            		"<div class='clear'></div>" + 
+
+            		"<div class='clear'></div>" +
             		"</li>";
-            		
+
             		html += "</ul></div>";
             		$("#myProyectCatalogo").html(html);
-            		
+
         	}else{
         		$("div[idSection='4']").hide();
         		if($(".catalogo .cuerpoCatalogo .cabecera .active").attr("idSection") == 4){
@@ -45,30 +45,30 @@ function drawCategories(unLoadDefaultProject) {
         	}
         }
 	});
-	
-	
+
+
 	$.ajax({
         url: 'index.php/project/getPublicProjects', dataType: "json",
         success: function(response) {
         	var html = "<ul class='family_content'>";
-        		
+
         		for(var y=0; y<response.length; y++){
-        			html += "<li style='border-top: 1px solid #ccc;'>" + 
+        			html += "<li style='border-top: 1px solid #ccc;'>" +
     				"<p class='ellipsis " + ((defaultProject && defaultProject == response[y].titulo) ? 'default':'') + "' title='"+ ((defaultProject && defaultProject == response[y].titulo) ? response[y].titulo + ' - Establecido por defecto':response[y].titulo) + "'>" + response[y].titulo + "</p>" +
-    				"<span style='display:none;'>" + response[y].descripcion + "</span>"	
+    				"<span style='display:none;'>" + response[y].descripcion + "</span>"
     				;
-        			
+
         			html+= "<div class='fleft fright' style='margin-top:8px;' idProject='"+ response[y].titulo +"' tipo='proyecto' class='fleft'><span class='tiposCapas plus mr'>CARGAR PROYECTO</span></div>";
-        			
-        			html+= "<div class='clear'></div>" + 
+
+        			html+= "<div class='clear'></div>" +
         		"</li>";
         		}
 
         		html += "</ul>"+
-        		
-        		"<div class='clear'></div>" + 
+
+        		"<div class='clear'></div>" +
         		"</li>";
-        		
+
         		html += "</ul></div>";
         		$("#publicProyectCatalogo").html(html);
 
@@ -91,25 +91,25 @@ function drawCategoriesWithData(){
 	        	if(response.length > 0){
 	        		var html = "<ul class='family_content'>";
 					for(var y=0; y<response.length; y++){
-						html += "<li style='border-top: 1px solid #ccc; " + (parseInt(response[y].numdraws) == 0 ? 'display:none;' : '') + "'>" + 
+						html += "<li style='border-top: 1px solid #ccc; " + (parseInt(response[y].numdraws) == 0 ? 'display:none;' : '') + "'>" +
 						"<p class='ellipsis' title='"+ response[y].title + "'>" + response[y].title + "</p>" +
 						// "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>"+
 						"<span style='display:none;'>" + (response[y].descripcion != null ?  response[y].descripcion : "Lorem ipsum dolor sit amet, consectetur adipiscing elit.") + "</span>"
 						;
 
 						html+= "<div idCapa='"+ response[y].id_category +"' tipo='vectorial' class='fleft fright' style='margin-top:8px;'><span class='tiposCapas plus mr'>CAPA VECTORIAL</span></div>";
-						
+
 						html += "</div>"
-							html+= "<div class='clear'></div>" + 
+							html+= "<div class='clear'></div>" +
 						"</li>";
 					}
 
 					html += "</ul>"+
 
-					"<div class='clear'></div>" + 
+					"<div class='clear'></div>" +
 					"</li>";
 
-					html += "</ul></div>";	
+					html += "</ul></div>";
 
 					$("#usuariosCatalogo").html(html);
 	        	}else{
@@ -119,7 +119,7 @@ function drawCategoriesWithData(){
 	    });
 	}
 }
-	
+
 function buscarCapa(id, categories){
 	for(var i=0; i<categories.length; i++){
 		for(var y=0; y<categories[i].layers.length; y++){
@@ -140,7 +140,7 @@ function buscarCapa(id, categories){
 
 function getHtmlCategories(categories, index) {
 	var html = "";
-	
+
 	for(var i=0; i<categories.length; i++){
 		html +=
 					"<ul class='family_header' style='padding-left:" + index*10 +"px' title='" + categories[i].title + "'>" +
@@ -155,29 +155,29 @@ function getHtmlCategories(categories, index) {
 		if(categories[i].hasOwnProperty("description") && categories[i].description.length > 0){
 			html += "<li class='ico_info'>" +
 					"<span class='description' style='display:none;'>" + categories[i].description + "</span>";
-			
+
 			if(categories[i].hasOwnProperty("info") && categories[i].info.length > 0){
 				html += "<span class='info' style='display:none;'>" + categories[i].info + "</span>";
 			}
 
 			html += "</li>";
-		}	
-		
+		}
+
 		html +=			"</ul>"+
-					
+
 					"<div class='clear'></div>"+
-					
+
 					"<ul class='family_content' style='display:none;padding-left:" + index*10 +"px'>";
-						
+
 						if(categories[i].hasOwnProperty("categories")){
 								html += getHtmlCategories(categories[i].categories, index+1);
 						}
 
 						for(var y=0; y<categories[i].layers.length; y++){
-							html += "<li idCapa='" + categories[i].layers[y].id + "' style='border-top: 1px solid #ccc;'>" + 
+							html += "<li idCapa='" + categories[i].layers[y].id + "' style='border-top: 1px solid #ccc;'>" +
 								"<p class='ellipsis' title='"+ categories[i].layers[y].title + "'>" + categories[i].layers[y].title + "</p>";
-							
-							
+
+
 							var secure = true;
 							if(!categories[i].layers[y].wms || (categories[i].layers[y].wms && !categories[i].layers[y].wms.password)
 								|| (localStorage.getItem(categories[i].layers[y].wms.server + '###' + categories[i].layers[y].wms.name + "###pass") && localStorage.getItem(categories[i].layers[y].wms.server + '###' + categories[i].layers[y].wms.name + "###user"))
@@ -186,46 +186,46 @@ function getHtmlCategories(categories, index) {
 								html += "<img title='Añadir capa' class='botonAddImage' src='application/views/img/ERO_icon_anadir_capa.png'>";
 								secure = false;
 							}
-							
+
 							html += "<span style='display:none;'>" + categories[i].layers[y].description + "</span>";
 
 							if(categories[i].layers[y].info){
     							html += "<a href='" + categories[i].layers[y].info + "' target='_blank' class='moreInfo' style='display:none;'>Más información</a>"
     						}
-								
+
 							if(secure){
 								html += "<div style='margin:10px;' idCapa='"+ categories[i].layers[y].id +"' tipo='password' class='fleft fright'><span class='tiposCapas password'><img src='application/views/img/ERO_icon_securizada.png'/></span></div>";
 							}else{
 								html += "<div class='listaTipos mt'>"
 	    							if((categories[i].layers[y].wms) && (categories[i].layers[y].wms.server) && (categories[i].layers[y].wms.name)){
-	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wms' class='fleft fright'><span class='tiposCapas'>WMS</span></div>";
+	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wms' " + (categories[i].layers[y].wms.style ? "style='" + categories[i].layers[y].wms.styles + "'" : "") + " class='fleft fright'><span class='tiposCapas'>WMS</span></div>";
 	    							}
-	                        							
+
 	    							if((categories[i].layers[y].wmts) && (categories[i].layers[y].wmts.server) && (categories[i].layers[y].wmts.name)){
 	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='wmts' class='fleft fright'><span class='tiposCapas'>WMTS</span></div>";
 	    							}
-	                        							
+
 	    							if((categories[i].layers[y].tms) && (categories[i].layers[y].tms.server) && (categories[i].layers[y].tms.name)){
 	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='tms' class='fleft fright'><span class='tiposCapas'>TILES</span></div>";
-	    								
+
 	    							}
-	                        							
+
 	    							if(categories[i].layers[y].simbolo){
 	    								html+= "<div idCapa='"+ categories[i].layers[y].id +"' tipo='simbolo' class='fleft fright'><span class='tiposCapas'>Símbolos</span></div>";
 	    							}
 
 								html += "</div>"
 							}
-							html+= "<div class='clear'></div>" + 
+							html+= "<div class='clear'></div>" +
 							"</li>";
 						}
 
 					html += "</ul>"+
-					
-				"<div class='clear'></div>" + 
+
+				"<div class='clear'></div>" +
 				"</li>";
 	}
-	
+
 	return html;
 }
 

@@ -641,8 +641,8 @@ Split = {
 		}
 
 		if(tipo == "wms"){
-			gsLayerLeft = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle, capa.description, capa.styles);
-			gsLayerRight = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle, capa.description, capa.styles);
+			gsLayerLeft = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle, capa.description, (capa.styles || capa[tipo].styles));
+			gsLayerRight = new GSLayerWMS(capa.id,capa.title, capa[tipo].server, capa[tipo].name, leyenda, capa.alternativeTitle, capa.description, (capa.styles || capa[tipo].styles));
 			if(capa.wms.hasOwnProperty("simple_tile") && capa.wms.simple_tile){
 				gsLayerLeft.simpleLayer = true;
 				gsLayerRight.simpleLayer = true;

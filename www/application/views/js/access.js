@@ -8,19 +8,19 @@ Access = {
 				$($(".loginDiv").find("input[type='password']")).removeClass("errorBorder");
 				$(".loginDiv").find("input[type='text'],input[type='password']").css({"color":""});
 				$("#errorLogin").hide();
-				
+
 			}else{
 				$(".loginDiv").fadeIn();
 				$(".loginDiv").find("input[type='text']").focus();
 				$(".loginDiv").find("input[type='text'],input[type='password']").bind( "click", function(){
 				});
-				
+
 				$(document).keypress(function(e) {
 				    if($(".loginDiv").is(":visible") && e.which == 13) {
 				    	$(".loginDiv").find("input[type='button']").trigger("click");
 				    }
 				});
-				
+
 				$(".loginDiv").find("input[type='button']").click(function(){
 					var email = $(".loginDiv").find("input[type='text']");
 					var password = $(".loginDiv").find("input[type='password']");
@@ -33,7 +33,7 @@ Access = {
 						post = false;
 						$(password).addClass("errorBorder");
 					}
-					
+
 					if(post){
 						$.ajax({
 					        url: 'index.php/login/getUser',
@@ -46,7 +46,7 @@ Access = {
 					        		isLoged = false;
 					        		isAdmin = false;
 					        		idUser = -1;
-					        		
+
 					        	}else{
 					        		$(".acceder").hide();
 					        		$("#closeSesion").show();
@@ -65,21 +65,21 @@ Access = {
 					        		    	updatedState();
 					        		    }
 					        		});
-					        		
+
 					        	}
 					        	drawCategories();
 					        }
 					    });
 					}
 				});
-				
+
 			}
 		});
 
 		$(".closeLogin").bind( "click", function(){
 			$(".acceder").trigger("click");
 		});
-		
+
 		$("#closeSesion").bind( "click", function(){
 			$.ajax({
 		        url: 'index.php/login/logout',
@@ -109,10 +109,10 @@ Access = {
 			var tipo = $("#fancy_select_panel div[idCapa]").attr("tipo");
 			if(tipo == "vectorial"){
 				$.ajax({
-			        url: 'index.php/draw/getDraws/' + idCapa, 
+			        url: 'index.php/draw/getDraws/' + idCapa,
 			        dataType: "json",
 			        success: function(response) {
-			        	Split.addLayer(null,tipo, null, response,panel);  
+			        	Split.addLayer(null,tipo, null, response,panel);
 			        }
 				});
 			}
@@ -129,7 +129,7 @@ Access = {
 					leyenda = capa.wms.server;
 
 				}else if(capa.wmts){
-					leyenda = capa.wmts.server.replace("wmts","wms");					
+					leyenda = capa.wmts.server.replace("wmts","wms");
 				}
 				Split.addLayer(capa,tipo, leyenda, null,panel);
 				//Por si el fancy de capa securizada estaba abierto
