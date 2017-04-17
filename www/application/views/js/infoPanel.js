@@ -11,11 +11,11 @@ function infoPanelEvents(){
 				$(".petaniaInfoCatalogo").find("img").attr("src",$(".petaniaInfoCatalogo").find("img").attr("src").replace("ERO_icon_pestana_info.png","ERO_icon_pestana_info_off.png"));
 			});
 			$(".cuerpoInfoCatalogo").parent().css({'z-index':''});
-			
+
 		}else{
 			$(".cuerpoInfoCatalogo").show();
 			$(".infoCatalogo").animate({"right":""});
-			$(".petaniaInfoCatalogo").find("img").attr("src",$(".petaniaInfoCatalogo").find("img").attr("src").replace("ERO_icon_pestana_info_off.png","ERO_icon_pestana_info.png"));			
+			$(".petaniaInfoCatalogo").find("img").attr("src",$(".petaniaInfoCatalogo").find("img").attr("src").replace("ERO_icon_pestana_info_off.png","ERO_icon_pestana_info.png"));
 			$(".cuerpoInfoCatalogo").parent().css({'z-index':'1003'});
 		}
 		e.stopPropagation();
@@ -27,7 +27,7 @@ function infoPanelEvents(){
 	}).mouseup(function(e) {
 		e.stopPropagation();
 	});
-	
+
 	$(".petaniaInfoCatalogo").mousedown(function(e) {
 		e.stopPropagation();
 	}).mouseup(function(e) {
@@ -111,7 +111,7 @@ function infoPanelEvents(){
 									return true;
 								}
 							});
-									        	
+
 							$.each(Split.__mapRight.getMap()._layers, function(key){
 								if((Split.__mapRight.getMap()._layers[key]._latlng && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlng, latlng)) || (Split.__mapRight.getMap()._layers[key]._latlngs && compareLayersCoordinates(Split.__mapRight.getMap()._layers[key]._latlngs, latlng))){
 									Split.__mapRight.getMap().removeLayer(Split.__mapRight.getMap()._layers[key]);
@@ -123,10 +123,10 @@ function infoPanelEvents(){
 							Split.__mapLeft.removeLayer($("#addHistoryForm select option:selected").text(), "geoJson");
 							Split.__mapRight.removeLayer($("#addHistoryForm select option:selected").text(), "geoJson");
 							$.ajax({
-								url: 'index.php/draw/getDraws/' + $("#addHistoryForm select").val(), 
+								url: 'index.php/draw/getDraws/' + $("#addHistoryForm select").val(),
 								dataType: "json",
 								success: function(response) {
-									Split.addLayer(null,"vectorial", null, response,3);  
+									Split.addLayer(null,"vectorial", null, response,3);
 								}
 							});
 						}
@@ -163,7 +163,7 @@ function infoPanelEvents(){
 							drawCategories(true);
 						}
 				    }
-			});           
+			});
 		},"¿Desea borrar la historia seleccionada?");
 	});
 
@@ -180,7 +180,7 @@ function infoPanelEvents(){
 					$("#kmlExport").remove()
 					$("#commentsVector img").attr("src", "");
 		        }
-	        });           
+	        });
 		    },"¿Desea borrar la geometría seleccionada? <br><br> Esta accción eliminará la geometría del mapa pero mantendrá la historia y sus comentarios");
 	});
 
@@ -226,7 +226,7 @@ function infoPanelEvents(){
 	        	comment.next().remove();
 				comment.remove();
 	        }
-        });           
+        });
 	    },"¿Desea borrar el comentario seleccionado?");
 	});
 
@@ -235,7 +235,7 @@ function infoPanelEvents(){
 		var idDraw = $(this).attr("idDraw");
 		var idCapa = $(".infoCatalogo div[idCapa]").attr("idCapa");
 		$(".addCommentInput").val("");
-		
+
 		$(".deleteGeometry").remove();
 		$("#kmlExport").remove()
 		if(tipo == "marker" || tipo == "linea" || tipo == "polyline" || tipo == "poligono" || tipo == "polygon"){
@@ -256,7 +256,7 @@ function infoPanelEvents(){
 		$("#commentsVector h2").html($(this).attr("comentario"));
 		updatedState();
 		$.ajax({
-			url: 'index.php/draw/getBoundingBox/' + idDraw, 
+			url: 'index.php/draw/getBoundingBox/' + idDraw,
 			dataType: "json",
 			success: function(response) {
 				var loadLeft = existCapaVectorial(Split.__mapLeft, idCapa);
@@ -265,7 +265,7 @@ function infoPanelEvents(){
 					showFancySelectPanel(event.pageY,event.pageX,idCapa,"vectorial", event);
 
 					$("#fancy_select_panel").css({"top":$(".cuerpoInfoCatalogo").find(".tiposCapas").offset().top +20, "left":$(".cuerpoInfoCatalogo").find(".tiposCapas").offset().left+20});
-					
+
 					if(response.latmin != null && response.lngmin != null && response.latmax != null && response.lngmax != null){
 						$(".panelSelect").addClass("clickVectorial")
 						$(".clickVectorial").on("click", function() {
@@ -294,14 +294,14 @@ function infoPanelEvents(){
 				}
 			}
 		});
-		
+
 		$("#geometryVector").hide();
 		$("#commentsVectorVectorList").html("");
 		$("#commentsVector").show();
 		$("#commentsVector").attr("idDraw",idDraw);
 
 		$.ajax({
-			url: 'index.php/draw/getDrawsComents/' + idDraw, 
+			url: 'index.php/draw/getDrawsComents/' + idDraw,
 			dataType: "json",
 			success: function(response) {
 				for(var i=0; i<response.result.length; i++){
@@ -326,14 +326,14 @@ function infoPanelEvents(){
 		var project = $(".extraLeyenda").find("div[idproject]").attr("idProject");
 		showConfirmDialog(function(){
 			$.ajax({
-				url: 'index.php/project/deleteProyect/' + encodeURIComponent(project), 
+				url: 'index.php/project/deleteProyect/' + encodeURIComponent(project),
 					success: function(response) {
 						Split.removeAllLayers();
 						drawCategories();
 						$(".infoCatalogo .petaniaInfoCatalogo").trigger("click")
 						$(".infoCatalogo .petaniaInfoCatalogo").hide()
 					}
-			});           
+			});
 		},"¿Desea borrar el proyecto seleccionado?");
 	});
 
@@ -341,7 +341,7 @@ function infoPanelEvents(){
 		var self = $(this);
 		if($(this).hasClass('active')){
 			$.ajax({
-				url: 'index.php/project/removeDefaultProyect', 
+				url: 'index.php/project/removeDefaultProyect',
 				success: function(response) {
 					self.removeClass('active');
 					$(".defaultProject").prop("title", "Establecer por defecto");
@@ -352,7 +352,7 @@ function infoPanelEvents(){
 		}else{
 			var project = $(".extraLeyenda").find("div[idproject]").attr("idProject");
 			$.ajax({
-				url: 'index.php/project/defaultProyect/' + encodeURIComponent(project), 
+				url: 'index.php/project/defaultProyect/' + encodeURIComponent(project),
 					success: function(response) {
 						drawCategories(true);
 						self.addClass('active');
@@ -385,14 +385,14 @@ function infoPanelEvents(){
 
 		if($(this).parent().hasClass("family_content")){
 			$(".infoCatalogo .petaniaInfoCatalogo").show();
-			
+
 			$(".cuerpoInfoCatalogo").find(".title1").text($(this).find("p").text());
 			if($(this).find(".moreInfo").length > 0){
 				$(".infoCatalogo .cuerpoInfoCatalogo .moreInfo").attr("href",$(this).find(".moreInfo").attr("href"));
 				$(".infoCatalogo .cuerpoInfoCatalogo .moreInfo").show();
 			}
 			$(".cuerpoInfoCatalogo").find(".title1").prop('title', $(this).find("p").text());
-			
+
 			//Si es un proyecto compruebo el estado del botón de proyecto por defecto
 			if(isAdmin && ($(this).find("div[idProject]").length > 0)){
 				$(".defaultProject").show();
@@ -407,18 +407,18 @@ function infoPanelEvents(){
 			}else{
 				$(".defaultProject").hide();
 			}
-			
+
 
 			$(".cuerpoInfoCatalogo").find(".title2").text($($(this).find("span")[0]).text());
-			
+
 			$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<div class='diagonal1'></div><div class='diagonal2'></div>");
 			$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": ""});
-			
+
 			$(".extraLeyenda").show();
 			$(".botonAddImageLeyenda").show();
 			$(".cuerpoInfoCatalogo").find(".title1").show();
 			$(".cuerpoInfoCatalogo").find(".title2").show();
-			
+
 			var tipos = $(this).find(".listaTipos").children();
 			$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
 			var aux;
@@ -437,7 +437,7 @@ function infoPanelEvents(){
 					if(capa.wms){
 						var url = capa.wms.server;
 						if(capa.wms.password){
-							
+
 							if(!localStorage.getItem(capa.wms.server + '###' + capa.wms.name + "###user") || !localStorage.getItem(capa.wms.server  + '###' + capa.wms.name + "###pass")){
 								showSecurityFancy(capa.id);
 							}else{
@@ -446,24 +446,24 @@ function infoPanelEvents(){
 								}
 								url = "index.php/erosion/get_security_layer_image/" + localStorage.getItem(capa.wms.server  + '###' + capa.wms.name + "###user") + "/" + localStorage.getItem(capa.wms.server  + '###' + capa.wms.name + "###pass") + "/" + url.replace(/\//g, '|');
 								legendUrl = url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
-									+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + capa.wms.name;
+									+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + capa.wms.name + (capa.wms.styles ? ('&STYLE=' + capa.wms.styles) : '');
 							}
 						}else{
 							legendUrl = url.replace("/gwc/service", "") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
-									+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + capa.wms.name;
+									+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + capa.wms.name + (capa.wms.styles ? ('&STYLE=' + capa.wms.styles) : '');
 						}
 
 					}else{
 						legendUrl = capa.wmts.server.replace("/gwc/service", "").replace("wmts", "wms") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetLegendGraphic&"
 									+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + capa.wmts.name;
 					}
-					
+
 
 					$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"' alt='Leyenda no disponible'/>");
 					$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
 				}
-				
-				
+
+
 			}else{
 				aux = $(this).find("div[tipo]").clone();
 				$(aux).removeClass();
@@ -485,7 +485,7 @@ function infoPanelEvents(){
 					});
 
 					$.ajax({
-						url: 'index.php/draw/getDrawList/' + idCapa, 
+						url: 'index.php/draw/getDrawList/' + idCapa,
 						dataType: "json",
 						success: function(response) {
 							$("#geometryVector").find(".title3").text("HISTORIAS (" + response.length + ")")
@@ -501,8 +501,8 @@ function infoPanelEvents(){
 						}
 					});
 				}
-			}	
-			
+			}
+
 			// eventosCatalogo();
 		}
 	});

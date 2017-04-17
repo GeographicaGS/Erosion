@@ -702,7 +702,7 @@ function GroupLayer(opts){
 		$(".cuerpoInfoCatalogo").find(".listaTiposLeyenda").html("");
 		var leyenda = layer.url.replace("/gwc/service", "");
 		var legendUrl = leyenda.replace("/gwc/service", "").replace("wmts","wms") + "?TRANSPARENT=true&SERVICE=WMS&VERSION=" + layer.version + "&REQUEST=GetLegendGraphic&"
-		+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.name;
+		+"EXCEPTIONS=application%2Fvnd.ogc.se_xml&FORMAT=image%2Fpng&LAYER=" + layer.name + ($(".styleServicioWms").val()!='' ? ('&STYLE=' + $(".styleServicioWms").val()) : '');
 		$(".cuerpoInfoCatalogo").find(".divLeyenda").html("<img src='" + legendUrl +"' alt='Leyenda no disponible'/>");
 		$(".cuerpoInfoCatalogo").find(".divLeyenda").css({"height": "auto"});
 
